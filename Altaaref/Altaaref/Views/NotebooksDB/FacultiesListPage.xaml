@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Altaaref.Views.NotebooksDB.FacultiesListPage">
+
+    <ListView
+            ItemsSource="{Binding FacultiesList}"
+            SelectedItem="{Binding SelectedFaculty, Mode=TwoWay}"
+            ItemSelected="Handle_ItemSelected"
+            CachingStrategy="RecycleElement"
+            RowHeight="80">
+        <!--
+      Or: HasUnevenRows="True" without RowHeight, this makes the cell fit its content without assigning height
+      -->
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center">
+                        <Label Text="{Binding Name}"/>
+                        <Label Text="{Binding Description}"/>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+
+</ContentPage>

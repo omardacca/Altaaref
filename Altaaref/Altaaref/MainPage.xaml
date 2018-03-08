@@ -4,8 +4,5 @@
              xmlns:local="clr-namespace:Altaaref"
              x:Class="Altaaref.MainPage">
 
-	<Label Text="Welcome to Xamarin.Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
 
 </ContentPage>
