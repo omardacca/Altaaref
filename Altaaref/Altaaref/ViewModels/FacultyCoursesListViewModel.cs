@@ -24,10 +24,22 @@ namespace Altaaref.ViewModels
             }
         }
 
+        private bool _busy;
+        public bool Busy
+        {
+            get { return _busy; }
+            set
+            {
+                SetValue(ref _busy, value);
+            }
+        }
 
         private readonly IPageService _pageService;
         public FacultyCoursesListViewModel(IPageService pageService, int facultyId)
         {
+            // Enable activity Indicator - disable is right after assigning listView item source
+            Busy = true;
+
             _pageService = pageService;
             GetCoursesAsync(facultyId);
         }
@@ -39,6 +51,9 @@ namespace Altaaref.ViewModels
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Courses>>(content);
             CoursesList = new ObservableCollection<Courses>(list);
+
+            // Disable Activity Idicator
+            Busy = false;
         }
 
         private Courses _selectedCourse;
