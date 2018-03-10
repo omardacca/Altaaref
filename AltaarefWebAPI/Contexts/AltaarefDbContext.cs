@@ -12,6 +12,6 @@ namespace AltaarefWebAPI.Contexts
         public AltaarefDbContext(DbContextOptions<AltaarefDbContext> options) : base(options) { }
         public AltaarefDbContext() { }
         
-        //public DbSet<Faculty> Faculty { get; set; }
+        public DbSet<Faculty> Faculty { get; set; }
     }
 }
