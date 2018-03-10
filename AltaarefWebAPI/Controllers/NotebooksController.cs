@@ -48,7 +48,7 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Notebooks/5
-        [HttpGet("Course/{id}")]
+        [HttpGet("Course/{courseId}")]
         public IActionResult GetNotebooksByCourseId([FromRoute] int courseId)
         {
             if (!ModelState.IsValid)
