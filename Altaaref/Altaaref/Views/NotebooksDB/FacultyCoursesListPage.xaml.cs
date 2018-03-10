@@ -18,18 +18,12 @@ namespace Altaaref.Views.NotebooksDB
         {
             InitializeComponent();
 
-            BindingContext = new FacultyCoursesListViewModel();
+            BindingContext = new FacultyCoursesListViewModel(new PageService(), facultyId);
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
-                return;
-
-            await this.Navigation.PushAsync(new Views.NotebooksDB.NotebooksListPage());
-
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            await (BindingContext as FacultyCoursesListViewModel).CourseSelectedAsync(e.Item as Courses);
         }
     }
 }

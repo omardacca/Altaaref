@@ -1,20 +1,59 @@
 ﻿using Altaaref.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Altaaref.ViewModels
 {
-    public class FacultyCoursesListViewModel
+    public class FacultyCoursesListViewModel : BaseViewModel
     {
-        public ObservableCollection<Courses> CoursesList { get; private set; } = new ObservableCollection<Courses>
-            {
-                new Courses { Id = 0, Name = "Intro to CS" },
-                new Courses { Id = 1, Name = "Discrete Mathmatics" },
-                new Courses { Id = 2, Name = "English Letreture A" },
-                new Courses { Id = 3, Name = "English Letreture B" }
-            };
+        private HttpClient _client = new HttpClient();
 
+        private ObservableCollection<Courses> _coursesList;
+        public ObservableCollection<Courses> CoursesList
+        {
+            get { return _coursesList; }
+            set
+            {
+                _coursesList = value;
+                OnPropertyChanged(nameof(CoursesList));
+            }
+        }
+
+
+        private readonly IPageService _pageService;
+        public FacultyCoursesListViewModel(IPageService pageService, int facultyId)
+        {
+            _pageService = pageService;
+            GetCoursesAsync(facultyId);
+        }
+
+        private async void GetCoursesAsync(int facultyId)
+        {
+            string url = "https://altaarefapp.azurewebsites.net/api/";
+
+            string content = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<List<Courses>>(content);
+            CoursesList = new ObservableCollection<Courses>(list);
+        }
+
+        private Courses _selectedCourse;
+        public Courses SelectedCourse
+        {
+            get { return _selectedCourse; }
+            set { SetValue(ref _selectedCourse, value); }
+        }
+
+        public async Task CourseSelectedAsync(Courses course)
+        {
+            //Deselect Item
+            SelectedCourse = null;
+
+            await _pageService.PushAsync(new Views.NotebooksDB.NotebooksListPage(course.Id));
+        }
     }
 }

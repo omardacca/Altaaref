@@ -13,5 +13,22 @@ namespace AltaarefWebAPI.Contexts
         public AltaarefDbContext() { }
         
         public DbSet<Faculty> Faculty { get; set; }
+        public DbSet<Course> Course { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<FacultyCourse>()
+                .HasKey(fc => new { fc.CourseId, fc.FacultyId });
+
+            modelBuilder.Entity<FacultyCourse>()
+                .HasOne(fc => fc.Faculty)
+                .WithMany(f => f.FacultyCourse)
+                .HasForeignKey(fc => fc.FacultyId);
+
+            modelBuilder.Entity<FacultyCourse>()
+                .HasOne(fc => fc.Course)
+                .WithMany(c => c.FacultyCourse)
+                .HasForeignKey(fc => fc.CourseId);
+        }
     }
 }

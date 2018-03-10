@@ -11,30 +11,37 @@ namespace Altaaref.ViewModels
 {
     public class FacultiesListViewModel : BaseViewModel
     {
-        //public ObservableCollection<Faculty> FacultiesList { get; private set; } = new ObservableCollection<Faculty>
-        //{
-        //    new Faculty { Id = 1, Name = "Computer Science", Description = "CS Dept"},
-        //    new Faculty { Id = 2, Name = "Pharmacy", Description = "Pharmacy Dept"}
-        //};
+        private HttpClient _client = new HttpClient();
 
-        public async Task<List<Faculty>> GetFacultiesListFromAPI()
+        private ObservableCollection<Faculty> _facultiesList;
+        public ObservableCollection<Faculty> FacultiesList
         {
-            string url = "http://localhost:53626/api/Faculties";
-            HttpClient client = new HttpClient();
-
-            var content = await client.GetStringAsync(url);
-            var faculties = JsonConvert.DeserializeObject<List<Faculty>>(content);
-
-            return faculties;
+            get
+            {
+                return _facultiesList;
+            }
+            private set
+            {
+                _facultiesList = value;
+                OnPropertyChanged(nameof(FacultiesList));
+            }
         }
-
-        /*
+                
         private readonly IPageService _pageService;
         public FacultiesListViewModel(IPageService pageService)
         {
             _pageService = pageService;
+            GetFacultiesListFromAPI();
         }
-        */
+
+        private async void GetFacultiesListFromAPI()
+        {
+            string url = "https://altaarefapp.azurewebsites.net/api/Faculties";
+
+            string content = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<List<Faculty>>(content);
+            FacultiesList = new ObservableCollection<Faculty>(list);
+        }
 
         private Faculty _selectedFaculty;
         public Faculty SelectedFaculty
@@ -43,16 +50,12 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _selectedFaculty, value); }
         }
 
-        public void FacultySelected(Faculty faculty)
+        public async Task FacultySelectedAsync(Faculty faculty)
         {
-            if (faculty == null)
-                return;
-
-            // also return type should be: Task
-            //await _pageService.PushAsync(new Views.NotebooksDB.FacultyCoursesListPage());
-
             //Deselect Item
             SelectedFaculty = null;
+            
+            await _pageService.PushAsync(new Views.NotebooksDB.FacultyCoursesListPage(faculty.Id));
         }
         
     }

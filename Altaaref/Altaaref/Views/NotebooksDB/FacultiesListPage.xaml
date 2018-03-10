@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Altaaref.Views.NotebooksDB.FacultiesListPage">
 
-    <ListView x:Name="xList"
+    <ListView
             ItemsSource="{Binding FacultiesList}"
             SelectedItem="{Binding SelectedFaculty, Mode=TwoWay}"
             ItemTapped="Handle_ItemTapped"

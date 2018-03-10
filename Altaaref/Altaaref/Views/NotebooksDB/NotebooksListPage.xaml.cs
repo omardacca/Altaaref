@@ -13,7 +13,7 @@ namespace Altaaref.Views.NotebooksDB
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotebooksListPage : ContentPage
     {
-        public NotebooksListPage()
+        public NotebooksListPage(int courseId)
         {
             InitializeComponent();
 
