@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180310183411_AddNotebookTableAndRelateItWithCourses")]
+    partial class AddNotebookTableAndRelateItWithCourses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,13 +67,9 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<DateTime>("PublishDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getdate()");
+                    b.Property<DateTime>("PublishDate");
 
-                    b.Property<int>("ViewsCount")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(0);
+                    b.Property<int>("ViewsCount");
 
                     b.HasKey("Id");
 

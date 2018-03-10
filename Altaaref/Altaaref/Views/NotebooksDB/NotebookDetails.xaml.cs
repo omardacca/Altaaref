@@ -17,11 +17,11 @@ namespace Altaaref.Views.NotebooksDB
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NotebookDetails : ContentPage
 	{
-        public NotebookDetails ()
+        public NotebookDetails(int courseId)
 		{
 			InitializeComponent ();
 
-            BindingContext = new NotebookDetailsViewModel();
+            BindingContext = new NotebookDetailsViewModel(courseId);
         }
 
         public void OnDownloadButtonClicked(object sender, EventArgs e)

@@ -34,7 +34,7 @@ namespace Altaaref.ViewModels
 
         private async void GetCoursesAsync(int facultyId)
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/";
+            string url = "https://altaarefapp.azurewebsites.net/api/FacultyCourses/Courses/" + facultyId;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Courses>>(content);

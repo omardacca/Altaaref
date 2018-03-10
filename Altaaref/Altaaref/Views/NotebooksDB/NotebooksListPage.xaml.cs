@@ -1,4 +1,5 @@
-﻿using Altaaref.ViewModels;
+﻿using Altaaref.Models;
+using Altaaref.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,18 +18,12 @@ namespace Altaaref.Views.NotebooksDB
         {
             InitializeComponent();
 
-            BindingContext = new NotebookListViewModel();
+            BindingContext = new NotebookListViewModel(new PageService(), courseId);
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
-                return;
-
-            await this.Navigation.PushAsync(new Views.NotebooksDB.NotebookDetails());
-
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            await (BindingContext as NotebookListViewModel).NotebookSelectedAsync(e.Item as Notebook);
         }
     }
 }
