@@ -14,10 +14,10 @@ namespace Altaaref.Views.NotebooksDB
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FacultyCoursesListPage : ContentPage
     {
-        public FacultyCoursesListPage()
+        public FacultyCoursesListPage(int facultyId)
         {
             InitializeComponent();
-            
+
             BindingContext = new FacultyCoursesListViewModel();
         }
 

@@ -8,5 +8,6 @@ namespace Altaaref.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public List<Faculty> facultiesList { get; set; }
     }
 }

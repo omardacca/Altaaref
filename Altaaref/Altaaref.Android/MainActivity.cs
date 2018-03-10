@@ -8,6 +8,7 @@ using Android.Runtime;
 using Android.Widget;
 using Plugin.Permissions;
 using System;
+using System.Net;
 
 namespace Altaaref.Droid
 {
