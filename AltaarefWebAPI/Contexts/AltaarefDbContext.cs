@@ -14,6 +14,7 @@ namespace AltaarefWebAPI.Contexts
         
         public DbSet<Faculty> Faculty { get; set; }
         public DbSet<Course> Course { get; set; }
+        public DbSet<FacultyCourse> FacultyCourse { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,8 @@ namespace AltaarefWebAPI.Contexts
                 .HasOne(fc => fc.Course)
                 .WithMany(c => c.FacultyCourse)
                 .HasForeignKey(fc => fc.CourseId);
+
+
         }
     }
 }
