@@ -17,7 +17,7 @@
 
             <StackLayout VerticalOptions="EndAndExpand">
                 <Button Text="Download" BackgroundColor="DarkRed" TextColor="White" Clicked="OnDownloadButtonClicked" />
-                <Button Text="Add to Favorites" BackgroundColor="WhiteSmoke" TextColor="DarkSlateBlue" />
+                <Button Text="Add to Favorites" BackgroundColor="WhiteSmoke" TextColor="DarkSlateBlue" Clicked="OnFavoriteButtonClicked" />
             </StackLayout>
         </StackLayout>
 

@@ -10,7 +10,9 @@ namespace Altaaref.Models
         public string Name { get; set; }
         public int Views { get; set; }
         public DateTime CreationDate { get; set; }
+        public string BlobURL { get; set; }
+        public string FileName { get; set; }
+
         public Student Author { get; set; }
-        public Dictionary<int, int> Rate { get; set; }
     }
 }
