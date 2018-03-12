@@ -64,7 +64,9 @@ namespace Altaaref.ViewModels
             return httpClient.GetStreamAsync(new Uri(url));
         }
 
-        
+
+        // This method should not be here, and it should be in 'Adding new Notebook Form..'
+        // but for the simplicity and to try the method, I created it here..
         public async Task<bool> UploadFileToBlob(Stream fileStream)
         {
             // Retrieve storage account from connection string.
@@ -93,6 +95,9 @@ namespace Altaaref.ViewModels
             DependencyService.Get<IDownloader>().StartDownload(Notebook.BlobURL, Notebook.FileName);
         }
 
+
+        // same note as UploadFileToBlob method up there,
+        // Favorite button implementation should be changed obviously
         public async void HandleFavoriteButtonClicked(string url)
         {
             await UploadFileToBlob(await getStreamAsync(url));

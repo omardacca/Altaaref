@@ -18,6 +18,8 @@ namespace AltaarefWebAPI.Models
         // will updated it after decide which file types will support and how it will be received in the form..
         // public string FileExtension { get; set; } 
 
+        public ICollection<StudentFavNotebooks> StudentFavNotebooks { get; set; }
+
         public int CourseId { get; set; }
         public Course Course { get; set; }
 
