@@ -109,7 +109,8 @@ namespace AltaarefWebAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetStudentFavNotebooks", new { id = studentFavNotebooks.NotebookId }, studentFavNotebooks);
+            return CreatedAtAction("GetStudentFavNotebooks",
+                new { NotebookId = studentFavNotebooks.NotebookId, StudentId = studentFavNotebooks.StudentId }, studentFavNotebooks);
         }
 
         // DELETE: api/StudentFavNotebooks/5

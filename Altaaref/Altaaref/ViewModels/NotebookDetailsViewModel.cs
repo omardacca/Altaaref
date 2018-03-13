@@ -98,9 +98,25 @@ namespace Altaaref.ViewModels
 
         // same note as UploadFileToBlob method up there,
         // Favorite button implementation should be changed obviously
-        public async void HandleFavoriteButtonClicked(string url)
+        public void HandleFavoriteButtonClicked(string url)
         {
-            await UploadFileToBlob(await getStreamAsync(url));
+            //await UploadFileToBlob(await getStreamAsync(url));
+            PostFavorite();
+        }
+
+        public void PostFavorite()
+        {
+            // Currently used StudentId = 204228043
+            StudentFavNotebooks sfn = new StudentFavNotebooks { StudentId = 204228043, NotebookId = Notebook.Id };
+
+            var content = new StringContent(JsonConvert.SerializeObject(sfn));
+
+            _client.BaseAddress = new Uri("https://altaarefapp.azurewebsites.net");
+            var response = _client.PostAsync("https://altaarefapp.azurewebsites.net", content).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                //Console.Write("Success");
+            }
         }
     }
 }
