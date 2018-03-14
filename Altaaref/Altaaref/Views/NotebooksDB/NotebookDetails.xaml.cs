@@ -24,6 +24,18 @@ namespace Altaaref.Views.NotebooksDB
             BindingContext = new NotebookDetailsViewModel(notebookId);
         }
 
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            await (BindingContext as NotebookDetailsViewModel).Init();
+        }
+
+        void HandleActivated(object sender, EventArgs e)
+        {
+            DisplayAlert("Activated", "ToolbarItem Activated", "OK");
+        }
+
         public void OnDownloadButtonClicked(object sender, EventArgs e)
         {
             //           string url = "https://drive.google.com/uc?authuser=0&id=1qwwKXUOHb2KbJn1pPMsX3xOSA64OIW1N&export=download";

@@ -2,7 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Altaaref.Views.NotebooksDB.NotebookDetails"
-             Title="Notebook Details">
+             Title="Notebook Details" >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="{Binding FavoriteImage}" Order="Primary" Command="{Binding FavoriteImageButtonCommand}"/>
+    </ContentPage.ToolbarItems>
     <Grid>
         <ActivityIndicator IsRunning="{Binding Busy}"
                            IsVisible="{Binding Busy}"
@@ -11,10 +14,9 @@
                            HorizontalOptions="CenterAndExpand"/>
 
         <StackLayout Padding="5">
-            <Label FontSize="Large" Text="{Binding Notebook.Name}" />
-
-            <Label Text="{Binding Notebook.Views, StringFormat='{0} views'}"/>
-            <Label Text="{Binding Notebook.CreationDate, StringFormat='{0:D}'}"/>
+            <Label FontSize="Large" Text="{Binding Notebook.Name}" HorizontalOptions="Start" />
+            <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} views'}"/>
+            <Label Text="{Binding Notebook.PublishDate, StringFormat='{0:D}'}"/>
 
             <StackLayout VerticalOptions="EndAndExpand">
                 <Button Text="Download" BackgroundColor="DarkRed" TextColor="White" Clicked="OnDownloadButtonClicked" />

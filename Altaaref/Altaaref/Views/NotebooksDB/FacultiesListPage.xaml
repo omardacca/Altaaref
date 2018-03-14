@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Altaaref.Views.NotebooksDB.FacultiesListPage"
              Title="Faculties">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="search.png" Order="Primary" Command="{Binding SearchImageButtonCommand}"/>
+    </ContentPage.ToolbarItems>
+
     <Grid>
         <ActivityIndicator IsRunning="{Binding Busy}"
                            IsVisible="{Binding Busy}"
@@ -10,27 +14,34 @@
                            VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand"/>
 
+        <StackLayout>
+            <StackLayout BackgroundColor="LightSlateGray" HeightRequest="48" VerticalOptions="Start">
+                <StackLayout>
+                    <SearchBar Placeholder="Search..." VerticalOptions="Center" Text="{Binding SearchText}" SearchCommand="{Binding SearchBarCommand}"/>
+                </StackLayout>
+            </StackLayout>
             <ListView
-            ItemsSource="{Binding FacultiesList}"
-            SelectedItem="{Binding SelectedFaculty, Mode=TwoWay}"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement"
-            RowHeight="80">
-            <!--
-        Or: HasUnevenRows="True" without RowHeight, this makes the cell fit its content without assigning height
-        -->
+                ItemsSource="{Binding FacultiesList}"
+                SelectedItem="{Binding SelectedFaculty, Mode=TwoWay}"
+                ItemTapped="Handle_ItemTapped"
+                CachingStrategy="RecycleElement"
+                RowHeight="80">
+                <!--
+            Or: HasUnevenRows="True" without RowHeight, this makes the cell fit its content without assigning height
+            -->
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center">
-                            <Label Text="{Binding Name}"/>
-                            <Label Text="{Binding Description}"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center">
+                                <Label Text="{Binding Name}"/>
+                                <Label Text="{Binding Description}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
-        </ListView>
+            </ListView>
+        </StackLayout>
     </Grid>
 </ContentPage>

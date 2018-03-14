@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
 {
@@ -27,6 +28,24 @@ namespace Altaaref.ViewModels
             }
         }
 
+        //private string _searchIcon;
+        //public string SearchIcon
+        //{
+        //    get { return _searchIcon; }
+        //    set { SetValue(ref _searchIcon, value); }
+        //}
+
+        public ICommand SearchImageButtonCommand { get; private set; }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get { return _searchText; }
+            set { SetValue(ref _searchText, value); }
+        }
+
+
+
         private bool _busy;
         public bool Busy
         {
@@ -43,8 +62,16 @@ namespace Altaaref.ViewModels
             // Enable activity Indicator - disable is right after assigning listView item source
             Busy = true;
 
+            SearchImageButtonCommand = new Command(SearchImageButtonTapped);
+
             _pageService = pageService;
+
             GetFacultiesListFromAPI();
+        }
+
+        private void SearchImageButtonTapped()
+        {
+
         }
 
         private async void GetFacultiesListFromAPI()

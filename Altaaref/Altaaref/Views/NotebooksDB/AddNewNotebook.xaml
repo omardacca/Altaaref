@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Altaaref.Views.NotebooksDB.AddNewNotebook">
+    <StackLayout>
+        <TableView Intent="Form">
+            <TableRoot>
+                <TableSection Title="Notebook Details">
+                    <EntryCell Label="Title" Placeholder="(Notebook Title)" Keyboard="Text" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Picker ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}" />
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </StackLayout>
+</ContentPage>
