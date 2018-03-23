@@ -16,23 +16,24 @@ namespace Altaaref.Droid
     public class Downloader : IDownloader
     {
 
-        public string url { get; set; }
-        public string filename { get; set; }
+        public string Url { get; set; }
+        public string Filename { get; set; }
 
         public void StartDownload(string url, string filename)
         {
-            this.url = url;
-            this.filename = filename;
+            this.Url = url;
+            this.Filename = filename;
 
             // Get the MainActivity instance
             MainActivity activity = MainActivity.Instance as MainActivity;
 
             Intent intent = new Intent();
             intent.SetType("application/pdf");
-            intent.SetAction(Intent.ActionSend);
+            //            intent.SetAction(Intent.ActionSend);
+            intent.SetAction(Intent.ActionOpenDocument);
 
-            activity.url = url;
-            activity.filename = filename;
+            activity.Url = url;
+            activity.Filename = filename;
 
             activity.StartActivityForResult(Intent.CreateChooser(intent, "Download File"), MainActivity.DownloadFile);
         }

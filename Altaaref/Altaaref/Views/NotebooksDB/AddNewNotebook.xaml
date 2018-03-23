@@ -6,14 +6,26 @@
         <TableView Intent="Form">
             <TableRoot>
                 <TableSection Title="Notebook Details">
-                    <EntryCell Label="Title" Placeholder="(Notebook Title)" Keyboard="Text" />
+                    <EntryCell Label="Title" Text="{Binding TitleEntry}" Placeholder="(Notebook Title)" Keyboard="Text" />
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal">
-                            <Picker ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}" />
+                        <StackLayout Padding="10, 0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Course" HorizontalOptions="Start" VerticalOptions="Center"/>
+                            <Picker Title="Select Course" ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}" 
+                                    HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedCourseIndex}" 
+                                    Grid.Row="0" Grid.Column="0"/>
+                            <ActivityIndicator IsRunning="{Binding Busy}"
+                           IsVisible="{Binding Busy}"
+                           Color="Black"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
                         </StackLayout>
                     </ViewCell>
+                    <EntryCell Label="URL" Text="{Binding UlrEnty}" Placeholder="(External link to notebook)" Keyboard="Url" />
                 </TableSection>
             </TableRoot>
         </TableView>
+
+        <Button Text="Submit Notebook" Command="{Binding HandleSubmition}" />
+
     </StackLayout>
 </ContentPage>

@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180323220340_AddStudyGroupsTableWithItsRelationship")]
+    partial class AddStudyGroupsTableWithItsRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

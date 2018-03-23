@@ -1,5 +1,4 @@
-﻿using Altaaref.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Altaaref.Views.NotebooksDB
+namespace Altaaref.Views.StudyGroups
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddNewNotebook : ContentPage
+	public partial class NewGroupPage : ContentPage
 	{
-		public AddNewNotebook ()
+		public NewGroupPage ()
 		{
 			InitializeComponent ();
-
-            BindingContext = new AddNewNotebookViewModel(new PageService());
 		}
 	}
 }

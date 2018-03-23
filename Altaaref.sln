@@ -8,10 +8,19 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altaaref", "Altaaref\Altaaref\Altaaref.csproj", "{1AEB4A83-8D33-42AC-97AB-9916ECCEC824}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altaaref.Android", "Altaaref\Altaaref.Android\Altaaref.Android.csproj", "{432521B7-D376-4D24-90D0-B8D9A5D78F74}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1AEB4A83-8D33-42AC-97AB-9916ECCEC824} = {1AEB4A83-8D33-42AC-97AB-9916ECCEC824}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altaaref.iOS", "Altaaref\Altaaref.iOS\Altaaref.iOS.csproj", "{ECAE3D3E-0A16-4A8F-AE06-8670D9F3E2AB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1AEB4A83-8D33-42AC-97AB-9916ECCEC824} = {1AEB4A83-8D33-42AC-97AB-9916ECCEC824}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altaaref.UWP", "Altaaref\Altaaref.UWP\Altaaref.UWP.csproj", "{5085C130-B390-40AF-BEEE-36B91871D317}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1AEB4A83-8D33-42AC-97AB-9916ECCEC824} = {1AEB4A83-8D33-42AC-97AB-9916ECCEC824}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

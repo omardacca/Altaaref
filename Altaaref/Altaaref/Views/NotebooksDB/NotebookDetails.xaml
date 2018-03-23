@@ -19,6 +19,7 @@
             <Label Text="{Binding Notebook.PublishDate, StringFormat='{0:D}'}"/>
 
             <StackLayout VerticalOptions="EndAndExpand">
+                <Button Text="Get Location" BackgroundColor="DarkKhaki" TextColor="Black" Clicked="OnLocationButtonClicked" />
                 <Button Text="Download" BackgroundColor="DarkRed" TextColor="White" Clicked="OnDownloadButtonClicked" />
                 <Button Text="Add to Favorites" BackgroundColor="WhiteSmoke" TextColor="DarkSlateBlue" Clicked="OnFavoriteButtonClicked" />
             </StackLayout>

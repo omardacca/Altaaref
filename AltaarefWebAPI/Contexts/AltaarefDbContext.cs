@@ -18,6 +18,7 @@ namespace AltaarefWebAPI.Contexts
         public DbSet<Notebook> Notebook { get; set; }
         public DbSet<Student> Student { get; set; }
         public DbSet<StudentFavNotebooks> StudentFavNotebooks { get; set; }
+        public DbSet<StudyGroup> StudyGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,6 +60,23 @@ namespace AltaarefWebAPI.Contexts
                 .HasOne(sfn => sfn.Notebook)
                 .WithMany(s => s.StudentFavNotebooks)
                 .HasForeignKey(sfn => sfn.NotebookId);
+
+            //f dddd
+
+            modelBuilder.Entity<StudyGroup>()
+                .HasKey(sg => new { sg.CourseId, sg.StudentId });
+
+            modelBuilder.Entity<StudyGroup>()
+                .HasOne(sg => sg.Student)
+                .WithMany(s => s.StudyGroups)
+                .HasForeignKey(sg => sg.StudentId);
+
+            modelBuilder.Entity<StudyGroup>()
+                .HasOne(sg => sg.Course)
+                .WithMany(s => s.StudyGroups)
+                .HasForeignKey(fc => fc.CourseId);
+
+
 
         }
     }

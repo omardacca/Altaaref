@@ -11,5 +11,6 @@ namespace AltaarefWebAPI.Models
         public string Name { get; set; }
         public ICollection<FacultyCourse> FacultyCourse { get; set; }
         public ICollection<Notebook> Notebooks { get; set; }
+        public ICollection<StudyGroup> StudyGroups { get; set; }
     }
 }

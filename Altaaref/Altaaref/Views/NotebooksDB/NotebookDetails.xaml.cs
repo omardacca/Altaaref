@@ -56,5 +56,11 @@ namespace Altaaref.Views.NotebooksDB
             (BindingContext as NotebookDetailsViewModel).HandleFavoriteButtonClicked(url1);
         }
 
+        
+        public void OnLocationButtonClicked(object sender, EventArgs e)
+        {
+            DependencyService.Get<ILocationProvider>().getCurrentLocation();
+        }
+
     }
 }
