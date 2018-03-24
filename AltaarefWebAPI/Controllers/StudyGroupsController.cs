@@ -29,15 +29,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroups/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetStudyGroup([FromRoute] int id)
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetStudyGroup([FromRoute] int Id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studyGroup = await _context.StudyGroups.SingleOrDefaultAsync(m => m.CourseId == CourseId);
+            var studyGroup = await _context.StudyGroups.SingleOrDefaultAsync(m => m.CourseId == Id);
 
             if (studyGroup == null)
             {
