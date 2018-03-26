@@ -22,6 +22,8 @@ namespace AltaarefWebAPI.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            // Many to Many - FacultyCourses, Faculty, Courses
             modelBuilder.Entity<FacultyCourse>()
                 .HasKey(fc => new { fc.CourseId, fc.FacultyId });
 
@@ -35,11 +37,15 @@ namespace AltaarefWebAPI.Contexts
                 .WithMany(c => c.FacultyCourse)
                 .HasForeignKey(fc => fc.CourseId);
 
+            // One to Many - Courses, Notebook
+
             modelBuilder.Entity<Notebook>()
                 .HasOne(n => n.Course)
                 .WithMany(c => c.Notebooks)
                 .HasForeignKey(n => n.CourseId);
 
+            // Set default value for columns in Notebook Table
+            
             modelBuilder.Entity<Notebook>()
                 .Property(n => n.ViewsCount)
                 .HasDefaultValue(0);
@@ -47,6 +53,8 @@ namespace AltaarefWebAPI.Contexts
             modelBuilder.Entity<Notebook>()
                 .Property(n => n.PublishDate)
                 .HasDefaultValueSql("getdate()");
+
+            // Many to Many - StudentFavNotebooks, Student, Notebook
 
             modelBuilder.Entity<StudentFavNotebooks>()
                 .HasKey(sfn => new { sfn.NotebookId, sfn.StudentId });
@@ -61,7 +69,7 @@ namespace AltaarefWebAPI.Contexts
                 .WithMany(s => s.StudentFavNotebooks)
                 .HasForeignKey(sfn => sfn.NotebookId);
 
-            //f dddd
+            // Many to Many - StudyGroup, Student, Course
 
             modelBuilder.Entity<StudyGroup>()
                 .HasKey(sg => new { sg.CourseId, sg.StudentId });
@@ -76,7 +84,20 @@ namespace AltaarefWebAPI.Contexts
                 .WithMany(s => s.StudyGroups)
                 .HasForeignKey(fc => fc.CourseId);
 
+            // Many to Many - Student Faculty
 
+            modelBuilder.Entity<StudentFaculty>()
+                .HasKey(sf => new { sf.FacultyId, sf.StudentId });
+
+            modelBuilder.Entity<StudentFaculty>()
+                .HasOne(sg => sg.Student)
+                .WithMany(s => s.StudentFaculty)
+                .HasForeignKey(sg => sg.StudentId);
+
+            modelBuilder.Entity<StudentFaculty>()
+                .HasOne(sf => sf.Faculty)
+                .WithMany(s => s.StudentFaculty)
+                .HasForeignKey(fc => fc.FacultyId);
 
         }
     }

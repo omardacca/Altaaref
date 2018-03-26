@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Altaaref.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Altaaref.Views.StudyGroups
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewGroupPage : ContentPage
 	{
-		public NewGroupPage ()
+        public NewGroupPage ()
 		{
 			InitializeComponent ();
-		}
+
+            BindingContext = new NewGroupViewModel(new PageService());
+        }
 	}
 }

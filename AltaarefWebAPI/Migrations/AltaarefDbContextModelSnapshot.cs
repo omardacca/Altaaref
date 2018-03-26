@@ -118,13 +118,13 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<int>("StudentId");
 
-                    b.Property<DateTime>("Date");
-
                     b.Property<bool>("IsPublic");
 
-                    b.Property<string>("Message");
+                    b.Property<DateTime>("MeetDate");
 
-                    b.Property<DateTime>("Time");
+                    b.Property<DateTime>("MeetTime");
+
+                    b.Property<string>("Message");
 
                     b.Property<string>("Title");
 

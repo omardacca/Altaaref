@@ -29,15 +29,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroups/5
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> GetStudyGroup([FromRoute] int Id)
+        [HttpGet("{courseId}/{studentId}")]
+        public async Task<IActionResult> GetStudyGroup([FromRoute] int courseId, [FromRoute] int studentId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studyGroup = await _context.StudyGroups.SingleOrDefaultAsync(m => m.CourseId == Id);
+            var studyGroup = await _context.StudyGroups.SingleOrDefaultAsync(m => m.CourseId == courseId && m.StudentId == studentId);
 
             if (studyGroup == null)
             {
@@ -48,15 +48,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // PUT: api/StudyGroups/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudyGroup([FromRoute] int id, [FromBody] StudyGroup studyGroup)
+        [HttpPut("{courseId}/{studentId}")]
+        public async Task<IActionResult> PutStudyGroup([FromRoute] int courseId, [FromRoute] int studentId, [FromBody] StudyGroup studyGroup)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != studyGroup.CourseId)
+            if (courseId != studyGroup.CourseId || studentId != studyGroup.StudentId)
             {
                 return BadRequest();
             }
@@ -69,7 +69,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudyGroupExists(id))
+                if (!StudyGroupExists(courseId, studentId))
                 {
                     return NotFound();
                 }
@@ -98,7 +98,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (StudyGroupExists(studyGroup.CourseId))
+                if (StudyGroupExists(studyGroup.CourseId, studyGroup.StudentId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -108,19 +108,19 @@ namespace AltaarefWebAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetStudyGroup", new { id = studyGroup.CourseId }, studyGroup);
+            return CreatedAtAction("GetStudyGroup", new { courseId = studyGroup.CourseId, studentId = studyGroup.StudentId }, studyGroup);
         }
 
         // DELETE: api/StudyGroups/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStudyGroup([FromRoute] int id)
+        [HttpDelete("{courseId}")]
+        public async Task<IActionResult> DeleteStudyGroup([FromRoute] int courseId, [FromRoute] int studentId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studyGroup = await _context.StudyGroups.SingleOrDefaultAsync(m => m.CourseId == id);
+            var studyGroup = await _context.StudyGroups.SingleOrDefaultAsync(m => m.CourseId == courseId && m.StudentId == studentId);
             if (studyGroup == null)
             {
                 return NotFound();
@@ -132,9 +132,9 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroup);
         }
 
-        private bool StudyGroupExists(int id)
+        private bool StudyGroupExists(int courseId, int studentId)
         {
-            return _context.StudyGroups.Any(e => e.CourseId == id);
+            return _context.StudyGroups.Any(e => e.CourseId == courseId && e.StudentId == studentId);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Altaaref
 		{
 			InitializeComponent();
 
-            MainPage = new NavigationPage(new Views.NotebooksDB.FacultiesListPage());
+            MainPage = new NavigationPage(new Views.StudyGroups.NewGroupPage());
             //MainPage = new Views.NotebooksDB.AddNewNotebook();
         }
 

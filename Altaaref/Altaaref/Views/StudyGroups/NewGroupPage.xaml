@@ -1,8 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Altaaref.Views.StudyGroups.NewGroupPage">
-    <StackLayout>
-        
-    </StackLayout>
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             x:Class="Altaaref.Views.StudyGroups.NewGroupPage"
+             Title="New Study Group">
+    <Grid Padding="15">
+        <ActivityIndicator IsRunning="{Binding Busy}"
+                           IsVisible="{Binding Busy}"
+                           Color="Black"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+        <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Text="Course" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
+        <Picker Title="Select Course" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" 
+                ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}"
+                SelectedIndex="{Binding SelectedCourseIndex}" />
+
+        <Label Text="Title" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
+        <Entry Placeholder="Group Title.." Grid.Row="1" Grid.Column="1" VerticalOptions="Center"
+               Text="{Binding StudyGroup.Title}"/>
+
+        <Label Text="Message" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"/>
+        <Editor Grid.Row="2" Grid.Column="1" VerticalOptions="Center" HeightRequest="200"
+                Text="{Binding StudyGroup.Message}" />
+
+        <Label Text="Date" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"/>
+        <DatePicker Grid.Row="3" Grid.Column="1" Date="{Binding StudyGroup.MeetDate}" Format="d MM yyyy" VerticalOptions="Center"/>
+
+        <Label Text="Time" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
+        <TimePicker Grid.Row="4" Grid.Column="1" VerticalOptions="Center"
+                    Time="{Binding StudyGroup.MeetTime}" />
+
+        <Label Text="Is Public" Grid.Row="5" Grid.Column="0" VerticalOptions="Center"/>
+        <Switch IsToggled="{Binding StudyGroup.IsPublic}" Grid.Row="5" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start"/>
+
+        <Button Text="Submit" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
+                Command="{Binding HandleSubmition}"/>
+
+    </Grid>
 </ContentPage>

@@ -87,13 +87,13 @@ namespace Altaaref.ViewModels
         private async void OnSubmitButtonTapped()
         {
             var UploadedUri = await UploadFileFromUrl();
-            var coursename = _coursesList[_selectedCourseIndex].Id;
+            var courseid = _coursesList[_selectedCourseIndex].Id;
             Notebook newNotebook = new Notebook()
             {
                 Name = this.TitleEntry,
                 FileName = this.TitleEntry.Trim(), // will delete this column later
                 BlobURL = UploadedUri,
-                CourseId = coursename
+                CourseId = courseid
             };
 
             var postUrl = "https://altaarefapp.azurewebsites.net/api/Notebooks";
