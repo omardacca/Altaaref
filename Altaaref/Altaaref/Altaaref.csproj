@@ -55,6 +55,9 @@
     <EmbeddedResource Update="Views\StudyGroups\SelectStudentsToInvite.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\StudyGroups\ViewStudyGroupDetails.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

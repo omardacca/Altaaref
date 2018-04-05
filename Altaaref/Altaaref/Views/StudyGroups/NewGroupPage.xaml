@@ -29,11 +29,11 @@
                 Text="{Binding StudyGroup.Message}" />
 
         <Label Text="Date" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"/>
-        <DatePicker Grid.Row="3" Grid.Column="1" Date="{Binding StudyGroup.MeetDate}" Format="d MM yyyy" VerticalOptions="Center"/>
+        <DatePicker Grid.Row="3" Grid.Column="1" Date="{Binding StudyGroup.Date}" Format="d MM yyyy" VerticalOptions="Center"/>
 
         <Label Text="Time" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
         <TimePicker Grid.Row="4" Grid.Column="1" VerticalOptions="Center"
-                    Time="{Binding StudyGroup.MeetTime}" />
+                    Time="{Binding StudyGroup.Time}" />
 
         <Label Text="Is Public" Grid.Row="5" Grid.Column="0" VerticalOptions="Center"/>
         <Switch IsToggled="{Binding StudyGroup.IsPublic}" Grid.Row="5" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start"/>

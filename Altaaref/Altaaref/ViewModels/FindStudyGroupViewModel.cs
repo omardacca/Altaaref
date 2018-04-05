@@ -75,7 +75,7 @@ namespace Altaaref.ViewModels
 
         async void InitAsync()
         {
-            StudyGroup = new StudyGroup();
+            StudyGroup = new StudyGroup() { Date = DateTime.Today, Time = DateTime.Now.AddHours(5) };
             CoursesNameList = new List<string>();
             HandleSubmitFind = new Command(OnHandleFindSubmitButtonTapped);
             await GetCoursesAsync();
@@ -94,11 +94,14 @@ namespace Altaaref.ViewModels
         // SHOULD BE: STUDENT COURSES not ALL COURSES
         private async Task GetCoursesAsync()
         {
+            Busy = true;
             string url = "https://altaarefapp.azurewebsites.net/api/Courses";
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Courses>>(content);
             CoursesList = new List<Courses>(list);
+
+            Busy = false;
         }
 
         private bool IsFormValid()

@@ -1,37 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Altaaref.Views.StudyGroups.FindStudyGroup">
-    <ContentPage.Content>
-        <Grid Padding="15">
-            <ActivityIndicator IsRunning="{Binding Busy}"
-                           IsVisible="{Binding Busy}"
-                           Color="Black"
-                           VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" />
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="250"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             x:Class="Altaaref.Views.StudyGroups.FindStudyGroup"
+             Title="Find Study Group">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-            <Label Text="Course" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
-            <Picker Title="Select Course" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" 
-                ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}"
-                SelectedIndex="{Binding SelectedCourseIndex}" />
+    <StackLayout>
+        <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="Date" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
-            <DatePicker Grid.Row="1" Grid.Column="1" Date="{Binding StudyGroup.MeetDate}" 
-                        Format="d MM yyyy" VerticalOptions="Center"/>
+    <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="250"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <Button Text="Submit" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
-                Command="{Binding HandleSubmitFind}" BorderRadius="0"
-                    VerticalOptions="Start"/>
+        <Label Text="Course" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
+        <Picker Title="Select Course" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" 
+            ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}"
+            SelectedIndex="{Binding SelectedCourseIndex}" />
 
-        </Grid>
-    </ContentPage.Content>
+        <Label Text="Date" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
+        <DatePicker Grid.Row="1" Grid.Column="1" Date="{Binding StudyGroup.Date}" 
+                    Format="d MM yyyy" VerticalOptions="Center" />
+
+        <Button Text="Submit" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+            Command="{Binding HandleSubmitFind}" BorderRadius="0"
+                VerticalOptions="Start"/>
+
+    </Grid>
+    </StackLayout>
 </ContentPage>

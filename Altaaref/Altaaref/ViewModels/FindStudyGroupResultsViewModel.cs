@@ -35,12 +35,25 @@ namespace Altaaref.ViewModels
             }
         }
 
+        private StudyGroup _selectedStudyGroup;
+        public StudyGroup SelectedStudyGroup
+        {
+            get { return _selectedStudyGroup; }
+            set { SetValue(ref _selectedStudyGroup, value); }
+        }
+
+
         public FindStudyGroupResultsViewModel(StudyGroup studyGroup, IPageService pageService)
         {
             _pageService = pageService;
 
             StudyGroup = studyGroup;
             InitAsync();
+        }
+
+        public void StudyGroupResultItemClicked(StudyGroup studyGroupClicked)
+        {
+            _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(studyGroupClicked));
         }
 
         private async void InitAsync()
@@ -50,9 +63,7 @@ namespace Altaaref.ViewModels
 
         private async System.Threading.Tasks.Task InitStudyGroupListAsync()
         {
-            StudyGroup.Date = new DateTime(1, 1, 1);
-            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ByDate";
-            //var content = new StringContent(JsonConvert.SerializeObject(StudyGroup), Encoding.UTF8, "application/json");
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + StudyGroup.CourseId + "/" + StudyGroup.Date.Date;
 
             string results = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudyGroup>>(results);

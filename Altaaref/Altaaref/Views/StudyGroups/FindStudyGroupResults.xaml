@@ -9,11 +9,14 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView SeparatorVisibility="None" HasUnevenRows="True" ItemsSource="{Binding StudyGroupList}"
-              SelectedItem="{Binding SelectedStudent, Mode=TwoWay}">
+              SelectedItem="{Binding SelectedStudyGroup, Mode=TwoWay}"
+                      ItemTapped="HandleResultClicked">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <uc:RoundedRectangleView FillColor="LightGray" HeightRequest="100" WidthRequest="100" Padding="10">
+                            <uc:RoundedRectangleView FillColor="LightGray" HeightRequest="100" WidthRequest="100" Padding="10"
+                                                     Clicked="HandleResultClicked"
+                                                     CommandParameter="{Binding .}">
                                 <uc:RoundedRectangleView.InnerContent>
                                     <StackLayout Spacing="0">
                                         <Label Text="{Binding Date, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" FontSize="20" TextColor="White" VerticalOptions="Center"
