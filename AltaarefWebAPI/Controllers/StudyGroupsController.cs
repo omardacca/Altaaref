@@ -48,15 +48,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroups/5
-        [HttpGet("{date}")]
-        public IActionResult GetStudyGroupByDate([FromRoute] DateTime date)
+        [HttpGet("ByDate/{date:datetime:regex(\\d{4}-\\d{2}-\\d{2})}}")]
+        public IActionResult GetStudyGroupByDate(DateTime date)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studyGroupList = _context.StudyGroups.Where(m => m.Date.Date == date.Date);
+            var studyGroupList = _context.StudyGroups.Where(s => s.Date.Date == date.Date);
 
             if (date == null)
             {

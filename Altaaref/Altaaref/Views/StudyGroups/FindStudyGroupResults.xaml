@@ -8,18 +8,20 @@
             Title="Find Study Group">
     <ContentPage.Content>
         <StackLayout>
-            <ListView HasUnevenRows="True" ItemsSource="{Binding StudyGroupList}"
+            <ListView SeparatorVisibility="None" HasUnevenRows="True" ItemsSource="{Binding StudyGroupList}"
               SelectedItem="{Binding SelectedStudent, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <uc:RoundedRectangleView FillColor="DarkGray">
+                            <uc:RoundedRectangleView FillColor="LightGray" HeightRequest="100" WidthRequest="100" Padding="10">
                                 <uc:RoundedRectangleView.InnerContent>
                                     <StackLayout Spacing="0">
+                                        <Label Text="{Binding Date, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" FontSize="20" TextColor="White" VerticalOptions="Center"
+                                            HorizontalOptions="Center" />
                                         <Label Text="{Binding Title}" FontSize="20" TextColor="White"
-						VerticalOptions="Center" HorizontalOptions="Center" />
+						                    VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Label Text="{Binding Message}" VerticalOptions="Center" HorizontalOptions="Center"
-						TextColor="White" FontSize="Small" LineBreakMode="TailTruncation" />
+						                    TextColor="White" FontSize="Small" LineBreakMode="TailTruncation" />
                                     </StackLayout>
                                 </uc:RoundedRectangleView.InnerContent>
                             </uc:RoundedRectangleView>

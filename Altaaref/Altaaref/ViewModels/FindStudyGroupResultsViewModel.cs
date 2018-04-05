@@ -51,8 +51,8 @@ namespace Altaaref.ViewModels
         private async System.Threading.Tasks.Task InitStudyGroupListAsync()
         {
             StudyGroup.Date = new DateTime(1, 1, 1);
-            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + StudyGroup.Date;
-            var content = new StringContent(JsonConvert.SerializeObject(StudyGroup), Encoding.UTF8, "application/json");
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ByDate";
+            //var content = new StringContent(JsonConvert.SerializeObject(StudyGroup), Encoding.UTF8, "application/json");
 
             string results = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudyGroup>>(results);
