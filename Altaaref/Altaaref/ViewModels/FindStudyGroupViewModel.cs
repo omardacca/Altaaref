@@ -1,5 +1,6 @@
 ﻿using Altaaref.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -9,7 +10,7 @@ using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
 {
-    public class NewGroupViewModel : BaseViewModel
+    public class FindStudyGroupViewModel : BaseViewModel
     {
         int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
@@ -21,8 +22,6 @@ namespace Altaaref.ViewModels
             get { return _studyGroup; }
             private set { SetValue(ref _studyGroup, value); }
         }
-
-        public ICommand HandleSubmition { get; private set; }
 
         private List<Courses> _coursesList;
         public List<Courses> CoursesList
@@ -66,30 +65,31 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _selectedCourseIndex, value); }
         }
 
-        public NewGroupViewModel(IPageService pageService)
+        public ICommand HandleSubmitFind { get; private set; }
+
+        public FindStudyGroupViewModel(IPageService pageService)
         {
             _pageService = pageService;
-            
-            Init();
+            InitAsync();
         }
 
-        async void Init()
+        async void InitAsync()
         {
-            Busy = true;
             StudyGroup = new StudyGroup();
             CoursesNameList = new List<string>();
-            HandleSubmition = new Command(OnSubmitButtonTapped);
+            HandleSubmitFind = new Command(OnHandleFindSubmitButtonTapped);
             await GetCoursesAsync();
-            InitCoursesList();
-            Busy = false;
         }
 
-        private void InitCoursesList()
+        private void OnHandleFindSubmitButtonTapped(object obj)
         {
-            foreach (var course in CoursesList)
-                CoursesNameList.Add(course.Name);
-        }
+            var courseid = _coursesList[_selectedCourseIndex].Id;
 
+            StudyGroup.CourseId = courseid;
+            StudyGroup.StudentId = StudentId;
+
+            _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(StudyGroup));
+        }
 
         // SHOULD BE: STUDENT COURSES not ALL COURSES
         private async Task GetCoursesAsync()
@@ -101,43 +101,9 @@ namespace Altaaref.ViewModels
             CoursesList = new List<Courses>(list);
         }
 
-        private async void OnSubmitButtonTapped()
-        {
-
-            if (!IsFormValid())
-            {
-                await _pageService.DisplayAlert("Error", "Please fill the form properly.", "OK", "Cancel");
-                return;
-            }
-
-            var courseid = _coursesList[_selectedCourseIndex].Id;
-
-            StudyGroup.CourseId = courseid;
-            StudyGroup.StudentId = StudentId;
-
-
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroups";
-
-            var content = new StringContent(JsonConvert.SerializeObject(StudyGroup), Encoding.UTF8, "application/json");
-            var response= _client.PostAsync(postUrl, content);
-            
-            var StudyGroupInserted = JsonConvert.DeserializeObject<StudyGroup>(await response.Result.Content.ReadAsStringAsync());
-
-
-            if (response.Result.IsSuccessStatusCode)
-            {
-                await _pageService.DisplayAlert("Group Created", "The group created successfuly", "OK", "Cancel");
-                await _pageService.PushAsync(new Views.StudyGroups.SelectStudentsToInvite(StudyGroupInserted.CourseId, StudyGroupInserted.Id));   
-            }
-            else
-            {
-                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
-            }
-        }
-
         private bool IsFormValid()
         {
-            if (StudyGroup.Title != null && StudyGroup.Message != null && StudyGroup.Time != null && StudyGroup.Date != null)
+            if (StudyGroup.Date != null)
                 return true;
             return false;
         }

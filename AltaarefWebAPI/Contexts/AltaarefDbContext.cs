@@ -19,6 +19,9 @@ namespace AltaarefWebAPI.Contexts
         public DbSet<Student> Student { get; set; }
         public DbSet<StudentFavNotebooks> StudentFavNotebooks { get; set; }
         public DbSet<StudyGroup> StudyGroups { get; set; }
+        public DbSet<StudyGroupInvitations> StudyGroupInvitations { get; set; }
+        public DbSet<StudentCourses> StudentCourses { get; set; }
+        public DbSet<StudentFaculty> StudentFaculties { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -69,10 +72,10 @@ namespace AltaarefWebAPI.Contexts
                 .WithMany(s => s.StudentFavNotebooks)
                 .HasForeignKey(sfn => sfn.NotebookId);
 
-            // Many to Many - StudyGroup, Student, Course
+            //  Many to Many - StudyGroup, Student, Course
 
             modelBuilder.Entity<StudyGroup>()
-                .HasKey(sg => new { sg.CourseId, sg.StudentId });
+                .HasKey(sg => new { sg.Id });
 
             modelBuilder.Entity<StudyGroup>()
                 .HasOne(sg => sg.Student)
@@ -82,9 +85,24 @@ namespace AltaarefWebAPI.Contexts
             modelBuilder.Entity<StudyGroup>()
                 .HasOne(sg => sg.Course)
                 .WithMany(s => s.StudyGroups)
-                .HasForeignKey(fc => fc.CourseId);
+                .HasForeignKey(sg => sg.CourseId);
 
-            // Many to Many - Student Faculty
+            // Many to Many - Student, StudyGroup, StudyGroupInvitations
+            modelBuilder.Entity<StudyGroupInvitations>()
+                .HasKey(sgi => new { sgi.StudentId, sgi.StudyGroupId });
+
+            modelBuilder.Entity<StudyGroupInvitations>()
+                .HasOne(sgi => sgi.Student)
+                .WithMany(s => s.StudyGroupInvitations)
+                .HasForeignKey(sg => sg.StudentId);
+
+            modelBuilder.Entity<StudyGroupInvitations>()
+                .HasOne(sgi => sgi.StudyGroup)
+                .WithMany(s => s.StudyGroupInvitations)
+                .HasForeignKey(sg => sg.StudyGroupId);
+
+
+            //  Many to Many - Student Faculty
 
             modelBuilder.Entity<StudentFaculty>()
                 .HasKey(sf => new { sf.FacultyId, sf.StudentId });
@@ -98,6 +116,27 @@ namespace AltaarefWebAPI.Contexts
                 .HasOne(sf => sf.Faculty)
                 .WithMany(s => s.StudentFaculty)
                 .HasForeignKey(fc => fc.FacultyId);
+
+            // Many to Many - Student Courses
+
+            modelBuilder.Entity<StudentCourses>()
+                .HasKey(sc => new { sc.CourseId, sc.StudentId });
+
+            modelBuilder.Entity<StudentCourses>()
+                .HasOne(sc => sc.Student)
+                .WithMany(s => s.StudentCourses)
+                .HasForeignKey(sc => sc.StudentId);
+
+            modelBuilder.Entity<StudentCourses>()
+                .HasOne(sc => sc.Course)
+                .WithMany(s => s.StudentCourses)
+                .HasForeignKey(sc => sc.CourseId);
+
+            // Specify IsRequired for Students.ProfilePicBlobUrl
+
+            modelBuilder.Entity<Student>()
+                .Property(s => s.ProfilePicBlobUrl)
+                .IsRequired();
 
         }
     }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "674022375282",
+    "firebase_url": "https://altaaref.firebaseio.com",
+    "project_id": "altaaref",
+    "storage_bucket": "altaaref.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674022375282:android:b271b35c177cc739",
+        "android_client_info": {
+          "package_name": "com.companyname.Altaaref"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674022375282-pfieqog3gi00qpbrsljj4ml85mh0tknl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAVkUsOCJtWdvTceb0ebOBEG0ZbAZ3-wk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

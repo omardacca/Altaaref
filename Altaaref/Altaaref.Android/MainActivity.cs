@@ -9,15 +9,17 @@ using Android.Widget;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.Gms.Location;
-using Android.Gms.Identity;
-using Android.Gms.Maps;
-using Android.Gms.Drive;
-using Android.Gms.Auth;
-using Android.Gms.Extensions;
-using Android.Gms.Auth.Account;
 using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
 using System.Threading.Tasks;
+using ImageCircle.Forms.Plugin.Droid;
+using Firebase.Iid;
+using System;
+using Firebase.Messaging;
+using Xamarin.Forms;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using Microsoft.WindowsAzure.MobileServices;
 
 // https://github.com/xamarin/monodroid-samples/blob/master/FusedLocationProvider/FusedLocationProvider/MainActivity.cs
 
@@ -121,7 +123,22 @@ namespace Altaaref.Droid
             }
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            ImageCircleRenderer.Init();
+
             LoadApplication(new App());
+
+#if DEBUG
+            // Force refresh of the token. If we redeploy the app, no new token will be sent but the old one will
+            // be invalid.
+            Task.Run(() =>
+            {
+                // This may not be executed on the main thread.
+                FirebaseInstanceId.Instance.DeleteInstanceId();
+                Console.WriteLine("Forced token: " + FirebaseInstanceId.Instance.Token);
+            });
+#endif
+
         }
 
         protected override void OnStart()
@@ -428,6 +445,86 @@ namespace Altaaref.Droid
             base.OnPause();
         }
 
+        // This service handles the device's registration with FCM.
+        [Service]
+        [IntentFilter(new[] { "com.google.firebase.INSTANCE_ID_EVENT" })]
+        public class MyFirebaseIIDService : FirebaseInstanceIdService
+        {
+            public override async void OnTokenRefresh()
+            {
+                var refreshedToken = FirebaseInstanceId.Instance.Token;
+                Console.WriteLine($"Token received: {refreshedToken}");
+                await SendRegistrationToServerAsync(refreshedToken);
+            }
+
+            async Task SendRegistrationToServerAsync(string token)
+            {
+                try
+                {
+                    // Formats: https://firebase.google.com/docs/cloud-messaging/concept-options
+                    // The "notification" format will automatically displayed in the notification center if the 
+                    // app is not in the foreground.
+                    const string templateBodyFCM =
+                        "{" +
+                            "\"notification\" : {" +
+                            "\"body\" : \"$(messageParam)\"," +
+                                "\"title\" : \"Xamarin University\"," +
+                            "\"icon\" : \"myicon\" }" +
+                        "}";
+
+                    var templates = new JObject();
+                    templates["genericMessage"] = new JObject
+                    {
+                        {"body", templateBodyFCM}
+                    };
+
+                    var client = new MobileServiceClient(Altaaref.App.MobileServiceUrl);
+                    var push = client.GetPush();
+
+                    await push.RegisterAsync(token, templates);
+
+                    // Push object contains installation ID afterwards.
+                    Console.WriteLine(push.InstallationId.ToString());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Debugger.Break();
+                }
+            }
+        }
+
+            // This service is used if app is in the foreground and a message is received.
+            [Service]
+            [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
+            public class MyFirebaseMessagingService : FirebaseMessagingService
+            {
+                public override void OnMessageReceived(RemoteMessage message)
+                {
+                    base.OnMessageReceived(message);
+
+                    Console.WriteLine("Received: " + message);
+
+                    // Android supports different message payloads. To use the code below it must be something like this (you can paste this into Azure test send window):
+                    // {
+                    //   "notification" : {
+                    //      "body" : "The body",
+                    //                 "title" : "The title",
+                    //                 "icon" : "myicon
+                    //   }
+                    // }
+                    try
+                    {
+                        var msg = message.GetNotification().Body;
+                        MessagingCenter.Send<object, string>(this, Altaaref.App.NotificationReceivedKey, msg);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error extracting message: " + ex);
+                    }
+                }
+            }
     }
 }
+
 

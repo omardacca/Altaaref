@@ -9,11 +9,15 @@ namespace Altaaref
 {
 	public partial class App : Application
 	{
-		public App ()
+
+        public const string NotificationReceivedKey = "NotificationReceived";
+        public const string MobileServiceUrl = "https://altaarefapp.azurewebsites.net";
+
+        public App ()
 		{
 			InitializeComponent();
 
-            MainPage = new NavigationPage(new Views.StudyGroups.NewGroupPage());
+            MainPage = new NavigationPage(new Views.StudyGroups.FindStudyGroup());
             //MainPage = new Views.NotebooksDB.AddNewNotebook();
         }
 

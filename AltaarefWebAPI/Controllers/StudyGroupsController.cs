@@ -47,6 +47,25 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroup);
         }
 
+        // GET: api/StudyGroups/5
+        [HttpGet("{date}")]
+        public IActionResult GetStudyGroupByDate([FromRoute] DateTime date)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studyGroupList = _context.StudyGroups.Where(m => m.Date.Date == date.Date);
+
+            if (date == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroupList);
+        }
+
         // PUT: api/StudyGroups/5
         [HttpPut("{courseId}/{studentId}")]
         public async Task<IActionResult> PutStudyGroup([FromRoute] int courseId, [FromRoute] int studentId, [FromBody] StudyGroup studyGroup)
@@ -108,7 +127,18 @@ namespace AltaarefWebAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetStudyGroup", new { courseId = studyGroup.CourseId, studentId = studyGroup.StudentId }, studyGroup);
+            return CreatedAtAction("GetStudyGroup", new { courseId = studyGroup.CourseId, studentId = studyGroup.StudentId },
+                new StudyGroup
+                {
+                    Id = studyGroup.Id,
+                    CourseId = studyGroup.CourseId,
+                    StudentId = studyGroup.StudentId,
+                    Title = studyGroup.Title,
+                    Message = studyGroup.Message,
+                    Date = studyGroup.Date,
+                    Time = studyGroup.Time,
+                    IsPublic = studyGroup.IsPublic
+                });
         }
 
         // DELETE: api/StudyGroups/5

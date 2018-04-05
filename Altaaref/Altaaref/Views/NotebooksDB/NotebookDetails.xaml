@@ -10,7 +10,7 @@
         <ActivityIndicator IsRunning="{Binding Busy}"
                            IsVisible="{Binding Busy}"
                            Color="Black"
-                           VerticalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand" 
                            HorizontalOptions="CenterAndExpand"/>
 
         <StackLayout Padding="5">

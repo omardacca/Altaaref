@@ -10,9 +10,12 @@ namespace AltaarefWebAPI.Models
         public int Id { get; set; }
         public string FullName { get; set; }
         public DateTime DOB { get; set; }
+        public string ProfilePicBlobUrl { get; set; }
 
         public ICollection<StudentFavNotebooks> StudentFavNotebooks { get; set; }
         public ICollection<StudyGroup> StudyGroups { get; set; }
+        public ICollection<StudyGroupInvitations> StudyGroupInvitations { get; set; }
         public ICollection<StudentFaculty> StudentFaculty { get; set; }
+        public ICollection<StudentCourses> StudentCourses { get; set; }
     }
 }

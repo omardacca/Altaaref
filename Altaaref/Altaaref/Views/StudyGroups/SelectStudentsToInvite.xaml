@@ -1,19 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Altaaref.Views.StudyGroups.SelectStudentsToInvite">
-    <ListView HasUnevenRows="True">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal" Padding="5">
-                        <StackLayout HorizontalOptions="StartAndExpand">
-                            <Label Text="Student Name" />
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             x:Class="Altaaref.Views.StudyGroups.SelectStudentsToInvite"
+             Title="Choose students to invite">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding SubmitButtonCommand}"/>
+    </ContentPage.ToolbarItems>
+
+
+    <ActivityIndicator IsRunning="{Binding Busy}"
+                           IsVisible="{Binding Busy}"
+                           Color="Black"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+
+    <StackLayout>
+        <ListView HasUnevenRows="True" ItemsSource="{Binding StudentsList}"
+              SelectedItem="{Binding SelectedStudent, Mode=TwoWay}"
+              ItemTapped="Handle_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <ic:CircleImage 
+                                HeightRequest="100"
+                                WidthRequest="100"
+                                Aspect="AspectFill"
+                                Source="{Binding Student.ProfilePicBlobUrl}"/>
+                            <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                <Label Text="{Binding Student.FullName}" />
                         </StackLayout>
-                        <Button Text="Add" />
+                            <Image Source="vicon.png" IsVisible="{Binding IsImageVisible}"/>
+                            <Image Source="xicon.png" IsVisible="{Binding IsImageVisible, Converter={StaticResource boolConverter}}" />
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
+    </StackLayout>
 </ContentPage>

@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180327150810_AddRelationWithStudentAndCoursesStudyGroup")]
+    partial class AddRelationWithStudentAndCoursesStudyGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,9 +94,6 @@ namespace AltaarefWebAPI.Migrations
                     b.Property<DateTime>("DOB");
 
                     b.Property<string>("FullName");
-
-                    b.Property<string>("ProfilePicBlobUrl")
-                        .IsRequired();
 
                     b.HasKey("Id");
 

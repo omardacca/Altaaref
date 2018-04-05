@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Altaaref.Views.StudyGroups.FindStudyGroupResults"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:uc="clr-namespace:Altaaref.UserControls"
+             xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+            Title="Find Study Group">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView HasUnevenRows="True" ItemsSource="{Binding StudyGroupList}"
+              SelectedItem="{Binding SelectedStudent, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <uc:RoundedRectangleView FillColor="DarkGray">
+                                <uc:RoundedRectangleView.InnerContent>
+                                    <StackLayout Spacing="0">
+                                        <Label Text="{Binding Title}" FontSize="20" TextColor="White"
+						VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label Text="{Binding Message}" VerticalOptions="Center" HorizontalOptions="Center"
+						TextColor="White" FontSize="Small" LineBreakMode="TailTruncation" />
+                                    </StackLayout>
+                                </uc:RoundedRectangleView.InnerContent>
+                            </uc:RoundedRectangleView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

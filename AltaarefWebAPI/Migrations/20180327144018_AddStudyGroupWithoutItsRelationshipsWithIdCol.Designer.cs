@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180327144018_AddStudyGroupWithoutItsRelationshipsWithIdCol")]
+    partial class AddStudyGroupWithoutItsRelationshipsWithIdCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,9 +95,6 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<string>("FullName");
 
-                    b.Property<string>("ProfilePicBlobUrl")
-                        .IsRequired();
-
                     b.HasKey("Id");
 
                     b.ToTable("Student");
@@ -146,15 +144,11 @@ namespace AltaarefWebAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CourseId");
-
                     b.Property<DateTime>("Date");
 
                     b.Property<bool>("IsPublic");
 
                     b.Property<string>("Message");
-
-                    b.Property<int>("StudentId");
 
                     b.Property<DateTime>("Time");
 
@@ -162,26 +156,7 @@ namespace AltaarefWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("StudentId");
-
                     b.ToTable("StudyGroups");
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.StudyGroupInvitations", b =>
-                {
-                    b.Property<int>("StudentId");
-
-                    b.Property<int>("StudyGroupId");
-
-                    b.Property<bool>("VerificationStatus");
-
-                    b.HasKey("StudentId", "StudyGroupId");
-
-                    b.HasIndex("StudyGroupId");
-
-                    b.ToTable("StudyGroupInvitations");
                 });
 
             modelBuilder.Entity("AltaarefWebAPI.Models.FacultyCourse", b =>
@@ -241,32 +216,6 @@ namespace AltaarefWebAPI.Migrations
                     b.HasOne("AltaarefWebAPI.Models.Student", "Student")
                         .WithMany("StudentFavNotebooks")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.StudyGroup", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.Course", "Course")
-                        .WithMany("StudyGroups")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AltaarefWebAPI.Models.Student", "Student")
-                        .WithMany("StudyGroups")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.StudyGroupInvitations", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.Student", "Student")
-                        .WithMany("StudyGroupInvitations")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AltaarefWebAPI.Models.StudyGroup", "StudyGroup")
-                        .WithMany("StudyGroupInvitations")
-                        .HasForeignKey("StudyGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

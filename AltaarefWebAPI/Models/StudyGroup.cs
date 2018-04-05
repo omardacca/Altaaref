@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,6 +8,8 @@ namespace AltaarefWebAPI.Models
 {
     public class StudyGroup
     {
+        public int Id { get; set; }
+        
         public int CourseId { get; set; }
         public Course Course { get; set; }
 
@@ -18,6 +21,8 @@ namespace AltaarefWebAPI.Models
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
         public bool IsPublic { get; set; }
+
+        public ICollection<StudyGroupInvitations> StudyGroupInvitations { get; set; }
 
 
     }
