@@ -1,11 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:uc="clr-namespace:Altaaref.UserControls"
              x:Class="Altaaref.Views.StudyGroups.ViewStudyGroupDetails">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <StackLayout Padding="15">
-        <Label Text="{Binding Course.Name}" FontSize="Medium" VerticalOptions="Start" />
-        <Label Text="{Binding Student.FullName}" FontSize="Micro" VerticalOptions="Start" />
+        <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
+        <StackLayout IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+            <Label Text="{Binding Course.Name}" FontSize="Medium" VerticalOptions="Start" />
+            <Label Text="{Binding Student.FullName, StringFormat='By {0}'}" FontSize="Medium" VerticalOptions="Start" />
+            <Label Text="{Binding StudyGroup.Message}" FontSize="Medium" VerticalOptions="Start" />
+            <Label Text="{Binding StudyGroup.Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="Medium" VerticalOptions="Start" />
+            <Label Text="{Binding StudyGroup.Time, StringFormat='{0:HH:mm:ss}'}" FontSize="Medium" VerticalOptions="Start" />
+
+            <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0">
+                <uc:RoundedRectangleView.InnerContent>
+                    <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                        <Image Source="addusericon.png"/>
+                        <Label Text="Join Group" FontSize="20" TextColor="White" VerticalOptions="Center"
+                                            HorizontalOptions="Center" />
+                    </StackLayout>
+                </uc:RoundedRectangleView.InnerContent>
+            </uc:RoundedRectangleView>
+
+        </StackLayout>
     </StackLayout>
     
 </ContentPage>

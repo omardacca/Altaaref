@@ -23,6 +23,7 @@ namespace AltaarefWebAPI.Models
         public bool IsPublic { get; set; }
 
         public ICollection<StudyGroupInvitations> StudyGroupInvitations { get; set; }
+        public ICollection<StudyGroupAttendants> StudyGroupAttendants { get; set; }
 
 
     }

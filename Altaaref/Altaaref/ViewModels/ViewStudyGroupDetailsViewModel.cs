@@ -61,13 +61,10 @@ namespace Altaaref.ViewModels
             string content = await _client.GetStringAsync(url);
             var course = JsonConvert.DeserializeObject<Courses>(content);
             Course = course;
-
-            
         }
 
         private async void GetStudentByIdAsync(int studentId)
         {
-            
             string url = "https://altaarefapp.azurewebsites.net/api/Students/" + studentId;
 
             string content = await _client.GetStringAsync(url);

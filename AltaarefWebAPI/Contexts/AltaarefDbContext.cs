@@ -22,6 +22,8 @@ namespace AltaarefWebAPI.Contexts
         public DbSet<StudyGroupInvitations> StudyGroupInvitations { get; set; }
         public DbSet<StudentCourses> StudentCourses { get; set; }
         public DbSet<StudentFaculty> StudentFaculties { get; set; }
+        public DbSet<StudyGroupAttendants> StudyGroupAttendants { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -137,6 +139,22 @@ namespace AltaarefWebAPI.Contexts
             modelBuilder.Entity<Student>()
                 .Property(s => s.ProfilePicBlobUrl)
                 .IsRequired();
+
+            // Many to Many - Students StudyGroup
+
+            modelBuilder.Entity<StudyGroupAttendants>()
+                .HasKey(sga => new { sga.Id });
+
+            modelBuilder.Entity<StudyGroupAttendants>()
+                .HasOne(sga => sga.Student)
+                .WithMany(s => s.StudyGroupAttendants)
+                .HasForeignKey(sga => sga.StudentId);
+
+            modelBuilder.Entity<StudyGroupAttendants>()
+                .HasOne(sga => sga.StudyGroup)
+                .WithMany(s => s.StudyGroupAttendants)
+                .HasForeignKey(sga => sga.StudyGroupId);
+
 
         }
     }
