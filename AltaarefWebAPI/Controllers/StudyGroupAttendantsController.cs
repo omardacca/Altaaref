@@ -118,6 +118,27 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroupAttendants);
         }
 
+        [HttpDelete("{StudyGroupId}/{StudentId}")]
+        public async Task<IActionResult> DeleteSGABySGIdAndStId([FromRoute] int StudyGroupId, [FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studyGroupAttendants = await _context.StudyGroupAttendants
+                .SingleOrDefaultAsync(m => m.StudyGroupId == StudyGroupId && m.StudentId == StudentId);
+            if (studyGroupAttendants == null)
+            {
+                return NotFound();
+            }
+
+            _context.StudyGroupAttendants.Remove(studyGroupAttendants);
+            await _context.SaveChangesAsync();
+
+            return Ok(studyGroupAttendants);
+        }
+
         private bool StudyGroupAttendantsExists(int id)
         {
             return _context.StudyGroupAttendants.Any(e => e.Id == id);

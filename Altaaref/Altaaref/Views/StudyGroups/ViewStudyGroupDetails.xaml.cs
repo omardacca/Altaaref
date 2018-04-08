@@ -20,6 +20,5 @@ namespace Altaaref.Views.StudyGroups
             BindingContext = new ViewStudyGroupDetailsViewModel(studyGroup, new PageService());
         }
 
-
-	}
+    }
 }
