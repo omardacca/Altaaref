@@ -25,7 +25,7 @@
             <Label Text="{Binding StudyGroup.Time, StringFormat='{0:HH:mm:ss}'}" FontSize="Medium" VerticalOptions="Start" />
 
             <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0"
-                                     Clicked="HandleJoinClicked" IsVisible="{Binding IsAttendant}">
+                                     Clicked="HandleJoinClicked" IsVisible="{Binding IsAttendant, Converter={StaticResource boolConverter}}">
                 <uc:RoundedRectangleView.InnerContent>
                     <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                         <Image Source="addusericon.png"/>
@@ -36,10 +36,20 @@
             </uc:RoundedRectangleView>
 
             <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0"
-                                     Clicked="HandleLeaveClicked"  IsVisible="{Binding IsAttendant, Converter={StaticResource boolConverter}}">
+                                     Clicked="HandleLeaveClicked"  IsVisible="{Binding IsAttendant}">
                 <uc:RoundedRectangleView.InnerContent>
                     <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                         <Label Text="Leave Group" FontSize="20" TextColor="White" VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                </uc:RoundedRectangleView.InnerContent>
+            </uc:RoundedRectangleView>
+
+            <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0"
+                                     Clicked="HandleViewAttendants">
+                <uc:RoundedRectangleView.InnerContent>
+                    <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                        <Label Text="View Attendants" FontSize="20" TextColor="White" VerticalOptions="Center"
                                HorizontalOptions="Center" />
                     </StackLayout>
                 </uc:RoundedRectangleView.InnerContent>

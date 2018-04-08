@@ -31,5 +31,12 @@ namespace Altaaref.Views.StudyGroups
             (BindingContext as ViewStudyGroupDetailsViewModel).HandleRemoveAttendant();
         }
 
+        void HandleViewAttendants(object sender, ItemTappedEventArgs e)
+        {
+            (BindingContext as ViewStudyGroupDetailsViewModel).HandleViewAttendants();
+        }
+
+
+
     }
 }
