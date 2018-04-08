@@ -1,4 +1,5 @@
-﻿using Altaaref.ViewModels;
+﻿using Altaaref.UserControls;
+using Altaaref.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,16 @@ namespace Altaaref.Views.StudyGroups
 			InitializeComponent ();
 
             BindingContext = new ViewStudyGroupDetailsViewModel(studyGroup, new PageService());
+        }
+
+        void HandleJoinClicked(object sender, ItemTappedEventArgs e)
+        {
+            (BindingContext as ViewStudyGroupDetailsViewModel).HandlePostAttendant();
+        }
+
+        void HandleLeaveClicked(object sender, ItemTappedEventArgs e)
+        {
+            (BindingContext as ViewStudyGroupDetailsViewModel).HandleRemoveAttendant();
         }
 
     }

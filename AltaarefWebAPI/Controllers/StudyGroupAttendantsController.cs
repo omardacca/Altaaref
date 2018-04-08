@@ -47,6 +47,25 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroupAttendants);
         }
 
+        [HttpGet("{StudyGroupId}/{StudentId}")]
+        public async Task<IActionResult> GetStudyGroupAttendants([FromRoute] int StudyGroupId, [FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studyGroupAttendants = await _context.StudyGroupAttendants
+                .SingleOrDefaultAsync(m => m.StudyGroupId == StudyGroupId && m.StudentId == StudentId);
+
+            if (studyGroupAttendants == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroupAttendants);
+        }
+
         // PUT: api/StudyGroupAttendants/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudyGroupAttendants([FromRoute] int id, [FromBody] StudyGroupAttendants studyGroupAttendants)

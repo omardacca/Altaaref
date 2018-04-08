@@ -24,12 +24,23 @@
             <Label Text="{Binding StudyGroup.Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="Medium" VerticalOptions="Start" />
             <Label Text="{Binding StudyGroup.Time, StringFormat='{0:HH:mm:ss}'}" FontSize="Medium" VerticalOptions="Start" />
 
-            <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0">
+            <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0"
+                                     Clicked="HandleJoinClicked" IsVisible="{Binding IsAttendant}">
                 <uc:RoundedRectangleView.InnerContent>
                     <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                         <Image Source="addusericon.png"/>
                         <Label Text="Join Group" FontSize="20" TextColor="White" VerticalOptions="Center"
-                                            HorizontalOptions="Center" />
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </uc:RoundedRectangleView.InnerContent>
+            </uc:RoundedRectangleView>
+
+            <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0"
+                                     Clicked="HandleLeaveClicked"  IsVisible="{Binding IsAttendant, Converter={StaticResource boolConverter}}">
+                <uc:RoundedRectangleView.InnerContent>
+                    <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                        <Label Text="Leave Group" FontSize="20" TextColor="White" VerticalOptions="Center"
+                               HorizontalOptions="Center" />
                     </StackLayout>
                 </uc:RoundedRectangleView.InnerContent>
             </uc:RoundedRectangleView>
