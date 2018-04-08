@@ -48,7 +48,7 @@ namespace AltaarefWebAPI.Controllers
         }
 
         [HttpGet("{StudyGroupId}/{StudentId}")]
-        public async Task<IActionResult> GetStudyGroupAttendants([FromRoute] int StudyGroupId, [FromRoute] int StudentId)
+        public async Task<IActionResult> GetStudyGroupAttendantsBySGAIdStdId([FromRoute] int StudyGroupId, [FromRoute] int StudentId)
         {
             if (!ModelState.IsValid)
             {

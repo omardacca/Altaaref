@@ -70,23 +70,23 @@ namespace Altaaref.ViewModels
             GetCourseByIdAsync(studyGroup.CourseId);
             GetStudentByIdAsync(studyGroup.StudentId);
 
-            CheckSGAExist();
+            InitIsAttendantAsync();
         }
 
         private void InitIsAttendantAsync()
         {
-            //IsAttendant = CheckSGAExist().Result;
+            IsAttendant = CheckSGAExist().Result;
         }
 
-        private async void CheckSGAExist()
+        private async Task<bool> CheckSGAExist()
         {
             string url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroup.Id + "/" + StudyGroup.StudentId;
             string content = await _client.GetStringAsync(url);
             var SGA = JsonConvert.DeserializeObject<StudyGroupAttendants>(content);
 
-            //if (SGA != null)
-            //    return true;
-            //return false;
+            if (SGA != null)
+                return true;
+            return false;
         }
 
         private async void GetCourseByIdAsync(int courseId)
