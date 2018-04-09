@@ -57,7 +57,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studyGroupAttendants = _context.StudyGroupAttendants
-                .Where(sga => sga.StudyGroupId == StudyGroupId).Select(sga => sga.Student.FullName);
+                .Where(sga => sga.StudyGroupId == StudyGroupId);
 
             if (studyGroupAttendants == null)
             {

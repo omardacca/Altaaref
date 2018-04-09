@@ -1,4 +1,5 @@
 ﻿using Altaaref.Models;
+using Altaaref.Views.StudyGroups;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -114,7 +115,7 @@ namespace Altaaref.ViewModels
 
         public void HandleViewAttendants()
         {
-
+            _pageService.PushAsync(new ViewAttendants(StudyGroup.Id))
         }
 
         public void HandlePostAttendant()
