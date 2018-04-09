@@ -115,7 +115,7 @@ namespace Altaaref.ViewModels
 
         public void HandleViewAttendants()
         {
-            _pageService.PushAsync(new ViewAttendants(StudyGroup.Id))
+            _pageService.PushAsync(new ViewAttendants(StudyGroup.Id));
         }
 
         public void HandlePostAttendant()
