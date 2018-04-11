@@ -8,13 +8,13 @@
 
     <StackLayout>
         <ListView SeparatorVisibility="None" HasUnevenRows="True" ItemsSource="{Binding StudyGroupList}"
-              SelectedItem="{Binding SelectedStudyGroup, Mode=TwoWay}"
-                      ItemTapped="HandleResultClicked">
+              SelectedItem="{Binding SelectedStudyGroupId, Mode=TwoWay}"
+                      ItemTapped="HandleItemClicked">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <uc:RoundedRectangleView FillColor="LightGray" HeightRequest="100" WidthRequest="100" Padding="10"
-                                                     Clicked="HandleResultClicked"
+                                                     Clicked="HandleItemClicked"
                                                      CommandParameter="{Binding .}">
                             <uc:RoundedRectangleView.InnerContent>
                                 <StackLayout Spacing="0">

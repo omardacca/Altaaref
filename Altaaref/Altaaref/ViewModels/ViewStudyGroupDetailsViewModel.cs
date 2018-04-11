@@ -57,16 +57,10 @@ namespace Altaaref.ViewModels
             }
         }
 
-
-//        public ICommand HandlePostAttendatCommand { get; private set; }
-//        public ICommand HandleRemoveAttendantCommand { get; private set; }
-
         public ViewStudyGroupDetailsViewModel(StudyGroup studyGroup, IPageService pageService)
         {
             _pageService = pageService;
             StudyGroup = studyGroup;
-//            HandlePostAttendatCommand = new Command(HandlePostAttendant);
-//            HandleRemoveAttendantCommand = new Command(HandleRemoveAttendant);
 
             GetCourseByIdAsync(studyGroup.CourseId);
             GetStudentByIdAsync(studyGroup.StudentId);

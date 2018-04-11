@@ -17,7 +17,7 @@ namespace Altaaref
 		{
 			InitializeComponent();
 
-            MainPage = new Views.CommonPages.MainPage();
+            MainPage = new NavigationPage(new Views.CommonPages.MainPage());
             //MainPage = new NavigationPage(new Views.CommonPages.MainPage());
         }
 

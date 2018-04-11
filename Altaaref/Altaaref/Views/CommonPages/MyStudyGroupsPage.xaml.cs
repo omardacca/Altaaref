@@ -15,11 +15,11 @@ namespace Altaaref.Views.CommonPages
             BindingContext = new MyStudyGroupsViewModel(new PageService());
         }
 
-        void HandleResultClicked(object sender, ItemTappedEventArgs e)
+        void HandleItemClicked(object sender, ItemTappedEventArgs e)
         {
             var rrv = sender as RoundedRectangleView;
 
-            //(BindingContext as MyStudyGroupsViewModel).StudyGroupResultItemClicked(rrv.CommandParameter as Models.StudyGroup);
+            (BindingContext as MyStudyGroupsViewModel).StudyGroupItemClicked(rrv.CommandParameter as Models.StudyGroup);
         }
     }
 }
