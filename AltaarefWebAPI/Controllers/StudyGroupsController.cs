@@ -47,6 +47,32 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroup);
         }
 
+        // GET: api/StudyGroups
+        [HttpGet]
+        public IEnumerable<StudyGroup> GetStudyGroups()
+        {
+            return _context.StudyGroups;
+        }
+
+        // GET: api/StudyGroups/5
+        [HttpGet("{studentId}")]
+        public async Task<IActionResult> GetStudyGroupByStudentId([FromRoute] int studentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studyGroup = _context.StudyGroups.Where(m => m.StudentId == studentId);
+
+            if (studyGroup == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroup);
+        }
+
         // GET: api/StudyGroups/5
         [HttpGet("{courseId}/{*date}")]
         public IActionResult GetStudyGroupByDate(int courseId, DateTime date)

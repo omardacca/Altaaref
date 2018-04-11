@@ -17,8 +17,8 @@ namespace Altaaref
 		{
 			InitializeComponent();
 
-            MainPage = new NavigationPage(new Views.StudyGroups.FindStudyGroup());
-            //MainPage = new Views.NotebooksDB.AddNewNotebook();
+            MainPage = new Views.CommonPages.MainPage();
+            //MainPage = new NavigationPage(new Views.CommonPages.MainPage());
         }
 
 		protected override void OnStart ()
