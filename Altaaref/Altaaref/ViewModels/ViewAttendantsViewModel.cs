@@ -12,8 +12,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private List<Student> _studentList;
-        public List<Student> StudentsList
+        private List<ViewStudent> _studentList;
+        public List<ViewStudent> StudentsList
         {
             get { return _studentList; }
             private set
@@ -54,8 +54,11 @@ namespace Altaaref.ViewModels
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Student>>(content);
-            
-            StudentsList = new List<Student>(list);
+            var stdView = new List<ViewStudent>();
+            foreach (Student std in list)
+                stdView.Add(new ViewStudent { Student = std });
+
+            StudentsList = new List<ViewStudent>(stdView);
             Busy = false;
         }
 
