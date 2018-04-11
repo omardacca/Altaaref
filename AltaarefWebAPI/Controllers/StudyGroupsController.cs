@@ -47,13 +47,6 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroup);
         }
 
-        // GET: api/StudyGroups
-        [HttpGet]
-        public IEnumerable<StudyGroup> GetStudyGroups()
-        {
-            return _context.StudyGroups;
-        }
-
         // GET: api/StudyGroups/5
         [HttpGet("{studentId}")]
         public async Task<IActionResult> GetStudyGroupByStudentId([FromRoute] int studentId)
