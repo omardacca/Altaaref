@@ -49,7 +49,7 @@ namespace AltaarefWebAPI.Controllers
 
         // GET: api/StudyGroupAttendants/5
         [HttpGet("GetNames/{StudyGroupId}")]
-        public async Task<IActionResult> GetAttendantsNames([FromRoute] int StudyGroupId)
+        public async Task<IActionResult> GetAttendants([FromRoute] int StudyGroupId)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studyGroupAttendants = _context.StudyGroupAttendants
-                .Where(sga => sga.StudyGroupId == StudyGroupId).Select(sga => sga.Student.FullName);
+                .Where(sga => sga.StudyGroupId == StudyGroupId).Select(sga => sga.Student);
 
             if (studyGroupAttendants == null)
             {
