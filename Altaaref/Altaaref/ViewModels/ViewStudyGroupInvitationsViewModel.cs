@@ -84,11 +84,11 @@ namespace Altaaref.ViewModels
 
             if (response.Result.IsSuccessStatusCode)
             {
-                await _pageService.DisplayAlert("Students Invited", "Students Invited Successfully", "OK", "Cancel");
+                //await _pageService.DisplayAlert("Students Invited", "Students Invited Successfully", "OK", "Cancel");
             }
             else
             {
-                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+                await _pageService.DisplayAlert("Error", "Something went wrong with Posting Attendants", "OK", "Cancel");
             }
 
             Busy = false;
@@ -104,11 +104,11 @@ namespace Altaaref.ViewModels
 
             if (response.Result.IsSuccessStatusCode)
             {
-                await _pageService.DisplayAlert("Students Invited", "Students Invited Successfully", "OK", "Cancel");
+                //await _pageService.DisplayAlert("Students Invited", "Students Invited Successfully", "OK", "Cancel");
             }
             else
             {
-                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+                await _pageService.DisplayAlert("Error", "Something went wrong with Delete Attendants", "OK", "Cancel");
             }
 
             Busy = false;
