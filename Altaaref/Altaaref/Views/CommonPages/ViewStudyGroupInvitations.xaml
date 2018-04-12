@@ -30,8 +30,8 @@
                                 <Label Text="{Binding StudyGroup.Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="Medium"/>
                                 <Label Text="{Binding StudyGroup.Time, StringFormat='{0:HH:mm:ss}'}" FontSize="Medium" />
                             </StackLayout>
-                            <Image Source="vicon.png" IsVisible="{Binding IsImageVisible}"/>
-                            <Image Source="xicon.png" IsVisible="{Binding IsImageVisible, Converter={StaticResource boolConverter}}" />
+                            <Image Source="xicon.png" IsVisible="{Binding VerificationStatus}"/>
+                            <Image Source="vicon.png" IsVisible="{Binding VerificationStatus, Converter={StaticResource boolConverter}}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

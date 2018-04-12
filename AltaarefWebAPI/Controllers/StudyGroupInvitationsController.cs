@@ -15,6 +15,7 @@ namespace AltaarefWebAPI.Controllers
         public string StudentName { get; set; }
         public string CourseName { get; set; }
         public StudyGroup StudyGroup { get; set; }
+        public bool VerificationStatus { get; set; }
     }
 
     [Produces("application/json")]
@@ -45,7 +46,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studyGroupInvitations = _context.StudyGroupInvitations.Where(si => si.StudentId == StudentId && si.StudyGroup.Date.Date >= DateTime.Today.Date.Date)
-                .Select(m => new ViewInvitation { StudentName = m.Student.FullName, CourseName = m.StudyGroup.Course.Name, StudyGroup = m.StudyGroup });
+                .Select(m => new ViewInvitation { StudentName = m.Student.FullName, CourseName = m.StudyGroup.Course.Name, StudyGroup = m.StudyGroup, VerificationStatus = m.VerificationStatus });
                 
 
             if (studyGroupInvitations == null)

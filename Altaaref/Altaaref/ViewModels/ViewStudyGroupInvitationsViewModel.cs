@@ -13,11 +13,11 @@ namespace Altaaref.ViewModels
         public string CourseName { get; set; }
         public StudyGroup StudyGroup { get; set; }
 
-        private bool _IsImageVisible = true;
-        public bool IsImageVisible
+        private bool _VerificationStatus;
+        public bool VerificationStatus
         {
-            get { return _IsImageVisible; }
-            set { SetValue(ref _IsImageVisible, value); }
+            get { return _VerificationStatus; }
+            set { SetValue(ref _VerificationStatus, value); }
         }
     }
 
@@ -96,6 +96,8 @@ namespace Altaaref.ViewModels
 
         private async void DeleteAttendant(int StudyGroupId)
         {
+            Busy = true;
+
             var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupId + "/" + StudentId;
 
             var response = _client.DeleteAsync(url);
@@ -108,6 +110,8 @@ namespace Altaaref.ViewModels
             {
                 await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
             }
+
+            Busy = false;
         }
 
         private void PutInvitationVerificationSatus(StudyGroupInvitations UpdatedViewInvitation)
@@ -127,17 +131,19 @@ namespace Altaaref.ViewModels
             SelectedViewStudyGroup = null;
 
             // if clicked to attend - post him
-            if(vInvitation.IsImageVisible)
+            if(vInvitation.VerificationStatus)
             {
                 PostAttendance(new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id });
                 PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id, VerificationStatus = true });
+                vInvitation.VerificationStatus = true;
             }
             else
             {
                 PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id, VerificationStatus = false });
                 DeleteAttendant(vInvitation.StudyGroup.Id);
+                vInvitation.VerificationStatus = false;
             }
-            vInvitation.IsImageVisible = !vInvitation.IsImageVisible;
+            //vInvitation.VerificationStatus = !vInvitation.VerificationStatus;
 
         }
     }
