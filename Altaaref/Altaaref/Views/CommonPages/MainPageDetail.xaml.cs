@@ -16,5 +16,15 @@ namespace Altaaref.Views.CommonPages
         {
             InitializeComponent();
         }
+
+        async void HandleButtonAddNewStudyGroup(object sender, ItemTappedEventArgs e)
+        {
+            await Navigation.PushAsync(new Views.StudyGroups.NewGroupPage());
+        }
+
+        async void HandleButtonFindStudyGroup(object sender, ItemTappedEventArgs e)
+        {
+            await Navigation.PushAsync(new Views.StudyGroups.FindStudyGroup());
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace AltaarefWebAPI.Contexts
         public DbSet<StudentCourses> StudentCourses { get; set; }
         public DbSet<StudentFaculty> StudentFaculties { get; set; }
         public DbSet<StudyGroupAttendants> StudyGroupAttendants { get; set; }
+        public DbSet<HelpRequest> HelpRequest { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -155,6 +156,41 @@ namespace AltaarefWebAPI.Contexts
                 .WithMany(s => s.StudyGroupAttendants)
                 .HasForeignKey(sga => sga.StudyGroupId);
 
+            // Set default value for columns in HelpRequest Table
+
+            modelBuilder.Entity<HelpRequest>()
+                .Property(h => h.Views)
+                .HasDefaultValue(0);
+
+            modelBuilder.Entity<HelpRequest>()
+                .Property(h => h.IsGeneral)
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<HelpRequest>()
+                .Property(h => h.IsMet)
+                .HasDefaultValue(false);
+
+            // One to Many - Student, HelpRequest
+
+            modelBuilder.Entity<HelpRequest>()
+                .HasOne(h => h.Student)
+                .WithMany(s => s.HelpRequests)
+                .HasForeignKey(s => s.StudentId);
+
+            // Many to Many - Faculty, HelpRequest
+
+            modelBuilder.Entity<HelpFaculty>()
+                .HasKey(hf => new { hf.HelpRequestId, hf.FacultyId });
+
+            modelBuilder.Entity<HelpFaculty>()
+                .HasOne(hf => hf.Faculty)
+                .WithMany(hf => hf.HelpFaculties)
+                .HasForeignKey(hf => hf.FacultyId);
+
+            modelBuilder.Entity<HelpFaculty>()
+                .HasOne(hf => hf.HelpRequest)
+                .WithMany(hf => hf.HelpFaculties)
+                .HasForeignKey(hf => hf.HelpRequestId);
 
         }
     }

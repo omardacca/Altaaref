@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180412194614_addDefaultValueToHelpRequestTableColumns")]
+    partial class addDefaultValueToHelpRequestTableColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,19 +58,6 @@ namespace AltaarefWebAPI.Migrations
                     b.ToTable("FacultyCourse");
                 });
 
-            modelBuilder.Entity("AltaarefWebAPI.Models.HelpFaculty", b =>
-                {
-                    b.Property<int>("HelpRequestId");
-
-                    b.Property<int>("FacultyId");
-
-                    b.HasKey("HelpRequestId", "FacultyId");
-
-                    b.HasIndex("FacultyId");
-
-                    b.ToTable("HelpFaculty");
-                });
-
             modelBuilder.Entity("AltaarefWebAPI.Models.HelpRequest", b =>
                 {
                     b.Property<int>("Id")
@@ -85,15 +73,11 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<string>("Message");
 
-                    b.Property<int>("StudentId");
-
                     b.Property<int>("Views")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("HelpRequest");
                 });
@@ -253,27 +237,6 @@ namespace AltaarefWebAPI.Migrations
                     b.HasOne("AltaarefWebAPI.Models.Faculty", "Faculty")
                         .WithMany("FacultyCourse")
                         .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.HelpFaculty", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.Faculty", "Faculty")
-                        .WithMany("HelpFaculties")
-                        .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AltaarefWebAPI.Models.HelpRequest", "HelpRequest")
-                        .WithMany("HelpFaculties")
-                        .HasForeignKey("HelpRequestId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.HelpRequest", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.Student", "Student")
-                        .WithMany("HelpRequests")
-                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

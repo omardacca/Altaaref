@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180412201322_AddOneToManyHelpRequestAndStudent")]
+    partial class AddOneToManyHelpRequestAndStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,19 +56,6 @@ namespace AltaarefWebAPI.Migrations
                     b.HasIndex("FacultyId");
 
                     b.ToTable("FacultyCourse");
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.HelpFaculty", b =>
-                {
-                    b.Property<int>("HelpRequestId");
-
-                    b.Property<int>("FacultyId");
-
-                    b.HasKey("HelpRequestId", "FacultyId");
-
-                    b.HasIndex("FacultyId");
-
-                    b.ToTable("HelpFaculty");
                 });
 
             modelBuilder.Entity("AltaarefWebAPI.Models.HelpRequest", b =>
@@ -253,19 +241,6 @@ namespace AltaarefWebAPI.Migrations
                     b.HasOne("AltaarefWebAPI.Models.Faculty", "Faculty")
                         .WithMany("FacultyCourse")
                         .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.HelpFaculty", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.Faculty", "Faculty")
-                        .WithMany("HelpFaculties")
-                        .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AltaarefWebAPI.Models.HelpRequest", "HelpRequest")
-                        .WithMany("HelpFaculties")
-                        .HasForeignKey("HelpRequestId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
