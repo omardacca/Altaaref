@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Altaaref.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,13 @@ namespace Altaaref.Views.CommonPages
 		public ViewStudyGroupInvitations ()
 		{
 			InitializeComponent ();
-		}
-	}
+
+            BindingContext = new ViewStudyGroupInvitationsViewModel(new PageService());
+        }
+
+        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            (BindingContext as ViewStudyGroupInvitationsViewModel).ViewInvitationSelected(e.Item as ViewInvitation);
+        }
+    }
 }

@@ -7,15 +7,24 @@ using System.Text;
 
 namespace Altaaref.ViewModels
 {
-    public class ViewInvitation
+    public class ViewInvitation : BaseViewModel
     {
         public string StudentName { get; set; }
         public string CourseName { get; set; }
         public StudyGroup StudyGroup { get; set; }
+
+        private bool _IsImageVisible = true;
+        public bool IsImageVisible
+        {
+            get { return _IsImageVisible; }
+            set { SetValue(ref _IsImageVisible, value); }
+        }
     }
 
     public class ViewStudyGroupInvitationsViewModel : BaseViewModel
     {
+        int StudentId = 204228043;
+
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -29,6 +38,13 @@ namespace Altaaref.ViewModels
                 OnPropertyChanged(nameof(ViewInvitationList));
             }
         }
+        
+        private ViewInvitation _selectedViewStudyGroupt;
+        public ViewInvitation SelectedViewStudyGroup
+        {
+            get { return _selectedViewStudyGroupt; }
+            set { SetValue(ref _selectedViewStudyGroupt, value); }
+        }
 
         private bool _busy;
         public bool Busy
@@ -40,36 +56,88 @@ namespace Altaaref.ViewModels
             }
         }
 
-        
 
         public ViewStudyGroupInvitationsViewModel(IPageService pageService)
         {
             _pageService = pageService;
+            GetInvitationsListAsync();
         }
 
-        // NOT READY YET!!
         private async void GetInvitationsListAsync()
         {
             Busy = true;
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations";
+            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + StudentId;
 
-            //string content = await _client.GetStringAsync(url);
-            //var list = JsonConvert.DeserializeObject<List<Student>>(content);
-            //var stdView = new List<ViewInvitation>();
-            //foreach (Student std in list)
-            //    stdView.Add(new ViewStudent { Student = std });
-
-            //ViewInvitationList = new List<ViewInvitation>(stdView);
+            string content = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<List<ViewInvitation>>(content);
+            ViewInvitationList = new List<ViewInvitation>(list);
             Busy = false;
         }
 
-        private void PostAttendance()
+        private async void PostAttendance(StudyGroupAttendants attendant)
         {
+            Busy = true;
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants";
 
+            var content = new StringContent(JsonConvert.SerializeObject(attendant), Encoding.UTF8, "application/json");
+            var response = _client.PostAsync(postUrl, content);
+
+            if (response.Result.IsSuccessStatusCode)
+            {
+                await _pageService.DisplayAlert("Students Invited", "Students Invited Successfully", "OK", "Cancel");
+            }
+            else
+            {
+                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+            }
+
+            Busy = false;
         }
 
-        private void DeleteInvitations()
+        private async void DeleteAttendant(int StudyGroupId)
         {
+            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupId + "/" + StudentId;
+
+            var response = _client.DeleteAsync(url);
+
+            if (response.Result.IsSuccessStatusCode)
+            {
+                await _pageService.DisplayAlert("Students Invited", "Students Invited Successfully", "OK", "Cancel");
+            }
+            else
+            {
+                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+            }
+        }
+
+        private void PutInvitationVerificationSatus(StudyGroupInvitations UpdatedViewInvitation)
+        {
+            Busy = true;
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + UpdatedViewInvitation.StudentId;
+
+            var content = new StringContent(JsonConvert.SerializeObject(UpdatedViewInvitation), Encoding.UTF8, "application/json");
+            var response = _client.PutAsync(postUrl, content);
+
+            Busy = false;
+        }
+
+        public void ViewInvitationSelected(ViewInvitation vInvitation)
+        {
+            ////Deselect Item
+            SelectedViewStudyGroup = null;
+
+            // if clicked to attend - post him
+            if(vInvitation.IsImageVisible)
+            {
+                PostAttendance(new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id });
+                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id, VerificationStatus = true });
+            }
+            else
+            {
+                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id, VerificationStatus = false });
+                DeleteAttendant(vInvitation.StudyGroup.Id);
+            }
+            vInvitation.IsImageVisible = !vInvitation.IsImageVisible;
 
         }
     }
