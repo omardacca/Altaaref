@@ -10,6 +10,13 @@ using AltaarefWebAPI.Models;
 
 namespace AltaarefWebAPI.Controllers
 {
+    public class ViewInvitation
+    {
+        public string StudentName { get; set; }
+        public string CourseName { get; set; }
+        public StudyGroup StudyGroup { get; set; }
+    }
+
     [Produces("application/json")]
     [Route("api/StudyGroupInvitations")]
     public class StudyGroupInvitationsController : Controller
@@ -29,22 +36,36 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroupInvitations/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetStudyGroupInvitations([FromRoute] int id)
+        [HttpGet("{StudentId}")]
+        public async Task<IActionResult> GetViewStudyGroupInvitations([FromRoute] int StudentId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studyGroupInvitations = await _context.StudyGroupInvitations.SingleOrDefaultAsync(m => m.StudentId == id);
+            var studyGroupInvitations = _context.StudyGroupInvitations.Where(si => si.StudentId == StudentId);
 
-            if (studyGroupInvitations == null)
+            var studentName = studyGroupInvitations.First().Student.FullName;
+
+            IList<ViewInvitation> viewInvitationsList = new List<ViewInvitation>();
+
+            var courseName = studyGroupInvitations
+                .ForEachAsync(m => viewInvitationsList.Add(
+                    new ViewInvitation
+                    {
+                        StudentName = studentName,
+                        CourseName = m.StudyGroup.Course.Name,
+                        StudyGroup = m.StudyGroup
+                    }));
+                
+
+            if (viewInvitationsList == null)
             {
                 return NotFound();
             }
 
-            return Ok(studyGroupInvitations);
+            return Ok(viewInvitationsList);
         }
 
         // PUT: api/StudyGroupInvitations/5

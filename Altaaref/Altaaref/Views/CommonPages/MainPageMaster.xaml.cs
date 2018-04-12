@@ -34,6 +34,7 @@ namespace Altaaref.Views.CommonPages
                 MenuItems = new ObservableCollection<MainPageMenuItem>(new[]
                 {
                     new MainPageMenuItem { Id = 0, Title = "My Study Groups", Icon = "mystudygroups.png",TargetType = typeof(Views.CommonPages.MyStudyGroupsPage) },
+                    new MainPageMenuItem { Id = 1, Title = "Study Groups Invitations", Icon = "invitationicon.png",TargetType = typeof(Views.CommonPages.ViewStudyGroupInvitations) },
                 });
             }
             
