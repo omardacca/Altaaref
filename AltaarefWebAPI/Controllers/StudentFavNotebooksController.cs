@@ -49,8 +49,8 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudentFavNotebooks/5/5
-        [HttpGet("Details/{StudentId}/{NotebookId}")]
-        public async Task<IActionResult> GetStudentFavNotebookDetails([FromRoute] int StudentId, [FromRoute] int NotebookId)
+        [HttpGet("Details/{StudentId}")]
+        public async Task<IActionResult> GetStudentFavNotebookDetails([FromRoute] int StudentId)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studentFavNotebooks = _context.StudentFavNotebooks
-                .Where(m => m.NotebookId == NotebookId && m.StudentId == StudentId)
+                .Where(m => m.StudentId == StudentId)
                 .Select(fv => fv.Notebook);
 
             if (studentFavNotebooks == null)
