@@ -131,19 +131,17 @@ namespace Altaaref.ViewModels
             SelectedViewStudyGroup = null;
 
             // if clicked to attend - post him
-            if(vInvitation.VerificationStatus)
+            if(!vInvitation.VerificationStatus)
             {
                 PostAttendance(new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id });
                 PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id, VerificationStatus = true });
-                vInvitation.VerificationStatus = true;
             }
             else
             {
                 PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id, VerificationStatus = false });
                 DeleteAttendant(vInvitation.StudyGroup.Id);
-                vInvitation.VerificationStatus = false;
             }
-            //vInvitation.VerificationStatus = !vInvitation.VerificationStatus;
+            vInvitation.VerificationStatus = !vInvitation.VerificationStatus;
 
         }
     }
