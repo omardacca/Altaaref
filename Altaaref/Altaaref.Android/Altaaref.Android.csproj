@@ -222,5 +222,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\invitationicon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\menufavorite.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

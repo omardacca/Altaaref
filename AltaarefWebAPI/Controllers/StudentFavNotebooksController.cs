@@ -10,6 +10,13 @@ using AltaarefWebAPI.Models;
 
 namespace AltaarefWebAPI.Controllers
 {
+    public class ViewNotebookStudent
+    {
+        public Notebook Notebook { get; set; }
+        public int StudentId { get; set; }
+        public string StudentName { get; set; }
+    }
+
     [Produces("application/json")]
     [Route("api/StudentFavNotebooks")]
     public class StudentFavNotebooksController : Controller
@@ -59,7 +66,7 @@ namespace AltaarefWebAPI.Controllers
 
             var studentFavNotebooks = _context.StudentFavNotebooks
                 .Where(m => m.StudentId == StudentId)
-                .Select(fv => fv.Notebook);
+                .Select(fv => new ViewNotebookStudent { Notebook = fv.Notebook, StudentId = fv.StudentId, StudentName = fv.Student.FullName });
 
             if (studentFavNotebooks == null)
             {
