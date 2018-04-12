@@ -23,12 +23,11 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="5">
+                        <StackLayout Orientation="Horizontal" Padding="10">
                             <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
-                                <Label Text="{Binding Notebook.Name}" />
-                                <Label Text="{Binding StudentName, StringFormat='By {0}'}" FontSize="Medium" VerticalOptions="Start" />
-                                <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} Views'}" FontSize="Medium" VerticalOptions="Start" />
-                                
+                                <Label Text="{Binding Notebook.Name}" FontSize="Medium" />
+                                <Label Text="{Binding StudentName, StringFormat='By {0}'}" VerticalOptions="Start" />
+                                <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} Views'}" VerticalOptions="Start" />
 
                             </StackLayout>
                         </StackLayout>

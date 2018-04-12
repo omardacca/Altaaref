@@ -24,5 +24,12 @@ namespace Altaaref.Views.CommonPages
         {
             (BindingContext as ViewFavoriteNotebooksViewModel).ViewFavoriteNotebookSelected(e.Item as ViewNotebookStudent);
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            (BindingContext as ViewFavoriteNotebooksViewModel).GetFavoriteNotebooksList();
+        }
     }
 }

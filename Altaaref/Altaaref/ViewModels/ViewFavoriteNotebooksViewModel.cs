@@ -52,7 +52,7 @@ namespace Altaaref.ViewModels
             await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent.Notebook.Id));
         }
 
-        private async void GetFavoriteNotebooksList()
+        public async void GetFavoriteNotebooksList()
         {
             Busy = true;
             var url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/Details/" + StudentId;
