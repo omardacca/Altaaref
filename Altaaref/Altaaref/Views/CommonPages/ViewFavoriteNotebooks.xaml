@@ -25,9 +25,11 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" Padding="5">
                             <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
-                                <Label Text="{Binding Name}" />
+                                <Label Text="{Binding Notebook.Name}" />
                                 <Label Text="{Binding StudentName, StringFormat='By {0}'}" FontSize="Medium" VerticalOptions="Start" />
-                                <Label Text="{Binding StudyGroup.Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="Medium"/>
+                                <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} Views'}" FontSize="Medium" VerticalOptions="Start" />
+                                
+
                             </StackLayout>
                         </StackLayout>
                     </ViewCell>

@@ -47,6 +47,11 @@ namespace Altaaref.ViewModels
             GetFavoriteNotebooksList();
         }
 
+        public async void ViewFavoriteNotebookSelected(ViewNotebookStudent viewNotebookStudent)
+        {
+            await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent.Notebook.Id));
+        }
+
         private async void GetFavoriteNotebooksList()
         {
             Busy = true;
