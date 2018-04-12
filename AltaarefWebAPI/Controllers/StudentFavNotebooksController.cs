@@ -48,6 +48,27 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studentFavNotebooks);
         }
 
+        // GET: api/StudentFavNotebooks/5/5
+        [HttpGet("Details/{StudentId}/{NotebookId}")]
+        public async Task<IActionResult> GetStudentFavNotebookDetails([FromRoute] int StudentId, [FromRoute] int NotebookId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentFavNotebooks = _context.StudentFavNotebooks
+                .Where(m => m.NotebookId == NotebookId && m.StudentId == StudentId)
+                .Select(fv => fv.Notebook);
+
+            if (studentFavNotebooks == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studentFavNotebooks);
+        }
+
         // PUT: api/StudentFavNotebooks/5
         [HttpPut("{StudentId}/{NotebookId}")]
         public async Task<IActionResult> PutStudentFavNotebooks([FromRoute] int StudentId, [FromRoute] int NotebookId, [FromBody] StudentFavNotebooks studentFavNotebooks)
