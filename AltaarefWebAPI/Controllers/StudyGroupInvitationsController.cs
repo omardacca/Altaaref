@@ -44,28 +44,16 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studyGroupInvitations = _context.StudyGroupInvitations.Where(si => si.StudentId == StudentId);
-
-            var studentName = studyGroupInvitations.First().Student.FullName;
-
-            IList<ViewInvitation> viewInvitationsList = new List<ViewInvitation>();
-
-            await studyGroupInvitations
-                .ForEachAsync(m => viewInvitationsList.Add(
-                    new ViewInvitation
-                    {
-                        StudentName = studentName,
-                        CourseName = m.StudyGroup.Course.Name,
-                        StudyGroup = m.StudyGroup
-                    }));
+            var studyGroupInvitations = _context.StudyGroupInvitations.Where(si => si.StudentId == StudentId)
+                .Select(m => new ViewInvitation { StudentName = m.Student.FullName, CourseName = m.StudyGroup.Course.Name, StudyGroup = m.StudyGroup });
                 
 
-            if (viewInvitationsList == null)
+            if (studyGroupInvitations == null)
             {
                 return NotFound();
             }
 
-            return Ok(viewInvitationsList);
+            return Ok(studyGroupInvitations);
         }
 
         // PUT: api/StudyGroupInvitations/5
