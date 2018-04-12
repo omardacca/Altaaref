@@ -53,13 +53,13 @@ namespace Altaaref.ViewModels
             Busy = true;
             var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations";
 
-            string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<Student>>(content);
-            var stdView = new List<ViewInvitation>();
-            foreach (Student std in list)
-                stdView.Add(new ViewStudent { Student = std });
+            //string content = await _client.GetStringAsync(url);
+            //var list = JsonConvert.DeserializeObject<List<Student>>(content);
+            //var stdView = new List<ViewInvitation>();
+            //foreach (Student std in list)
+            //    stdView.Add(new ViewStudent { Student = std });
 
-            ViewInvitationList = new List<ViewInvitation>(stdView);
+            //ViewInvitationList = new List<ViewInvitation>(stdView);
             Busy = false;
         }
 

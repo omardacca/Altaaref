@@ -50,7 +50,7 @@ namespace AltaarefWebAPI.Controllers
 
             IList<ViewInvitation> viewInvitationsList = new List<ViewInvitation>();
 
-            var courseName = studyGroupInvitations
+            await studyGroupInvitations
                 .ForEachAsync(m => viewInvitationsList.Add(
                     new ViewInvitation
                     {
