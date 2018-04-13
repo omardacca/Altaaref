@@ -29,15 +29,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/HelpFaculties/5
-        [HttpGet("{HelpRequestId/FacultyId}")]
-        public async Task<IActionResult> GetHelpFaculty([FromRoute] int HelpRequestId, [FromRoute] int FacultyId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetHelpFaculty([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var helpFaculty = await _context.HelpFaculty.SingleOrDefaultAsync(m => m.HelpRequestId == HelpRequestId && m.FacultyId == FacultyId);
+            var helpFaculty = await _context.HelpFaculty.SingleOrDefaultAsync(m => m.HelpRequestId == id);
 
             if (helpFaculty == null)
             {
@@ -108,7 +108,7 @@ namespace AltaarefWebAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetHelpFaculty", new { helpFaculty.HelpRequestId, helpFaculty.FacultyId }, helpFaculty);
+            return CreatedAtAction("GetHelpFaculty", new { id = helpFaculty.HelpRequestId }, helpFaculty);
         }
 
         // DELETE: api/HelpFaculties/5
