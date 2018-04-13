@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -46,10 +47,12 @@ namespace Altaaref.ViewModels
 
         private void InitNewHelpRequest()
         {
-            NewHelpRequest = new HelpRequest();
-            NewHelpRequest.StudentId = StudentId;
-            NewHelpRequest.Message = "";
-            NewHelpRequest.IsGeneral = false;
+            NewHelpRequest = new HelpRequest
+            {
+                StudentId = StudentId,
+                Message = "",
+                IsGeneral = false
+            };
         }
 
         private async void OnSubmitButtonTapped(object obj)
@@ -59,11 +62,11 @@ namespace Altaaref.ViewModels
                 // if request not general - show next page to pick Faculties
                 if (!NewHelpRequest.IsGeneral)
                 {
-
+                    await _pageService.PushAsync(new Views.MutualHelp.SelectHelpRequestFaculties(NewHelpRequest));
                 }
                 else
                 {
-                    PostGeneralHelpRequest();
+                    await PostGeneralHelpRequest();
                 }
             }
             else
@@ -71,20 +74,27 @@ namespace Altaaref.ViewModels
 
         }
 
-        private async void PostGeneralHelpRequest()
+        private async Task<int> PostGeneralHelpRequest()
         {
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/HelpRequests/";
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/HelpRequests";
 
             var content = new StringContent(JsonConvert.SerializeObject(NewHelpRequest), Encoding.UTF8, "application/json");
             var response = _client.PostAsync(postUrl, content);
 
-            var InstertedHelpRequest = JsonConvert.DeserializeObject<HelpRequest>(await response.Result.Content.ReadAsStringAsync());
+            var InsertedHelpRequestId = JsonConvert.DeserializeObject<HelpRequest>(await response.Result.Content.ReadAsStringAsync());
 
 
             if (response.Result.IsSuccessStatusCode)
+            {
                 await _pageService.DisplayAlert("Created Successfully", "Help Request Created Successfully", "OK", "Cancel");
+                return InsertedHelpRequestId.Id;
+            }
             else
+            {
                 await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+                return -1;
+            }
+
 
         }
     }

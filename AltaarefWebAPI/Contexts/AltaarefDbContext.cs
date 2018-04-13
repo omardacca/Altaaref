@@ -193,5 +193,8 @@ namespace AltaarefWebAPI.Contexts
                 .HasForeignKey(hf => hf.HelpRequestId);
 
         }
+
+
+        public DbSet<AltaarefWebAPI.Models.HelpFaculty> HelpFaculty { get; set; }
     }
 }
