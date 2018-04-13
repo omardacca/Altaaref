@@ -101,7 +101,7 @@ namespace AltaarefWebAPI.Controllers
                 return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
 
-            return CreatedAtAction("GetHelpFacultyList", helpFacultiesList);
+            return CreatedAtAction("GetHelpFaculty", helpFacultiesList);
         }
 
         // DELETE: api/HelpFaculties/5
