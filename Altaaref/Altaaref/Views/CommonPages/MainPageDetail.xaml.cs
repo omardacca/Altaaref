@@ -26,5 +26,10 @@ namespace Altaaref.Views.CommonPages
         {
             await Navigation.PushAsync(new Views.StudyGroups.FindStudyGroup());
         }
+
+        async void HandleButtonNewHelpRequest(object sender, ItemTappedEventArgs e)
+        {
+            await Navigation.PushAsync(new Views.MutualHelp.NewHelpRequest());
+        }
     }
 }

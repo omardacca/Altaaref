@@ -8,5 +8,6 @@
 
         <Button Text="Add New Study Group" Clicked="HandleButtonAddNewStudyGroup" />
         <Button Text="Find Study Group" Clicked="HandleButtonFindStudyGroup" />
+        <Button Text="Add New Help Request" Clicked="HandleButtonNewHelpRequest" />
     </StackLayout>
 </ContentPage>
