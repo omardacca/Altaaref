@@ -87,11 +87,11 @@ namespace Altaaref.ViewModels
             GetCoursesAsync();
         }
 
-        private List<HelpFaculty> InitHelpFacultiesListBasedOnSelected()
+        private List<HelpFaculty> InitHelpFacultiesListBasedOnSelected(int HelpRequestId)
         {
             List<HelpFaculty> HFList = new List<HelpFaculty>();
             foreach (var faculty in FacultiesSelectedList)
-                HFList.Add(new HelpFaculty { HelpRequestId = newHelpRequest.Id, FacultyId = faculty.Id });
+                HFList.Add(new HelpFaculty { HelpRequestId = HelpRequestId, FacultyId = faculty.Id });
 
             return HFList;
         }
@@ -99,7 +99,7 @@ namespace Altaaref.ViewModels
         private async void OnSubmitButtonTapped(object obj)
         {
             var HelpRequestId = await PostHelpRequest();
-            List<HelpFaculty> helpFacultiesObjects = InitHelpFacultiesListBasedOnSelected();
+            List<HelpFaculty> helpFacultiesObjects = InitHelpFacultiesListBasedOnSelected(HelpRequestId);
             await PostHelpRequestFaculty(helpFacultiesObjects);
         }
 
