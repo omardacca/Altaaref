@@ -98,9 +98,13 @@ namespace Altaaref.ViewModels
 
         private async void OnSubmitButtonTapped(object obj)
         {
+            Busy = true;
             var HelpRequestId = await PostHelpRequest();
-            List<HelpFaculty> helpFacultiesObjects = InitHelpFacultiesListBasedOnSelected(HelpRequestId);
-            await PostHelpRequestFaculty(helpFacultiesObjects);
+            if(HelpRequestId >= 0)
+            {
+                List<HelpFaculty> helpFacultiesObjects = InitHelpFacultiesListBasedOnSelected(HelpRequestId);
+                await PostHelpRequestFaculty(helpFacultiesObjects);
+            }
         }
 
         public void FacultySelected(ViewFaculty faculty)
@@ -124,13 +128,12 @@ namespace Altaaref.ViewModels
 
         private async Task PostHelpRequestFaculty(List<HelpFaculty> helpFacultiesObjects)
         {
+            Busy = true;
+
             var postUrl = "https://altaarefapp.azurewebsites.net/api/HelpFaculties";
 
             var content = new StringContent(JsonConvert.SerializeObject(helpFacultiesObjects), Encoding.UTF8, "application/json");
             var response = _client.PostAsync(postUrl, content);
-
-            var InsertedHelpRequestId = JsonConvert.DeserializeObject<HelpFaculty>(await response.Result.Content.ReadAsStringAsync());
-
 
             if (response.Result.IsSuccessStatusCode)
             {
@@ -138,12 +141,16 @@ namespace Altaaref.ViewModels
             }
             else
             {
-                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+                await _pageService.DisplayAlert("Error", "Something went wrong adding Faculties to help request", "OK", "Cancel");
             }
+
+            Busy = false;
         }
 
         private async Task<int> PostHelpRequest()
         {
+            Busy = true;
+
             var postUrl = "https://altaarefapp.azurewebsites.net/api/HelpRequests";
 
             var content = new StringContent(JsonConvert.SerializeObject(newHelpRequest), Encoding.UTF8, "application/json");
@@ -154,12 +161,13 @@ namespace Altaaref.ViewModels
 
             if (response.Result.IsSuccessStatusCode)
             {
-                await _pageService.DisplayAlert("Created Successfully", "Help Request Created Successfully", "OK", "Cancel");
+                Busy = false;
                 return InsertedHelpRequestId.Id;
             }
             else
             {
-                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+                await _pageService.DisplayAlert("Error", "Something went wrong with adding Help Request", "OK", "Cancel");
+                Busy = false;
                 return -1;
             }
         }

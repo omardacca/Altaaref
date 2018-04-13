@@ -14,14 +14,15 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding SubmitButtonCommand}"/>
     </ContentPage.ToolbarItems>
-
-    <ActivityIndicator IsRunning="{Binding Busy}"
+    
+    <StackLayout>
+        <ActivityIndicator IsRunning="{Binding Busy}"
                            IsVisible="{Binding Busy}"
                            Color="Black"
                            VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" />
-    <StackLayout>
-        <ListView HasUnevenRows="True" ItemsSource="{Binding FacultiesList}"
+        <ListView IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}"
+                  HasUnevenRows="True" ItemsSource="{Binding FacultiesList}"
                   SelectedItem="{Binding SelectedFaculty, Mode=TwoWay}"
                   ItemTapped="Handle_ItemTapped">
             <ListView.ItemTemplate>
