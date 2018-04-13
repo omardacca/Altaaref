@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Altaaref.Views.MutualHelp
+namespace Altaaref.Views.CommonPages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ViewMyHelpRequests : ContentPage
+	public partial class MyHelpRequests : ContentPage
 	{
-		public ViewMyHelpRequests ()
+		public MyHelpRequests ()
 		{
 			InitializeComponent ();
 
-            BindingContext = new ViewMyHelpRequestsViewModel(new PageService());
+            BindingContext = new MyHelpRequestsViewModel(new PageService());
         }
 	}
 }
