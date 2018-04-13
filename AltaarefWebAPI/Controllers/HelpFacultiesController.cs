@@ -108,7 +108,7 @@ namespace AltaarefWebAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetHelpFaculty", new { id = helpFaculty.HelpRequestId }, helpFaculty);
+            return CreatedAtAction("GetHelpFaculty", new { HelpRequestId = helpFaculty.HelpRequestId, FacultyId = helpFaculty.FacultyId }, helpFaculty);
         }
 
         // DELETE: api/HelpFaculties/5
