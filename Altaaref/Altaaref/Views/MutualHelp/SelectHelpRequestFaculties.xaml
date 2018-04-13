@@ -1,12 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Altaaref.Views.MutualHelp.SelectHelpRequestFaculties">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             x:Class="Altaaref.Views.MutualHelp.SelectHelpRequestFaculties"
+             Title="Select Related Faculties">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding SubmitButtonCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ActivityIndicator IsRunning="{Binding Busy}"
+                           IsVisible="{Binding Busy}"
+                           Color="Black"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+    <StackLayout>
+        <ListView HasUnevenRows="True" ItemsSource="{Binding FacultiesList}"
+                  SelectedItem="{Binding SelectedFaculty, Mode=TwoWay}"
+                  ItemTapped="Handle_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                <Label Text="{Binding Faculty.Name}" />
+                            </StackLayout>
+                            <Image Source="xicon.png" IsVisible="{Binding IsImageVisible}"/>
+                            <Image Source="vicon.png" IsVisible="{Binding IsImageVisible, Converter={StaticResource boolConverter}}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
 </ContentPage>

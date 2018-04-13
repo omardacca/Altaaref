@@ -84,31 +84,24 @@ namespace AltaarefWebAPI.Controllers
 
         // POST: api/HelpFaculties
         [HttpPost]
-        public async Task<IActionResult> PostHelpFaculty([FromBody] HelpFaculty helpFaculty)
+        public async Task<IActionResult> PostHelpFaculty([FromBody] IEnumerable<HelpFaculty> helpFacultiesList)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.HelpFaculty.Add(helpFaculty);
+            _context.HelpFaculty.AddRange(helpFacultiesList);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (HelpFacultyExists(helpFaculty.HelpRequestId))
-                {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
-                }
-                else
-                {
-                    throw;
-                }
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
 
-            return CreatedAtAction("GetHelpFaculty", new { HelpRequestId = helpFaculty.HelpRequestId, FacultyId = helpFaculty.FacultyId }, helpFaculty);
+            return CreatedAtAction("GetHelpFacultyList", helpFacultiesList);
         }
 
         // DELETE: api/HelpFaculties/5
