@@ -56,7 +56,7 @@ namespace AltaarefWebAPI.Controllers
 
         // GET: api/HelpRequests/5
         [HttpGet("ByStudentId/{StudentId}")]
-        public async Task<IActionResult> c([FromRoute] int StudentId)
+        public async Task<IActionResult> GetHelpRequestByStudentId([FromRoute] int StudentId)
         {
             if (!ModelState.IsValid)
             {
