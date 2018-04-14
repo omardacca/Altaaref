@@ -11,12 +11,6 @@ using AltaarefWebAPI.Models;
 namespace AltaarefWebAPI.Controllers
 {
 
-    public class HelpRequestStudent
-    {
-        public HelpRequest HelpRequest { get; set; }
-        public Student Student { get; set; }
-    }
-
     [Produces("application/json")]
     [Route("api/HelpRequests")]
     public class HelpRequestsController : Controller
@@ -63,8 +57,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var helpRequest = _context.HelpRequest.Where(h => h.StudentId == StudentId)
-                .Select(m => new HelpRequestStudent { HelpRequest = m, Student = m.Student });
+            var helpRequest = _context.HelpRequest.Where(h => h.StudentId == StudentId);
 
             if (helpRequest == null)
             {
