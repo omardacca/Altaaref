@@ -19,5 +19,11 @@ namespace Altaaref.Views.CommonPages
 
             BindingContext = new MyHelpRequestsViewModel(new PageService());
         }
-	}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+        }
+    }
 }
