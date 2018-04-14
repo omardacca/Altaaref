@@ -40,12 +40,13 @@ namespace Altaaref.ViewModels
         public MyHelpRequestsViewModel(IPageService pageService)
         {
             _pageService = pageService;
+            GetMyHelpRequests();
         }
 
         private async void GetMyHelpRequests()
         {
             Busy = true;
-            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/ByStudentId/" + StudentId;
 
             string results = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<HelpRequest>>(results);

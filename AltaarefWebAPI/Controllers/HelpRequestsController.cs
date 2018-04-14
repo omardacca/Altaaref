@@ -10,6 +10,13 @@ using AltaarefWebAPI.Models;
 
 namespace AltaarefWebAPI.Controllers
 {
+
+    public class HelpRequestStudent
+    {
+        public HelpRequest HelpRequest { get; set; }
+        public Student Student { get; set; }
+    }
+
     [Produces("application/json")]
     [Route("api/HelpRequests")]
     public class HelpRequestsController : Controller
@@ -49,14 +56,15 @@ namespace AltaarefWebAPI.Controllers
 
         // GET: api/HelpRequests/5
         [HttpGet("ByStudentId/{StudentId}")]
-        public async Task<IActionResult> GetHelpRequestByStudentId([FromRoute] int StudentId)
+        public async Task<IActionResult> c([FromRoute] int StudentId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var helpRequest = _context.HelpRequest.Where(h => h.StudentId == StudentId);
+            var helpRequest = _context.HelpRequest.Where(h => h.StudentId == StudentId)
+                .Select(m => new HelpRequestStudent { HelpRequest = m, Student = m.Student });
 
             if (helpRequest == null)
             {
