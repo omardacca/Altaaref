@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
-             x:Class="Altaaref.Views.CommonPages.ViewMyHelpRequestsDetails">
+             x:Class="Altaaref.Views.CommonPages.ViewHelpRequestsDetails">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -38,10 +38,31 @@
 
         </StackLayout>
 
-        <StackLayout BackgroundColor="WhiteSmoke">
+        <StackLayout BackgroundColor="WhiteSmoke" Padding="3">
             <Label Text="{Binding StudentHelpRequest.Message}" />
             <Entry Placeholder="Add new comment.." Text="{Binding NewComment.Comment}" />
             <Button Text="Post Comment" Command="{Binding PostButtonCommand}" />
+        </StackLayout>
+
+        <StackLayout Padding="3">
+            <ListView HasUnevenRows="True" ItemsSource="{Binding AllComments}"
+                      SelectedItem="{Binding SelectedComment, Mode=TwoWay}"
+                      ItemTapped="HandleCommentTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Padding="5">
+                                <ic:CircleImage 
+                                    HeightRequest="50"
+                                    WidthRequest="50"
+                                    Aspect="AspectFill"
+                                    Source="{Binding Student.ProfilePicBlobUrl}"/>
+                                <Label Text="{Binding Comment}" VerticalOptions="Center" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
 
     </StackLayout>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:uc="clr-namespace:Altaaref.UserControls"
+             xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             x:Class="Altaaref.Views.MutualHelp.ViewHelpRequests">
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout>
+        <Button Text="Click" Clicked="HandleResultClicked" />
+    </StackLayout>
+
+    <StackLayout IsVisible="False">
+        <ActivityIndicator IsRunning="{Binding Busy}"
+                           IsVisible="{Binding Busy}"
+                           Color="Black"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+
+        <ListView SeparatorVisibility="None" HasUnevenRows="True" ItemsSource="{Binding HelpRequestsList}"
+                  SelectedItem="{Binding SelectedViewStudyGroup, Mode=TwoWay}"
+                  IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <uc:RoundedRectangleView CornerRadius="1" FillColor="LightGray" HeightRequest="200" WidthRequest="100" Padding="15"
+                            Clicked="HandleResultClicked"
+                            CommandParameter="{Binding .}">
+                            <uc:RoundedRectangleView.InnerContent>
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout>
+                                        <ic:CircleImage 
+                                            HeightRequest="70"
+                                            WidthRequest="70"
+                                            Aspect="AspectFill"
+                                            Source="{Binding Student.ProfilePicBlobUrl}" 
+                                            HorizontalOptions="StartAndExpand"
+                                            VerticalOptions="Start"
+                                            Margin="8"
+                                            BorderColor="Black"
+                                            BorderThickness="0.5"/>
+                                        <Label Text="{Binding Student.FullName}" FontSize="Default"  TextColor="White" Margin="8,0,0,0" HorizontalOptions="Center"/>
+                                        <Label Text="{Binding Views}" FontSize="Default" TextColor="White" Margin="8,0,0,0" HorizontalOptions="Center"/>
+                                        <Image Source="helpmet.png" IsVisible="{Binding IsMet}"/>
+                                        <Image Source="helpunmet.png" IsVisible="{Binding IsMet, Converter={StaticResource boolConverter}}" />
+                                    </StackLayout>
+                                    <StackLayout Spacing="0">
+                                        <Label Text="{Binding Message}" FontSize="Default" TextColor="White" VerticalOptions="Center"
+                                                HorizontalOptions="Center" Margin="15,15,0,0"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </uc:RoundedRectangleView.InnerContent>
+                        </uc:RoundedRectangleView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

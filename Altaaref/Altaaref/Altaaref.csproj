@@ -22,6 +22,9 @@
     <Compile Update="Views\CommonPages\MainPageMenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\CommonPages\ViewHelpRequestsDetails.xaml.cs">
+      <DependentUpon>ViewHelpRequestsDetails.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -46,7 +49,7 @@
     <EmbeddedResource Update="Views\CommonPages\ViewFavoriteNotebooks.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CommonPages\ViewMyHelpRequestsDetails.xaml">
+    <EmbeddedResource Update="Views\CommonPages\ViewHelpRequestsDetails.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CommonPages\ViewStudyGroupInvitations.xaml">
@@ -56,6 +59,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MutualHelp\SelectHelpRequestFaculties.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MutualHelp\ViewHelpRequests.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NotebooksDB\AddNewNotebook.xaml">

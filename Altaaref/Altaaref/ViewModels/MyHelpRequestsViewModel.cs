@@ -32,6 +32,7 @@ namespace Altaaref.ViewModels
 
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
+        
 
         private List<StudentHelpRequest> _helpRequestsList;
         public List<StudentHelpRequest> HelpRequestsList
@@ -66,7 +67,7 @@ namespace Altaaref.ViewModels
             //Deselect Item
             SelectedStudentHelpRequest = null;
 
-            _pageService.PushAsync(new Views.CommonPages.ViewMyHelpRequestsDetails(studentHelpRequest));
+            _pageService.PushAsync(new Views.CommonPages.ViewHelpRequestsDetails(studentHelpRequest));
         }
 
         public MyHelpRequestsViewModel(IPageService pageService)
@@ -79,8 +80,9 @@ namespace Altaaref.ViewModels
         private async void InitHelpRequests()
         {
             Busy = true;
-            string url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/ByStudentId/" + StudentId;
 
+            string url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/ByStudentId/" + StudentId;
+            
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudentHelpRequest>>(content);
 

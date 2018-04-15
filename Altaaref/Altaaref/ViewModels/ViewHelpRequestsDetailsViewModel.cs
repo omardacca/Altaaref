@@ -9,14 +9,40 @@ using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
 {
-    public class ViewMyHelpRequestsDetailsViewModel : BaseViewModel
+    public class StudentHelpComment
+    {
+        public int Id { get; set; }
+        public string Comment { get; set; }
+
+        public Student Student { get; set; }
+    }
+
+    public class ViewHelpRequestsDetailsViewModel : BaseViewModel
     {
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
         public StudentHelpRequest StudentHelpRequest { get; set; }
+
         public HelpRequestComment NewComment { get; set; }
 
+        private List<StudentHelpComment> _allComments;
+        public List<StudentHelpComment> AllComments
+        {
+            get { return _allComments; }
+            set
+            {
+                _allComments = value;
+                OnPropertyChanged(nameof(AllComments));
+            }
+        }
+
+        private StudentHelpComment _selectedComment;
+        public StudentHelpComment SelectedComment
+        {
+            get { return _selectedComment; }
+            set { SetValue(ref _selectedComment, value); }
+        }
 
         ICommand metImageCommand;
         public ICommand MetImageCommand { get => metImageCommand;}
@@ -63,6 +89,30 @@ namespace Altaaref.ViewModels
             Busy = false;
         }
 
+        private async void GetComments()
+        {
+            Busy = true;
+            string url = "https://altaarefapp.azurewebsites.net/api/HelpRequestComments/getComments/" + StudentHelpRequest.Id;
+
+            string content = await _client.GetStringAsync(url);
+            var commentslist = JsonConvert.DeserializeObject<List<StudentHelpComment>>(content);
+            AllComments = commentslist;
+
+            Busy = false;
+        }
+        
+        private void AddComment()
+        {
+            PostNewComment();
+
+            //AllComments.Add(new StudentHelpComment { Id = NewComment.Id, Comment = NewComment.Comment, Student = StudentHelpRequest.Student });
+
+            // Temporar solution.. above commented line isn't working..
+            GetComments();
+
+            ResetNewComment();
+        }
+
         private async void PostNewComment()
         {
             var postUrl = "https://altaarefapp.azurewebsites.net/api/HelpRequestComments";
@@ -80,7 +130,12 @@ namespace Altaaref.ViewModels
             }
         }
 
-        public ViewMyHelpRequestsDetailsViewModel(IPageService pageService, StudentHelpRequest studentHelpRequest)
+        private void ResetNewComment()
+        {
+            NewComment.Comment = "";
+        }
+
+        public ViewHelpRequestsDetailsViewModel(IPageService pageService, StudentHelpRequest studentHelpRequest)
         {
             _pageService = pageService;
             this.StudentHelpRequest = studentHelpRequest;
@@ -90,8 +145,16 @@ namespace Altaaref.ViewModels
                 HelpRequestId = this.StudentHelpRequest.Id
             };
 
+            GetComments();
+
             metImageCommand = new Command(HandleMetImageTap);
-            postButtonCommand = new Command(PostNewComment);
+            postButtonCommand = new Command(AddComment);
+        }
+
+        public void HanldeCommentTapped(StudentHelpComment comment)
+        {
+            // deselect comment
+            SelectedComment = null;
         }
     }
 }
