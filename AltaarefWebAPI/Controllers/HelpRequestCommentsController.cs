@@ -47,6 +47,26 @@ namespace AltaarefWebAPI.Controllers
             return Ok(helpRequestComment);
         }
 
+        // GET: api/HelpRequestComments/5
+        [HttpGet("getComments/{HelpRequestId}")]
+        public async Task<IActionResult> GetHelpRequestCommentsList([FromRoute] int HelpRequestId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var helpRequestComment = _context.HelpRequestComment.Where(m => m.HelpRequestId == HelpRequestId)
+                .Select(hc => new StudentHelpComment { Id = hc.Id, Comment = hc.Comment, Student = hc.HelpRequest.Student });
+
+            if (helpRequestComment == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(helpRequestComment);
+        }
+
         // PUT: api/HelpRequestComments/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHelpRequestComment([FromRoute] int id, [FromBody] HelpRequestComment helpRequestComment)

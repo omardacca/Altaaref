@@ -40,6 +40,8 @@
 
         <StackLayout BackgroundColor="WhiteSmoke">
             <Label Text="{Binding StudentHelpRequest.Message}" />
+            <Entry Placeholder="Add new comment.." Text="{Binding NewComment.Comment}" />
+            <Button Text="Post Comment" Command="{Binding PostButtonCommand}" />
         </StackLayout>
 
     </StackLayout>

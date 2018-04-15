@@ -15,9 +15,14 @@ namespace Altaaref.ViewModels
         private readonly IPageService _pageService;
 
         public StudentHelpRequest StudentHelpRequest { get; set; }
+        public HelpRequestComment NewComment { get; set; }
+
 
         ICommand metImageCommand;
         public ICommand MetImageCommand { get => metImageCommand;}
+
+        ICommand postButtonCommand;
+        public ICommand PostButtonCommand { get => postButtonCommand; }
 
         private bool _busy;
         public bool Busy
@@ -58,12 +63,35 @@ namespace Altaaref.ViewModels
             Busy = false;
         }
 
+        private async void PostNewComment()
+        {
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/HelpRequestComments";
+
+            var content = new StringContent(JsonConvert.SerializeObject(NewComment), Encoding.UTF8, "application/json");
+            var response = _client.PostAsync(postUrl, content);
+
+            if (response.Result.IsSuccessStatusCode)
+            {
+                await _pageService.DisplayAlert("Comment Posted", "Comment Posted Successfully", "OK", "Cancel");
+            }
+            else
+            {
+                await _pageService.DisplayAlert("Error", "Something went wrong with commenting", "OK", "Cancel");
+            }
+        }
+
         public ViewMyHelpRequestsDetailsViewModel(IPageService pageService, StudentHelpRequest studentHelpRequest)
         {
             _pageService = pageService;
             this.StudentHelpRequest = studentHelpRequest;
 
+            this.NewComment = new HelpRequestComment
+            {
+                HelpRequestId = this.StudentHelpRequest.Id
+            };
+
             metImageCommand = new Command(HandleMetImageTap);
+            postButtonCommand = new Command(PostNewComment);
         }
     }
 }
