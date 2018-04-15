@@ -47,6 +47,7 @@ namespace Altaaref.ViewModels
         {
             _pageService = pageService;
             
+            InitHelpRequests();
         }
 
         public ViewHelpRequestsViewModel(IPageService pageService, bool type)
@@ -54,6 +55,8 @@ namespace Altaaref.ViewModels
             _pageService = pageService;
 
             IsGeneral = type;
+
+            InitHelpRequests();
         }
 
         public async void HandleItemClicked(StudentHelpRequest studentHelpRequest)
@@ -69,6 +72,8 @@ namespace Altaaref.ViewModels
 
             if (IsGeneral)
                 url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/General";
+            else
+                url = "https://altaarefapp.azurewebsites.net/api/HelpFaculties";
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudentHelpRequest>>(content);

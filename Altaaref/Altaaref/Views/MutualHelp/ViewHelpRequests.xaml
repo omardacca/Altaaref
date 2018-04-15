@@ -14,10 +14,6 @@
     </ContentPage.Resources>
 
     <StackLayout>
-        <Button Text="Click" Clicked="HandleResultClicked" />
-    </StackLayout>
-
-    <StackLayout IsVisible="False">
         <ActivityIndicator IsRunning="{Binding Busy}"
                            IsVisible="{Binding Busy}"
                            Color="Black"

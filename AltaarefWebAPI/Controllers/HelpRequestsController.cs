@@ -57,7 +57,17 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var helpRequest = _context.HelpRequest.Where(h => h.IsGeneral == true);
+            var helpRequest = _context.HelpRequest.Where(h => h.IsGeneral == true)
+                .Select(h =>
+                new HelpRequest
+                {
+                    Id = h.Id,
+                    IsGeneral = h.IsGeneral,
+                    IsMet = h.IsMet,
+                    Message = h.Message,
+                    Views = h.Views,
+                    Student = h.Student
+                });
 
             if (helpRequest == null)
             {
