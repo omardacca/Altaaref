@@ -83,8 +83,8 @@ namespace Altaaref.UserControls
 
                     if (_innerContent != null)
                     {
-                        _innerContent.HorizontalOptions = LayoutOptions.Center;
-                        _innerContent.VerticalOptions = LayoutOptions.Center;
+//                        _innerContent.HorizontalOptions = LayoutOptions.Center;
+//                        _innerContent.VerticalOptions = LayoutOptions.Center;
                         _root.Children.Add(_innerContent);
                     }
                 }

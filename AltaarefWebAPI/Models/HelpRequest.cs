@@ -17,5 +17,7 @@ namespace AltaarefWebAPI.Models
         public Student Student { get; set; }
 
         public ICollection<HelpFaculty> HelpFaculties { get; set; }
+        public ICollection<HelpRequestComment> Comments { get; set; }
+
     }
 }

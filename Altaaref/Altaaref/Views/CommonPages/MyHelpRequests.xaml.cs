@@ -1,4 +1,5 @@
-﻿using Altaaref.ViewModels;
+﻿using Altaaref.UserControls;
+using Altaaref.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,11 @@ namespace Altaaref.Views.CommonPages
             BindingContext = new MyHelpRequestsViewModel(new PageService());
         }
 
-        protected override void OnAppearing()
+        void HandleResultClicked(object sender, ItemTappedEventArgs e)
         {
-            base.OnAppearing();
+            var rrv = sender as RoundedRectangleView;
 
+            (BindingContext as MyHelpRequestsViewModel).HandleItemClicked(rrv.CommandParameter as StudentHelpRequest);
         }
     }
 }
