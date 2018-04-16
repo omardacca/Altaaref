@@ -86,7 +86,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var helpRequest = _context.HelpRequest.Where(h => h.IsGeneral == false);
+            var helpRequest = _context.HelpRequest.Where(h => h.IsGeneral == false && h.Date >= afterDate);
 
             if (helpRequest == null)
             {
