@@ -48,6 +48,26 @@ namespace AltaarefWebAPI.Controllers
         }
 
 
+        // GET: api/HelpFaculties/5
+        [HttpGet("{facultyId}/{*afterDate}")]
+        public async Task<IActionResult> GetHelpFacultyByFacultyId([FromRoute] int facultyId, DateTime afterDate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var helpFaculty = _context.HelpFaculty.Where(h => h.FacultyId == facultyId && h.HelpRequest.Date >= afterDate);
+
+            if (helpFaculty == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(helpFaculty);
+        }
+
+
         // PUT: api/HelpFaculties/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHelpFaculty([FromRoute] int id, [FromBody] HelpFaculty helpFaculty)

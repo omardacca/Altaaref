@@ -11,6 +11,7 @@ namespace Altaaref.Models
         public bool IsGeneral { get; set; }
         public bool IsMet { get; set; }
         public int Views { get; set; }
+        public DateTime Date { get; set; }
 
         public int StudentId { get; set; }
     }
