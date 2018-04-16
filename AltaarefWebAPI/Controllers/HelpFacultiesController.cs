@@ -47,33 +47,6 @@ namespace AltaarefWebAPI.Controllers
             return Ok(helpFaculty);
         }
 
-        // GET: api/HelpFaculties/5
-        [HttpGet("getbylist/{listOfFaculties}")]
-        public async Task<IActionResult> GetHelpRequestByFaculty([FromRoute] int[] listOfFaculties)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            List<IQueryable<HelpRequest>> list = new List<IQueryable<HelpRequest>>();
-            foreach(var item in listOfFaculties)
-            {
-                var x = _context.HelpFaculty.Where(h => h.FacultyId == item)
-                    .Select(h => h.HelpRequest).Distinct();
-                list.Add(x);
-            }
-            var distinclist = list;
-
-//            var helpFaculty = await _context.HelpFaculty.Where()
-
-            if (distinclist == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(distinclist);
-        }
 
         // PUT: api/HelpFaculties/5
         [HttpPut("{id}")]
