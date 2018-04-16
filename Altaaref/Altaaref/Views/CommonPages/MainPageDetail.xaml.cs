@@ -36,5 +36,10 @@ namespace Altaaref.Views.CommonPages
         {
             await Navigation.PushAsync(new Views.MutualHelp.ViewHelpRequests(true));
         }
+
+        async void HandleButtonMainViewHelpRequest(object sender, ItemTappedEventArgs e)
+        {
+            await Navigation.PushAsync(new Views.MutualHelp.MainHelpRequest());
+        }
     }
 }

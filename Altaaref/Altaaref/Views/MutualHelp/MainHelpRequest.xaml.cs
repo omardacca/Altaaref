@@ -12,27 +12,20 @@ using Xamarin.Forms.Xaml;
 namespace Altaaref.Views.MutualHelp
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ViewHelpRequests : ContentPage
+	public partial class MainHelpRequest : ContentPage
 	{
-		public ViewHelpRequests ()
+		public MainHelpRequest ()
 		{
 			InitializeComponent ();
 
-            BindingContext = new ViewHelpRequestsViewModel(new PageService());
-        }
-
-        public ViewHelpRequests (bool type)
-        {
-            InitializeComponent();
-
-            BindingContext = new ViewHelpRequestsViewModel(new PageService(), type);
+            BindingContext = new MainHelpRequestViewModel(new PageService());
         }
 
         void HandleResultClicked(object sender, ItemTappedEventArgs e)
         {
             var rrv = sender as RoundedRectangleView;
 
-            (BindingContext as ViewHelpRequestsViewModel).HandleItemClicked(rrv.CommandParameter as StudentHelpRequest);
-        }   
+            (BindingContext as MainHelpRequestViewModel).HandleResultClicked(rrv.CommandParameter as StudentHelpRequest);
+        }
     }
 }

@@ -78,6 +78,25 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/HelpRequests/5
+        [HttpGet("AllNotGeneral/{*afterDate}")]
+        public async Task<IActionResult> GetNotGeneralHelpRequest(DateTime afterDate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var helpRequest = _context.HelpRequest.Where(h => h.IsGeneral == false);
+
+            if (helpRequest == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(helpRequest);
+        }
+
+        // GET: api/HelpRequests/5
         [HttpGet("ByStudentId/{StudentId}")]
         public async Task<IActionResult> GetHelpRequestByStudentId([FromRoute] int StudentId)
         {

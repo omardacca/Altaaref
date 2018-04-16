@@ -12,6 +12,7 @@ namespace AltaarefWebAPI.Models
         public bool IsGeneral { get; set; } = false;
         public bool IsMet { get; set; } = false;
         public int Views { get; set; } = 0;
+        public DateTime Date { get; set; }
 
         public int StudentId { get; set; }
         public Student Student { get; set; }
