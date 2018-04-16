@@ -49,7 +49,7 @@ namespace AltaarefWebAPI.Controllers
 
         // GET: api/HelpFaculties/5
         [HttpGet("getbylist/{listOfFaculties}")]
-        public async Task<IActionResult> c([FromRoute] int[] listOfFaculties)
+        public async Task<IActionResult> GetHelpRequestByFaculty([FromRoute] int[] listOfFaculties)
         {
             if (!ModelState.IsValid)
             {
