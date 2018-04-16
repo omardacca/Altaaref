@@ -63,7 +63,7 @@ namespace AltaarefWebAPI.Controllers
                     .Select(h => h.HelpRequest).Distinct();
                 list.Add(x);
             }
-            var distinclist = list.Distinct();
+            var distinclist = list;
 
 //            var helpFaculty = await _context.HelpFaculty.Where()
 
