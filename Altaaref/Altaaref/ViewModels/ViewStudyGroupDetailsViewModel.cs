@@ -16,8 +16,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private StudyGroup _studyGroup;
-        public StudyGroup StudyGroup
+        private Models.StudyGroup _studyGroup;
+        public Models.StudyGroup StudyGroup
         {
             get { return _studyGroup; }
             private set { SetValue(ref _studyGroup, value); }
@@ -57,7 +57,7 @@ namespace Altaaref.ViewModels
             }
         }
 
-        public ViewStudyGroupDetailsViewModel(StudyGroup studyGroup, IPageService pageService)
+        public ViewStudyGroupDetailsViewModel(Models.StudyGroup studyGroup, IPageService pageService)
         {
             _pageService = pageService;
             StudyGroup = studyGroup;

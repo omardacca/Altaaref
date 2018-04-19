@@ -16,8 +16,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private List<StudyGroup> _studyGroupList;
-        public List<StudyGroup> StudyGroupList
+        private List<Models.StudyGroup> _studyGroupList;
+        public List<Models.StudyGroup> StudyGroupList
         {
             get
             {
@@ -58,7 +58,7 @@ namespace Altaaref.ViewModels
             await InitStudyGroupListAsync();
         }
 
-        public void StudyGroupItemClicked(StudyGroup studyGroupClicked)
+        public void StudyGroupItemClicked(Models.StudyGroup studyGroupClicked)
         {
             _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(studyGroupClicked));
         }
@@ -69,8 +69,8 @@ namespace Altaaref.ViewModels
             string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById/" + StudentId;
 
             string results = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<StudyGroup>>(results);
-            StudyGroupList = new List<StudyGroup>(list);
+            var list = JsonConvert.DeserializeObject<List<Models.StudyGroup>>(results);
+            StudyGroupList = new List<Models.StudyGroup>(list);
 
             Busy = false;
         }

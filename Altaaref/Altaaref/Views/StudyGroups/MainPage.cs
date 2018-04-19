@@ -1,4 +1,6 @@
-﻿using Altaaref.ViewModels;
+﻿using Altaaref.Models;
+using Altaaref.ViewModels;
+using Altaaref.ViewModels.StudyGroup;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ namespace Altaaref.Views.StudyGroups
         public MainPage()
         {
 
-            BindingContext = new MyStudyGroupsViewModel(new PageService());
+            BindingContext = new MainPageViewModel(new PageService());
 
             BackgroundColor = Color.White;
 
@@ -94,10 +96,22 @@ namespace Altaaref.Views.StudyGroups
                 {
                     StackLayout slView = new StackLayout();
 
-                    var lb = new Label();
-                    lb.SetBinding(Label.TextProperty, "Message");
+                    var coursenamelabel = new Label();
+                    coursenamelabel.SetBinding(Label.TextProperty, "CourseName");
 
-                    slView.Children.Add(lb);
+                    var studentnamelabel = new Label();
+                    studentnamelabel.SetBinding(Label.TextProperty, "StudentName");
+
+                    var messagelabel = new Label();
+                    messagelabel.SetBinding(Label.TextProperty, "Message");
+
+                    var datelabel = new Label();
+                    datelabel.SetBinding(Label.TextProperty, "Date");
+
+                    slView.Children.Add(coursenamelabel);
+                    slView.Children.Add(studentnamelabel);
+                    slView.Children.Add(messagelabel);
+                    slView.Children.Add(datelabel);
 
                     ViewCell vc = new ViewCell() { View = slView };
 
@@ -105,7 +119,7 @@ namespace Altaaref.Views.StudyGroups
                 })
             };
 
-            xscrol.SetBinding(UserControls.XScrollView.ItemsSourceProperty, new Binding("BindingContext.StudyGroupList", source: this));
+            xscrol.SetBinding(UserControls.XScrollView.ItemsSourceProperty, new Binding("BindingContext.StudyGroupsList", source: this));
 
 
             RelativeLayout relativeLayout = new RelativeLayout()
@@ -201,15 +215,6 @@ namespace Altaaref.Views.StudyGroups
             this.Content = relativeLayout;
         }
 
-        private HttpClient _client = new HttpClient();
 
-        private async void GetStudyGroupsByStudentId(int studentId)
-        {
-            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById" + studentId;
-
-            string content = await _client.GetStringAsync(url);
-            var course = JsonConvert.DeserializeObject<Courses>(content);
-            Course = course;
-        }
     }
 }

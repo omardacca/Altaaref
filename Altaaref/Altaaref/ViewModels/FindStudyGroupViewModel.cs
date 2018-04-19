@@ -16,8 +16,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private StudyGroup _studyGroup;
-        public StudyGroup StudyGroup
+        private Models.StudyGroup _studyGroup;
+        public Models.StudyGroup StudyGroup
         {
             get { return _studyGroup; }
             private set { SetValue(ref _studyGroup, value); }
@@ -75,7 +75,7 @@ namespace Altaaref.ViewModels
 
         async void InitAsync()
         {
-            StudyGroup = new StudyGroup() { Date = DateTime.Today, Time = DateTime.Now.AddHours(5) };
+            StudyGroup = new Models.StudyGroup() { Date = DateTime.Today, Time = DateTime.Now.AddHours(5) };
             CoursesNameList = new List<string>();
             HandleSubmitFind = new Command(OnHandleFindSubmitButtonTapped);
             await GetCoursesAsync();

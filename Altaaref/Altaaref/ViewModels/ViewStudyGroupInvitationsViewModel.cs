@@ -11,7 +11,7 @@ namespace Altaaref.ViewModels
     {
         public string StudentName { get; set; }
         public string CourseName { get; set; }
-        public StudyGroup StudyGroup { get; set; }
+        public Models.StudyGroup StudyGroup { get; set; }
 
         private bool _VerificationStatus;
         public bool VerificationStatus

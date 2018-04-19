@@ -15,8 +15,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private StudyGroup _studyGroup;
-        public StudyGroup StudyGroup
+        private Models.StudyGroup _studyGroup;
+        public Models.StudyGroup StudyGroup
         {
             get { return _studyGroup; }
             private set { SetValue(ref _studyGroup, value); }
@@ -76,7 +76,7 @@ namespace Altaaref.ViewModels
         async void Init()
         {
             Busy = true;
-            StudyGroup = new StudyGroup();
+            StudyGroup = new Models.StudyGroup();
             CoursesNameList = new List<string>();
             HandleSubmition = new Command(OnSubmitButtonTapped);
             await GetCoursesAsync();
@@ -121,7 +121,7 @@ namespace Altaaref.ViewModels
             var content = new StringContent(JsonConvert.SerializeObject(StudyGroup), Encoding.UTF8, "application/json");
             var response= _client.PostAsync(postUrl, content);
             
-            var StudyGroupInserted = JsonConvert.DeserializeObject<StudyGroup>(await response.Result.Content.ReadAsStringAsync());
+            var StudyGroupInserted = JsonConvert.DeserializeObject<Models.StudyGroup>(await response.Result.Content.ReadAsStringAsync());
 
 
             if (response.Result.IsSuccessStatusCode)

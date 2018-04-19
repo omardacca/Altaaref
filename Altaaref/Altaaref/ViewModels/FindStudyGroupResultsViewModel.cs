@@ -14,15 +14,15 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private StudyGroup _studyGroup;
-        public StudyGroup StudyGroup
+        private Models.StudyGroup _studyGroup;
+        public Models.StudyGroup StudyGroup
         {
             get { return _studyGroup; }
             private set { SetValue(ref _studyGroup, value); }
         }
 
-        private List<StudyGroup> _studyGroupList;
-        public List<StudyGroup> StudyGroupList
+        private List<Models.StudyGroup> _studyGroupList;
+        public List<Models.StudyGroup> StudyGroupList
         {
             get
             {
@@ -35,15 +35,15 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private StudyGroup _selectedStudyGroup;
-        public StudyGroup SelectedStudyGroup
+        private Models.StudyGroup _selectedStudyGroup;
+        public Models.StudyGroup SelectedStudyGroup
         {
             get { return _selectedStudyGroup; }
             set { SetValue(ref _selectedStudyGroup, value); }
         }
 
 
-        public FindStudyGroupResultsViewModel(StudyGroup studyGroup, IPageService pageService)
+        public FindStudyGroupResultsViewModel(Models.StudyGroup studyGroup, IPageService pageService)
         {
             _pageService = pageService;
 
@@ -51,7 +51,7 @@ namespace Altaaref.ViewModels
             InitAsync();
         }
 
-        public void StudyGroupResultItemClicked(StudyGroup studyGroupClicked)
+        public void StudyGroupResultItemClicked(Models.StudyGroup studyGroupClicked)
         {
             _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(studyGroupClicked));
         }
@@ -66,8 +66,8 @@ namespace Altaaref.ViewModels
             string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + StudyGroup.CourseId + "/" + StudyGroup.Date.Date;
 
             string results = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<StudyGroup>>(results);
-            StudyGroupList = new List<StudyGroup>(list);
+            var list = JsonConvert.DeserializeObject<List<Models.StudyGroup>>(results);
+            StudyGroupList = new List<Models.StudyGroup>(list);
         }
     }
 }
