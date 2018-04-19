@@ -5,8 +5,42 @@
     <Application.Resources>
 
 		<!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <!--            <converters:SecondsToTimeConverter x:Key="SecondsToTimeConverter" /> -->
 
-        
-        
-	</Application.Resources>
+            <!-- Styles for common elements -->
+            <Style TargetType="Label">
+                <Setter Property="FontFamily">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <OnPlatform.Android>circular_book.ttf#CircularSpotifyTxT-Book</OnPlatform.Android>
+                        </OnPlatform>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Styles for common elements -->
+            <Style TargetType="Label" x:Key="BoldLabel">
+                <Setter Property="FontFamily">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <OnPlatform.Android>circular_bold.ttf#CircularSpotifyTxT-Bold</OnPlatform.Android>
+                        </OnPlatform>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="Label" x:Key="MediumLabel">
+                <Setter Property="FontFamily">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <OnPlatform.Android>circular_medium.ttf#CircularSpotifyTxT-Med</OnPlatform.Android>
+                        </OnPlatform>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+
+
+
+    </Application.Resources>
 </Application>

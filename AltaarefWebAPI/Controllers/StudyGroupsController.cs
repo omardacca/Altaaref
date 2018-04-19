@@ -10,6 +10,17 @@ using AltaarefWebAPI.Models;
 
 namespace AltaarefWebAPI.Controllers
 {
+
+    public class StudyGroupView
+    {
+        public int CourseId { get; set; }
+        public string CourseName { get; set; }
+        public string StudentName { get; set; }
+        public string Message { get; set; }
+        public DateTime Date { get; set; }
+    }
+
+
     [Produces("application/json")]
     [Route("api/StudyGroups")]
     public class StudyGroupsController : Controller
@@ -47,6 +58,7 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroup);
         }
 
+
         // GET: api/StudyGroups/5
         [HttpGet("ById/{studentId}")]
         public async Task<IActionResult> GetStudyGroupByStudentId([FromRoute] int studentId)
@@ -56,7 +68,15 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studyGroup = _context.StudyGroups.Where(m => m.StudentId == studentId);
+            var studyGroup = _context.StudyGroups.Where(m => m.StudentId == studentId)
+                .Select(sg => new StudyGroupView
+                {
+                    CourseId = sg.CourseId,
+                    CourseName = sg.Course.Name,
+                    StudentName = sg.Student.FullName,
+                    Message = sg.Message,
+                    Date = sg.Date
+                });
 
             if (studyGroup == null)
             {

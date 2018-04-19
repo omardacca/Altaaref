@@ -27,5 +27,6 @@ namespace Altaaref.Views.MutualHelp
 
             (BindingContext as MainHelpRequestViewModel).HandleResultClicked(rrv.CommandParameter as StudentHelpRequest);
         }
+
     }
 }
