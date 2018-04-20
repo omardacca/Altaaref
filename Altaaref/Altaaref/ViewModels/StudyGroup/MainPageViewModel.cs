@@ -36,7 +36,7 @@ namespace Altaaref.ViewModels.StudyGroup
 
         private async void GetStudyGroupsByStudentId(int studentId)
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/ById/StudyGroups/" + studentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById/" + studentId;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(content);

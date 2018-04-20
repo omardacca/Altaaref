@@ -12,11 +12,12 @@ namespace Altaaref.Views.StudyGroups
 {
     public class MainPage : ContentPage
     {
+
         public MainPage()
         {
-
             BindingContext = new MainPageViewModel(new PageService());
 
+            NavigationPage.SetHasNavigationBar(this, false);
             BackgroundColor = Color.White;
 
             var backgroundImage = new Image()
@@ -38,10 +39,10 @@ namespace Altaaref.Views.StudyGroups
                 Source = new FileImageSource() { File = "dome.png" }
             };
 
-            var label = new Label()
+            var studygrouplabel = new Label()
             {
                 Text = "Study Groups",
-                FontSize = 18
+                FontSize = 26
             };
 
             var addimage = new Image()
@@ -89,29 +90,32 @@ namespace Altaaref.Views.StudyGroups
             };
 
 
-            var xscrol = new UserControls.XScrollView()
+            var xscrol = new ListView()
             {
-                HeightRequest = 200,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 ItemTemplate = new DataTemplate(() =>
                 {
                     StackLayout slView = new StackLayout();
+                    StackLayout firstrowsl = new StackLayout() { Orientation = StackOrientation.Horizontal };
 
                     var coursenamelabel = new Label();
                     coursenamelabel.SetBinding(Label.TextProperty, "CourseName");
 
                     var studentnamelabel = new Label();
-                    studentnamelabel.SetBinding(Label.TextProperty, "StudentName");
+                    studentnamelabel.SetBinding(Label.TextProperty, "StudentName", stringFormat: "By {0}");
 
                     var messagelabel = new Label();
                     messagelabel.SetBinding(Label.TextProperty, "Message");
 
                     var datelabel = new Label();
-                    datelabel.SetBinding(Label.TextProperty, "Date");
+                    datelabel.SetBinding(Label.TextProperty, "Date", stringFormat: "{0:dd/MM/yyyy}");
 
-                    slView.Children.Add(coursenamelabel);
+                    firstrowsl.Children.Add(coursenamelabel);
+                    firstrowsl.Children.Add(datelabel);
+
+                    slView.Children.Add(firstrowsl);
                     slView.Children.Add(studentnamelabel);
                     slView.Children.Add(messagelabel);
-                    slView.Children.Add(datelabel);
 
                     ViewCell vc = new ViewCell() { View = slView };
 
@@ -119,7 +123,7 @@ namespace Altaaref.Views.StudyGroups
                 })
             };
 
-            xscrol.SetBinding(UserControls.XScrollView.ItemsSourceProperty, new Binding("BindingContext.StudyGroupsList", source: this));
+            xscrol.SetBinding(ListView.ItemsSourceProperty, new Binding("BindingContext.StudyGroupsList", source: this));
 
 
             RelativeLayout relativeLayout = new RelativeLayout()
@@ -164,10 +168,10 @@ namespace Altaaref.Views.StudyGroups
             );
 
             relativeLayout.Children.Add(
-                label,
+                studygrouplabel,
                 Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Width * .35;
+                    return parent.Width * .32;
                 }),
                 Constraint.RelativeToParent((parent) =>
                 {
@@ -179,7 +183,7 @@ namespace Altaaref.Views.StudyGroups
                 addframe,
                 Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Width * .30;
+                    return parent.Width * .32;
                 }),
                 Constraint.RelativeToParent((parent) =>
                 {
@@ -191,7 +195,7 @@ namespace Altaaref.Views.StudyGroups
                 searchframe,
                 Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Width * .50;
+                    return parent.Width * .52;
                 }),
                 Constraint.RelativeToParent((parent) =>
                 {
@@ -203,7 +207,7 @@ namespace Altaaref.Views.StudyGroups
                 xscrol,
                 Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Width * 0.1;
+                    return parent.Width * 0.05;
                 }),
                 Constraint.RelativeToParent((parent) =>
                 {
