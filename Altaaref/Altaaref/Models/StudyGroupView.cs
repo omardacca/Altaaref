@@ -11,6 +11,7 @@ namespace Altaaref.Models
         public string StudentName { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
-        public string ProfilePicBlobUrl { get; set; }
+        public DateTime Time { get; set; }
+        public int NumberOfAttendants { get; set; }
     }
 }

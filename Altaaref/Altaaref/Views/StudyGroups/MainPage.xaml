@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates"
+             x:Class="Altaaref.Views.StudyGroups.MainPage"
+             BackgroundColor="White">
+    <ContentPage.Content>
+        <RelativeLayout HeightRequest="100">
+
+            <RelativeLayout.Resources>
+                <ResourceDictionary>
+                    <Color x:Key="HeaderColor">
+                        <x:Arguments>
+                            <x:Double>0</x:Double>
+                            <x:Double>0</x:Double>
+                            <x:Double>0</x:Double>
+                            <x:Double>.8</x:Double>
+                        </x:Arguments>
+                    </Color>    
+                </ResourceDictionary>
+            </RelativeLayout.Resources>
+            
+            <Image Source="studystudents.png" Aspect="AspectFill" IsOpaque="True" Opacity="0.8" 
+                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Constant=0}"
+                   RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.5,Constant=0}"/>
+
+            <BoxView Color="{StaticResource HeaderColor}" Opacity="0.8" 
+                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Constant=0}"
+                   RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.5,Constant=0}"/>
+
+            <Image Source="dome.png" Aspect="AspectFill" AnchorX="-10" HeightRequest="75"
+                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.5,Constant=-50}"
+                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Constant=10}" />
+
+            <template:StudyGroupMainPageTemplate
+                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.7}"
+                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.01}"/>
+
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>

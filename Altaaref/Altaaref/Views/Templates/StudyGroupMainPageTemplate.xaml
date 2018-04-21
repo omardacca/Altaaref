@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Altaaref.Views.Templates.StudyGroupMainPageTemplate">
+    <ContentView.Content>
+        <StackLayout Margin="5" HorizontalOptions="Center">
+            <Label Text="{Binding CourseName}" FontSize="15" />
+            <StackLayout>
+                <Label Text="{Binding Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="15" />
+                <Label Text="-" FontSize="15"/>
+                <Label Text="{Binding Time, StringFormat='{0:HH:mm:ss}'}" FontSize="15" />
+            </StackLayout>
+            <Label Text="{Binding Message}" FontSize="12" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

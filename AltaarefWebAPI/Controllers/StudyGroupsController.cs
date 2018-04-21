@@ -19,7 +19,6 @@ namespace AltaarefWebAPI.Controllers
         public string Message { get; set; }
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
-        public string ProfilePicBlobUrl { get; set; }
         public int NumberOfAttendants { get; set; }
     }
 
@@ -80,7 +79,6 @@ namespace AltaarefWebAPI.Controllers
                     Message = sg.Message,
                     Date = sg.Date,
                     Time = sg.Time,
-                    ProfilePicBlobUrl = sg.Student.ProfilePicBlobUrl,
                     NumberOfAttendants = sg.StudyGroupAttendants.Where(s => s.StudyGroupId == sg.Id).Count()
                 });
 

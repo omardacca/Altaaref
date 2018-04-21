@@ -10,10 +10,10 @@ using Xamarin.Forms;
 
 namespace Altaaref.Views.StudyGroups
 {
-    public class MainPage : ContentPage
+    public class MainPage1 : ContentPage
     {
 
-        public MainPage()
+        public MainPage1()
         {
             BindingContext = new MainPageViewModel(new PageService());
 
