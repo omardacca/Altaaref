@@ -18,6 +18,7 @@ namespace AltaarefWebAPI.Controllers
         public string StudentName { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
+        public DateTime Time { get; set; }
         public string ProfilePicBlobUrl { get; set; }
     }
 
@@ -174,7 +175,6 @@ namespace AltaarefWebAPI.Controllers
                     Id = studyGroup.Id,
                     CourseId = studyGroup.CourseId,
                     StudentId = studyGroup.StudentId,
-                    Title = studyGroup.Title,
                     Message = studyGroup.Message,
                     Date = studyGroup.Date,
                     Time = studyGroup.Time,

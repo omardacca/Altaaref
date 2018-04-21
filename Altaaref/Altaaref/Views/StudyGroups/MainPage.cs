@@ -89,20 +89,26 @@ namespace Altaaref.Views.StudyGroups
                 Navigation.PushAsync(new Views.CommonPages.MainPage());
             };
 
+            addimage.GestureRecognizers.Add(addTap);
 
-            var xscrol = new ListView()
+            var listtitlelabel = new Label
             {
-                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Text = "List of study groups in your faculties",
+                FontSize = 20
+            };
+
+            var xscrol = new UserControls.HorizontalList()
+            {
                 ItemTemplate = new DataTemplate(() =>
                 {
-                    StackLayout slView = new StackLayout();
+                    StackLayout slView = new StackLayout() { Margin = 5 };
                     StackLayout firstrowsl = new StackLayout() { Orientation = StackOrientation.Horizontal };
 
                     var coursenamelabel = new Label();
                     coursenamelabel.SetBinding(Label.TextProperty, "CourseName");
 
                     var studentnamelabel = new Label();
-                    studentnamelabel.SetBinding(Label.TextProperty, "StudentName", stringFormat: "By {0}");
+                    studentnamelabel.SetBinding(Label.TextProperty, "StudentName");
 
                     var messagelabel = new Label();
                     messagelabel.SetBinding(Label.TextProperty, "Message");
@@ -110,6 +116,13 @@ namespace Altaaref.Views.StudyGroups
                     var datelabel = new Label();
                     datelabel.SetBinding(Label.TextProperty, "Date", stringFormat: "{0:dd/MM/yyyy}");
 
+                    var profielpic = new ImageCircle.Forms.Plugin.Abstractions.CircleImage();
+                    profielpic.Aspect = Aspect.AspectFill;
+                    profielpic.WidthRequest = 50;
+                    profielpic.HeightRequest = 50;
+                    profielpic.SetBinding(ImageCircle.Forms.Plugin.Abstractions.CircleImage.SourceProperty, "ProfilePicBlobUrl");
+
+                    firstrowsl.Children.Add(profielpic);
                     firstrowsl.Children.Add(coursenamelabel);
                     firstrowsl.Children.Add(datelabel);
 
@@ -117,14 +130,13 @@ namespace Altaaref.Views.StudyGroups
                     slView.Children.Add(studentnamelabel);
                     slView.Children.Add(messagelabel);
 
-                    ViewCell vc = new ViewCell() { View = slView };
-
-                    return vc;
+                    ContentView cview = new ContentView() { Content = slView };
+                    return cview;
                 })
             };
 
-            xscrol.SetBinding(ListView.ItemsSourceProperty, new Binding("BindingContext.StudyGroupsList", source: this));
-
+            xscrol.SetBinding(UserControls.HorizontalList.ItemsSourceProperty, new Binding("BindingContext.StudyGroupsList", source: this));
+            xscrol.ListOrientation = StackOrientation.Horizontal;
 
             RelativeLayout relativeLayout = new RelativeLayout()
             {
@@ -187,7 +199,7 @@ namespace Altaaref.Views.StudyGroups
                 }),
                 Constraint.RelativeToParent((parent) =>
                 {
-                    return (parent.Height * .55);
+                    return (parent.Height * .50);
                 })
             );
 
@@ -199,7 +211,19 @@ namespace Altaaref.Views.StudyGroups
                 }),
                 Constraint.RelativeToParent((parent) =>
                 {
-                    return (parent.Height * .55);
+                    return (parent.Height * .50);
+                })
+            );
+
+            relativeLayout.Children.Add(
+                listtitlelabel,
+                Constraint.RelativeToParent((parent) =>
+                {
+                    return parent.Width * .03;
+                }),
+                Constraint.RelativeToParent((parent) =>
+                {
+                    return (parent.Height * .65);
                 })
             );
 
@@ -207,7 +231,7 @@ namespace Altaaref.Views.StudyGroups
                 xscrol,
                 Constraint.RelativeToParent((parent) =>
                 {
-                    return parent.Width * 0.05;
+                    return parent.Width * 0.01;
                 }),
                 Constraint.RelativeToParent((parent) =>
                 {
