@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Altaaref.ViewModels.StudyGroup
 {
@@ -26,12 +28,24 @@ namespace Altaaref.ViewModels.StudyGroup
             }
         }
 
+        public ICommand AddButtonCommand => new Command(AddAction);
+        public ICommand FindButtonCommand => new Command(FindAction);
 
         public MainPageViewModel(IPageService pageService)
         {
             _pageService = pageService;
 
             GetStudyGroupsByStudentId(StudentId);
+        }
+
+        private void AddAction()
+        {
+            _pageService.PushAsync(new Views.CommonPages.MainPage());
+        }
+
+        private void FindAction()
+        {
+            _pageService.PushAsync(new Views.CommonPages.MainPage());
         }
 
         private async void GetStudyGroupsByStudentId(int studentId)
@@ -43,5 +57,6 @@ namespace Altaaref.ViewModels.StudyGroup
             StudyGroupsList = list;
         }
 
+        
     }
 }

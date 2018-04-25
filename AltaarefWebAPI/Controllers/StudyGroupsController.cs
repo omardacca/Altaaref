@@ -109,6 +109,51 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroupList);
         }
 
+        // GET: api/StudyGroups/5
+        [HttpGet("{Id}/{*from}/{*to}")]
+        public IActionResult GetSGByCrsWithDateRange(int id, DateTime from, DateTime to)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == id && s.Date >= from && s.Date <= to);
+
+            if (studyGroupList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroupList);
+        }
+
+        // GET: api/StudyGroups/5
+        [HttpGet("{Id}/{numOfAttendants}/{*from}/{*to}")]
+        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int id, int numOfAttendants, DateTime from, DateTime to)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            var studyGroupList = _context.StudyGroups.Where(s => 
+                s.CourseId == id && 
+                s.Date >= from && 
+                s.Date <= to && 
+                s.StudyGroupAttendants.Where(sa => 
+                    sa.StudyGroupId == s.Id).Count() <= numOfAttendants);
+
+            if (studyGroupList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroupList);
+        }
+
         // PUT: api/StudyGroups/5
         [HttpPut("{courseId}/{studentId}")]
         public async Task<IActionResult> PutStudyGroup([FromRoute] int courseId, [FromRoute] int studentId, [FromBody] StudyGroup studyGroup)

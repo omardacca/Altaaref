@@ -14,13 +14,6 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private Models.StudyGroup _studyGroup;
-        public Models.StudyGroup StudyGroup
-        {
-            get { return _studyGroup; }
-            private set { SetValue(ref _studyGroup, value); }
-        }
-
         private List<Models.StudyGroup> _studyGroupList;
         public List<Models.StudyGroup> StudyGroupList
         {
@@ -42,13 +35,31 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _selectedStudyGroup, value); }
         }
 
+        private readonly FindStudyGroupEnum findStudyGroupEnum;
+        private DateTime fromDate;
+        private DateTime toDate;
+        private int numOfAttendants;
 
-        public FindStudyGroupResultsViewModel(Models.StudyGroup studyGroup, IPageService pageService)
+
+        public FindStudyGroupResultsViewModel(IPageService pageService, FindStudyGroupEnum findStudyGroupEnum, DateTime from, DateTime to, int numOfAttendants)
         {
             _pageService = pageService;
 
-            StudyGroup = studyGroup;
-            InitAsync();
+            this.findStudyGroupEnum = findStudyGroupEnum;
+            this.fromDate = from;
+            this.toDate = to;
+            this.numOfAttendants = numOfAttendants;
+
+        }
+
+        public FindStudyGroupResultsViewModel(IPageService pageService, FindStudyGroupEnum findStudyGroupEnum, DateTime from, DateTime to)
+        {
+            _pageService = pageService;
+
+            this.findStudyGroupEnum = findStudyGroupEnum;
+            this.fromDate = from;
+            this.toDate = to;
+
         }
 
         public void StudyGroupResultItemClicked(Models.StudyGroup studyGroupClicked)
@@ -56,12 +67,7 @@ namespace Altaaref.ViewModels
             _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(studyGroupClicked));
         }
 
-        private async void InitAsync()
-        {
-            await InitStudyGroupListAsync();
-        }
-
-        private async System.Threading.Tasks.Task InitStudyGroupListAsync()
+        private async void InitStudyGroupListAsync()
         {
             string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + StudyGroup.CourseId + "/" + StudyGroup.Date.Date;
 

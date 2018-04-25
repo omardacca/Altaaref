@@ -14,11 +14,17 @@ namespace Altaaref.Views.StudyGroups
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class FindStudyGroupResults : ContentPage
 	{
-		public FindStudyGroupResults (Models.StudyGroup studyGroup)
+		public FindStudyGroupResults(FindStudyGroupEnum findStudyGroupEnum, DateTime from, DateTime to, int numOfAttendants)
 		{
 			InitializeComponent ();
-            BindingContext = new FindStudyGroupResultsViewModel(studyGroup, new PageService());
+            BindingContext = new FindStudyGroupResultsViewModel(new PageService(), findStudyGroupEnum, from, to, numOfAttendants);
 		}
+
+        public FindStudyGroupResults(FindStudyGroupEnum findStudyGroupEnum, DateTime from, DateTime to)
+        {
+            InitializeComponent();
+            BindingContext = new FindStudyGroupResultsViewModel(new PageService(), findStudyGroupEnum, from, to);
+        }
 
         void HandleResultClicked(object sender, ItemTappedEventArgs e)
         {

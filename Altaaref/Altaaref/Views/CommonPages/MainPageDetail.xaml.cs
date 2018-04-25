@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Altaaref.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Altaaref.Views.CommonPages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPageDetail : ContentPage
     {
+
         public MainPageDetail()
         {
             InitializeComponent();
