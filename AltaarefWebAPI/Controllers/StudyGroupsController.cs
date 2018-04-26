@@ -110,8 +110,8 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroups/5
-        [HttpGet("{Id}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{NumOfAttendants}")]
-        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int Id, DateTime from, DateTime to, int NumOfAttendants)
+        [HttpGet("{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{Id}//{NumOfAttendants}")]
+        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(DateTime from, DateTime to, int Id, int NumOfAttendants)
         {
             if (!ModelState.IsValid)
             {
