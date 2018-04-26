@@ -110,27 +110,8 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroups/5
-        [HttpGet("{Id}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
-        public IActionResult GetSGByCrsWithDateRange(int Id, DateTime from, DateTime to)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == Id && s.Date >= from && s.Date <= to);
-
-            if (studyGroupList == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(studyGroupList);
-        }
-
-        // GET: api/StudyGroups/5
-        [HttpGet("{Id}/{numOfAttendants}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
-        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int Id, int numOfAttendants, DateTime from, DateTime to)
+        [HttpGet("{Id}/{NumOfAttendants}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
+        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int Id, int NumOfAttendants, DateTime from, DateTime to)
         {
             if (!ModelState.IsValid)
             {
@@ -142,7 +123,27 @@ namespace AltaarefWebAPI.Controllers
                 s.CourseId == Id &&
                 s.Date >= from &&
                 s.StudyGroupAttendants.Where(sa =>
-                    sa.StudyGroupId == s.Id).Count() <= numOfAttendants);
+                    sa.StudyGroupId == s.Id).Count() <= NumOfAttendants);
+
+            if (studyGroupList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroupList);
+        }
+
+
+        // GET: api/StudyGroups/5
+        [HttpGet("{Id}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
+        public IActionResult GetSGByCrsWithDateRange(int Id, DateTime from, DateTime to)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == Id && s.Date >= from && s.Date <= to);
 
             if (studyGroupList == null)
             {
