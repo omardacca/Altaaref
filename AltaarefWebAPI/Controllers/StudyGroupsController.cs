@@ -42,6 +42,29 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroups/5
+        [HttpGet("{Id}/{NumOfAttendants}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
+        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int Id, int NumOfAttendants, DateTime from, DateTime to)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studyGroupList = _context.StudyGroups.Where(s =>
+                s.CourseId == Id &&
+                s.Date >= from &&
+                s.StudyGroupAttendants.Where(sa =>
+                    sa.StudyGroupId == s.Id).Count() <= NumOfAttendants);
+
+            if (studyGroupList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroupList);
+        }
+
+        // GET: api/StudyGroups/5
         [HttpGet("{courseId}/{studentId}")]
         public async Task<IActionResult> GetStudyGroup([FromRoute] int courseId, [FromRoute] int studentId)
         {
@@ -102,29 +125,6 @@ namespace AltaarefWebAPI.Controllers
             var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == courseId && s.Date.Date == date.Date);
 
             if (date == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(studyGroupList);
-        }
-
-        // GET: api/StudyGroups/5
-        [HttpGet("{Id:int}/{NumOfAttendants:int}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
-        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int Id, int NumOfAttendants, DateTime from, DateTime to)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var studyGroupList = _context.StudyGroups.Where(s =>
-                s.CourseId == Id &&
-                s.Date >= from &&
-                s.StudyGroupAttendants.Where(sa =>
-                    sa.StudyGroupId == s.Id).Count() <= NumOfAttendants);
-
-            if (studyGroupList == null)
             {
                 return NotFound();
             }
