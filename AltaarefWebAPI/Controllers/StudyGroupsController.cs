@@ -128,29 +128,29 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroupList);
         }
 
-        //// GET: api/StudyGroups/5
-        //[HttpGet("{Id}/{numOfAttendants}/{*from}")]
-        //public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int Id, int numOfAttendants, DateTime from)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // GET: api/StudyGroups/5
+        [HttpGet("{Id}/{numOfAttendants}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
+        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int Id, int numOfAttendants, DateTime from, DateTime to)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
 
-        //    var studyGroupList = _context.StudyGroups.Where(s => 
-        //        s.CourseId == Id && 
-        //        s.Date >= from && 
-        //        s.StudyGroupAttendants.Where(sa => 
-        //            sa.StudyGroupId == s.Id).Count() <= numOfAttendants);
+            var studyGroupList = _context.StudyGroups.Where(s =>
+                s.CourseId == Id &&
+                s.Date >= from &&
+                s.StudyGroupAttendants.Where(sa =>
+                    sa.StudyGroupId == s.Id).Count() <= numOfAttendants);
 
-        //    if (studyGroupList == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (studyGroupList == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(studyGroupList);
-        //}
+            return Ok(studyGroupList);
+        }
 
         // PUT: api/StudyGroups/5
         [HttpPut("{courseId}/{studentId}")]

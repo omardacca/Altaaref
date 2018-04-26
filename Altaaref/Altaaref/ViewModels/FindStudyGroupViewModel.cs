@@ -264,9 +264,9 @@ namespace Altaaref.ViewModels
         
         private void UpdateFormValidity()
         {
-            if (_selectedItemIndex <= 0)
-                IsFormValid = false;
-            else
+            //if (_selectedItemIndex <= 0)
+            //    IsFormValid = false;
+            //else
                 IsFormValid = true;
         }
     }

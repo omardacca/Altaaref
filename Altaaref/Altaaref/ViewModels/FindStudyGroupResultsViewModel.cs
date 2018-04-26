@@ -74,9 +74,9 @@ namespace Altaaref.ViewModels
         {
             string url = "";
             if (numOfAttendants == 0)
-                url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + _courseId + "/" + fromDate.Date + "/" + toDate.Date;
+                url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + _courseId + "/" + fromDate.Date.ToString("yyyy-MM-dd") + "/" + toDate.Date.ToString("yyyy-MM-dd");
             else
-                url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + _courseId + "/" + numOfAttendants + "/" + fromDate.Date.Date + "/" + toDate.Date.Date;
+                url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + _courseId + "/" + numOfAttendants + "/" + fromDate.Date.ToString("yyyy-MM-dd") + "/" + toDate.Date.ToString("yyyy-MM-dd");
 
             string results = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Models.StudyGroup>>(results);
