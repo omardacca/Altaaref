@@ -38,7 +38,7 @@
                     <Label Text="{Binding Address}" FontSize="Micro" />
                     <Label Text="{Binding Message}" Margin="7" />
 
-                    <controls:ButtonFrame HeightRequest="17" OutlineColor="Black" VerticalOptions="EndAndExpand">
+                    <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand">
                         <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                     </controls:ButtonFrame>
                 </StackLayout>

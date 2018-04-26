@@ -20,7 +20,7 @@
                 ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}"
                 SelectedIndex="{Binding SelectedCourseIndex}" />
 
-        <Label Text="Title" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
+        <Label Text="Address" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
         <Entry Placeholder="Group Title.." Grid.Row="1" Grid.Column="1" VerticalOptions="Center"
                Text="{Binding StudyGroup.Address}"/>
 
