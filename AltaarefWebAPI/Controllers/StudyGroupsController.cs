@@ -134,7 +134,7 @@ namespace AltaarefWebAPI.Controllers
         //}
 
 
-        // GET: api/StudyGroups/5
+        // GET: api/StudyGroups/
         [HttpGet("{Id}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
         public IActionResult GetSGByCrsWithDateRange([FromRoute] int Id, [FromRoute] DateTime from, [FromRoute] DateTime to)
         {
