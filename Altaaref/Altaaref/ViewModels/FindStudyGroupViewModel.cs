@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Altaaref.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,30 +10,15 @@ using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
 {
-
-    public class NameIdClass
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    public enum FindStudyGroupEnum { ByFaculty, ByCourse }
-
     public class FindStudyGroupViewModel : BaseViewModel
     {
         int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private Models.StudyGroup _studyGroup;
-        public Models.StudyGroup StudyGroup
-        {
-            get { return _studyGroup; }
-            private set { SetValue(ref _studyGroup, value); }
-        }
 
-        private List<NameIdClass> _itemslist;
-        public List<NameIdClass> ItemsList
+        private List<Courses> _itemslist;
+        public List<Courses> ItemsList
         {
             get
             {
@@ -42,34 +28,6 @@ namespace Altaaref.ViewModels
             {
                 _itemslist = value;
                 OnPropertyChanged(nameof(ItemsList));
-            }
-        }
-
-        private List<NameIdClass> _courseslist;
-        public List<NameIdClass> CoursesList
-        {
-            get
-            {
-                return _courseslist;
-            }
-            private set
-            {
-                _courseslist = value;
-                OnPropertyChanged(nameof(CoursesList));
-            }
-        }
-
-        private List<NameIdClass> _facultylist;
-        public List<NameIdClass> FacultyList
-        {
-            get
-            {
-                return _facultylist;
-            }
-            private set
-            {
-                _facultylist = value;
-                OnPropertyChanged(nameof(FacultyList));
             }
         }
 
@@ -95,47 +53,6 @@ namespace Altaaref.ViewModels
             }
         }
 
-
-        private bool facultychecked;
-        public bool Facultychecked
-        {
-            get { return facultychecked; }
-            set
-            {
-                SetValue(ref facultychecked, value);
-                if (facultychecked)
-                    ItemsList = FacultyList;
-                if (facultychecked && courseChecked || !facultychecked && !courseChecked)
-                    CourseChecked = !facultychecked;
-                if (!ItemsPickerEnabled) ItemsPickerEnabled = true;
-            }
-        }
-        
-        private bool courseChecked;
-        public bool CourseChecked
-        {
-            get { return courseChecked; }
-            set
-            {
-                SetValue(ref courseChecked, value);
-                if (courseChecked)
-                    ItemsList = CoursesList;
-                if (facultychecked && courseChecked || !facultychecked && !courseChecked)
-                    Facultychecked = !courseChecked;
-                if (!ItemsPickerEnabled) ItemsPickerEnabled = true;
-            }
-        }
-
-        private bool _itemsPickerEnabled;
-        public bool ItemsPickerEnabled
-        {
-            get { return _itemsPickerEnabled; }
-            set
-            {
-                SetValue(ref _itemsPickerEnabled, value);
-                UpdateFormValidity();
-            }
-        }
 
         private bool _datePickersEnabled;
         public bool DatePickersEnabled
@@ -255,7 +172,11 @@ namespace Altaaref.ViewModels
         public int SelectedItemIndex
         {
             get { return _selectedItemIndex; }
-            set { SetValue(ref _selectedItemIndex, value); }
+            set
+            {
+                SetValue(ref _selectedItemIndex, value);
+                UpdateFormValidity();
+            }
         }
 
         private int _selectednumberofattendants;
@@ -274,10 +195,6 @@ namespace Altaaref.ViewModels
 
             foreach (int number in Enumerable.Range(0, 20)) NumberOfAttendantsList.Add(number);
 
-            ItemsPickerEnabled = false;
-            facultychecked = false;
-            courseChecked = false;
-
             TodayChecked = false;
             TomorrowChecked = false;
             ThisweekChecked = false;
@@ -293,10 +210,8 @@ namespace Altaaref.ViewModels
 
         async void InitAsync()
         {
-            StudyGroup = new Models.StudyGroup() { Date = DateTime.Today, Time = DateTime.Now.AddHours(5) };
             HandleSubmitFind = new Command(OnHandleFindSubmitButtonTapped);
             await GetCoursesAsync();
-            await GetFacultiesAsync();
 
         }
 
@@ -304,23 +219,8 @@ namespace Altaaref.ViewModels
         {
             var itemid = _itemslist[_selectedItemIndex].Id;
             var numOfAttends = NumberOfAttendantsList[_selectednumberofattendants];
-            DateTime from = DateTime.Today, to = DateTime.Today;
+            DateTime from = FromDate, to = ToDate;
 
-            if(ItemsPickerEnabled)
-            {
-                if(numOfAttends > 0)
-                    if(Facultychecked)
-                        _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(FindStudyGroupEnum.ByFaculty, _fromDate, _toDate, numOfAttends));
-                    else
-                        _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(FindStudyGroupEnum.ByCourse, _fromDate, _toDate, numOfAttends));
-                else
-                    if(Facultychecked)
-                        _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(FindStudyGroupEnum.ByFaculty, _fromDate, _toDate));
-                    else
-                        _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(FindStudyGroupEnum.ByCourse, _fromDate, _toDate));
-            }
-            else
-            {
                 if(TodayChecked)
                 {
                     from = DateTime.Now.Date.Date;
@@ -343,11 +243,9 @@ namespace Altaaref.ViewModels
                 }
 
                 if(numOfAttends > 0)
-                    _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(FindStudyGroupEnum.ByCourse, from, to, numOfAttends));
+                    _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(itemid, from, to, numOfAttends));
                 else
-                    _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(FindStudyGroupEnum.ByCourse, from, to));
-
-            }
+                    _pageService.PushAsync(new Views.StudyGroups.FindStudyGroupResults(itemid, from, to));
             
         }
 
@@ -358,31 +256,15 @@ namespace Altaaref.ViewModels
             string url = "https://altaarefapp.azurewebsites.net/api/Courses";
 
             string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<NameIdClass>>(content);
-            CoursesList = new List<NameIdClass>(list);
+            var list = JsonConvert.DeserializeObject<List<Courses>>(content);
+            ItemsList = new List<Courses>(list);
 
             Busy = false;
         }
-
-        private async Task GetFacultiesAsync()
-        {
-            Busy = true;
-            string url = "https://altaarefapp.azurewebsites.net/api/Faculties";
-
-            string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<NameIdClass>>(content);
-            FacultyList = new List<NameIdClass>(list);
-
-            Busy = false;
-        }
-
+        
         private void UpdateFormValidity()
         {
-            if (!facultychecked && !courseChecked)
-                IsFormValid = false;
-            else if (_selectedItemIndex <= 0)
-                IsFormValid = false;
-            else if (!TodayChecked && !TomorrowChecked && !ThisweekChecked && !NextWeekChecked)
+            if (_selectedItemIndex <= 0)
                 IsFormValid = false;
             else
                 IsFormValid = true;

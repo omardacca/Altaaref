@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              x:Class="Altaaref.Views.StudyGroups.FindStudyGroup"
+             BackgroundColor="White"
              Title="Find Study Group">
 
     <ContentPage.Resources>
@@ -39,56 +40,52 @@
 
     <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-            <Label Text="Find Study Group" Style="{StaticResource PoppinsSemiBold}" FontSize="Large" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+        <Label Text="Find Study Group" Style="{StaticResource PoppinsSemiBold}" FontSize="30" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
 
-            <Label Text="Find in" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
+        <Label Text="Course" VerticalOptions="Center" Grid.Row="1" Grid.Column="0"  />
 
-            <controls:ToggleButton Grid.Row="1" Grid.Column="1" Checked="{Binding Facultychecked, Mode=TwoWay}" CheckedImage="facultyon.png" UnCheckedImage="facultyoff.png" Animate="True" />
-            <controls:ToggleButton Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Checked="{Binding CourseChecked, Mode=TwoWay}" CheckedImage="courseon.png" UnCheckedImage="courseoff.png" Animate="True" />
+        <Picker Title="Select" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" VerticalOptions="Center"
+        ItemsSource="{Binding ItemsList}" ItemDisplayBinding="{Binding Name}"
+        SelectedIndex="{Binding SelectedItemIndex}" />
 
-            <Picker Title="Select" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" VerticalOptions="Center" IsEnabled="{Binding ItemsPickerEnabled}"
-                ItemsSource="{Binding ItemsList}" ItemDisplayBinding="{Binding Name}"
-                SelectedIndex="{Binding SelectedItemIndex}" />
+        <controls:ToggleButton Grid.Row="2" Grid.Column="0" Checked="{Binding TodayChecked, Mode=TwoWay}" CheckedImage="todayon.png" UnCheckedImage="todayoff.png" Animate="True" />
+        <controls:ToggleButton Grid.Row="2" Grid.Column="1" Checked="{Binding TomorrowChecked, Mode=TwoWay}" CheckedImage="tomorrowon.png" UnCheckedImage="tomorrowoff.png" Animate="True" />
+        <controls:ToggleButton Grid.Row="2" Grid.Column="2" Checked="{Binding ThisweekChecked, Mode=TwoWay}" CheckedImage="thisweekon.png" UnCheckedImage="thisweekoff.png" Animate="True" />
+        <controls:ToggleButton Grid.Row="2" Grid.Column="3" Checked="{Binding NextWeekChecked, Mode=TwoWay}" CheckedImage="nextweekon.png" UnCheckedImage="nextweekoff.png" Animate="True" />
 
-            <controls:ToggleButton Grid.Row="3" Grid.Column="0" Checked="{Binding TodayChecked, Mode=TwoWay}" CheckedImage="todayon.png" UnCheckedImage="todayoff.png" Animate="True" />
-            <controls:ToggleButton Grid.Row="3" Grid.Column="1" Checked="{Binding TomorrowChecked, Mode=TwoWay}" CheckedImage="tomorrowon.png" UnCheckedImage="tomorrowoff.png" Animate="True" />
-            <controls:ToggleButton Grid.Row="3" Grid.Column="2" Checked="{Binding ThisweekChecked, Mode=TwoWay}" CheckedImage="thisweekon.png" UnCheckedImage="thisweekoff.png" Animate="True" />
-            <controls:ToggleButton Grid.Row="3" Grid.Column="3" Checked="{Binding NextWeekChecked, Mode=TwoWay}" CheckedImage="nextweekon.png" UnCheckedImage="nextweekoff.png" Animate="True" />
+        <Label Text="From" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"/>
+        <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Date="{Binding FromDate}" IsEnabled="{Binding DatePickersEnabled}"
+                    Format="d MM yyyy" VerticalOptions="Center" />
 
-            <Label Text="From" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
-            <DatePicker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Date="{Binding FromDate}" IsEnabled="{Binding DatePickersEnabled}"
-                        Format="d MM yyyy" VerticalOptions="Center" />
+        <Label Text="To" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
+        <DatePicker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Date="{Binding ToDate}" IsEnabled="{Binding DatePickersEnabled}"
+                    Format="d MM yyyy" VerticalOptions="Center" />
 
-            <Label Text="To" Grid.Row="5" Grid.Column="0" VerticalOptions="Center"/>
-            <DatePicker Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Date="{Binding ToDate}" IsEnabled="{Binding DatePickersEnabled}"
-                        Format="d MM yyyy" VerticalOptions="Center" />
+        <Label Text="Attendants" Grid.Row="5" Grid.Column="0" VerticalOptions="Center" />
+        <Picker Title="Number of Attendants (Optional)" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3"
+                ItemsSource="{Binding NumberOfAttendantsList}" SelectedIndex="{Binding SelectedNumberOfAttendants}"/>
 
-            <Label Text="Attendants" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" />
-            <Picker Title="Number of Attendants (Optional)" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3"
-                    ItemsSource="{Binding NumberOfAttendantsList}" SelectedIndex="{Binding SelectedNumberOfAttendants}"/>
-
-            <controls:ButtonFrame HeightRequest="17" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" IsEnabled="{Binding IsFormValid}">
-                <Label Text="Find" TextColor="White" BackgroundColor="{StaticResource SkyColor}" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                <controls:ButtonFrame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding HandleSubmitFind}" />
-                </controls:ButtonFrame.GestureRecognizers>
-            </controls:ButtonFrame>
+        <controls:ButtonFrame HeightRequest="17" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" IsEnabled="{Binding IsFormValid}">
+            <Label Text="Find" TextColor="White" FontSize="Medium"  BackgroundColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+            <controls:ButtonFrame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding HandleSubmitFind}" />
+            </controls:ButtonFrame.GestureRecognizers>
+        </controls:ButtonFrame>
 
         </Grid>
     </StackLayout>
