@@ -110,8 +110,8 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroups/5
-        [HttpGet("{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{Id}//{NumOfAttendants}")]
-        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(DateTime from, DateTime to, int Id, int NumOfAttendants)
+        [HttpGet("withat/{Id}/{NumOfAttendants}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
+        public IActionResult GetSGByCrsWithDateRangeAndNumOfAttends(int Id, int NumOfAttendants, DateTime from, DateTime to)
         {
             if (!ModelState.IsValid)
             {
@@ -121,6 +121,7 @@ namespace AltaarefWebAPI.Controllers
             var studyGroupList = _context.StudyGroups.Where(s =>
                 s.CourseId == Id &&
                 s.Date >= from &&
+                s.Date <= to &&
                 s.StudyGroupAttendants.Where(sa =>
                     sa.StudyGroupId == s.Id).Count() <= NumOfAttendants);
 
