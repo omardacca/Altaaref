@@ -118,7 +118,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == id && s.Date >= from && s.Date <= to);
+            var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == Id && s.Date >= from && s.Date <= to);
 
             if (studyGroupList == null)
             {
