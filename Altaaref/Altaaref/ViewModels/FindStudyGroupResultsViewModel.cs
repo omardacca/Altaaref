@@ -74,7 +74,7 @@ namespace Altaaref.ViewModels
         {
             string url = "";
             if (numOfAttendants == 0)
-                url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + _courseId + "/" + fromDate.Date.ToShortDateString() + "/" + toDate.Date.Date.ToShortDateString();
+                url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + _courseId + "/" + fromDate.Date + "/" + toDate.Date;
             else
                 url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + _courseId + "/" + numOfAttendants + "/" + fromDate.Date.Date + "/" + toDate.Date.Date;
 
