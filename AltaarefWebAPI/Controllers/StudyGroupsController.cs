@@ -135,23 +135,23 @@ namespace AltaarefWebAPI.Controllers
 
 
         // GET: api/StudyGroups/5
-        [HttpGet("{Id}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
-        public IActionResult GetSGByCrsWithDateRange(int Id, DateTime from, DateTime to)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpGet("{Id}/{from:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{to:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
+        //public IActionResult GetSGByCrsWithDateRange(int Id, DateTime from, DateTime to)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == Id && s.Date >= from && s.Date <= to);
+        //    var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == Id && s.Date >= from && s.Date <= to);
 
-            if (studyGroupList == null)
-            {
-                return NotFound();
-            }
+        //    if (studyGroupList == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(studyGroupList);
-        }
+        //    return Ok(studyGroupList);
+        //}
 
         // PUT: api/StudyGroups/5
         [HttpPut("{courseId}/{studentId}")]
