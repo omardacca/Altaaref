@@ -118,12 +118,13 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            var studyGroupList = _context.StudyGroups;
 
-            var studyGroupList = _context.StudyGroups.Where(s =>
-                s.CourseId == Id &&
-                s.Date >= from &&
-                s.StudyGroupAttendants.Where(sa =>
-                    sa.StudyGroupId == s.Id).Count() <= NumOfAttendants);
+            //var studyGroupList = _context.StudyGroups.Where(s =>
+            //    s.CourseId == Id &&
+            //    s.Date >= from &&
+            //    s.StudyGroupAttendants.Where(sa =>
+            //        sa.StudyGroupId == s.Id).Count() <= NumOfAttendants);
 
             if (studyGroupList == null)
             {
