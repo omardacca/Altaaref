@@ -35,6 +35,7 @@
                         <Label Text="-"/>
                         <Label Text="{Binding Time, StringFormat='{0:HH:mm}'}" />
                     </StackLayout>
+                    <Label Text="{Binding Address}" FontSize="Micro" />
                     <Label Text="{Binding Message}" Margin="7" />
 
                     <controls:ButtonFrame HeightRequest="17" OutlineColor="Black" VerticalOptions="EndAndExpand">

@@ -14,7 +14,7 @@ namespace Altaaref.Models
         public int StudentId { get; set; }
 //        public Student Student { get; set; }
 
-        public string Title { get; set; }
+        public string Address { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }

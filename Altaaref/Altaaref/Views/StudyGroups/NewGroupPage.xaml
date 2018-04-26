@@ -22,7 +22,7 @@
 
         <Label Text="Title" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
         <Entry Placeholder="Group Title.." Grid.Row="1" Grid.Column="1" VerticalOptions="Center"
-               Text="{Binding StudyGroup.Title}"/>
+               Text="{Binding StudyGroup.Address}"/>
 
         <Label Text="Message" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"/>
         <Editor Grid.Row="2" Grid.Column="1" VerticalOptions="Center" HeightRequest="200"

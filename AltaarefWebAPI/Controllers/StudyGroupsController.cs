@@ -17,6 +17,7 @@ namespace AltaarefWebAPI.Controllers
         public string CourseName { get; set; }
         public string StudentName { get; set; }
         public string Message { get; set; }
+        public string Address { get; set; }
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
         public int NumberOfAttendants { get; set; }
@@ -77,6 +78,7 @@ namespace AltaarefWebAPI.Controllers
                     CourseName = sg.Course.Name,
                     StudentName = sg.Student.FullName,
                     Message = sg.Message,
+                    Address = sg.Address,
                     Date = sg.Date,
                     Time = sg.Time,
                     NumberOfAttendants = sg.StudyGroupAttendants.Where(s => s.StudyGroupId == sg.Id).Count()
@@ -99,7 +101,18 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == courseId && s.Date.Date == date.Date);
+            var studyGroupList = _context.StudyGroups.Where(s => s.CourseId == courseId && s.Date.Date == date.Date)
+                .Select(sg => new StudyGroupView
+                {
+                    CourseId = sg.CourseId,
+                    CourseName = sg.Course.Name,
+                    StudentName = sg.Student.FullName,
+                    Message = sg.Message,
+                    Address = sg.Address,
+                    Date = sg.Date,
+                    Time = sg.Time,
+                    NumberOfAttendants = sg.StudyGroupAttendants.Where(s => s.StudyGroupId == sg.Id).Count()
+                });
 
             if (date == null)
             {
@@ -123,7 +136,18 @@ namespace AltaarefWebAPI.Controllers
                 s.Date >= from &&
                 s.Date <= to &&
                 s.StudyGroupAttendants.Where(sa =>
-                    sa.StudyGroupId == s.Id).Count() <= NumOfAttendants);
+                    sa.StudyGroupId == s.Id).Count() <= NumOfAttendants)
+                        .Select(sg => new StudyGroupView
+                        {
+                            CourseId = sg.CourseId,
+                            CourseName = sg.Course.Name,
+                            StudentName = sg.Student.FullName,
+                            Message = sg.Message,
+                            Address = sg.Address,
+                            Date = sg.Date,
+                            Time = sg.Time,
+                            NumberOfAttendants = sg.StudyGroupAttendants.Where(s => s.StudyGroupId == sg.Id).Count()
+                        });
 
             if (studyGroupList == null)
             {

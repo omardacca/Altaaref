@@ -137,7 +137,7 @@ namespace Altaaref.ViewModels
 
         private bool IsFormValid()
         {
-            if (StudyGroup.Title != null && StudyGroup.Message != null && StudyGroup.Time != null && StudyGroup.Date != null)
+            if (StudyGroup.Address != null && StudyGroup.Message != null && StudyGroup.Time != null && StudyGroup.Date != null)
                 return true;
             return false;
         }

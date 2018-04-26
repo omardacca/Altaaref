@@ -10,6 +10,7 @@ namespace Altaaref.Models
         public string CourseName { get; set; }
         public string StudentName { get; set; }
         public string Message { get; set; }
+        public string Address { get; set; }
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
         public int NumberOfAttendants { get; set; }

@@ -5,7 +5,7 @@
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:uc="clr-namespace:Altaaref.UserControls"
              xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-            Title="Find Study Group">
+            Title="Results">
     <ContentPage.Content>
         <StackLayout>
             <ListView SeparatorVisibility="None" HasUnevenRows="True" ItemsSource="{Binding StudyGroupList}"
