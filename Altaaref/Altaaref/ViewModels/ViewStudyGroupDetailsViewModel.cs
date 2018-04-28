@@ -13,15 +13,11 @@ namespace Altaaref.ViewModels
 {
     public class ViewStudyGroupDetailsViewModel : BaseViewModel
     {
+        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private Models.StudyGroup _studyGroup;
-        public Models.StudyGroup StudyGroup
-        {
-            get { return _studyGroup; }
-            private set { SetValue(ref _studyGroup, value); }
-        }
+        public StudyGroupView StudyGroupView { get; private set; }
 
         private bool _busy;
         public bool Busy
@@ -33,18 +29,53 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private Courses _course;
-        public Courses Course
+        private List<MiniStudentView> _miniStudentsViewAttendantsList;
+        public List<MiniStudentView> MiniStudentsViewAttendantsList
         {
-            get { return _course; }
-            private set { SetValue(ref _course, value); }
+            get
+            {
+                return _miniStudentsViewAttendantsList;
+            }
+            private set
+            {
+                _miniStudentsViewAttendantsList = value;
+                OnPropertyChanged(nameof(MiniStudentsViewAttendantsList));
+            }
         }
 
-        private Student _student;
-        public Student Student
+        private List<StudyGroupCommentView> _studyGroupCommentsList;
+        public List<StudyGroupCommentView> StudyGroupCommentsList
         {
-            get { return _student; }
-            private set { SetValue(ref _student, value); }
+            get
+            {
+                return _studyGroupCommentsList;
+            }
+            private set
+            {
+                _studyGroupCommentsList = value;
+                OnPropertyChanged(nameof(StudyGroupCommentsList));
+            }
+        }
+
+        public ICommand HandleSeeAllAttendantsCommand { get; private set; }
+        public ICommand HandleAttendantButtonCommand { get; private set; }
+
+        private string _attendButtonCaption;
+        public string AttendButtonCaption
+        {
+            get
+            {
+                if (IsAttendant)
+                    AttendButtonCaption = "Leave";
+                else
+                    AttendButtonCaption = "Join";
+
+                return _attendButtonCaption;
+            }
+            set
+            {
+                SetValue(ref _attendButtonCaption, value);
+            }
         }
 
         private bool _isAttendant;
@@ -57,20 +88,38 @@ namespace Altaaref.ViewModels
             }
         }
 
-        public ViewStudyGroupDetailsViewModel(Models.StudyGroup studyGroup, IPageService pageService)
+        private bool _commentsEmpty;
+        public bool CommentsEmpty
+        {
+            get { return _commentsEmpty; }
+            set
+            {
+                SetValue(ref _commentsEmpty, value);
+            }
+        }
+
+        public ViewStudyGroupDetailsViewModel(StudyGroupView studyGroupView, IPageService pageService)
         {
             _pageService = pageService;
-            StudyGroup = studyGroup;
 
-            GetCourseByIdAsync(studyGroup.CourseId);
-            GetStudentByIdAsync(studyGroup.StudentId);
-            
+            HandleSeeAllAttendantsCommand = new Command(HandleSeeAllAttendants);
+
+            AttendButtonCaption = "Join";
+            HandleAttendantButtonCommand = new Command(HandleAttendantButton);
+
+            CommentsEmpty = false;
+            StudyGroupView = studyGroupView;
+
+            GetMiniStudentViewAttendants();
+            GetComments();
+
             InitIsAttendantAsync();
         }
 
+        // Ready
         private async void InitIsAttendantAsync()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroup.Id + "/" + StudyGroup.StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupView.StudyGroupId + "/" + StudentId;
 
             try
             {
@@ -86,51 +135,76 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private async void GetCourseByIdAsync(int courseId)
+        // Ready
+        private async void GetMiniStudentViewAttendants()
         {
             Busy = true;
-            string url = "https://altaarefapp.azurewebsites.net/api/Courses/" + courseId;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/GetMiniStudentView" + StudyGroupView.StudyGroupId;
 
             string content = await _client.GetStringAsync(url);
-            var course = JsonConvert.DeserializeObject<Courses>(content);
-            Course = course;
+            var miniStudentsView = JsonConvert.DeserializeObject<List<MiniStudentView>>(content);
+            MiniStudentsViewAttendantsList = miniStudentsView;
         }
 
-        private async void GetStudentByIdAsync(int studentId)
+        // Ready
+        private async void GetComments()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/Students/" + studentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroupComments/BySGId/" + StudyGroupView.StudyGroupId;
 
-            string content = await _client.GetStringAsync(url);
-            var student = JsonConvert.DeserializeObject<Student>(content);
-            Student = student;
+            try
+            {
+                var content = await _client.GetStringAsync(url);
+                var SGCV = JsonConvert.DeserializeObject<List<StudyGroupCommentView>>(content);
+                StudyGroupCommentsList = SGCV;
 
-            Busy = false;
+                // Do I have to keep these two lines ? If 404 then will jump to catch
+                // only if not 404 will get into these lines
+                if (SGCV != null)
+                    CommentsEmpty = false;
+            }
+            catch (HttpRequestException e)
+            {
+                CommentsEmpty = true;
+            }
         }
 
-        public void HandleViewAttendants()
+        // Ready
+        private void HandleSeeAllAttendants()
         {
-            _pageService.PushAsync(new ViewAttendants(StudyGroup.Id));
+           _pageService.PushAsync(new ViewAttendants(StudyGroupView.StudyGroupId));
         }
 
-        public void HandlePostAttendant()
+        // Ready
+        private void HandleAttendantButton()
         {
-//            if(StudyGroup.Date >= DateTime.Now && StudyGroup.Time > DateTime.Now)
-            PostAttendanceAsync();
-            IsAttendant = true;
+            if (IsAttendant)
+                HandleRemoveAttendant();
+            else
+                HandlePostAttendant();
         }
 
-        public void HandleRemoveAttendant()
+        // Ready
+        private void HandlePostAttendant()
         {
-//            if(StudyGroup.Date <= DateTime.Now && StudyGroup.Time < DateTime.Now)
-            RemoveAttendanceAsync();
-            IsAttendant = false;
+            if(StudyGroupView.Date >= DateTime.Now && StudyGroupView.Time > DateTime.Now)
+                PostAttendanceAsync();
+                IsAttendant = true;
         }
 
+        // Ready
+        private void HandleRemoveAttendant()
+        {
+            if(StudyGroupView.Date <= DateTime.Now && StudyGroupView.Time < DateTime.Now)
+                RemoveAttendanceAsync();
+                IsAttendant = false;
+        }
+
+        // Ready
         private async void PostAttendanceAsync()
         {
             var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants";
 
-            var sga = new StudyGroupAttendants { StudentId = StudyGroup.StudentId, StudyGroupId = StudyGroup.Id };
+            var sga = new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = StudyGroupView.StudyGroupId };
 
             var content = new StringContent(JsonConvert.SerializeObject(sga), Encoding.UTF8, "application/json");
             var response = _client.PostAsync(postUrl, content);
@@ -148,9 +222,10 @@ namespace Altaaref.ViewModels
             }
         }
 
+        // Ready
         private async void RemoveAttendanceAsync()
         {
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroup.Id + "/" + StudyGroup.StudentId;
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupView.StudyGroupId + "/" + StudentId;
 
             var response = _client.DeleteAsync(postUrl);
 

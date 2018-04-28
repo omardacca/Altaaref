@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
-             xmlns:uc="clr-namespace:Altaaref.UserControls"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates"
+             xmlns:sgtemplates="clr-namespace:Altaaref.Views.Templates.StudyGroups"
              x:Class="Altaaref.Views.StudyGroups.ViewStudyGroupDetails">
 
     <ContentPage.Resources>
@@ -11,51 +13,90 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout Padding="15">
+    <StackLayout>
         <ActivityIndicator IsRunning="{Binding Busy}"
                     IsVisible="{Binding Busy}"
                     Color="Black"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="CenterAndExpand" />
-        <StackLayout IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
-            <Label Text="{Binding Course.Name}" FontSize="Medium" VerticalOptions="Start" />
-            <Label Text="{Binding Student.FullName, StringFormat='By {0}'}" FontSize="Medium" VerticalOptions="Start" />
-            <Label Text="{Binding StudyGroup.Message}" FontSize="Medium" VerticalOptions="Start" />
-            <Label Text="{Binding StudyGroup.Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="Medium" VerticalOptions="Start" />
-            <Label Text="{Binding StudyGroup.Time, StringFormat='{0:HH:mm:ss}'}" FontSize="Medium" VerticalOptions="Start" />
 
-            <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0"
-                                     Clicked="HandleJoinClicked" IsVisible="{Binding IsAttendant, Converter={StaticResource boolConverter}}">
-                <uc:RoundedRectangleView.InnerContent>
-                    <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                        <Image Source="addusericon.png"/>
-                        <Label Text="Join Group" FontSize="20" TextColor="White" VerticalOptions="Center"
-                               HorizontalOptions="Center"/>
-                    </StackLayout>
-                </uc:RoundedRectangleView.InnerContent>
-            </uc:RoundedRectangleView>
+        <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0"
-                                     Clicked="HandleLeaveClicked"  IsVisible="{Binding IsAttendant}">
-                <uc:RoundedRectangleView.InnerContent>
-                    <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                        <Label Text="Leave Group" FontSize="20" TextColor="White" VerticalOptions="Center"
-                               HorizontalOptions="Center" />
-                    </StackLayout>
-                </uc:RoundedRectangleView.InnerContent>
-            </uc:RoundedRectangleView>
+            <Label Text="{Binding CourseName}" FontSize="24" HorizontalTextAlignment="Start" Margin="0,1,0,0" Grid.Row="0" Grid.Column="0" />
 
-            <uc:RoundedRectangleView FillColor="Goldenrod" HeightRequest="75" WidthRequest="100" CornerRadius="0"
-                                     Clicked="HandleViewAttendants">
-                <uc:RoundedRectangleView.InnerContent>
-                    <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                        <Label Text="View Attendants" FontSize="20" TextColor="White" VerticalOptions="Center"
-                               HorizontalOptions="Center" />
-                    </StackLayout>
-                </uc:RoundedRectangleView.InnerContent>
-            </uc:RoundedRectangleView>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Grid.Row="1" Grid.Column="0">
+                <Label Text="{Binding Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="14" HorizontalTextAlignment="Start" />
+                <Label Text="-" FontSize="14"/>
+                <Label Text="{Binding Time, StringFormat='{0:HH:mm}'}" FontSize="14" />
+            </StackLayout>
 
-        </StackLayout>
+            <Label Text="{Binding Address}" FontSize="14" Grid.Row="2" Grid.Column="0" />
+            <Label Text="{Binding Message}" Margin="0, 7, 0, 1" Grid.Row="3" Grid.Column="0" />
+
+            <Grid Grid.Row="4" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Attendants" FontSize="26" Grid.Row="0" Grid.Column="0" HorizontalOptions="StartAndExpand" />
+                <Label Text="See All" FontSize="18" Grid.Row="0" Grid.Column="1" HorizontalOptions="End">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SeeAllCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding MiniStudentsViewAttendantsList}"
+                                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="StartAndExpand">
+                    <controls:HorizontalList.ItemTemplate>
+                        <DataTemplate>
+                            <template:UsernameAndPicListTemplate />
+                        </DataTemplate>
+                    </controls:HorizontalList.ItemTemplate>
+                </controls:HorizontalList>
+            </Grid>
+
+            <Grid Grid.Row="5" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Text="Comments" FontSize="26" Grid.Row="0" Grid.Column="0" HorizontalOptions="StartAndExpand" />
+
+                <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding StudyGroupCommentsList}"
+                                         Grid.Row="1" Grid.Column="0">
+                    <controls:HorizontalList.ItemTemplate>
+                        <DataTemplate>
+                            <sgtemplates:CommentsListTemplate />
+                        </DataTemplate>
+                    </controls:HorizontalList.ItemTemplate>
+                </controls:HorizontalList>
+            </Grid>
+
+        </Grid>
+
+        <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand">
+            <Label Text="{Binding AttendButtonCaption}" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="HandleAttendantButtonCommand" />
+                </Label.GestureRecognizers>
+            </Label>
+        </controls:ButtonFrame>
+
     </StackLayout>
     
 </ContentPage>

@@ -6,6 +6,7 @@ namespace Altaaref.Models
 {
     public class StudyGroupView
     {
+        public int StudyGroupId { get; set; }
         public int CourseId { get; set; }
         public string CourseName { get; set; }
         public string StudentName { get; set; }

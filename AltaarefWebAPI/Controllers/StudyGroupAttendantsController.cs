@@ -48,6 +48,27 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroupAttendants/5
+        [HttpGet("GetMiniStudentView/{GroupId}")]
+        public async Task<IActionResult> GetMiniStudentView([FromRoute] int GroupId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studyGroupAttendants = _context.StudyGroupAttendants.Where(sga => sga.StudyGroupId == GroupId)
+                .Select(sga => new MiniStudentView { Id = sga.StudentId, FullName = sga.Student.FullName, ProfilePicBlobUrl = sga.Student.ProfilePicBlobUrl });
+
+            if (studyGroupAttendants == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroupAttendants);
+        }
+
+
+        // GET: api/StudyGroupAttendants/5
         [HttpGet("GetNames/{StudyGroupId}")]
         public async Task<IActionResult> GetAttendants([FromRoute] int StudyGroupId)
         {

@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
 {
@@ -40,10 +42,12 @@ namespace Altaaref.ViewModels
         private DateTime toDate;
         private int numOfAttendants;
 
+        public ICommand ViewStudyGroupCommand;
 
         public FindStudyGroupResultsViewModel(IPageService pageService, int courseid, DateTime from, DateTime to, int numOfAttendants)
         {
             _pageService = pageService;
+            ViewStudyGroupCommand = new Command<StudyGroupView>(HandleViewStudyGroup);
 
             this._courseId = courseid;
             this.fromDate = from;
@@ -56,6 +60,7 @@ namespace Altaaref.ViewModels
         public FindStudyGroupResultsViewModel(IPageService pageService, int courseid, DateTime from, DateTime to)
         {
             _pageService = pageService;
+            ViewStudyGroupCommand = new Command<StudyGroupView>(HandleViewStudyGroup);
 
             this._courseId = courseid;
             this.fromDate = from;
@@ -65,7 +70,7 @@ namespace Altaaref.ViewModels
 
         }
 
-        public void StudyGroupResultItemClicked(Models.StudyGroup studyGroupClicked)
+        public void HandleViewStudyGroup(StudyGroupView studyGroupClicked)
         {
             _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(studyGroupClicked));
         }

@@ -26,22 +26,26 @@
 
     <ContentView.Content>
         <RelativeLayout>
-            <Frame BorderColor="Black" Style="{StaticResource FirstPanelStyle}"
+            <Frame Style="{StaticResource FirstPanelStyle}"
                                            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
                 <StackLayout Spacing="0">
-                        <Label Text="{Binding CourseName}" HorizontalTextAlignment="Start" Margin="0,1,0,0" />
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                            <Label Text="{Binding Date, StringFormat='{0:dd-MMM-yy}'}" HorizontalTextAlignment="Start" />
-                            <Label Text="-"/>
-                            <Label Text="{Binding Time, StringFormat='{0:HH:mm}'}" />
-                        </StackLayout>
-                        <Label Text="{Binding Address}" FontSize="Micro" />
-                        <Label Text="{Binding Message}" Margin="7" />
-
-                        <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand">
-                            <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                        </controls:ButtonFrame>
+                    <Label Text="{Binding CourseName}" FontSize="24" HorizontalTextAlignment="Start" Margin="0,1,0,0" />
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                        <Label Text="{Binding Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="14" HorizontalTextAlignment="Start" />
+                        <Label Text="-" FontSize="14"/>
+                        <Label Text="{Binding Time, StringFormat='{0:HH:mm}'}" FontSize="14" />
                     </StackLayout>
+                    <Label Text="{Binding Address}" FontSize="14" />
+                    <Label Text="{Binding Message}" Margin="0, 7, 0, 1" />
+
+                    <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand">
+                        <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ViewStudyGroupCommand}" CommandParameter="{Binding .}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </controls:ButtonFrame>
+                </StackLayout>
         </Frame>
         </RelativeLayout>
     </ContentView.Content>

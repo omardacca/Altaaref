@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Altaaref.Models;
 using Altaaref.UserControls;
 using Altaaref.ViewModels;
 using SkiaSharp;
@@ -26,11 +27,5 @@ namespace Altaaref.Views.StudyGroups
             BindingContext = new FindStudyGroupResultsViewModel(new PageService(), courseid, from, to);
         }
 
-        void HandleResultClicked(object sender, ItemTappedEventArgs e)
-        {
-            var rrv = sender as RoundedRectangleView;
-            
-            (BindingContext as FindStudyGroupResultsViewModel).StudyGroupResultItemClicked(rrv.CommandParameter as Models.StudyGroup);
-        }
     }
 }

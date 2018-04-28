@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             x:Class="Altaaref.Views.Templates.UsernameAndPicListTemplate">
+
+    <ContentView.Content>
+        <Frame>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ic:CircleImage HeightRequest="90" WidthRequest="90" Aspect="AspectFill"
+                                Source="{Binding ProfilePicBlobUrl}"
+                                Grid.Row="0" />
+                <Label Text="{Binding FullName}" Grid.Row="1" />
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

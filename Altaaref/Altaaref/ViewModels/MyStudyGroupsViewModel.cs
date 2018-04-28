@@ -60,7 +60,21 @@ namespace Altaaref.ViewModels
 
         public void StudyGroupItemClicked(Models.StudyGroup studyGroupClicked)
         {
-            _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(studyGroupClicked));
+            // lookup this page!! the convertion to StudyGroupView in here is temp
+            StudyGroupView temp = new StudyGroupView
+            {
+                StudyGroupId = studyGroupClicked.Id,
+                CourseId = studyGroupClicked.CourseId,
+                CourseName = "This Imaplementation is temp",
+                StudentName = "This Imaplementation is temp",
+                Address = studyGroupClicked.Address,
+                Date = studyGroupClicked.Date,
+                Message = studyGroupClicked.Message,
+                Time = studyGroupClicked.Time,
+                NumberOfAttendants = 100
+            };
+
+            _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(temp));
         }
 
         private async System.Threading.Tasks.Task InitStudyGroupListAsync()
