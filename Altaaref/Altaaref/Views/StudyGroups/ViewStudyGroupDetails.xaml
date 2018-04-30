@@ -5,16 +5,23 @@
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              xmlns:template="clr-namespace:Altaaref.Views.Templates"
              xmlns:sgtemplates="clr-namespace:Altaaref.Views.Templates.StudyGroups"
-             x:Class="Altaaref.Views.StudyGroups.ViewStudyGroupDetails">
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="Altaaref.Views.StudyGroups.ViewStudyGroupDetails"
+             x:Name="detailspage"
+             Title="Group Details">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:InverseBooleanConverter x:Key="boolConverter" />
+
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout>
-        <ActivityIndicator IsRunning="{Binding Busy}"
+    <ScrollView>
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
                     IsVisible="{Binding Busy}"
                     Color="Black"
                     VerticalOptions="CenterAndExpand"
@@ -29,22 +36,23 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label Text="{Binding CourseName}" FontSize="24" HorizontalTextAlignment="Start" Margin="0,1,0,0" Grid.Row="0" Grid.Column="0" />
+            <Label Text="{Binding StudyGroupView.CourseName}" FontSize="24" HorizontalTextAlignment="Start" Margin="0,1,0,0" Grid.Row="0" Grid.Column="0" />
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Grid.Row="1" Grid.Column="0">
-                <Label Text="{Binding Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="14" HorizontalTextAlignment="Start" />
+                <Label Text="{Binding StudyGroupView.Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="14" HorizontalTextAlignment="Start" />
                 <Label Text="-" FontSize="14"/>
-                <Label Text="{Binding Time, StringFormat='{0:HH:mm}'}" FontSize="14" />
+                <Label Text="{Binding StudyGroupView.Time, StringFormat='{0:HH:mm}'}" FontSize="14" />
             </StackLayout>
 
-            <Label Text="{Binding Address}" FontSize="14" Grid.Row="2" Grid.Column="0" />
-            <Label Text="{Binding Message}" Margin="0, 7, 0, 1" Grid.Row="3" Grid.Column="0" />
+            <Label Text="{Binding StudyGroupView.Address}" FontSize="14" Grid.Row="2" Grid.Column="0" />
+            <Label Text="{Binding StudyGroupView.Message}" Margin="0, 7, 0, 1" Grid.Row="3" Grid.Column="0" />
 
             <Grid Grid.Row="4" Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -52,15 +60,23 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Attendants" FontSize="26" Grid.Row="0" Grid.Column="0" HorizontalOptions="StartAndExpand" />
-                <Label Text="See All" FontSize="18" Grid.Row="0" Grid.Column="1" HorizontalOptions="End">
+                    <Label Text="Attendants" FontSize="23" Grid.Row="0" Grid.Column="0" 
+                    HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="0, 0, 0, 0"/>
+
+                    <Label Text="See All" FontSize="18" Grid.Row="0" Grid.Column="1" 
+                    HorizontalOptions="End" VerticalOptions="StartAndExpand" Margin="0, 0, 0, 0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SeeAllCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
 
-                <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding MiniStudentsViewAttendantsList}"
-                                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="StartAndExpand">
+                    <Label Text="No attendants yet, join now!" IsVisible="{Binding AttendantsListEmpty}" 
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center" />
+
+                    <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding MiniStudentsViewAttendantsList}"
+                                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                                        HorizontalOptions="StartAndExpand" HeightRequest="160"
+                                        Margin="0, 1, 0, 0" IsVisible="{Binding AttendantsListEmpty, Converter={StaticResource boolConverter}}">
                     <controls:HorizontalList.ItemTemplate>
                         <DataTemplate>
                             <template:UsernameAndPicListTemplate />
@@ -69,16 +85,19 @@
                 </controls:HorizontalList>
             </Grid>
 
-            <Grid Grid.Row="5" Grid.Column="0">
+            <Grid Grid.Row="5" Grid.Column="0" Margin="0, 2, 0, 0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Text="Comments" FontSize="26" Grid.Row="0" Grid.Column="0" HorizontalOptions="StartAndExpand" />
+                <Label Text="Comments" FontSize="23" Grid.Row="0" Grid.Column="0" 
+                    HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="0,2,0,1"/>
 
-                <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding StudyGroupCommentsList}"
-                                         Grid.Row="1" Grid.Column="0">
+                    <Label Text="No comments.." IsVisible="{Binding CommentsEmpty}" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" />
+
+                    <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding StudyGroupCommentsList}"
+                                         Grid.Row="1" Grid.Column="0" IsVisible="{Binding CommentsEmpty, Converter={StaticResource boolConverter}}">
                     <controls:HorizontalList.ItemTemplate>
                         <DataTemplate>
                             <sgtemplates:CommentsListTemplate />
@@ -89,14 +108,27 @@
 
         </Grid>
 
-        <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand">
-            <Label Text="{Binding AttendButtonCaption}" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="HandleAttendantButtonCommand" />
-                </Label.GestureRecognizers>
-            </Label>
+            <Grid VerticalOptions="EndAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Entry Text="{Binding NewComment.Comment}" WidthRequest="320" Placeholder="Write your comment here"
+                       HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Post" Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding HandleAddCommandButtonCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+            <controls:ButtonFrame HeightRequest="17" VerticalOptions="End">
+                <Label Text="{Binding AttendButtonCaption}" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                <controls:ButtonFrame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding HandleAttendantButtonCommand}" />
+                </controls:ButtonFrame.GestureRecognizers>
         </controls:ButtonFrame>
 
-    </StackLayout>
-    
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

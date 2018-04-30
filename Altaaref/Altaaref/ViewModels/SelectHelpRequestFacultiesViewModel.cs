@@ -74,6 +74,7 @@ namespace Altaaref.ViewModels
         }
 
         public ICommand SubmitButtonCommand { get; set; }
+        public ICommand FacultySelectedCommand { get; set; }
 
         public SelectHelpRequestFacultiesViewModel(IPageService pageService, HelpRequest newHelpRequest)
         {
@@ -81,6 +82,7 @@ namespace Altaaref.ViewModels
             this.newHelpRequest = newHelpRequest;
 
             SubmitButtonCommand = new Command(OnSubmitButtonTapped);
+            FacultySelectedCommand = new Command(facultySelected);
 
             FacultiesSelectedList = new List<Faculty>();
 
@@ -98,7 +100,6 @@ namespace Altaaref.ViewModels
 
         private async void OnSubmitButtonTapped(object obj)
         {
-            Busy = true;
             var HelpRequestId = await PostHelpRequest();
             if(HelpRequestId >= 0)
             {
@@ -107,14 +108,14 @@ namespace Altaaref.ViewModels
             }
         }
 
-        public void FacultySelected(ViewFaculty faculty)
+        private void facultySelected()
         {
-            //Deselect Item
-            SelectedFaculty = null;
-
-            AddOrRemoveFacultyFromFacultyList(faculty.Faculty);
-            FacultiesList.Find(vf => vf.Faculty.Id == faculty.Faculty.Id)
-                .IsImageVisible = !FacultiesList.Find(vf => vf.Faculty.Id == faculty.Faculty.Id).IsImageVisible;
+            if (_selectedFaculty != null)
+            {
+                AddOrRemoveFacultyFromFacultyList(_selectedFaculty.Faculty);
+                FacultiesList.Find(vf => vf.Faculty.Id == _selectedFaculty.Faculty.Id)
+                    .IsImageVisible = !FacultiesList.Find(vf => vf.Faculty.Id == _selectedFaculty.Faculty.Id).IsImageVisible;
+            }
         }
 
         public void AddOrRemoveFacultyFromFacultyList(Faculty faculty)

@@ -20,10 +20,5 @@ namespace Altaaref.Views.MutualHelp
 
             BindingContext = new SelectHelpRequestFacultiesViewModel(new PageService(), newHelpRequest);
         }
-
-        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            (BindingContext as SelectHelpRequestFacultiesViewModel).FacultySelected(e.Item as ViewFaculty);
-        }
     }
 }

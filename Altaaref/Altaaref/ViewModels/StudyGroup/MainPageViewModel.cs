@@ -40,12 +40,12 @@ namespace Altaaref.ViewModels.StudyGroup
 
         private void AddAction()
         {
-            _pageService.PushAsync(new Views.CommonPages.MainPage());
+            _pageService.PushAsync(new Views.StudyGroups.NewGroupPage());
         }
 
         private void FindAction()
         {
-            _pageService.PushAsync(new Views.CommonPages.MainPage());
+            _pageService.PushAsync(new Views.StudyGroups.FindStudyGroup());
         }
 
         private async void GetStudyGroupsByStudentId(int studentId)

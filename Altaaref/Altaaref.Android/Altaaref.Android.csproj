@@ -59,6 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie">
+      <Version>2.5.2.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Client">
       <Version>4.0.2</Version>
     </PackageReference>
@@ -129,9 +132,11 @@
     <AndroidAsset Include="Assets\circular_book.ttf" />
     <AndroidAsset Include="Assets\circular_bold.ttf" />
     <AndroidAsset Include="Assets\circular_medium.ttf" />
+    <AndroidAsset Include="Assets\checkanimation.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\drawable\poppinssemibold.ttf" />
+    <AndroidAsset Include="Resources\drawable\checkanimation.json" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />

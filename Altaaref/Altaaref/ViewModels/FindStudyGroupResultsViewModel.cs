@@ -37,17 +37,38 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _selectedStudyGroup, value); }
         }
 
+        private bool _busy;
+        public bool Busy
+        {
+            get { return _busy; }
+            set
+            {
+                SetValue(ref _busy, value);
+            }
+        }
+
+        private bool _isListEmpty;
+        public bool IsListEmpty
+        {
+            get { return _isListEmpty; }
+            set
+            {
+                SetValue(ref _isListEmpty, value);
+            }
+        }
+
         private readonly int _courseId;
         private DateTime fromDate;
         private DateTime toDate;
         private int numOfAttendants;
 
-        public ICommand ViewStudyGroupCommand;
+        private ICommand _viewStudyGroupCommand;
+        public ICommand ViewStudyGroupCommand { get { return _viewStudyGroupCommand; } }
 
         public FindStudyGroupResultsViewModel(IPageService pageService, int courseid, DateTime from, DateTime to, int numOfAttendants)
         {
             _pageService = pageService;
-            ViewStudyGroupCommand = new Command<StudyGroupView>(HandleViewStudyGroup);
+            _viewStudyGroupCommand = new Command<StudyGroupView>(HandleViewStudyGroup);
 
             this._courseId = courseid;
             this.fromDate = from;
@@ -55,19 +76,19 @@ namespace Altaaref.ViewModels
             this.numOfAttendants = numOfAttendants;
 
             InitStudyGroupListAsync(numOfAttendants);
+
         }
 
         public FindStudyGroupResultsViewModel(IPageService pageService, int courseid, DateTime from, DateTime to)
         {
             _pageService = pageService;
-            ViewStudyGroupCommand = new Command<StudyGroupView>(HandleViewStudyGroup);
+            _viewStudyGroupCommand = new Command<StudyGroupView>(HandleViewStudyGroup);
 
             this._courseId = courseid;
             this.fromDate = from;
             this.toDate = to;
 
             InitStudyGroupListAsync(0);
-
         }
 
         public void HandleViewStudyGroup(StudyGroupView studyGroupClicked)
@@ -77,6 +98,8 @@ namespace Altaaref.ViewModels
 
         private async void InitStudyGroupListAsync(int numOfAttendants)
         {
+            Busy = true;
+
             string url = "";
             if (numOfAttendants == 0)
                 url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/" + _courseId + "/" + fromDate.Date.ToString("yyyy-MM-dd") + "/" + toDate.Date.ToString("yyyy-MM-dd");
@@ -86,6 +109,11 @@ namespace Altaaref.ViewModels
             string results = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(results);
             StudyGroupList = new List<StudyGroupView>(list);
+
+            if (StudyGroupList == null || StudyGroupList.Count == 0)
+                IsListEmpty = true;
+
+            Busy = false;
         }
     }
 }

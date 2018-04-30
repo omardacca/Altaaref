@@ -76,6 +76,8 @@ namespace Altaaref.ViewModels
 
         private async Task<int> PostGeneralHelpRequest()
         {
+            Busy = true;
+
             var postUrl = "https://altaarefapp.azurewebsites.net/api/HelpRequests";
 
             var content = new StringContent(JsonConvert.SerializeObject(NewHelpRequest), Encoding.UTF8, "application/json");
@@ -87,11 +89,13 @@ namespace Altaaref.ViewModels
             if (response.Result.IsSuccessStatusCode)
             {
                 await _pageService.DisplayAlert("Created Successfully", "Help Request Created Successfully", "OK", "Cancel");
+                Busy = false;
                 return InsertedHelpRequestId.Id;
             }
             else
             {
                 await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+                Busy = false;
                 return -1;
             }
 

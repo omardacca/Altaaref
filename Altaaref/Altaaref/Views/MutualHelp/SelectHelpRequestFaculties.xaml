@@ -2,14 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates.HelpRequests"
              x:Class="Altaaref.Views.MutualHelp.SelectHelpRequestFaculties"
              Title="Select Related Faculties">
 
-    <ContentPage.Resources>
+    <ContentView.Resources>
         <ResourceDictionary>
             <local:InverseBooleanConverter x:Key="boolConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentView.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding SubmitButtonCommand}"/>
@@ -21,24 +23,18 @@
                            Color="Black"
                            VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" />
-        <ListView IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}"
-                  HasUnevenRows="True" ItemsSource="{Binding FacultiesList}"
-                  SelectedItem="{Binding SelectedFaculty, Mode=TwoWay}"
-                  ItemTapped="Handle_ItemTapped">
-            <ListView.ItemTemplate>
+
+        <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding FacultiesList}"
+                                 SelectedItem="{Binding SelectedFaculty, Mode=TwoWay}" 
+                                 SelectedCommand="{Binding FacultySelectedCommand}"
+                                 IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+            <controls:HorizontalList.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="5">
-                            <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
-                                <Label Text="{Binding Faculty.Name}" />
-                            </StackLayout>
-                            <Image Source="xicon.png" IsVisible="{Binding IsImageVisible}"/>
-                            <Image Source="vicon.png" IsVisible="{Binding IsImageVisible, Converter={StaticResource boolConverter}}" />
-                        </StackLayout>
-                    </ViewCell>
+                    <template:SelectableFacultyList/>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </controls:HorizontalList.ItemTemplate>
+        </controls:HorizontalList>
+
     </StackLayout>
 
 </ContentPage>

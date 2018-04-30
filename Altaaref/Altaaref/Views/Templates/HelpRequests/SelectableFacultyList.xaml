@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Altaaref.Views.Templates.HelpRequests.SelectableFacultyList">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+            
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Frame Style="{StaticResource FirstPanelStyle}">
+            <StackLayout Orientation="Horizontal" Margin="2">
+                <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                    <Label Text="{Binding Faculty.Name}" FontSize="18" />
+                </StackLayout>
+                <Image Source="xicon.png" IsVisible="{Binding IsImageVisible}"/>
+                <Image Source="vicon.png" IsVisible="{Binding IsImageVisible, Converter={StaticResource boolConverter}}" />
+            </StackLayout>
+        </Frame>
+
+    </ContentView.Content>
+</ContentView>

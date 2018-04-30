@@ -4,8 +4,25 @@
              xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              x:Class="Altaaref.Views.Templates.UsernameAndPicListTemplate">
 
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="Margin" Value="0, 2, 5, 2" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
     <ContentView.Content>
-        <Frame>
+        <Frame Style="{StaticResource FirstPanelStyle}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="90"/>
@@ -15,7 +32,7 @@
                 <ic:CircleImage HeightRequest="90" WidthRequest="90" Aspect="AspectFill"
                                 Source="{Binding ProfilePicBlobUrl}"
                                 Grid.Row="0" />
-                <Label Text="{Binding FullName}" Grid.Row="1" />
+                <Label Text="{Binding FullName}" Grid.Row="1" HorizontalTextAlignment="Center" HorizontalOptions="Center"/>
             </Grid>
         </Frame>
     </ContentView.Content>

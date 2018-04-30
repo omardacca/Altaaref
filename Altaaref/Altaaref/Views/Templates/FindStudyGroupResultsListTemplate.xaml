@@ -2,7 +2,8 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
-             x:Class="Altaaref.Views.Templates.FindStudyGroupResultsListTemplate">
+             x:Class="Altaaref.Views.Templates.FindStudyGroupResultsListTemplate"
+             x:Name="resulttemplate">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -27,7 +28,7 @@
     <ContentView.Content>
         <RelativeLayout>
             <Frame Style="{StaticResource FirstPanelStyle}"
-                                           RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
                 <StackLayout Spacing="0">
                     <Label Text="{Binding CourseName}" FontSize="24" HorizontalTextAlignment="Start" Margin="0,1,0,0" />
                     <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
@@ -39,11 +40,11 @@
                     <Label Text="{Binding Message}" Margin="0, 7, 0, 1" />
 
                     <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand">
-                        <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ViewStudyGroupCommand}" CommandParameter="{Binding .}"/>
-                            </Label.GestureRecognizers>
-                        </Label>
+                        <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+
+                        <controls:ButtonFrame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ParentContext.ViewStudyGroupCommand, Source={x:Reference resulttemplate}}" CommandParameter="{Binding .}" />
+                        </controls:ButtonFrame.GestureRecognizers>
                     </controls:ButtonFrame>
                 </StackLayout>
         </Frame>

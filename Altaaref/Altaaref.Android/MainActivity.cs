@@ -20,6 +20,7 @@ using Xamarin.Forms;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using Microsoft.WindowsAzure.MobileServices;
+using Lottie.Forms.Droid;
 
 // https://github.com/xamarin/monodroid-samples/blob/master/FusedLocationProvider/FusedLocationProvider/MainActivity.cs
 
@@ -125,6 +126,8 @@ namespace Altaaref.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             ImageCircleRenderer.Init();
+
+            AnimationViewRenderer.Init();
 
             LoadApplication(new App());
 
