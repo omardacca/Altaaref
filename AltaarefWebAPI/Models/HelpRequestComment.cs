@@ -9,6 +9,7 @@ namespace AltaarefWebAPI.Models
     {
         public int Id { get; set; }
         public string Comment { get; set; }
+        public DateTime Date { get; set; }
 
         public int HelpRequestId { get; set; }
         public HelpRequest HelpRequest { get; set; }

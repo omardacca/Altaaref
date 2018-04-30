@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Altaaref.Views.Templates.StudyGroups
+namespace Altaaref.Views.Templates.HelpRequests
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CommentsList : ContentView
+	public partial class CommentsListHelpRequest : ContentView
 	{
-		public CommentsList ()
+		public CommentsListHelpRequest ()
 		{
 			InitializeComponent ();
 		}

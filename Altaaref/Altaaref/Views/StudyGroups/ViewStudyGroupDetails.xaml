@@ -77,12 +77,12 @@
                                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
                                         HorizontalOptions="StartAndExpand" HeightRequest="160"
                                         Margin="0, 1, 0, 0" IsVisible="{Binding AttendantsListEmpty, Converter={StaticResource boolConverter}}">
-                    <controls:HorizontalList.ItemTemplate>
-                        <DataTemplate>
-                            <template:UsernameAndPicListTemplate />
-                        </DataTemplate>
-                    </controls:HorizontalList.ItemTemplate>
-                </controls:HorizontalList>
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:UsernameAndPicListTemplate />
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
             </Grid>
 
             <Grid Grid.Row="5" Grid.Column="0" Margin="0, 2, 0, 0">

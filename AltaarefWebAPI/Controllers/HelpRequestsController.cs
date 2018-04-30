@@ -63,6 +63,7 @@ namespace AltaarefWebAPI.Controllers
                 {
                     Id = h.Id,
                     IsGeneral = h.IsGeneral,
+                    Date = h.Date,
                     IsMet = h.IsMet,
                     Message = h.Message,
                     Views = h.Views,

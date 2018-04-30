@@ -57,7 +57,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var helpRequestComment = _context.HelpRequestComment.Where(m => m.HelpRequestId == HelpRequestId)
-                .Select(hc => new StudentHelpComment { Id = hc.Id, Comment = hc.Comment, Student = hc.HelpRequest.Student });
+                .Select(hc => new StudentHelpComment { Id = hc.Id, Comment = hc.Comment, Date = hc.Date, Student = hc.HelpRequest.Student });
 
             if (helpRequestComment == null)
             {

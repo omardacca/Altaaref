@@ -13,6 +13,7 @@ namespace Altaaref.ViewModels
     {
         public int Id { get; set; }
         public string Comment { get; set; }
+        public DateTime Date { get; set; }
 
         public Student Student { get; set; }
     }
@@ -60,6 +61,22 @@ namespace Altaaref.ViewModels
             }
         }
 
+        public ViewHelpRequestsDetailsViewModel(IPageService pageService, StudentHelpRequest studentHelpRequest)
+        {
+            _pageService = pageService;
+            this.StudentHelpRequest = studentHelpRequest;
+
+            this.NewComment = new HelpRequestComment
+            {
+                HelpRequestId = this.StudentHelpRequest.Id
+            };
+
+            GetComments();
+
+            metImageCommand = new Command(HandleMetImageTap);
+            postButtonCommand = new Command(AddComment);
+        }
+
         private void HandleMetImageTap(object s)
         {
             StudentHelpRequest.IsMet = !StudentHelpRequest.IsMet;
@@ -77,6 +94,7 @@ namespace Altaaref.ViewModels
             {
                 Id = StudentHelpRequest.Id,
                 IsGeneral = StudentHelpRequest.IsGeneral,
+                Date = StudentHelpRequest.Date, //ooo
                 IsMet = StudentHelpRequest.IsMet,
                 Message = StudentHelpRequest.Message,
                 Views = StudentHelpRequest.Views,
@@ -133,22 +151,6 @@ namespace Altaaref.ViewModels
         private void ResetNewComment()
         {
             NewComment.Comment = "";
-        }
-
-        public ViewHelpRequestsDetailsViewModel(IPageService pageService, StudentHelpRequest studentHelpRequest)
-        {
-            _pageService = pageService;
-            this.StudentHelpRequest = studentHelpRequest;
-
-            this.NewComment = new HelpRequestComment
-            {
-                HelpRequestId = this.StudentHelpRequest.Id
-            };
-
-            GetComments();
-
-            metImageCommand = new Command(HandleMetImageTap);
-            postButtonCommand = new Command(AddComment);
         }
 
         public void HanldeCommentTapped(StudentHelpComment comment)

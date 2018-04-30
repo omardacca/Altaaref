@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates.HelpRequests"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
              x:Class="Altaaref.Views.CommonPages.ViewHelpRequestsDetails"
              Title="Help Request Details">
 
@@ -12,8 +14,103 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout Margin="5" BackgroundColor="LightGray">
 
+    <ScrollView>
+        <StackLayout>
+
+            <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
+
+            <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ic:CircleImage 
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Aspect="AspectFill"
+                    Source="{Binding StudentHelpRequest.Student.ProfilePicBlobUrl}"
+                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+
+                <Label Text="{Binding StudentHelpRequest.Student.FullName}" Grid.Row="0" Grid.Column="1" />
+                <Label Text="{Binding StudentHelpRequest.Date, StringFormat='{0:dd-MMM-yy}'}}" Grid.Row="1" Grid.Column="1" />
+
+                <Image 
+                    Source="helpmet.png" 
+                    HorizontalOptions="EndAndExpand" 
+                    IsVisible="{Binding StudentHelpRequest.IsMet}"
+                    Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MetImageCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image 
+                    Source="helpunmet.png" 
+                    HorizontalOptions="EndAndExpand" 
+                    IsVisible="{Binding StudentHelpRequest.IsMet, Converter={StaticResource boolConverter}}"
+                    Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MetImageCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Label
+                    Text="{Binding StudentHelpRequest.Views, StringFormat='{0} Views'}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="StartAndExpand"
+                    Margin="1"/>
+
+                <Label 
+                    Text="{Binding StudentHelpRequest.Message}" 
+                    FontSize="18"
+                    VerticalOptions="StartAndExpand"
+                    HorizontalOptions="StartAndExpand"
+                    Margin="0, 0, 0, 15"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
+
+                <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Comments" 
+                           FontSize="20"
+                           HorizontalOptions="StartAndExpand" 
+                           VerticalOptions="StartAndExpand"
+                           Grid.Row="0"/>
+
+                    <controls:HorizontalList 
+                        ListOrientation="Vertical" 
+                        ItemsSource="{Binding AllComments}"
+                        Grid.Row="1"
+                        HorizontalOptions="StartAndExpand">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:CommentsListHelpRequest />
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+
+                </Grid>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+    
+    <StackLayout Margin="5" BackgroundColor="LightGray">
         <StackLayout Orientation="Horizontal" BackgroundColor="Goldenrod" Padding="3">
             <ic:CircleImage 
                 HeightRequest="100"
