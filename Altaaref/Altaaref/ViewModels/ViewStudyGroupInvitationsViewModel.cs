@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
 {
     public class ViewInvitation : BaseViewModel
     {
-        public string StudentName { get; set; }
-        public string CourseName { get; set; }
-        public Models.StudyGroup StudyGroup { get; set; }
+        public StudyGroupView StudyGroup { get; set; }
 
         private bool _VerificationStatus;
         public bool VerificationStatus
@@ -46,6 +46,20 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _selectedViewStudyGroupt, value); }
         }
 
+        private ICommand _viewInvitationscommand;
+        public ICommand ViewInvitationsCommand { get { return _viewInvitationscommand; } }
+
+        private bool _isListEmpty;
+        public bool IsListEmpty
+        {
+            get { return _isListEmpty; }
+            set
+            {
+                SetValue(ref _isListEmpty, value);
+            }
+        }
+
+
         private bool _busy;
         public bool Busy
         {
@@ -60,6 +74,7 @@ namespace Altaaref.ViewModels
         public ViewStudyGroupInvitationsViewModel(IPageService pageService)
         {
             _pageService = pageService;
+            _viewInvitationscommand = new Command<ViewInvitation>(ViewInvitationSelected);
             GetInvitationsListAsync();
         }
 
@@ -71,6 +86,10 @@ namespace Altaaref.ViewModels
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewInvitation>>(content);
             ViewInvitationList = new List<ViewInvitation>(list);
+
+            if (ViewInvitationList == null || ViewInvitationList.Count == 0)
+                IsListEmpty = true;
+
             Busy = false;
         }
 
@@ -138,13 +157,13 @@ namespace Altaaref.ViewModels
             // if clicked to attend - post him
             if(!vInvitation.VerificationStatus)
             {
-                PostAttendance(new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id });
-                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id, VerificationStatus = true });
+                PostAttendance(new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId});
+                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = true });
             }
             else
             {
-                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.Id, VerificationStatus = false });
-                DeleteAttendant(vInvitation.StudyGroup.Id);
+                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = false });
+                DeleteAttendant(vInvitation.StudyGroup.StudyGroupId);
             }
             vInvitation.VerificationStatus = !vInvitation.VerificationStatus;
 

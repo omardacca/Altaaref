@@ -12,9 +12,7 @@ namespace AltaarefWebAPI.Controllers
 {
     public class ViewInvitation
     {
-        public string StudentName { get; set; }
-        public string CourseName { get; set; }
-        public StudyGroup StudyGroup { get; set; }
+        public StudyGroupView StudyGroup { get; set; }
         public bool VerificationStatus { get; set; }
     }
 
@@ -46,13 +44,21 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studyGroupInvitations = _context.StudyGroupInvitations
-                .Where(si => si.StudentId == StudentId && si.StudyGroup.Date >= DateTime.Today.Date && si.VerificationStatus == false) // NOT PUBLISHED
+                .Where(si => si.StudentId == StudentId && si.StudyGroup.Date >= DateTime.Today.Date && si.VerificationStatus == false) 
                 .Select(m => 
                 new ViewInvitation
                 {
-                    StudentName = m.Student.FullName,
-                    CourseName = m.StudyGroup.Course.Name,
-                    StudyGroup = m.StudyGroup,
+                    StudyGroup = new StudyGroupView
+                    {
+                        StudyGroupId = m.StudyGroupId,
+                        Address = m.StudyGroup.Address,
+                        Date = m.StudyGroup.Date,
+                        Time = m.StudyGroup.Time,
+                        Message = m.StudyGroup.Message,
+                        CourseId = m.StudyGroup.CourseId,
+                        CourseName = m.StudyGroup.Course.Name,
+                        StudentName = m.Student.FullName
+                    },
                     VerificationStatus = m.VerificationStatus
                 });
                 

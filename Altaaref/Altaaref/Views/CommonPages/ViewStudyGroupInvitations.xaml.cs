@@ -19,10 +19,5 @@ namespace Altaaref.Views.CommonPages
 
             BindingContext = new ViewStudyGroupInvitationsViewModel(new PageService());
         }
-
-        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            (BindingContext as ViewStudyGroupInvitationsViewModel).ViewInvitationSelected(e.Item as ViewInvitation);
-        }
     }
 }
