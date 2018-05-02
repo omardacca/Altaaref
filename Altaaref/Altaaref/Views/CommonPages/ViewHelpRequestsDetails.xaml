@@ -34,8 +34,8 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <ic:CircleImage 
@@ -45,8 +45,8 @@
                     Source="{Binding StudentHelpRequest.Student.ProfilePicBlobUrl}"
                     Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
 
-                <Label Text="{Binding StudentHelpRequest.Student.FullName}" Grid.Row="0" Grid.Column="1" />
-                <Label Text="{Binding StudentHelpRequest.Date, StringFormat='{0:dd-MMM-yy}'}}" Grid.Row="1" Grid.Column="1" />
+                <Label Text="{Binding StudentHelpRequest.Student.FullName}" Grid.Row="0" Grid.Column="1" HorizontalOptions="StartAndExpand" />
+                <Label Text="{Binding StudentHelpRequest.Date, StringFormat='{0:dd-MMM-yy}'}}" Grid.Row="1" Grid.Column="1" HorizontalOptions="StartAndExpand" />
 
                 <Image 
                     Source="helpmet.png" 
@@ -71,6 +71,8 @@
                     Text="{Binding StudentHelpRequest.Views, StringFormat='{0} Views'}"
                     HorizontalOptions="Center"
                     VerticalOptions="StartAndExpand"
+                    Grid.Row="2"
+                    Grid.Column="0"
                     Margin="1"/>
 
                 <Label 
@@ -79,25 +81,32 @@
                     VerticalOptions="StartAndExpand"
                     HorizontalOptions="StartAndExpand"
                     Margin="0, 0, 0, 15"
-                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
+                    Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" />
 
-                <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
                     <Label Text="Comments" 
                            FontSize="20"
                            HorizontalOptions="StartAndExpand" 
                            VerticalOptions="StartAndExpand"
-                           Grid.Row="0"/>
+                           Grid.Row="0"
+                           Grid.Column="0"/>
 
+                    <Label Text="No comments.." IsVisible="{Binding CommentsEmpty}" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" />
+                    
                     <controls:HorizontalList 
                         ListOrientation="Vertical" 
                         ItemsSource="{Binding AllComments}"
                         Grid.Row="1"
-                        HorizontalOptions="StartAndExpand">
+                        Grid.Column="0"
+                        IsVisible="{Binding CommentsEmpty, Converter={StaticResource boolConverter}}">
                         <controls:HorizontalList.ItemTemplate>
                             <DataTemplate>
                                 <template:CommentsListHelpRequest />
@@ -107,61 +116,21 @@
 
                 </Grid>
             </Grid>
+
+            <Grid VerticalOptions="EndAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Entry Text="{Binding NewComment.Comment}" WidthRequest="320" Placeholder="Write your comment here"
+                       HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Post" Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PostButtonCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
         </StackLayout>
     </ScrollView>
-    
-    <StackLayout Margin="5" BackgroundColor="LightGray">
-        <StackLayout Orientation="Horizontal" BackgroundColor="Goldenrod" Padding="3">
-            <ic:CircleImage 
-                HeightRequest="100"
-                WidthRequest="100"
-                Aspect="AspectFill"
-                Source="{Binding StudentHelpRequest.Student.ProfilePicBlobUrl}"/>
-            
-            <StackLayout Margin="5">
-                <Label Text="{Binding StudentHelpRequest.Student.FullName}" FontSize="Medium" />
-                <Label Text="{Binding StudentHelpRequest.Views, StringFormat='{0} Views'}" FontSize="Medium" />
-            </StackLayout>
-
-            <Image Source="helpmet.png" HorizontalOptions="EndAndExpand" IsVisible="{Binding StudentHelpRequest.IsMet}">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding MetImageCommand}" />
-                </Image.GestureRecognizers>
-            </Image>
-            <Image Source="helpunmet.png" HorizontalOptions="EndAndExpand" IsVisible="{Binding StudentHelpRequest.IsMet, Converter={StaticResource boolConverter}}">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding MetImageCommand}" />
-                </Image.GestureRecognizers>
-            </Image>
-
-        </StackLayout>
-
-        <StackLayout BackgroundColor="WhiteSmoke" Padding="3">
-            <Label Text="{Binding StudentHelpRequest.Message}" />
-            <Entry Placeholder="Add new comment.." Text="{Binding NewComment.Comment}" />
-            <Button Text="Post Comment" Command="{Binding PostButtonCommand}" />
-        </StackLayout>
-
-        <StackLayout Padding="3">
-            <ListView HasUnevenRows="True" ItemsSource="{Binding AllComments}"
-                      SelectedItem="{Binding SelectedComment, Mode=TwoWay}"
-                      ItemTapped="HandleCommentTapped">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal" Padding="5">
-                                <ic:CircleImage 
-                                    HeightRequest="50"
-                                    WidthRequest="50"
-                                    Aspect="AspectFill"
-                                    Source="{Binding Student.ProfilePicBlobUrl}"/>
-                                <Label Text="{Binding Comment}" VerticalOptions="Center" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
-
-    </StackLayout>
 </ContentPage>

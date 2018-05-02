@@ -25,7 +25,16 @@ namespace Altaaref.ViewModels
 
         public StudentHelpRequest StudentHelpRequest { get; set; }
 
-        public HelpRequestComment NewComment { get; set; }
+        private HelpRequestComment _newComment;
+        public HelpRequestComment NewComment
+        {
+            get { return _newComment; }
+            set
+            {
+                _newComment = value;
+                OnPropertyChanged(nameof(NewComment));
+            }
+        }
 
         private List<StudentHelpComment> _allComments;
         public List<StudentHelpComment> AllComments
@@ -43,6 +52,16 @@ namespace Altaaref.ViewModels
         {
             get { return _selectedComment; }
             set { SetValue(ref _selectedComment, value); }
+        }
+
+        private bool _commentsEmpty;
+        public bool CommentsEmpty
+        {
+            get { return _commentsEmpty; }
+            set
+            {
+                SetValue(ref _commentsEmpty, value);
+            }
         }
 
         ICommand metImageCommand;
@@ -65,6 +84,8 @@ namespace Altaaref.ViewModels
         {
             _pageService = pageService;
             this.StudentHelpRequest = studentHelpRequest;
+
+            CommentsEmpty = false;
 
             this.NewComment = new HelpRequestComment
             {
@@ -116,19 +137,27 @@ namespace Altaaref.ViewModels
             var commentslist = JsonConvert.DeserializeObject<List<StudentHelpComment>>(content);
             AllComments = commentslist;
 
+            if (AllComments != null && AllComments.Count != 0)
+                CommentsEmpty = false;
+            else
+                CommentsEmpty = true;
+
             Busy = false;
         }
         
         private void AddComment()
         {
+            if (NewComment.Comment == null) return;
             PostNewComment();
+            this.NewComment = new HelpRequestComment
+            {
+                HelpRequestId = this.StudentHelpRequest.Id
+            };
 
             //AllComments.Add(new StudentHelpComment { Id = NewComment.Id, Comment = NewComment.Comment, Student = StudentHelpRequest.Student });
 
             // Temporar solution.. above commented line isn't working..
             GetComments();
-
-            ResetNewComment();
         }
 
         private async void PostNewComment()
@@ -148,15 +177,8 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private void ResetNewComment()
-        {
-            NewComment.Comment = "";
-        }
-
         public void HanldeCommentTapped(StudentHelpComment comment)
         {
-            // deselect comment
-            SelectedComment = null;
         }
     }
 }

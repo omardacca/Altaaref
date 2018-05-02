@@ -45,8 +45,16 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studyGroupInvitations = _context.StudyGroupInvitations.Where(si => si.StudentId == StudentId && si.StudyGroup.Date.Date >= DateTime.Today.Date.Date)
-                .Select(m => new ViewInvitation { StudentName = m.Student.FullName, CourseName = m.StudyGroup.Course.Name, StudyGroup = m.StudyGroup, VerificationStatus = m.VerificationStatus });
+            var studyGroupInvitations = _context.StudyGroupInvitations
+                .Where(si => si.StudentId == StudentId && si.StudyGroup.Date >= DateTime.Today.Date && si.VerificationStatus == false) // NOT PUBLISHED
+                .Select(m => 
+                new ViewInvitation
+                {
+                    StudentName = m.Student.FullName,
+                    CourseName = m.StudyGroup.Course.Name,
+                    StudyGroup = m.StudyGroup,
+                    VerificationStatus = m.VerificationStatus
+                });
                 
 
             if (studyGroupInvitations == null)

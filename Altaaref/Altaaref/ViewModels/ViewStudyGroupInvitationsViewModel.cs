@@ -74,6 +74,8 @@ namespace Altaaref.ViewModels
             Busy = false;
         }
 
+
+        //  Ready
         private async void PostAttendance(StudyGroupAttendants attendant)
         {
             Busy = true;
@@ -94,6 +96,8 @@ namespace Altaaref.ViewModels
             Busy = false;
         }
 
+
+        // Ready
         private async void DeleteAttendant(int StudyGroupId)
         {
             Busy = true;
@@ -114,6 +118,8 @@ namespace Altaaref.ViewModels
             Busy = false;
         }
 
+
+        // Ready
         private void PutInvitationVerificationSatus(StudyGroupInvitations UpdatedViewInvitation)
         {
             Busy = true;
@@ -125,11 +131,10 @@ namespace Altaaref.ViewModels
             Busy = false;
         }
 
+
+        // Ready
         public void ViewInvitationSelected(ViewInvitation vInvitation)
         {
-            ////Deselect Item
-            SelectedViewStudyGroup = null;
-
             // if clicked to attend - post him
             if(!vInvitation.VerificationStatus)
             {

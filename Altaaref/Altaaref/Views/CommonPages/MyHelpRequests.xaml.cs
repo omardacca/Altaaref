@@ -20,12 +20,5 @@ namespace Altaaref.Views.CommonPages
 
             BindingContext = new MyHelpRequestsViewModel(new PageService());
         }
-
-        void HandleResultClicked(object sender, ItemTappedEventArgs e)
-        {
-            var rrv = sender as RoundedRectangleView;
-
-            (BindingContext as MyHelpRequestsViewModel).HandleItemClicked(rrv.CommandParameter as StudentHelpRequest);
-        }
     }
 }

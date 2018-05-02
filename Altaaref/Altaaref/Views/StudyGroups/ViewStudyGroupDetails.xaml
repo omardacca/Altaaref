@@ -60,29 +60,29 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                    <Label Text="Attendants" FontSize="23" Grid.Row="0" Grid.Column="0" 
-                    HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="0, 0, 0, 0"/>
+                <Label Text="Attendants" FontSize="23" Grid.Row="0" Grid.Column="0" 
+                        HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="0, 0, 0, 0"/>
 
-                    <Label Text="See All" FontSize="18" Grid.Row="0" Grid.Column="1" 
-                    HorizontalOptions="End" VerticalOptions="StartAndExpand" Margin="0, 0, 0, 0">
+                <Label Text="See All" FontSize="18" Grid.Row="0" Grid.Column="1" 
+                HorizontalOptions="End" VerticalOptions="StartAndExpand" Margin="0, 0, 0, 0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SeeAllCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
 
-                    <Label Text="No attendants yet, join now!" IsVisible="{Binding AttendantsListEmpty}" 
-                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center" />
+                <Label Text="No attendants yet, join now!" IsVisible="{Binding AttendantsListEmpty}" 
+                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center" />
 
-                    <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding MiniStudentsViewAttendantsList}"
-                                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
-                                        HorizontalOptions="StartAndExpand" HeightRequest="160"
-                                        Margin="0, 1, 0, 0" IsVisible="{Binding AttendantsListEmpty, Converter={StaticResource boolConverter}}">
-                        <controls:HorizontalList.ItemTemplate>
-                            <DataTemplate>
-                                <template:UsernameAndPicListTemplate />
-                            </DataTemplate>
-                        </controls:HorizontalList.ItemTemplate>
-                    </controls:HorizontalList>
+                <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding MiniStudentsViewAttendantsList}"
+                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                                    HorizontalOptions="StartAndExpand" HeightRequest="160"
+                                    Margin="0, 1, 0, 0" IsVisible="{Binding AttendantsListEmpty, Converter={StaticResource boolConverter}}">
+                    <controls:HorizontalList.ItemTemplate>
+                        <DataTemplate>
+                            <template:UsernameAndPicListTemplate />
+                        </DataTemplate>
+                    </controls:HorizontalList.ItemTemplate>
+                </controls:HorizontalList>
             </Grid>
 
             <Grid Grid.Row="5" Grid.Column="0" Margin="0, 2, 0, 0">

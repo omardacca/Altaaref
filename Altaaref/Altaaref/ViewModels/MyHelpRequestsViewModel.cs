@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
 {
@@ -56,6 +58,19 @@ namespace Altaaref.ViewModels
             }
         }
 
+        private bool _isListEmpty;
+        public bool IsListEmpty
+        {
+            get { return _isListEmpty; }
+            set
+            {
+                SetValue(ref _isListEmpty, value);
+            }
+        }
+
+        private ICommand _viewCommand;
+        public ICommand ViewCommand { get { return _viewCommand; } }
+
         private StudentHelpRequest _selectedStudentHelpRequest;
         public StudentHelpRequest SelectedStudentHelpRequest
         {
@@ -63,19 +78,17 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _selectedStudentHelpRequest, value); }
         }
 
-        public void HandleItemClicked(StudentHelpRequest studentHelpRequest)
-        {
-            //Deselect Item
-            SelectedStudentHelpRequest = null;
-
-            _pageService.PushAsync(new Views.CommonPages.ViewHelpRequestsDetails(studentHelpRequest));
-        }
-
         public MyHelpRequestsViewModel(IPageService pageService)
         {
             _pageService = pageService;
+            _viewCommand = new Command<StudentHelpRequest>(HandleViewCommand);
 
             InitHelpRequests();
+        }
+
+        private void HandleViewCommand(StudentHelpRequest studentHelpRequest)
+        {
+            _pageService.PushAsync(new Views.CommonPages.ViewHelpRequestsDetails(studentHelpRequest));
         }
 
         private async void InitHelpRequests()
@@ -88,7 +101,10 @@ namespace Altaaref.ViewModels
             var list = JsonConvert.DeserializeObject<List<StudentHelpRequest>>(content);
 
             HelpRequestsList = new List<StudentHelpRequest>(list);
-            
+
+            if (HelpRequestsList == null || HelpRequestsList.Count == 0)
+                IsListEmpty = true;
+
             Busy = false;
         }
 
