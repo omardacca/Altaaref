@@ -66,7 +66,7 @@ namespace AltaarefWebAPI.Controllers
 
             var studentFavNotebooks = _context.StudentFavNotebooks
                 .Where(m => m.StudentId == StudentId)
-                .Select(fv => new ViewNotebookStudent { Notebook = fv.Notebook, StudentId = fv.StudentId, StudentName = fv.Student.FullName });
+                .Select(fv => fv);
 
             if (studentFavNotebooks == null)
             {
