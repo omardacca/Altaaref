@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Altaaref.Views.Templates.Notebooks.ViewFavoriteNotebooksTemplate">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="120" />
+                <Setter Property="Margin" Value="0, 5, 5, 0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <RelativeLayout>
+            <Frame Style="{StaticResource FirstPanelStyle}"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
+                
+                <StackLayout Orientation="Horizontal">
+                    <BoxView WidthRequest="2" HeightRequest="120" BackgroundColor="{StaticResource OrangeColor}" />
+                    <StackLayout>
+                        <Label Text="{Binding Notebook.Name}" FontSize="21"/>
+                        <Label Text="{Binding StudentName, StringFormat='- By {0}'}" FontSize="14"/>
+                        <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} Views'}" />
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </RelativeLayout>
+    </ContentView.Content>
+
+</ContentView>

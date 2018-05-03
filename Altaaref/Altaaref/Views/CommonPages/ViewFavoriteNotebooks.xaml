@@ -2,39 +2,41 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates.Notebooks"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             x:Name="viewfavnotespage"
              x:Class="Altaaref.Views.CommonPages.ViewFavoriteNotebooks">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="BackgroundColor">#F5F5F5</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout>
-        <ActivityIndicator IsRunning="{Binding Busy}"
-                           IsVisible="{Binding Busy}"
-                           Color="Black"
-                           VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" />
-        <ListView HasUnevenRows="True" ItemsSource="{Binding ViewFavNotebooksList}"
-              SelectedItem="{Binding SelectedViewStudyGroup, Mode=TwoWay}"
-              ItemTapped="Handle_ItemTapped"
-              IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10">
-                            <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
-                                <Label Text="{Binding Notebook.Name}" FontSize="Medium" />
-                                <Label Text="{Binding StudentName, StringFormat='By {0}'}" VerticalOptions="Start" />
-                                <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} Views'}" VerticalOptions="Start" />
+    <ContentPage.Content>
 
-                            </StackLayout>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
-    
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
+                                IsVisible="{Binding Busy}"
+                                Color="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+
+            <Label Text="You dont have any favorite notebook!" IsVisible="{Binding IsListEmpty}"
+                   VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="Large" HorizontalTextAlignment="Center"/>
+
+            <RelativeLayout IsVisible="{Binding IsListEmpty, Converter={StaticResource boolConverter}}">
+                <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding ViewFavNotebooksList}"
+                                         SelectedCommand="{Binding SelectedCommand}"
+                                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
+                    <controls:HorizontalList.ItemTemplate>
+                        <DataTemplate>
+                            <template:ViewFavoriteNotebooksTemplate ParentContext="{Binding BindingContext, Source={x:Reference viewfavnotespage}}" />
+                        </DataTemplate>
+                    </controls:HorizontalList.ItemTemplate>
+                </controls:HorizontalList>
+            </RelativeLayout>
+        </StackLayout>
+
+    </ContentPage.Content>
+   
 </ContentPage>

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              x:Class="Altaaref.Views.Templates.StudyGroups.ViewStudyGroupInvitationsTemplate"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              x:Name="invtemplatepage">
@@ -8,6 +9,8 @@
     <ContentView.Resources>
         <ResourceDictionary>
 
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            
             <Color x:Key="SkyColor">#4DACFF</Color>
             <Color x:Key="OrangeColor">#BC4C1B</Color>
             <Color x:Key="WhiteColor">#F7F7F7</Color>
@@ -29,7 +32,7 @@
             <Frame Style="{StaticResource FirstPanelStyle}"
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
                 <StackLayout Spacing="0">
-                    <Label Text="{Binding CourseName}" FontSize="24" HorizontalTextAlignment="Start" Margin="0,1,0,0" />
+                    <Label Text="{Binding StudyGroup.CourseName}" FontSize="24" HorizontalTextAlignment="Start" Margin="0,1,0,0" />
                     <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                         <Label Text="{Binding StudyGroup.Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="14" HorizontalTextAlignment="Start" />
                         <Label Text="-" FontSize="14"/>
@@ -38,12 +41,33 @@
                     <Label Text="{Binding StudyGroup.Address}" FontSize="14" />
                     <Label Text="{Binding StudyGroup.Message}" Margin="0, 7, 0, 1" />
 
-                    <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand">
-                        <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                        <controls:ButtonFrame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ParentContext.ViewStudyGroupCommand, Source={x:Reference invtemplatepage}}" CommandParameter="{Binding .}" />
-                        </controls:ButtonFrame.GestureRecognizers>
-                    </controls:ButtonFrame>
+
+                    <Grid Padding="0, 8, 0, 8" VerticalOptions="EndAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <controls:ButtonFrame HeightRequest="17" WidthRequest="50" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"
+                                              Grid.Column="0">
+                            <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                            <controls:ButtonFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ParentContext.ViewInvitationsCommand, Source={x:Reference invtemplatepage}}" CommandParameter="{Binding .}" />
+                            </controls:ButtonFrame.GestureRecognizers>
+                        </controls:ButtonFrame>
+
+                        <controls:ButtonFrame HeightRequest="17" WidthRequest="50" VerticalOptions="EndAndExpand" HorizontalOptions="StartAndExpand"
+                                              Grid.Column="1" IsVisible="{Binding VerificationStatus, Converter={StaticResource boolConverter}}">
+                            <Label Text="Accept" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                            <controls:ButtonFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ParentContext.AcceptCommand, Source={x:Reference invtemplatepage}}" CommandParameter="{Binding .}" />
+                            </controls:ButtonFrame.GestureRecognizers>
+                        </controls:ButtonFrame>
+
+                        <Image Source="vicon.png" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"
+                               Grid.Column="1" IsVisible="{Binding VerificationStatus}"/>
+                    </Grid>
+
                 </StackLayout>
             </Frame>
         </RelativeLayout>

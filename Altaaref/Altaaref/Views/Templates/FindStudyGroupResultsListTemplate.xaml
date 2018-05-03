@@ -13,10 +13,10 @@
             <Color x:Key="WhiteColor">#F7F7F7</Color>
 
             <Style x:Key="FirstPanelStyle" 
-                   TargetType="controls:RoundedRectangleView">
+                   TargetType="Frame">
                 <Setter Property="HeightRequest" Value="200" />
                 <Setter Property="Margin" Value="0, 5, 5, 0" />
-                <Setter Property="FillColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
             </Style>
 
 

@@ -9,6 +9,7 @@
              x:Name="resultspage"
              Title="Results" 
              BackgroundColor="{StaticResource BackgroundColor}">
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:InverseBooleanConverter x:Key="boolConverter" />

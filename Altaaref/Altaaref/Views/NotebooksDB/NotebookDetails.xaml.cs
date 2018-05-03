@@ -1,4 +1,5 @@
-﻿using Altaaref.ViewModels;
+﻿using Altaaref.Models;
+using Altaaref.ViewModels;
 using PCLStorage;
 using System;
 using System.Collections.Generic;
@@ -17,18 +18,18 @@ namespace Altaaref.Views.NotebooksDB
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NotebookDetails : ContentPage
 	{
-        public NotebookDetails(int notebookId)
+        public NotebookDetails(Notebook notebook)
+        {
+            InitializeComponent();
+
+            BindingContext = new NotebookDetailsViewModel(notebook);
+        }
+
+        public NotebookDetails(ViewNotebookStudent viewNotebookStudent)
 		{
 			InitializeComponent ();
 
-            BindingContext = new NotebookDetailsViewModel(notebookId);
-        }
-
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            await (BindingContext as NotebookDetailsViewModel).Init();
+            BindingContext = new NotebookDetailsViewModel(viewNotebookStudent);
         }
 
         void HandleActivated(object sender, EventArgs e)

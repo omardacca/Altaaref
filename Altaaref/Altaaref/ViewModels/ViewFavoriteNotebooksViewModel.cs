@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
@@ -31,6 +32,9 @@ namespace Altaaref.ViewModels
                 OnPropertyChanged(nameof(ViewFavNotebooksList));
             }
         }
+        
+        private ICommand _selectedCommand;
+        public ICommand SelectedCommand { get { return _selectedCommand; } }
 
         private bool _busy;
         public bool Busy
@@ -42,15 +46,26 @@ namespace Altaaref.ViewModels
             }
         }
 
+        private bool _isListEmpty;
+        public bool IsListEmpty
+        {
+            get { return _isListEmpty; }
+            set
+            {
+                SetValue(ref _isListEmpty, value);
+            }
+        }
+
         public ViewFavoriteNotebooksViewModel(IPageService pageService)
         {
             _pageService = pageService;
+            _selectedCommand = new Command<ViewNotebookStudent>(ViewFavoriteNotebookSelected);
             GetFavoriteNotebooksList();
         }
 
         public async void ViewFavoriteNotebookSelected(ViewNotebookStudent viewNotebookStudent)
         {
-            await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent.Notebook.Id));
+            await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent));
         }
 
         public async void GetFavoriteNotebooksList()
@@ -61,6 +76,10 @@ namespace Altaaref.ViewModels
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);
             ViewFavNotebooksList = new List<ViewNotebookStudent>(list);
+
+            if (ViewFavNotebooksList == null || ViewFavNotebooksList.Count == 0)
+                IsListEmpty = true;
+
             Busy = false;
         }
 

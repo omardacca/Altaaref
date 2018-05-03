@@ -14,12 +14,5 @@ namespace Altaaref.Views.CommonPages
 
             BindingContext = new MyStudyGroupsViewModel(new PageService());
         }
-
-        void HandleItemClicked(object sender, ItemTappedEventArgs e)
-        {
-            var rrv = sender as RoundedRectangleView;
-
-            (BindingContext as MyStudyGroupsViewModel).StudyGroupItemClicked(rrv.CommandParameter as Models.StudyGroup);
-        }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -16,8 +17,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private List<Models.StudyGroup> _studyGroupList;
-        public List<Models.StudyGroup> StudyGroupList
+        private List<StudyGroupView> _studyGroupList;
+        public List<StudyGroupView> StudyGroupList
         {
             get
             {
@@ -40,16 +41,32 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private int _selectedStudyGroupId;
-        public int SelectedStudyGroupId
+        private bool _isListEmpty;
+        public bool IsListEmpty
         {
-            get { return _selectedStudyGroupId; }
-            set { SetValue(ref _selectedStudyGroupId, value); }
+            get { return _isListEmpty; }
+            set
+            {
+                SetValue(ref _isListEmpty, value);
+            }
         }
+
+        private StudyGroupView _selectedStudyGroup;
+        public StudyGroupView SelectedStudyGroup
+        {
+            get { return _selectedStudyGroup; }
+            set { SetValue(ref _selectedStudyGroup, value); }
+        }
+
+        private ICommand _viewStudyGroupCommand;
+        public ICommand ViewStudyGroupCommand { get { return _viewStudyGroupCommand; } }
 
         public MyStudyGroupsViewModel(IPageService pageService)
         {
             _pageService = pageService;
+
+            _viewStudyGroupCommand = new Command<StudyGroupView>(StudyGroupItemClicked);
+
             InitAsync();
         }
 
@@ -58,33 +75,22 @@ namespace Altaaref.ViewModels
             await InitStudyGroupListAsync();
         }
 
-        public void StudyGroupItemClicked(Models.StudyGroup studyGroupClicked)
+        public void StudyGroupItemClicked(StudyGroupView studyGroupClicked)
         {
-            // lookup this page!! the convertion to StudyGroupView in here is temp
-            StudyGroupView temp = new StudyGroupView
-            {
-                StudyGroupId = studyGroupClicked.Id,
-                CourseId = studyGroupClicked.CourseId,
-                CourseName = "This Imaplementation is temp",
-                StudentName = "This Imaplementation is temp",
-                Address = studyGroupClicked.Address,
-                Date = studyGroupClicked.Date,
-                Message = studyGroupClicked.Message,
-                Time = studyGroupClicked.Time,
-                NumberOfAttendants = 100
-            };
-
-            _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(temp));
+            _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(studyGroupClicked));
         }
 
-        private async System.Threading.Tasks.Task InitStudyGroupListAsync()
+        private async Task InitStudyGroupListAsync()
         {
             Busy = true;
             string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById/" + StudentId;
 
             string results = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<Models.StudyGroup>>(results);
-            StudyGroupList = new List<Models.StudyGroup>(list);
+            var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(results);
+            StudyGroupList = new List<StudyGroupView>(list);
+
+            if (StudyGroupList == null || StudyGroupList.Count == 0)
+                IsListEmpty = true;
 
             Busy = false;
         }

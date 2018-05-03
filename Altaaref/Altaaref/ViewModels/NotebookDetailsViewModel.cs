@@ -17,7 +17,7 @@ namespace Altaaref.ViewModels
     {
         int _tempStudentId = 204228043;
         private HttpClient _client = new HttpClient();
-        private int notebookId;
+
 
         private bool _isFavorite;
 
@@ -31,14 +31,14 @@ namespace Altaaref.ViewModels
 
         public ICommand FavoriteImageButtonCommand { get; private set; }
 
-        private Notebook _notebook;
-        public Notebook Notebook
+        private ViewNotebookStudent _viewNotebookStudent;
+        public ViewNotebookStudent ViewNotebookStudent
         {
-            get { return _notebook; }
+            get { return _viewNotebookStudent; }
             set
             {
-                _notebook = value;
-                OnPropertyChanged(nameof(Notebook));
+                _viewNotebookStudent = value;
+                OnPropertyChanged(nameof(ViewNotebookStudent));
             }
         }
 
@@ -52,28 +52,33 @@ namespace Altaaref.ViewModels
             }
         }
 
-        public NotebookDetailsViewModel(int notebookId)
+        public NotebookDetailsViewModel(Notebook notebook)
         {
-            this.notebookId = notebookId;
 
-            FavoriteImageButtonCommand = new Command(OnFavoriteTap);
+            InitProperties();
+        }
+        
+        public NotebookDetailsViewModel(ViewNotebookStudent viewNotebookStudent)
+        {
+            ViewNotebookStudent = viewNotebookStudent;
+
+            InitProperties();
         }
 
-        public async Task Init()
+        private void InitProperties()
         {
-            // Enable activity Indicator - disable is right after assigning listView item source
-            Busy = true;
-
-            await GetNotebookAsync();
+            // check if viewed before, then determine to execute AddViewToViewCount();
             AddViewToViewCount();
+
             InitFavoriteImageButton();
 
+            FavoriteImageButtonCommand = new Command(OnFavoriteTap);
         }
 
         // Get if current is favorite or not
         private void UpdateFieldFavoriteStatus()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + _tempStudentId + "/" + Notebook.Id;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + _tempStudentId + "/" + _viewNotebookStudent.Notebook.Id;
 
             var content = _client.GetAsync(url).Result;
             var response = content.IsSuccessStatusCode;
@@ -87,7 +92,7 @@ namespace Altaaref.ViewModels
         // Add Current to favorite
         private bool AddToFavorite()
         {
-            StudentFavNotebooks sfn = new StudentFavNotebooks { StudentId = 204228043, NotebookId = Notebook.Id };
+            StudentFavNotebooks sfn = new StudentFavNotebooks { StudentId = 204228043, NotebookId = _viewNotebookStudent.Notebook.Id };
 
             var content = new StringContent(JsonConvert.SerializeObject(sfn), Encoding.UTF8, "application/json");
 
@@ -99,7 +104,7 @@ namespace Altaaref.ViewModels
         // Deletes current Favorite
         private bool DeleteFavorite()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + _tempStudentId + "/" + Notebook.Id;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + _tempStudentId + "/" + _viewNotebookStudent.Notebook.Id;
             var response = _client.DeleteAsync(url);
             return response.Result.IsSuccessStatusCode;
         }
@@ -137,28 +142,22 @@ namespace Altaaref.ViewModels
 
         private async Task GetNotebookAsync()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + notebookId;
+            Busy = true;
 
+            string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + _viewNotebookStudent.Notebook.Id;
             string content = await _client.GetStringAsync(url);
-            Notebook = JsonConvert.DeserializeObject<Notebook>(content);
+            ViewNotebookStudent.Notebook = JsonConvert.DeserializeObject<Notebook>(content);
 
-            // Disable Activity Idicator
             Busy = false;
         }
 
+
         private async void AddViewToViewCount()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + notebookId;
-            Notebook updated = new Notebook
-            {
-                Id = Notebook.Id,
-                Name = Notebook.Name,
-                FileName = Notebook.FileName,
-                BlobURL = Notebook.BlobURL,
-                PublishDate = Notebook.PublishDate,
-                ViewsCount = Notebook.ViewsCount + 1,
-                CourseId = Notebook.CourseId
-            };
+            string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + _viewNotebookStudent.Notebook.Id;
+
+            Notebook updated = _viewNotebookStudent.Notebook;
+            updated.ViewsCount += 1;
 
             var content = new StringContent(JsonConvert.SerializeObject(updated), Encoding.UTF8, "application/json");
             var response = _client.PutAsync(url, content).Result;
@@ -166,6 +165,7 @@ namespace Altaaref.ViewModels
             // update the Notebook property from db
             await GetNotebookAsync();
         }
+
         // reads and returns external file as Stream
         private  Task<Stream> getStreamAsync(string url)
         {
@@ -200,7 +200,7 @@ namespace Altaaref.ViewModels
 
         public void HandleOnDownloadButtonClicked()
         {
-            DependencyService.Get<IDownloader>().StartDownload(Notebook.BlobURL, Notebook.FileName);
+            DependencyService.Get<IDownloader>().StartDownload(_viewNotebookStudent.Notebook.BlobURL, _viewNotebookStudent.Notebook.FileName);
         }
 
         // same note as UploadFileToBlob method up there,

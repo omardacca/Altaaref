@@ -19,17 +19,5 @@ namespace Altaaref.Views.CommonPages
 
             BindingContext = new ViewFavoriteNotebooksViewModel(new PageService());
         }
-
-        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            (BindingContext as ViewFavoriteNotebooksViewModel).ViewFavoriteNotebookSelected(e.Item as ViewNotebookStudent);
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            (BindingContext as ViewFavoriteNotebooksViewModel).GetFavoriteNotebooksList();
-        }
     }
 }

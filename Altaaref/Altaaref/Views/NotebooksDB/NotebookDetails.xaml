@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Altaaref.Views.NotebooksDB.NotebookDetails"
              Title="Notebook Details" >
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="{Binding FavoriteImage}" Order="Primary" Command="{Binding FavoriteImageButtonCommand}"/>
     </ContentPage.ToolbarItems>
+
     <Grid>
         <ActivityIndicator IsRunning="{Binding Busy}"
                            IsVisible="{Binding Busy}"

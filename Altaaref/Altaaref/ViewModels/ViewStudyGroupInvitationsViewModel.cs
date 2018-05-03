@@ -49,6 +49,9 @@ namespace Altaaref.ViewModels
         private ICommand _viewInvitationscommand;
         public ICommand ViewInvitationsCommand { get { return _viewInvitationscommand; } }
 
+        private ICommand _acceptCommand;
+        public ICommand AcceptCommand { get { return _acceptCommand; } }
+
         private bool _isListEmpty;
         public bool IsListEmpty
         {
@@ -58,7 +61,6 @@ namespace Altaaref.ViewModels
                 SetValue(ref _isListEmpty, value);
             }
         }
-
 
         private bool _busy;
         public bool Busy
@@ -74,7 +76,9 @@ namespace Altaaref.ViewModels
         public ViewStudyGroupInvitationsViewModel(IPageService pageService)
         {
             _pageService = pageService;
-            _viewInvitationscommand = new Command<ViewInvitation>(ViewInvitationSelected);
+            _viewInvitationscommand = new Command<ViewInvitation>(ViewTapped);
+            _acceptCommand = new Command<ViewInvitation>(AcceptTapped);
+
             GetInvitationsListAsync();
         }
 
@@ -152,7 +156,7 @@ namespace Altaaref.ViewModels
 
 
         // Ready
-        public void ViewInvitationSelected(ViewInvitation vInvitation)
+        public void AcceptTapped(ViewInvitation vInvitation)
         {
             // if clicked to attend - post him
             if(!vInvitation.VerificationStatus)
@@ -166,7 +170,12 @@ namespace Altaaref.ViewModels
                 DeleteAttendant(vInvitation.StudyGroup.StudyGroupId);
             }
             vInvitation.VerificationStatus = !vInvitation.VerificationStatus;
+            
+        }
 
+        public void ViewTapped(ViewInvitation Inv)
+        {
+            _pageService.PushAsync(new Views.StudyGroups.ViewStudyGroupDetails(Inv.StudyGroup));
         }
     }
 }
