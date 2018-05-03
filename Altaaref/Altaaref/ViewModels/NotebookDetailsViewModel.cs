@@ -54,9 +54,9 @@ namespace Altaaref.ViewModels
         
         public NotebookDetailsViewModel(Notebook Notebook)
         {
-            updatePublisherInfo();
+            updatePublisherInfo(Notebook.Id);
 
-            //ViewNotebookStudent.Notebook = viewNotebookStudent;
+            ViewNotebookStudent.Notebook = Notebook;
 
             InitProperties();
         }
@@ -71,13 +71,13 @@ namespace Altaaref.ViewModels
             FavoriteImageButtonCommand = new Command(OnFavoriteTap);
         }
 
-        private void updatePublisherInfo()
+        private async void updatePublisherInfo(int id)
         {
             Busy = true;
 
-            string url = "https://altaarefapp.azurewebsites.net/api/ByStudentId/" + _viewNotebookStudent.Notebook.Id;
-            //string content = await _client.GetStringAsync(url);
-            //ViewNotebookStudent.Notebook = JsonConvert.DeserializeObject<Notebook>(content);
+            string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/GetStudent/" + id;
+            string content = await _client.GetStringAsync(url);
+            ViewNotebookStudent = JsonConvert.DeserializeObject<ViewNotebookStudent>(content);
 
             Busy = false;
         }
