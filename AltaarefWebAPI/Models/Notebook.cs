@@ -19,10 +19,12 @@ namespace AltaarefWebAPI.Models
         // public string FileExtension { get; set; } 
 
         public ICollection<StudentFavNotebooks> StudentFavNotebooks { get; set; }
-        public ICollection<StudentNotebooks> StudentNotebooks { get; set; }
 
         public int CourseId { get; set; }
         public Course Course { get; set; }
+
+        public int StudentId { get; set; }
+        public Student Student { get; set; }
 
     }
 }

@@ -51,16 +51,12 @@ namespace Altaaref.ViewModels
                 SetValue(ref _busy, value);
             }
         }
-
-        public NotebookDetailsViewModel(Notebook notebook)
-        {
-
-            InitProperties();
-        }
         
-        public NotebookDetailsViewModel(ViewNotebookStudent viewNotebookStudent)
+        public NotebookDetailsViewModel(Notebook Notebook)
         {
-            ViewNotebookStudent = viewNotebookStudent;
+            updatePublisherInfo();
+
+            //ViewNotebookStudent.Notebook = viewNotebookStudent;
 
             InitProperties();
         }
@@ -73,6 +69,17 @@ namespace Altaaref.ViewModels
             InitFavoriteImageButton();
 
             FavoriteImageButtonCommand = new Command(OnFavoriteTap);
+        }
+
+        private void updatePublisherInfo()
+        {
+            Busy = true;
+
+            string url = "https://altaarefapp.azurewebsites.net/api/ByStudentId/" + _viewNotebookStudent.Notebook.Id;
+            //string content = await _client.GetStringAsync(url);
+            //ViewNotebookStudent.Notebook = JsonConvert.DeserializeObject<Notebook>(content);
+
+            Busy = false;
         }
 
         // Get if current is favorite or not

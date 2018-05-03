@@ -20,6 +20,6 @@ namespace AltaarefWebAPI.Models
         public ICollection<StudentFaculty> StudentFaculty { get; set; }
         public ICollection<StudentCourses> StudentCourses { get; set; }
         public ICollection<StudyGroupComment> StudyGroupComments { get; set; }
-        public ICollection<StudentNotebooks> StudentNotebooks { get; set; }
+        public ICollection<Notebook> Notebooks { get; set; }
     }
 }

@@ -22,8 +22,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private List<ViewNotebookStudent> _viewFavNotebooksList;
-        public List<ViewNotebookStudent> ViewFavNotebooksList
+        private List<Notebook> _viewFavNotebooksList;
+        public List<Notebook> ViewFavNotebooksList
         {
             get { return _viewFavNotebooksList; }
             private set
@@ -59,11 +59,11 @@ namespace Altaaref.ViewModels
         public ViewFavoriteNotebooksViewModel(IPageService pageService)
         {
             _pageService = pageService;
-            _selectedCommand = new Command<ViewNotebookStudent>(ViewFavoriteNotebookSelected);
+            _selectedCommand = new Command<Notebook>(ViewFavoriteNotebookSelected);
             GetFavoriteNotebooksList();
         }
 
-        public async void ViewFavoriteNotebookSelected(ViewNotebookStudent viewNotebookStudent)
+        public async void ViewFavoriteNotebookSelected(Notebook viewNotebookStudent)
         {
             await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent));
         }
@@ -74,8 +74,8 @@ namespace Altaaref.ViewModels
             var url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/Details/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);
-            ViewFavNotebooksList = new List<ViewNotebookStudent>(list);
+            var list = JsonConvert.DeserializeObject<List<Notebook>>(content);
+            ViewFavNotebooksList = new List<Notebook>(list);
 
             if (ViewFavNotebooksList == null || ViewFavNotebooksList.Count == 0)
                 IsListEmpty = true;

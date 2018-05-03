@@ -68,7 +68,7 @@ namespace Altaaref.ViewModels
             //Deselect Item
             SelectedNotebook = null;
 
-            await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(notebook.Id));
+            await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(notebook));
         }
 
 

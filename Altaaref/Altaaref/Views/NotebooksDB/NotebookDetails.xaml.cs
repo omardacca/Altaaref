@@ -19,17 +19,10 @@ namespace Altaaref.Views.NotebooksDB
 	public partial class NotebookDetails : ContentPage
 	{
         public NotebookDetails(Notebook notebook)
-        {
-            InitializeComponent();
-
-            BindingContext = new NotebookDetailsViewModel(notebook);
-        }
-
-        public NotebookDetails(ViewNotebookStudent viewNotebookStudent)
 		{
 			InitializeComponent ();
 
-            BindingContext = new NotebookDetailsViewModel(viewNotebookStudent);
+            BindingContext = new NotebookDetailsViewModel(notebook);
         }
 
         void HandleActivated(object sender, EventArgs e)
