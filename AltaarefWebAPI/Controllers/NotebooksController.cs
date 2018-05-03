@@ -48,7 +48,7 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Notebooks/5
-        [HttpGet("{id}")]
+        [HttpGet("GetStudent/{id}")]
         public async Task<IActionResult> GetStudentByNotebookId([FromRoute] int id)
         {
             if (!ModelState.IsValid)
