@@ -18,7 +18,6 @@ namespace Altaaref.ViewModels
         int _tempStudentId = 204228043;
         private HttpClient _client = new HttpClient();
 
-
         private bool _isFavorite;
 
         private string _favoriteImage;
@@ -52,11 +51,10 @@ namespace Altaaref.ViewModels
             }
         }
         
-        public NotebookDetailsViewModel(Notebook Notebook)
+        public NotebookDetailsViewModel(ViewNotebookStudent Notebook)
         {
-            updatePublisherInfo(Notebook.Id);
 
-            ViewNotebookStudent.Notebook = Notebook;
+            ViewNotebookStudent = Notebook;
 
             InitProperties();
         }
@@ -69,17 +67,6 @@ namespace Altaaref.ViewModels
             InitFavoriteImageButton();
 
             FavoriteImageButtonCommand = new Command(OnFavoriteTap);
-        }
-
-        private async void updatePublisherInfo(int id)
-        {
-            Busy = true;
-
-            string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/GetStudent/" + id;
-            string content = await _client.GetStringAsync(url);
-            ViewNotebookStudent = JsonConvert.DeserializeObject<ViewNotebookStudent>(content);
-
-            Busy = false;
         }
 
         // Get if current is favorite or not
