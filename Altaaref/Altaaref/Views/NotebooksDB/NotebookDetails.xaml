@@ -16,15 +16,19 @@
                            HorizontalOptions="CenterAndExpand"/>
 
         <StackLayout Padding="5">
-            <Label FontSize="Large" Text="{Binding Notebook.Name}" HorizontalOptions="Start" />
-            <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} views'}"/>
-            <Label Text="{Binding Notebook.PublishDate, StringFormat='{0:D}'}"/>
+            <Label FontSize="Large" Text="{Binding ViewNotebookStudent.Notebook.Name}" HorizontalOptions="Start" />
+            <Label Text="{Binding ViewNotebookStudent.Notebook.ViewsCount, StringFormat='{0} views'}"/>
+            <Label Text="{Binding ViewNotebookStudent.Notebook.PublishDate, StringFormat='{0:D}'}"/>
 
+            
+            <!--
             <StackLayout VerticalOptions="EndAndExpand">
                 <Button Text="Get Location" BackgroundColor="DarkKhaki" TextColor="Black" Clicked="OnLocationButtonClicked" />
                 <Button Text="Download" BackgroundColor="DarkRed" TextColor="White" Clicked="OnDownloadButtonClicked" />
                 <Button Text="Add to Favorites" BackgroundColor="SkyBlue" TextColor="White" Clicked="OnFavoriteButtonClicked" />
             </StackLayout>
+            -->
+            
         </StackLayout>
 
     </Grid>

@@ -22,8 +22,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private List<Notebook> _viewFavNotebooksList;
-        public List<Notebook> ViewFavNotebooksList
+        private List<ViewNotebookStudent> _viewFavNotebooksList;
+        public List<ViewNotebookStudent> ViewFavNotebooksList
         {
             get { return _viewFavNotebooksList; }
             private set
@@ -32,7 +32,8 @@ namespace Altaaref.ViewModels
                 OnPropertyChanged(nameof(ViewFavNotebooksList));
             }
         }
-        
+
+
         private ICommand _selectedCommand;
         public ICommand SelectedCommand { get { return _selectedCommand; } }
 
@@ -59,13 +60,13 @@ namespace Altaaref.ViewModels
         public ViewFavoriteNotebooksViewModel(IPageService pageService)
         {
             _pageService = pageService;
-            _selectedCommand = new Command<Notebook>(ViewFavoriteNotebookSelected);
+            _selectedCommand = new Command<ViewNotebookStudent>(ViewFavoriteNotebookSelected);
             GetFavoriteNotebooksList();
         }
 
-        public async void ViewFavoriteNotebookSelected(Notebook viewNotebookStudent)
+        public void ViewFavoriteNotebookSelected(ViewNotebookStudent viewNotebookStudent)
         {
-            await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent));
+            _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent));
         }
 
         public async void GetFavoriteNotebooksList()
@@ -74,8 +75,8 @@ namespace Altaaref.ViewModels
             var url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/Details/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<Notebook>>(content);
-            ViewFavNotebooksList = new List<Notebook>(list);
+            var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);
+            ViewFavNotebooksList = new List<ViewNotebookStudent>(list);
 
             if (ViewFavNotebooksList == null || ViewFavNotebooksList.Count == 0)
                 IsListEmpty = true;

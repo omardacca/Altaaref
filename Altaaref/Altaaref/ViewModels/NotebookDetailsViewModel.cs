@@ -41,6 +41,20 @@ namespace Altaaref.ViewModels
             }
         }
 
+        private StudentInfoForNotebooks _studentInfo;
+        public StudentInfoForNotebooks StudentInfo
+        {
+            get { return _studentInfo; }
+            private set
+            {
+                _studentInfo = value;
+                OnPropertyChanged(nameof(StudentInfo));
+            }
+        }
+
+        public string CourseName { get; set; }
+        public int NotebookFavoritesNumber { get; set; }
+
         private bool _busy;
         public bool Busy
         {
@@ -64,9 +78,50 @@ namespace Altaaref.ViewModels
             // check if viewed before, then determine to execute AddViewToViewCount();
             AddViewToViewCount();
 
+            GetStudentInfo();
+
+            GetCourseName();
+
+            GetNotebookFavoriteNumber();
+
             InitFavoriteImageButton();
 
             FavoriteImageButtonCommand = new Command(OnFavoriteTap);
+        }
+
+        public async void GetNotebookFavoriteNumber()
+        {
+            Busy = true;
+            var url = "https://altaarefapp.azurewebsites.net/api/Notebooks/StudentFavoriteNumber/" + ViewNotebookStudent.Notebook.Id;
+
+            var content = await _client.GetStringAsync(url);
+
+            NotebookFavoritesNumber = int.Parse(content);
+
+            Busy = false;
+        }
+
+        public async void GetCourseName()
+        {
+            Busy = true;
+            var url = "https://altaarefapp.azurewebsites.net/api/Courses/CourseName/" + ViewNotebookStudent.Notebook.CourseId;
+
+            CourseName = await _client.GetStringAsync(url);
+            
+
+            Busy = false;
+        }
+
+        public async void GetStudentInfo()
+        {
+            Busy = true;
+            var url = "https://altaarefapp.azurewebsites.net/api/Students/Infofornotebooks/" + ViewNotebookStudent.StudentId;
+
+            string content = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<StudentInfoForNotebooks>(content);
+            StudentInfo = list;
+
+            Busy = false;
         }
 
         // Get if current is favorite or not

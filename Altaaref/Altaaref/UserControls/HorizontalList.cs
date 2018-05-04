@@ -86,7 +86,7 @@ namespace Altaaref.UserControls
             _innerSelectedCommand = new Command<View>(view =>
             {
                 SelectedItem = view.BindingContext;
-                SelectedItem = null; // Allowing item second time selection
+                //SelectedItem = null; // Allowing item second time selection
             });
 
             _itemsStackLayout.Orientation = ListOrientation;

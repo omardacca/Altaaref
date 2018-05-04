@@ -30,7 +30,7 @@
                     <BoxView WidthRequest="2" HeightRequest="120" BackgroundColor="{StaticResource OrangeColor}" />
                     <StackLayout>
                         <Label Text="{Binding Notebook.Name}" FontSize="21"/>
-                        <Label Text="{Binding studentName, StringFormat='-By {0}'}" />
+                        <Label Text="{Binding StudentName, StringFormat='-By {0}'}" />
                         <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} Views'}" />
                     </StackLayout>
                 </StackLayout>

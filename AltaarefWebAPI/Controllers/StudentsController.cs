@@ -47,6 +47,32 @@ namespace AltaarefWebAPI.Controllers
             return Ok(student);
         }
 
+
+        [HttpGet("Infofornotebooks/{id}")]
+        public async Task<IActionResult> GetStudentInfoForNotebookDetails([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var student = _context.Student.Where(m => m.Id == id)
+                .Select(s => new StudentInfoForNotebooks
+                {
+                    Id = s.Id,
+                    FullName = s.FullName,
+                    ProfilePicBlobUrl = s.ProfilePicBlobUrl,
+                    NotebooksNumber = s.Notebooks.Count
+                });
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(student);
+        }
+
         // PUT: api/Students/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudent([FromRoute] int id, [FromBody] Student student)

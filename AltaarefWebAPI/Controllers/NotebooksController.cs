@@ -47,6 +47,27 @@ namespace AltaarefWebAPI.Controllers
             return Ok(notebook);
         }
 
+
+        // GET: api/Notebooks/5
+        [HttpGet("{StudentFavoriteNumber/id}")]
+        public async Task<IActionResult> GetStudentFavoriteNotebooksNumber([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var notebook = _context.Notebook.SingleOrDefaultAsync(m => m.Id == id);
+            var count = notebook.Result.StudentFavNotebooks.Count;
+
+            if (notebook == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(count);
+        }
+
         // GET: api/Notebooks/5
         [HttpGet("GetStudent/{id}")]
         public async Task<IActionResult> GetStudentByNotebookId([FromRoute] int id)
