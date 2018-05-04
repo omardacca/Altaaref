@@ -56,7 +56,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var course = _context.Course.Where(m => m.Id == id).Select(c => c.Name);
+            var course = _context.Course.Where(m => m.Id == id).Select(c => c.Name).Single();
 
             if (course == null)
             {

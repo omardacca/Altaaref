@@ -106,20 +106,20 @@ namespace Altaaref.ViewModels
             Busy = true;
             var url = "https://altaarefapp.azurewebsites.net/api/Courses/CourseName/" + ViewNotebookStudent.Notebook.CourseId;
 
-            CourseName = await _client.GetStringAsync(url);
-            
+            string content = _client.GetStringAsync(url).Result;
+            CourseName = content;
 
             Busy = false;
         }
 
-        public async void GetStudentInfo()
+        public void GetStudentInfo()
         {
             Busy = true;
             var url = "https://altaarefapp.azurewebsites.net/api/Students/Infofornotebooks/" + ViewNotebookStudent.StudentId;
 
-            string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<StudentInfoForNotebooks>(content);
-            StudentInfo = list;
+            string content = _client.GetStringAsync(url).Result;
+            var obj = JsonConvert.DeserializeObject<StudentInfoForNotebooks>(content);
+            StudentInfo = obj;
 
             Busy = false;
         }
