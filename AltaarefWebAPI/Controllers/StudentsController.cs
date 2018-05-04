@@ -63,7 +63,7 @@ namespace AltaarefWebAPI.Controllers
                     FullName = s.FullName,
                     ProfilePicBlobUrl = s.ProfilePicBlobUrl,
                     NotebooksNumber = s.Notebooks.Count
-                });
+                }).Single();
 
             if (student == null)
             {
