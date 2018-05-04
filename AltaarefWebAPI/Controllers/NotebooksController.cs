@@ -57,8 +57,8 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var notebook = _context.Notebook.SingleOrDefaultAsync(m => m.Id == id);
-            var count = notebook.Result.StudentFavNotebooks.Count;
+            var notebook = _context.Notebook.Where(m => m.Id == id);
+            var count = notebook.Select(m => m.StudentFavNotebooks.Count);
 
             if (notebook == null)
             {
