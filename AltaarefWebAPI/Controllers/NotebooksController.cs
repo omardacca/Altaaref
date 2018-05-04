@@ -48,25 +48,25 @@ namespace AltaarefWebAPI.Controllers
         }
 
 
-        // GET: api/Notebooks/5
-        [HttpGet("{StudentFavoriteNumber/id}")]
-        public async Task<IActionResult> GetStudentFavoriteNotebooksNumber([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// GET: api/Notebooks/5
+        //[HttpGet("{StudentFavoriteNumber/id}")]
+        //public async Task<IActionResult> GetStudentFavoriteNotebooksNumber([FromRoute] int id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var notebook = _context.Notebook.Where(m => m.Id == id);
-            var count = notebook.Select(m => m.StudentFavNotebooks.Count);
+        //    var notebook = _context.Notebook.Where(m => m.Id == id);
+        //    var count = notebook.Select(m => m.StudentFavNotebooks.Count);
 
-            if (notebook == null)
-            {
-                return NotFound();
-            }
+        //    if (notebook == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(count);
-        }
+        //    return Ok(count);
+        //}
 
         // GET: api/Notebooks/5
         [HttpGet("GetStudent/{id}")]
