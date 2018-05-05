@@ -87,6 +87,17 @@ namespace Altaaref.ViewModels
         public ICommand FiveStarCommand { get; set; }
 
 
+        private NotebookRates _notebookRate;
+        public NotebookRates NotebookRate
+        {
+            get { return _notebookRate; }
+            set
+            {
+                _notebookRate = value;
+                OnPropertyChanged(nameof(NotebookRates));
+            }
+        }
+
         private ViewNotebookStudent _viewNotebookStudent;
         public ViewNotebookStudent ViewNotebookStudent
         {
@@ -148,21 +159,31 @@ namespace Altaaref.ViewModels
             Task init = InitProperties();
         }
 
-        private void OnFiveStarTapped()
+        private async void OnFiveStarTapped()
         {
             if(IsFiveStars)
             {
+                if (NotebookRate == null)
+                    await PostRate(5);
+
                 IsOneStars = true;
                 IsTwoStars = true;
                 IsThreeStars = true;
                 IsFourStars = true;
             }
+            else
+            {
+                await DeleteRate();
+            }
         }
 
-        private void OnFourStarTapped()
+        private async void OnFourStarTapped()
         {
             if(IsFourStars)
             {
+                if (NotebookRate == null)
+                    await PostRate(4);
+
                 IsFiveStars = false;
                 IsThreeStars = true;
                 IsTwoStars = true;
@@ -170,14 +191,18 @@ namespace Altaaref.ViewModels
             }
             else
             {
+                await DeleteRate();
                 IsFiveStars = false;
             }
         }
 
-        private void OnThreeStarTapped()
+        private async void OnThreeStarTapped()
         {
             if(IsThreeStars)
             {
+                if (NotebookRate == null)
+                    await PostRate(3);
+
                 IsFiveStars = false;
                 IsFourStars = false;
                 IsTwoStars = true;
@@ -185,15 +210,19 @@ namespace Altaaref.ViewModels
             }
             else
             {
+                await DeleteRate();
                 IsFiveStars = false;
                 IsFourStars = false;
             }
         }
 
-        private void OnTwoStarTapped()
+        private async void OnTwoStarTapped()
         {
             if(IsTwoStars)
             {
+                if (NotebookRate == null)
+                    await PostRate(2);
+
                 IsFiveStars = false;
                 IsFourStars = false;
                 IsThreeStars = false;
@@ -201,16 +230,21 @@ namespace Altaaref.ViewModels
             }
             else
             {
+                await DeleteRate();
+
                 IsFiveStars = false;
                 IsFourStars = false;
                 IsThreeStars = false;
             }
         }
 
-        private void OnOneStarTapped()
+        private async void OnOneStarTapped()
         {
             if(IsOneStars)
             {
+                if (NotebookRate == null)
+                    await PostRate(1);
+
                 IsFiveStars = false;
                 IsFourStars = false;
                 IsThreeStars = false;
@@ -218,6 +252,8 @@ namespace Altaaref.ViewModels
             }
             else
             {
+                await DeleteRate();
+
                 IsFiveStars = false;
                 IsFourStars = false;
                 IsThreeStars = false;
@@ -236,12 +272,58 @@ namespace Altaaref.ViewModels
 
             await GetNotebookFavoriteNumber();
 
+            await GetNotebookRate();
+
             await InitFavoriteImageButton();
 
             FavoriteImageButtonCommand = new Command(OnFavoriteTap);
             DownloadCommand = new Command(HandleOnDownloadButtonClicked);
             ViewProfileCommand = new Command(OnViewProfileTapped);
             
+        }
+
+        public async Task DeleteRate()
+        {
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + ViewNotebookStudent.StudentId;
+
+            try
+            {
+                var content = await _client.DeleteAsync(url);
+            }
+            catch(ArgumentNullException e)
+            {
+
+            }
+        }
+
+        public async Task PostRate(byte rate)
+        {
+            NotebookRates sfn = new NotebookRates { StudentId = 204228043, NotebookId = _viewNotebookStudent.Notebook.Id, Rate = rate };
+
+            var content = new StringContent(JsonConvert.SerializeObject(sfn), Encoding.UTF8, "application/json");
+
+            _client.BaseAddress = new Uri("https://altaarefapp.azurewebsites.net");
+            var response = await _client.PostAsync("api/NotebookRates", content);
+            //return response.IsSuccessStatusCode;
+        }
+
+        public async Task GetNotebookRate()
+        {
+ 
+            Busy = true;
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id;
+            try
+            {
+                var content = await _client.GetStringAsync(url);
+                var nr = JsonConvert.DeserializeObject<NotebookRates>(content);
+                NotebookRate = nr;
+            }
+            catch(ArgumentNullException e)
+            {
+                NotebookRate = null;
+            }
+
+            Busy = false;
         }
 
         public async Task GetNotebookFavoriteNumber()
