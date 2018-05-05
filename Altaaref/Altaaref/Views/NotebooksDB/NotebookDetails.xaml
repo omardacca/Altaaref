@@ -100,7 +100,7 @@
                     </controls:ButtonFrame.GestureRecognizers>
                 </controls:ButtonFrame>
 
-                <Frame Grid.Row="5" Padding="0">
+                <Frame Grid.Row="5" Padding="0" Margin="0, 0, 0, 10">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -134,9 +134,11 @@
                     </Grid>
                 </Frame>
 
-                <Frame Grid.Row="6" Padding="0">
+                <Frame Grid.Row="6" Padding="5">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -149,7 +151,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Text="Rate this notebook" 
-                               FontSize="16"
+                               FontSize="20"
                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" />
 
                         <controls:ToggleButton
@@ -192,6 +194,130 @@
                             HeightRequest="50" WidthRequest="50"
                             Command="{Binding FiveStarCommand}"/>
 
+                        <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
+
+                            <Label Text="Students Rating" FontSize="20"/>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="Center"/>
+
+                                <Label Text="15" FontSize="16"
+                                       HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="Center"/>
+
+                                <Label Text="15" FontSize="16"
+                                       HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="Center"/>
+
+                                <Label Text="15" FontSize="16"
+                                       HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="Center"/>
+
+                                <Label Text="15" FontSize="16"
+                                       HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="starselected.png"
+                                           HeightRequest="35"
+                                           WidthRequest="35" 
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                           HeightRequest="35"
+                                           WidthRequest="35" 
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                           HeightRequest="35"
+                                           WidthRequest="35" 
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                           HeightRequest="35"
+                                           WidthRequest="35" 
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                           HeightRequest="35"
+                                           WidthRequest="35" 
+                                           HorizontalOptions="StartAndExpand"
+                                           VerticalOptions="Center"/>
+
+                                <Label Text="15" FontSize="16"
+                                           HorizontalOptions="EndAndExpand"
+                                           VerticalOptions="Center"/>
+                            </StackLayout>
+                        </StackLayout>
                     </Grid>
                 </Frame>
 

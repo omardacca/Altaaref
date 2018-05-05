@@ -47,6 +47,32 @@ namespace AltaarefWebAPI.Controllers
             return Ok(notebookRates);
         }
 
+        // GET: api/NotebookRates/5
+        [HttpGet("GetAllNotebookRates/{NotebookId}")]
+        public async Task<IActionResult> GetNotebookAllRates([FromRoute] int NotebookId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Dictionary<byte, int> ratesDic = new Dictionary<byte, int>();
+
+            var One = _context.NotebookRates.Where(m => m.NotebookId == NotebookId && m.Rate == 1).Count();
+            var two = _context.NotebookRates.Where(m => m.NotebookId == NotebookId && m.Rate == 2).Count();
+            var three = _context.NotebookRates.Where(m => m.NotebookId == NotebookId && m.Rate == 3).Count();
+            var four = _context.NotebookRates.Where(m => m.NotebookId == NotebookId && m.Rate == 4).Count();
+            var five = _context.NotebookRates.Where(m => m.NotebookId == NotebookId && m.Rate == 5).Count();
+
+            ratesDic.Add(1, One);
+            ratesDic.Add(2, two);
+            ratesDic.Add(3, three);
+            ratesDic.Add(4, four);
+            ratesDic.Add(5, five);
+
+            return Ok(ratesDic);
+        }
+
         // PUT: api/NotebookRates/5
         [HttpPut("{NotebookId}/{StudentId}")]
         public async Task<IActionResult> PutNotebookRates([FromRoute] int NotebookId, [FromRoute] int StudentId, [FromBody] NotebookRates notebookRates)

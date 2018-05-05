@@ -159,108 +159,6 @@ namespace Altaaref.ViewModels
             Task init = InitProperties();
         }
 
-        private async void OnFiveStarTapped()
-        {
-            if(IsFiveStars)
-            {
-                if (NotebookRate == null)
-                    await PostRate(5);
-
-                IsOneStars = true;
-                IsTwoStars = true;
-                IsThreeStars = true;
-                IsFourStars = true;
-            }
-            else
-            {
-                await DeleteRate();
-            }
-        }
-
-        private async void OnFourStarTapped()
-        {
-            if(IsFourStars)
-            {
-                if (NotebookRate == null)
-                    await PostRate(4);
-
-                IsFiveStars = false;
-                IsThreeStars = true;
-                IsTwoStars = true;
-                IsOneStars = true;
-            }
-            else
-            {
-                await DeleteRate();
-                IsFiveStars = false;
-            }
-        }
-
-        private async void OnThreeStarTapped()
-        {
-            if(IsThreeStars)
-            {
-                if (NotebookRate == null)
-                    await PostRate(3);
-
-                IsFiveStars = false;
-                IsFourStars = false;
-                IsTwoStars = true;
-                IsOneStars = true;
-            }
-            else
-            {
-                await DeleteRate();
-                IsFiveStars = false;
-                IsFourStars = false;
-            }
-        }
-
-        private async void OnTwoStarTapped()
-        {
-            if(IsTwoStars)
-            {
-                if (NotebookRate == null)
-                    await PostRate(2);
-
-                IsFiveStars = false;
-                IsFourStars = false;
-                IsThreeStars = false;
-                IsOneStars = true;
-            }
-            else
-            {
-                await DeleteRate();
-
-                IsFiveStars = false;
-                IsFourStars = false;
-                IsThreeStars = false;
-            }
-        }
-
-        private async void OnOneStarTapped()
-        {
-            if(IsOneStars)
-            {
-                if (NotebookRate == null)
-                    await PostRate(1);
-
-                IsFiveStars = false;
-                IsFourStars = false;
-                IsThreeStars = false;
-                IsTwoStars = false;
-            }
-            else
-            {
-                await DeleteRate();
-
-                IsFiveStars = false;
-                IsFourStars = false;
-                IsThreeStars = false;
-                IsTwoStars = false;
-            }
-        }
-
         private async Task InitProperties()
         {
             // check if viewed before, then determine to execute AddViewToViewCount();
@@ -282,22 +180,239 @@ namespace Altaaref.ViewModels
             
         }
 
+        #region Rating Area
+
+        #region Tap Rating Stars
+
+        private async void OnFiveStarTapped()
+        {
+            if(IsFiveStars)
+            {
+                if (NotebookRate == null)
+                    await PostRate(5);
+                else
+                {
+                    NotebookRate.Rate = 5;
+                    await PutRate();
+                    UpdateToFiveStars();
+                }
+
+                UpdateToFiveStars();
+            }
+            else
+            {
+                await DeleteRate();
+                ResetStars();
+            }
+        }
+
+        private async void OnFourStarTapped()
+        {
+            if(IsFourStars)
+            {
+                if (NotebookRate == null)
+                    await PostRate(4);
+                else
+                {
+                    NotebookRate.Rate = 4;
+                    await PutRate();
+                    UpdateToFourStars();
+                }
+                UpdateToFourStars();
+            }
+            else
+            {
+                if(!IsFourStars && IsFiveStars)
+                {
+                    NotebookRate.Rate = 4;
+                    await PutRate();
+                    UpdateToFourStars();
+                }
+                else
+                {
+                    await DeleteRate();
+                    ResetStars();
+                }
+            }
+        }
+        
+        private async void OnThreeStarTapped()
+        {
+            if (IsThreeStars)
+            {
+                if (NotebookRate == null)
+                    await PostRate(3);
+                else
+                {
+                    NotebookRate.Rate = 3;
+                    await PutRate();
+                    UpdateToThreeStars();
+                }
+                UpdateToThreeStars();
+            }
+            else
+            {
+                if (!IsThreeStars && (IsFourStars || IsFiveStars))
+                {
+                    NotebookRate.Rate = 3;
+                    await PutRate();
+                    UpdateToThreeStars();
+                }
+                else
+                {
+                    await DeleteRate();
+                    ResetStars();
+                }
+            }
+        }
+
+        private async void OnTwoStarTapped()
+        {
+            if(IsTwoStars)
+            {
+                if (NotebookRate == null)
+                    await PostRate(2);
+                else
+                {
+                    NotebookRate.Rate = 2;
+                    await PutRate();
+                    UpdateToTwoStars();
+                }
+                UpdateToTwoStars();
+
+            }
+            else
+            {
+                if(!IsTwoStars && (IsThreeStars || IsFourStars || IsFiveStars))
+                {
+                    NotebookRate.Rate = 2;
+                    await PutRate();
+                    UpdateToTwoStars();
+                }
+                else
+                {
+                    await DeleteRate();
+                    ResetStars();
+                }
+            }
+        }
+
+        private async void OnOneStarTapped()
+        {
+            if (IsOneStars)
+            {
+                if (NotebookRate == null)
+                    await PostRate(1);
+
+                UpdateToOneStars();
+            }
+            else
+            {
+                if (!IsOneStars && (IsTwoStars || IsThreeStars || IsFourStars || IsFiveStars))
+                {
+                    NotebookRate.Rate = 1;
+                    await PutRate();
+                    UpdateToOneStars();
+                }
+                else
+                {
+                    await DeleteRate();
+                    ResetStars();
+                }
+            }
+        }
+
+        private void ResetStars()
+        {
+            IsOneStars = false;
+            IsTwoStars = false;
+            IsThreeStars = false;
+            IsFourStars = false;
+            IsFiveStars = false;
+        }
+
+        private void UpdateToTwoStars()
+        {
+            IsFiveStars = false;
+            IsFourStars = false;
+            IsThreeStars = false;
+            IsOneStars = true;
+            IsTwoStars = true;
+        }
+
+        private void UpdateToThreeStars()
+        {
+            IsFiveStars = false;
+            IsFourStars = false;
+            IsTwoStars = true;
+            IsOneStars = true;
+            IsThreeStars = true;
+        }
+
+        private void UpdateToFourStars()
+        {
+            IsFiveStars = false;
+            IsThreeStars = true;
+            IsTwoStars = true;
+            IsOneStars = true;
+            IsFourStars = true;
+        }
+
+        private void UpdateToFiveStars()
+        {
+            IsOneStars = true;
+            IsTwoStars = true;
+            IsThreeStars = true;
+            IsFourStars = true;
+            IsFiveStars = true;
+        }
+
+        private void UpdateToOneStars()
+        {
+            IsFiveStars = false;
+            IsFourStars = false;
+            IsThreeStars = false;
+            IsTwoStars = false;
+            IsOneStars = true;
+        }
+
+        #endregion
+
+        public async Task PutRate()
+        {
+            Busy = true;
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + ViewNotebookStudent.StudentId;
+
+            var content = new StringContent(JsonConvert.SerializeObject(NotebookRate), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync(url, content);
+
+            Busy = false;
+        }
+
         public async Task DeleteRate()
         {
+            Busy = true;
             var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + ViewNotebookStudent.StudentId;
 
             try
             {
                 var content = await _client.DeleteAsync(url);
+
+                Busy = false;
             }
-            catch(ArgumentNullException e)
+            catch(HttpRequestException e)
             {
 
+                Busy = false;
             }
+
+            Busy = false;
         }
 
         public async Task PostRate(byte rate)
         {
+            Busy = true;
+
             NotebookRates sfn = new NotebookRates { StudentId = 204228043, NotebookId = _viewNotebookStudent.Notebook.Id, Rate = rate };
 
             var content = new StringContent(JsonConvert.SerializeObject(sfn), Encoding.UTF8, "application/json");
@@ -305,26 +420,53 @@ namespace Altaaref.ViewModels
             _client.BaseAddress = new Uri("https://altaarefapp.azurewebsites.net");
             var response = await _client.PostAsync("api/NotebookRates", content);
             //return response.IsSuccessStatusCode;
+
+            Busy = false;
         }
 
         public async Task GetNotebookRate()
         {
  
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id;
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + ViewNotebookStudent.StudentId;
             try
             {
                 var content = await _client.GetStringAsync(url);
                 var nr = JsonConvert.DeserializeObject<NotebookRates>(content);
                 NotebookRate = nr;
+
+                updateStars(NotebookRate.Rate);
+
+                Busy = false;
             }
-            catch(ArgumentNullException e)
+            catch(HttpRequestException e)
             {
                 NotebookRate = null;
+                Busy = false;
             }
 
             Busy = false;
         }
+
+        private void updateStars(int rate)
+        {
+            switch(rate)
+            {
+                case 1: UpdateToOneStars();
+                    break;
+                case 2: UpdateToTwoStars();
+                    break;
+                case 3: UpdateToThreeStars();
+                    break;
+                case 4: UpdateToFourStars();
+                    break;
+                case 5: UpdateToFiveStars();
+                    break;
+            }
+        }
+
+        #endregion
+
 
         public async Task GetNotebookFavoriteNumber()
         {
