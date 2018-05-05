@@ -58,7 +58,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var notebook = _context.Notebook.Where(m => m.Id == id);
-            var count = notebook.Select(m => m.StudentFavNotebooks.Count);
+            var count = notebook.Select(m => m.StudentFavNotebooks.Count).Single();
 
             if (notebook == null)
             {

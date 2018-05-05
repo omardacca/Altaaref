@@ -1,35 +1,203 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
              x:Class="Altaaref.Views.NotebooksDB.NotebookDetails"
              Title="Notebook Details" >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="120" />
+
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="{Binding FavoriteImage}" Order="Primary" Command="{Binding FavoriteImageButtonCommand}"/>
     </ContentPage.ToolbarItems>
 
-    <Grid>
-        <ActivityIndicator IsRunning="{Binding Busy}"
-                           IsVisible="{Binding Busy}"
-                           Color="Black"
-                           VerticalOptions="CenterAndExpand" 
-                           HorizontalOptions="CenterAndExpand"/>
+    <ScrollView>
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
 
-        <StackLayout Padding="5">
-            <Label FontSize="Large" Text="{Binding ViewNotebookStudent.Notebook.Name}" HorizontalOptions="Start" />
-            <Label Text="{Binding ViewNotebookStudent.Notebook.ViewsCount, StringFormat='{0} views'}"/>
-            <Label Text="{Binding ViewNotebookStudent.Notebook.PublishDate, StringFormat='{0:D}'}"/>
+            <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            
-            <!--
-            <StackLayout VerticalOptions="EndAndExpand">
-                <Button Text="Get Location" BackgroundColor="DarkKhaki" TextColor="Black" Clicked="OnLocationButtonClicked" />
-                <Button Text="Download" BackgroundColor="DarkRed" TextColor="White" Clicked="OnDownloadButtonClicked" />
-                <Button Text="Add to Favorites" BackgroundColor="SkyBlue" TextColor="White" Clicked="OnFavoriteButtonClicked" />
-            </StackLayout>
-            -->
-            
+                <Label Text="{Binding ViewNotebookStudent.Notebook.Name}" 
+                       VerticalOptions="StartAndExpand"
+                       FontSize="24"
+                       Grid.Row="0" />
+
+                <Label Text="{Binding CourseName}"
+                       FontSize="16"
+                       Grid.Row="1" />
+
+                <Label Text="{Binding ViewNotebookStudent.Notebook.PublishDate, StringFormat='{0:D}'}"
+                       FontSize="16"
+                       Grid.Row="2"
+                       Margin="0,0,0,10"/>
+
+                <StackLayout Grid.Row="3"
+                             Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand"
+                             Margin="0, 0, 0, 10">
+
+                    <Frame HeightRequest="50" WidthRequest="80">
+                        <StackLayout>
+                            <Label Text="{Binding ViewNotebookStudent.Notebook.ViewsCount}"
+                                   FontSize="16"
+                                   HorizontalTextAlignment="Center"/>
+
+                            <Label Text="Views" 
+                                   FontSize="16"
+                                   HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </Frame>
+
+                    <BoxView WidthRequest="2" HeightRequest="50" BackgroundColor="{StaticResource OrangeColor}" />
+
+                    <Frame HeightRequest="50" WidthRequest="80">
+                        <StackLayout>
+                            <Label Text="{Binding NotebookFavoritesNumber}"
+                                   FontSize="16"
+                                   HorizontalTextAlignment="Center"/>
+
+                            <Label Text="Favorites" 
+                                   FontSize="16"
+                                   HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <controls:ButtonFrame HeightRequest="17"
+                                      Grid.Row="4"
+                                      Margin="0, 0, 0, 10">
+                    <Label Text="Download" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    <controls:ButtonFrame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DownloadCommand}" />
+                    </controls:ButtonFrame.GestureRecognizers>
+                </controls:ButtonFrame>
+
+                <Frame Grid.Row="5" Padding="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding StudentInfo.ProfilePicBlobUrl}" 
+                               Aspect="AspectFill"
+                               HeightRequest="120"
+                               WidthRequest="120"
+                               Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"/>
+                        <Label Text="{Binding StudentInfo.FullName, StringFormat='Created by {0}'}" 
+                               FontSize="16"
+                               VerticalOptions="Start"
+                               Grid.Row="0" Grid.Column="1"/>
+                        <Label Text="{Binding NotebookFavoritesNumber, StringFormat='{0} Notebooks'}" 
+                               FontSize="16" 
+                               VerticalOptions="Start"
+                               Grid.Row="1" Grid.Column="1"/>
+                        <controls:ButtonFrame HeightRequest="14"
+                                      Grid.Row="2" Grid.Column="1">
+                            <Label Text="View Profile" BackgroundColor="Transparent" TextColor="{StaticResource OrangeColor}" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                            <controls:ButtonFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ViewProfileCommand}" />
+                            </controls:ButtonFrame.GestureRecognizers>
+                        </controls:ButtonFrame>
+                    </Grid>
+                </Frame>
+
+                <Frame Grid.Row="6" Padding="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="Rate this notebook" 
+                               FontSize="16"
+                               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" />
+
+                        <controls:ToggleButton
+                            Checked="{Binding IsOneStars, Mode=TwoWay}"
+                            CheckedImage="starselected.png"
+                            UnCheckedImage="staroutline.png"
+                            Grid.Column="0" Grid.Row="1"
+                            HeightRequest="50" WidthRequest="50"
+                            Command="{Binding OneStarCommand}"/>
+
+                        <controls:ToggleButton
+                            Checked="{Binding IsTwoStars, Mode=TwoWay}"
+                            CheckedImage="starselected.png"
+                            UnCheckedImage="staroutline.png"
+                            Grid.Column="1" Grid.Row="1" 
+                            HeightRequest="50" WidthRequest="50"
+                            Command="{Binding TwoStarCommand}"/>
+
+                        <controls:ToggleButton
+                            Checked="{Binding IsThreeStars, Mode=TwoWay}"
+                            CheckedImage="starselected.png"
+                            UnCheckedImage="staroutline.png"
+                            Grid.Column="2" Grid.Row="1"
+                            HeightRequest="50" WidthRequest="50"
+                            Command="{Binding ThreeStarCommand}"/>
+
+                        <controls:ToggleButton
+                            Checked="{Binding IsFourStars, Mode=TwoWay}"
+                            CheckedImage="starselected.png"
+                            UnCheckedImage="staroutline.png"
+                            Grid.Column="3" Grid.Row="1" 
+                            HeightRequest="50" WidthRequest="50"
+                            Command="{Binding FourStarCommand}"/>
+
+                        <controls:ToggleButton
+                            Checked="{Binding IsFiveStars, Mode=TwoWay}"
+                            CheckedImage="starselected.png"
+                            UnCheckedImage="staroutline.png"
+                            Grid.Column="4" Grid.Row="1" 
+                            HeightRequest="50" WidthRequest="50"
+                            Command="{Binding FiveStarCommand}"/>
+
+                    </Grid>
+                </Frame>
+
+
+            </Grid>
+
         </StackLayout>
-
-    </Grid>
+    </ScrollView>
 </ContentPage>

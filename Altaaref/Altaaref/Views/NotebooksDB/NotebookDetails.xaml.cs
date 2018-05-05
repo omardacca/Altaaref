@@ -20,9 +20,9 @@ namespace Altaaref.Views.NotebooksDB
 	{
         public NotebookDetails(ViewNotebookStudent notebook)
 		{
-			InitializeComponent ();
-
             BindingContext = new NotebookDetailsViewModel(notebook);
+
+            InitializeComponent ();
         }
 
         /*

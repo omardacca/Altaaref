@@ -27,8 +27,65 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _favoriteImage, value); }
         }
 
+        private bool _isOneStars;
+        public bool IsOneStars
+        {
+            get { return _isOneStars; }
+            set
+            {
+                SetValue(ref _isOneStars, value);
+            }
+        }
+
+        private bool _istwoStars;
+        public bool IsTwoStars
+        {
+            get { return _istwoStars; }
+            set
+            {
+                SetValue(ref _istwoStars, value);
+            }
+        }
+
+        private bool _isthreeStars;
+        public bool IsThreeStars
+        {
+            get { return _isthreeStars; }
+            set
+            {
+                SetValue(ref _isthreeStars, value);
+            }
+        }
+
+        private bool _isfourStars;
+        public bool IsFourStars
+        {
+            get { return _isfourStars; }
+            set
+            {
+                SetValue(ref _isfourStars, value);
+            }
+        }
+
+        private bool _isFiveStars;
+        public bool IsFiveStars
+        {
+            get { return _isFiveStars; }
+            set
+            {
+                SetValue(ref _isFiveStars, value);
+            }
+        }
 
         public ICommand FavoriteImageButtonCommand { get; private set; }
+        public ICommand DownloadCommand { get; set; }
+        public ICommand ViewProfileCommand { get; set; }
+        public ICommand OneStarCommand { get; set; }
+        public ICommand TwoStarCommand { get; set; }
+        public ICommand ThreeStarCommand { get; set; }
+        public ICommand FourStarCommand { get; set; }
+        public ICommand FiveStarCommand { get; set; }
+
 
         private ViewNotebookStudent _viewNotebookStudent;
         public ViewNotebookStudent ViewNotebookStudent
@@ -53,7 +110,13 @@ namespace Altaaref.ViewModels
         }
 
         public string CourseName { get; set; }
-        public int NotebookFavoritesNumber { get; set; }
+
+        private int _notebookFavoritesNumber;
+        public int NotebookFavoritesNumber
+        {
+            get { return _notebookFavoritesNumber; }
+            set { SetValue(ref _notebookFavoritesNumber, value); }
+        }
 
         private bool _busy;
         public bool Busy
@@ -67,29 +130,121 @@ namespace Altaaref.ViewModels
         
         public NotebookDetailsViewModel(ViewNotebookStudent Notebook)
         {
+            Busy = true;
+            IsOneStars = false;
+            IsTwoStars = false;
+            IsThreeStars = false;
+            IsFourStars = false;
+            IsFiveStars = false;
+
+            OneStarCommand = new Command(OnOneStarTapped);
+            TwoStarCommand = new Command(OnTwoStarTapped);
+            ThreeStarCommand = new Command(OnThreeStarTapped);
+            FourStarCommand = new Command(OnFourStarTapped);
+            FiveStarCommand = new Command(OnFiveStarTapped);
 
             ViewNotebookStudent = Notebook;
 
-            InitProperties();
+            Task init = InitProperties();
         }
 
-        private void InitProperties()
+        private void OnFiveStarTapped()
+        {
+            if(IsFiveStars)
+            {
+                IsOneStars = true;
+                IsTwoStars = true;
+                IsThreeStars = true;
+                IsFourStars = true;
+            }
+        }
+
+        private void OnFourStarTapped()
+        {
+            if(IsFourStars)
+            {
+                IsFiveStars = false;
+                IsThreeStars = true;
+                IsTwoStars = true;
+                IsOneStars = true;
+            }
+            else
+            {
+                IsFiveStars = false;
+            }
+        }
+
+        private void OnThreeStarTapped()
+        {
+            if(IsThreeStars)
+            {
+                IsFiveStars = false;
+                IsFourStars = false;
+                IsTwoStars = true;
+                IsOneStars = true;
+            }
+            else
+            {
+                IsFiveStars = false;
+                IsFourStars = false;
+            }
+        }
+
+        private void OnTwoStarTapped()
+        {
+            if(IsTwoStars)
+            {
+                IsFiveStars = false;
+                IsFourStars = false;
+                IsThreeStars = false;
+                IsOneStars = true;
+            }
+            else
+            {
+                IsFiveStars = false;
+                IsFourStars = false;
+                IsThreeStars = false;
+            }
+        }
+
+        private void OnOneStarTapped()
+        {
+            if(IsOneStars)
+            {
+                IsFiveStars = false;
+                IsFourStars = false;
+                IsThreeStars = false;
+                IsTwoStars = false;
+            }
+            else
+            {
+                IsFiveStars = false;
+                IsFourStars = false;
+                IsThreeStars = false;
+                IsTwoStars = false;
+            }
+        }
+
+        private async Task InitProperties()
         {
             // check if viewed before, then determine to execute AddViewToViewCount();
-            AddViewToViewCount();
+            await AddViewToViewCount();
 
-            GetStudentInfo();
+            await GetStudentInfo();
 
-            GetCourseName();
+            await GetCourseName();
 
-            GetNotebookFavoriteNumber();
+            await GetNotebookFavoriteNumber();
 
-            InitFavoriteImageButton();
+            await InitFavoriteImageButton();
 
             FavoriteImageButtonCommand = new Command(OnFavoriteTap);
+            DownloadCommand = new Command(HandleOnDownloadButtonClicked);
+            ViewProfileCommand = new Command(OnViewProfileTapped);
+            
         }
 
-        public async void GetNotebookFavoriteNumber()
+        public async Task GetNotebookFavoriteNumber()
         {
             Busy = true;
             var url = "https://altaarefapp.azurewebsites.net/api/Notebooks/StudentFavoriteNumber/" + ViewNotebookStudent.Notebook.Id;
@@ -101,35 +256,42 @@ namespace Altaaref.ViewModels
             Busy = false;
         }
 
-        public async void GetCourseName()
+        public async Task GetCourseName()
         {
             Busy = true;
             var url = "https://altaarefapp.azurewebsites.net/api/Courses/CourseName/" + ViewNotebookStudent.Notebook.CourseId;
 
-            string content = _client.GetStringAsync(url).Result;
-            CourseName = content;
+            string content = await _client.GetStringAsync(url);
+            var obj = JsonConvert.DeserializeObject(content);
+
+            CourseName = obj.ToString();
 
             Busy = false;
         }
 
-        public void GetStudentInfo()
+        public async Task GetStudentInfo()
         {
             Busy = true;
             var url = "https://altaarefapp.azurewebsites.net/api/Students/Infofornotebooks/" + ViewNotebookStudent.StudentId;
 
-            string content = _client.GetStringAsync(url).Result;
+            string content = await _client.GetStringAsync(url);
             var obj = JsonConvert.DeserializeObject<StudentInfoForNotebooks>(content);
             StudentInfo = obj;
 
             Busy = false;
         }
 
+        private void OnViewProfileTapped()
+        {
+            // push async to profile..
+        }
+
         // Get if current is favorite or not
-        private void UpdateFieldFavoriteStatus()
+        private async Task UpdateFieldFavoriteStatus()
         {
             string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + _tempStudentId + "/" + _viewNotebookStudent.Notebook.Id;
 
-            var content = _client.GetAsync(url).Result;
+            var content = await _client.GetAsync(url);
             var response = content.IsSuccessStatusCode;
 
             if (response)
@@ -158,9 +320,9 @@ namespace Altaaref.ViewModels
             return response.Result.IsSuccessStatusCode;
         }
 
-        private void InitFavoriteImageButton()
+        private async Task InitFavoriteImageButton()
         {
-            UpdateFieldFavoriteStatus();
+            await UpdateFieldFavoriteStatus();
             if (_isFavorite)
             {
                 _isFavorite = true;
@@ -201,15 +363,14 @@ namespace Altaaref.ViewModels
         }
 
 
-        private async void AddViewToViewCount()
+        private async Task AddViewToViewCount()
         {
             string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + _viewNotebookStudent.Notebook.Id;
 
-            Notebook updated = _viewNotebookStudent.Notebook;
-            updated.ViewsCount += 1;
-
-            var content = new StringContent(JsonConvert.SerializeObject(updated), Encoding.UTF8, "application/json");
-            var response = _client.PutAsync(url, content).Result;
+            _viewNotebookStudent.Notebook.ViewsCount += 1;
+            
+            var content = new StringContent(JsonConvert.SerializeObject(_viewNotebookStudent.Notebook), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync(url, content);
 
             // update the Notebook property from db
             await GetNotebookAsync();
@@ -247,7 +408,7 @@ namespace Altaaref.ViewModels
             return await Task.FromResult(true);
         }
 
-        public void HandleOnDownloadButtonClicked()
+        private void HandleOnDownloadButtonClicked()
         {
             DependencyService.Get<IDownloader>().StartDownload(_viewNotebookStudent.Notebook.BlobURL, _viewNotebookStudent.Notebook.FileName);
         }
