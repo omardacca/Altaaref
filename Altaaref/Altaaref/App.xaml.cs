@@ -12,6 +12,14 @@ namespace Altaaref
 
         public const string NotificationReceivedKey = "NotificationReceived";
         public const string MobileServiceUrl = "https://altaarefapp.azurewebsites.net";
+        
+
+        //public static IAuthenticate Authenticator { get; private set; }
+
+        //public static void Init(IAuthenticate authenticator)
+        //{
+        //    Authenticator = authenticator;
+        //}
 
         public App ()
 		{

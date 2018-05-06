@@ -19,5 +19,16 @@
       </intent-filter>
     </receiver>
     
+
+  <activity android:name="com.microsoft.windowsazure.mobileservices.authentication.RedirectUrlActivity" android:launchMode="singleTop" android:noHistory="true">
+    <intent-filter>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <category android:name="android.intent.category.BROWSABLE" />
+      <data android:scheme="{altaarefauth}" android:host="easyauth.callback" />
+    </intent-filter>
+  </activity>
+
+
   </application>
 </manifest>

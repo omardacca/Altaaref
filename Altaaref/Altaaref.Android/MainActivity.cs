@@ -63,6 +63,7 @@ namespace Altaaref.Droid
         public string Url { get; set; }
         public string Filename { get; set; }
 
+
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
