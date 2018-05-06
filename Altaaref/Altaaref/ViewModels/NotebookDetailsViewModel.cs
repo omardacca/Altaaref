@@ -86,6 +86,17 @@ namespace Altaaref.ViewModels
         public ICommand FourStarCommand { get; set; }
         public ICommand FiveStarCommand { get; set; }
 
+        private Dictionary<int,int> _ratesDictionary;
+        public Dictionary<int, int> RatesDictionary
+        {
+            get { return _ratesDictionary; }
+            set
+            {
+                _ratesDictionary = value;
+                OnPropertyChanged(nameof(RatesDictionary));
+            }
+        }
+
 
         private NotebookRates _notebookRate;
         public NotebookRates NotebookRate
@@ -156,6 +167,8 @@ namespace Altaaref.ViewModels
 
             ViewNotebookStudent = Notebook;
 
+            RatesDictionary = new Dictionary<int, int>();
+
             Task init = InitProperties();
         }
 
@@ -171,6 +184,8 @@ namespace Altaaref.ViewModels
             await GetNotebookFavoriteNumber();
 
             await GetNotebookRate();
+
+            await GetRatesDictionary();
 
             await InitFavoriteImageButton();
 
@@ -467,6 +482,16 @@ namespace Altaaref.ViewModels
 
         #endregion
 
+        public async Task GetRatesDictionary()
+        {
+            Busy = true;
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/GetAllNotebookRates/" + ViewNotebookStudent.Notebook.Id;
+
+            string content = await _client.GetStringAsync(url);
+            var dic = JsonConvert.DeserializeObject<Dictionary<int,int>>(content);
+            RatesDictionary = dic;
+            Busy = false;
+        }
 
         public async Task GetNotebookFavoriteNumber()
         {

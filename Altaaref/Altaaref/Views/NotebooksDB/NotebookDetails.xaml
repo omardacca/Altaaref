@@ -205,7 +205,7 @@
                                        HorizontalOptions="StartAndExpand"
                                        VerticalOptions="Center"/>
 
-                                <Label Text="15" FontSize="16"
+                                <Label Text="{Binding RatesDictionary[1], StringFormat='{0}'}" FontSize="16"
                                        HorizontalOptions="EndAndExpand"
                                        VerticalOptions="Center"/>
                             </StackLayout>
@@ -223,31 +223,7 @@
                                        HorizontalOptions="StartAndExpand"
                                        VerticalOptions="Center"/>
 
-                                <Label Text="15" FontSize="16"
-                                       HorizontalOptions="EndAndExpand"
-                                       VerticalOptions="Center"/>
-                            </StackLayout>
-
-                            <StackLayout Orientation="Horizontal">
-                                <Image Source="starselected.png"
-                                       HeightRequest="35"
-                                       WidthRequest="35" 
-                                       HorizontalOptions="Start"
-                                       VerticalOptions="Center"/>
-
-                                <Image Source="starselected.png"
-                                       HeightRequest="35"
-                                       WidthRequest="35" 
-                                       HorizontalOptions="Start"
-                                       VerticalOptions="Center"/>
-
-                                <Image Source="starselected.png"
-                                       HeightRequest="35"
-                                       WidthRequest="35" 
-                                       HorizontalOptions="StartAndExpand"
-                                       VerticalOptions="Center"/>
-
-                                <Label Text="15" FontSize="16"
+                                <Label Text="{Binding RatesDictionary[2], StringFormat='{0}'}" FontSize="16"
                                        HorizontalOptions="EndAndExpand"
                                        VerticalOptions="Center"/>
                             </StackLayout>
@@ -268,6 +244,30 @@
                                 <Image Source="starselected.png"
                                        HeightRequest="35"
                                        WidthRequest="35" 
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="Center"/>
+
+                                <Label Text="{Binding RatesDictionary[3], StringFormat='{0}'}" FontSize="16"
+                                       HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center"/>
+
+                                <Image Source="starselected.png"
+                                       HeightRequest="35"
+                                       WidthRequest="35" 
                                        HorizontalOptions="Start"
                                        VerticalOptions="Center"/>
 
@@ -277,7 +277,7 @@
                                        HorizontalOptions="StartAndExpand"
                                        VerticalOptions="Center"/>
 
-                                <Label Text="15" FontSize="16"
+                                <Label Text="{Binding RatesDictionary[4], StringFormat='{0}'}" FontSize="16"
                                        HorizontalOptions="EndAndExpand"
                                        VerticalOptions="Center"/>
                             </StackLayout>
@@ -313,7 +313,7 @@
                                            HorizontalOptions="StartAndExpand"
                                            VerticalOptions="Center"/>
 
-                                <Label Text="15" FontSize="16"
+                                <Label Text="{Binding RatesDictionary[5], StringFormat='{0}'}" FontSize="16"
                                            HorizontalOptions="EndAndExpand"
                                            VerticalOptions="Center"/>
                             </StackLayout>
