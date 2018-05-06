@@ -47,21 +47,27 @@ namespace Altaaref.Views.CommonPages
             await Navigation.PushAsync(page);
         }
 
-        bool authenticated = false;
-        protected override async void OnAppearing()
+        
+        async void HandleMyNotebooks(object sender, ItemTappedEventArgs e)
         {
-            base.OnAppearing();
-
-            // Refresh items only when authenticated.
-            if (authenticated == true)
-            {
-                // Set syncItems to true in order to synchronize the data
-                // on startup when running in offline mode.
-                //await RefreshItems(true, syncItems: false);
-
-                // Hide the Sign-in button.
-                //this.loginButton.IsVisible = false;
-            }
+            await Navigation.PushAsync(new Views.CommonPages.MyNotebooksList());
         }
+
+        //bool authenticated = false;
+        //protected override async void OnAppearing()
+        //{
+        //    base.OnAppearing();
+
+        //    // Refresh items only when authenticated.
+        //    if (authenticated == true)
+        //    {
+        //        // Set syncItems to true in order to synchronize the data
+        //        // on startup when running in offline mode.
+        //        //await RefreshItems(true, syncItems: false);
+
+        //        // Hide the Sign-in button.
+        //        //this.loginButton.IsVisible = false;
+        //    }
+        //}
     }
 }

@@ -77,7 +77,8 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var notebook = _context.Notebook.Where(m => m.StudentId == StudentId);
+            var notebook = _context.Notebook.Where(m => m.StudentId == StudentId)
+                .Select(fv => new ViewNotebookStudent { StudentId = fv.StudentId, StudentName = fv.Student.FullName, Notebook = fv});
 
             if (notebook == null)
             {

@@ -11,6 +11,6 @@
         <Button Text="Add New Help Request" Clicked="HandleButtonNewHelpRequest" />
         <Button Text="Main Help Request" Clicked="HandleButtonMainViewHelpRequest" />
         <Button Text="Main Menu Page" Clicked="HandleButtonMainMenuPage" />
-      
+        <Button Text="My Notebooks" Clicked="HandleMyNotebooks" />
     </StackLayout>
 </ContentPage>
