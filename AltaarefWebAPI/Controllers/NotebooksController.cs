@@ -10,7 +10,6 @@ using AltaarefWebAPI.Models;
 
 namespace AltaarefWebAPI.Controllers
 {
-    [System.Web.Http.Authorize]
     [Produces("application/json")]
     [Route("api/Notebooks")]
     public class NotebooksController : Controller
