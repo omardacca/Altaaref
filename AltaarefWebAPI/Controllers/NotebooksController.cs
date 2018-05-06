@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AltaarefWebAPI.Contexts;
 using AltaarefWebAPI.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AltaarefWebAPI.Controllers
 {
-    [Authorize]
+    [System.Web.Http.Authorize]
     [Produces("application/json")]
     [Route("api/Notebooks")]
     public class NotebooksController : Controller
