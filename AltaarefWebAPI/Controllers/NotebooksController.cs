@@ -84,7 +84,7 @@ namespace AltaarefWebAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(count);
+            return Ok(notebook);
         }
 
         // GET: api/Notebooks/5
