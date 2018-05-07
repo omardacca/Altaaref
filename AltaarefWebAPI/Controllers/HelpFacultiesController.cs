@@ -47,6 +47,28 @@ namespace AltaarefWebAPI.Controllers
             return Ok(helpFaculty);
         }
 
+        // GET: api/HelpFaculties/5
+        [HttpGet("GetStudentFacultiesHR/{StudentId}")]
+        public async Task<IActionResult> GetStudentNotGeneralHelpRequest([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentFaculties = _context.StudentFaculties.Where(sf => sf.StudentId == StudentId).Select(m => m.FacultyId);
+
+            var helpFaculty = _context.HelpFaculty.Where(hf => hf.HelpRequest.IsGeneral == false &&
+                                studentFaculties.Contains(hf.FacultyId)).Select(hf => hf.HelpRequest);
+
+            if (helpFaculty == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(helpFaculty);
+        }
+
 
         // GET: api/HelpFaculties/5
         [HttpGet("{facultyId}/{*afterDate}")]

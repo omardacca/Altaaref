@@ -77,7 +77,7 @@ namespace AltaarefWebAPI.Controllers
 
             return Ok(helpRequest);
         }
-
+        
         // GET: api/HelpRequests/5
         [HttpGet("AllNotGeneral/{*afterDate}")]
         public async Task<IActionResult> GetNotGeneralHelpRequest(DateTime afterDate)

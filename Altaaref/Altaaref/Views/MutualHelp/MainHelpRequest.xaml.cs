@@ -1,5 +1,6 @@
 ﻿using Altaaref.UserControls;
 using Altaaref.ViewModels;
+using Altaaref.ViewModels.HelpRequest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +19,7 @@ namespace Altaaref.Views.MutualHelp
 		{
 			InitializeComponent ();
 
-            BindingContext = new MainHelpRequestViewModel(new PageService());
-        }
-
-        void HandleResultClicked(object sender, ItemTappedEventArgs e)
-        {
-            var rrv = sender as RoundedRectangleView;
-
-            (BindingContext as MainHelpRequestViewModel).HandleResultClicked(rrv.CommandParameter as StudentHelpRequest);
+            BindingContext = new MainPageHelpRequestViewModel(new PageService());
         }
 
     }

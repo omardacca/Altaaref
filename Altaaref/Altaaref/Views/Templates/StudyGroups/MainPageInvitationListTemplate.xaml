@@ -1,23 +1,24 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
-             x:Class="Altaaref.Views.Templates.StudyGroups.ViewStudyGroupInvitationsTemplate"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
+             x:Class="Altaaref.Views.Templates.StudyGroups.MainPageInvitationListTemplate"
              x:Name="invtemplatepage">
 
     <ContentView.Resources>
         <ResourceDictionary>
 
             <local:InverseBooleanConverter x:Key="boolConverter" />
-            
+
             <Color x:Key="SkyColor">#4DACFF</Color>
             <Color x:Key="OrangeColor">#BC4C1B</Color>
             <Color x:Key="WhiteColor">#F7F7F7</Color>
 
             <Style x:Key="FirstPanelStyle" 
                    TargetType="Frame">
-                <Setter Property="HeightRequest" Value="200" />
+                <Setter Property="HeightRequest" Value="180" />
+                <Setter Property="WidthRequest" Value="190" />
                 <Setter Property="Margin" Value="0, 5, 5, 0" />
                 <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
             </Style>
@@ -25,28 +26,25 @@
 
         </ResourceDictionary>
     </ContentView.Resources>
-
+    
     <ContentView.Content>
         <RelativeLayout>
-            <Frame Style="{StaticResource FirstPanelStyle}"
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
+            <Frame Style="{StaticResource FirstPanelStyle}">
                 <StackLayout Spacing="0">
-                    <Label Text="{Binding StudyGroup.CourseName}" FontSize="24" HorizontalTextAlignment="Start" Margin="0,1,0,0" />
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                        <Label Text="{Binding StudyGroup.Date, StringFormat='{0:dd-MMM-yy}'}" FontSize="14" HorizontalTextAlignment="Start" />
-                        <Label Text="-" FontSize="14"/>
-                        <Label Text="{Binding StudyGroup.Time, StringFormat='{0:HH:mm}'}" FontSize="14" />
+                    <Label Text="{Binding StudyGroup.CourseName}" HorizontalTextAlignment="Center" Margin="0,1,0,0" FontSize="20"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Label Text="{Binding StudyGroup.Date, StringFormat='{0:dd-MMM-yy}'}" HorizontalTextAlignment="Center" FontSize="16"/>
+                        <Label Text="-" FontSize="16"/>
+                        <Label Text="{Binding StudyGroup.Time, StringFormat='{0:HH:mm}'}" FontSize="16" />
                     </StackLayout>
-                    <Label Text="{Binding StudyGroup.Address}" FontSize="14" />
-                    <Label Text="{Binding StudyGroup.Message}" Margin="0, 7, 0, 1" />
-
+                    <Label Text="{Binding StudyGroup.Address}" FontSize="16" />
 
                     <Grid Padding="0, 8, 0, 8" VerticalOptions="EndAndExpand">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
+
                         <controls:ButtonFrame HeightRequest="17" WidthRequest="50" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"
                                               Grid.Column="0">
                             <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
@@ -72,5 +70,6 @@
         </RelativeLayout>
 
     </ContentView.Content>
-    
+
+
 </ContentView>

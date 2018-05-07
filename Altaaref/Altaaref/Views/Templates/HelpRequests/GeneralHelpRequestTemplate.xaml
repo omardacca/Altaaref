@@ -1,31 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-             xmlns:controls="clr-namespace:Altaaref.UserControls"
-             x:Class="Altaaref.Views.Templates.HelpRequests.HelpRequestsListTemplate"
-             x:Name="requestlistpage">
-
-
-    <ContentView.Resources>
-        <ResourceDictionary>
-
-            <Color x:Key="SkyColor">#4DACFF</Color>
-            <Color x:Key="OrangeColor">#BC4C1B</Color>
-            <Color x:Key="WhiteColor">#F7F7F7</Color>
-
-            <Style x:Key="FirstPanelStyle" 
-                   TargetType="Frame">
-                <Setter Property="HeightRequest" Value="200" />
-                <Setter Property="Margin" Value="0, 5, 5, 0" />
-<!--                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />-->
-            </Style>
-
-
-        </ResourceDictionary>
-    </ContentView.Resources>
-
+             x:Class="Altaaref.Views.Templates.HelpRequests.GeneralHelpRequestTemplate"
+             x:Name="generalpage">
     <ContentView.Content>
+
         <RelativeLayout>
             <Frame Style="{StaticResource FirstPanelStyle}"
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
@@ -44,13 +23,13 @@
                     </Grid.ColumnDefinitions>
 
                     <ic:CircleImage 
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    Aspect="AspectFill"
-                    Source="{Binding Student.ProfilePicBlobUrl}" 
-                    HorizontalOptions="StartAndExpand"
-                    VerticalOptions="Start"
-                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        Aspect="AspectFill"
+                        Source="{Binding Student.ProfilePicBlobUrl}" 
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Start"
+                        Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
 
                     <Label Text="{Binding Student.FullName}"
                             Grid.Row="0" Grid.Column="1"/>
@@ -68,12 +47,13 @@
                         <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
 
                         <controls:ButtonFrame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ParentContext.ViewCommand, Source={x:Reference requestlistpage}}" CommandParameter="{Binding .}" />
+                            <TapGestureRecognizer Command="{Binding ParentContext.ViewCommand, Source={x:Reference generalpage}}" CommandParameter="{Binding .}" />
                         </controls:ButtonFrame.GestureRecognizers>
                     </controls:ButtonFrame>
 
                 </Grid>
             </Frame>
         </RelativeLayout>
+
     </ContentView.Content>
 </ContentView>

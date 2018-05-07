@@ -112,6 +112,9 @@
     <EmbeddedResource Update="Views\Templates\HelpRequests\CommentsListHelpRequest.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Templates\HelpRequests\GeneralHelpRequestTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Templates\HelpRequests\HelpRequestsListTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -121,10 +124,13 @@
     <EmbeddedResource Update="Views\Templates\Notebooks\ViewFavoriteNotebooksTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Templates\StudyGroupMainPageTemplate.xaml">
+    <EmbeddedResource Update="Views\Templates\StudyGroups\CommentsListTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Templates\StudyGroups\CommentsListTemplate.xaml">
+    <EmbeddedResource Update="Views\Templates\StudyGroups\MainPageInvitationListTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Templates\StudyGroups\SGForMainPageTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Templates\StudyGroups\ViewStudyGroupInvitationsTemplate.xaml">

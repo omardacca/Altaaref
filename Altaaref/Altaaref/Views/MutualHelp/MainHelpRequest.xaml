@@ -2,55 +2,121 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates.HelpRequests"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-             x:Class="Altaaref.Views.MutualHelp.MainHelpRequest">
+             x:Class="Altaaref.Views.MutualHelp.MainHelpRequest"
+             x:Name="requestlistpage">
 
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:InverseBooleanConverter x:Key="boolConverter" />
+
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="200" />
+                <Setter Property="Margin" Value="0, 5, 5, 0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout VerticalOptions="StartAndExpand">
-        <controls:XScrollView Orientation="Horizontal" ItemsSource="{Binding HelpRequestsList}" HeightRequest="250">
-            <controls:XScrollView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <controls:RoundedRectangleView CornerRadius="1" FillColor="LightGray" 
-                                                       HeightRequest="200" WidthRequest="300" Padding="10"
-                                                        Clicked="HandleResultClicked"
-                                                        CommandParameter="{Binding .}">
-                            <controls:RoundedRectangleView.InnerContent>
-                                <StackLayout Orientation="Horizontal">
-                                    <StackLayout>
-                                        <ic:CircleImage 
-                                            HeightRequest="70"
-                                            WidthRequest="70"
-                                            Aspect="AspectFill"
-                                            Source="{Binding Student.ProfilePicBlobUrl}" 
-                                            HorizontalOptions="StartAndExpand"
-                                            VerticalOptions="Start"
-                                            Margin="8"
-                                            BorderColor="Black"
-                                            BorderThickness="0.5"/>
-                                        <Label Text="{Binding Student.FullName}" FontSize="Default"  TextColor="White" Margin="8,0,0,0" HorizontalOptions="Center"/>
-                                        <Label Text="{Binding Views}" FontSize="Default" TextColor="White" Margin="8,0,0,0" HorizontalOptions="Center"/>
-                                        <Image Source="helpmet.png" IsVisible="{Binding IsMet}"/>
-                                        <Image Source="helpunmet.png" IsVisible="{Binding IsMet, Converter={StaticResource boolConverter}}" />
-                                    </StackLayout>
-                                    <StackLayout Spacing="0">
-                                        <Label Text="{Binding Message}" FontSize="Default" TextColor="White" VerticalOptions="Center"
-                                                HorizontalOptions="Center" Margin="15,15,0,0"/>
-                                    </StackLayout>
-                                </StackLayout>
-                            </controls:RoundedRectangleView.InnerContent>
-                        </controls:RoundedRectangleView>
+    <ContentPage.Content>
+        <StackLayout>
+            <RelativeLayout>
+                <Frame Style="{StaticResource FirstPanelStyle}"
+                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
 
-                    </ViewCell>
-                </DataTemplate>
-            </controls:XScrollView.ItemTemplate>
-        </controls:XScrollView>
-    </StackLayout>
+                    <Grid Padding="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Mutual Help" FontSize="24" HorizontalOptions="StartAndExpand" />
+
+                        <Grid Grid.Row="1" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ic:CircleImage 
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            Aspect="AspectFill"
+                            Source="{Binding Student.ProfilePicBlobUrl}" 
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="Start"
+                            Grid.Row="0" Grid.Column="0"/>
+
+                            <Entry Placeholder="Need Help ? Share it and Let others help you"
+                               Grid.Row="0" Grid.Column="1" />
+                        </Grid>
+
+                        <Label Text="General" 
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="14"
+                               Grid.Row="2" />
+
+                        <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding GeneralHelpRequestList}"
+                                        Grid.Row="3"
+                                        HorizontalOptions="StartAndExpand" HeightRequest="160"
+                                        Margin="0, 0, 0, 2" IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}">
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                    <template:GeneralHelpRequestTemplate />
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+
+                        <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4">
+                            <Label Text="See All" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+
+                            <controls:ButtonFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GeneralViewAllCommand}" />
+                            </controls:ButtonFrame.GestureRecognizers>
+                        </controls:ButtonFrame>
+
+
+                        <Label Text="In your faculties" 
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="14"
+                               Grid.Row="5" />
+
+                        <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding FacultiesHelpRequestsList}"
+                                        Grid.Row="6" 
+                                        HorizontalOptions="StartAndExpand" HeightRequest="160"
+                                        Margin="0, 0, 0, 10" IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}">
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                    <template:HelpRequestsListTemplate />
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+
+                        <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4">
+                            <Label Text="See All" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+
+                            <controls:ButtonFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FacultiesViewAllCommand}"  />
+                            </controls:ButtonFrame.GestureRecognizers>
+                        </controls:ButtonFrame>
+
+                    </Grid>
+                    
+                </Frame>
+            </RelativeLayout>
+        </StackLayout>
+    </ContentPage.Content>
+    
 </ContentPage>

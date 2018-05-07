@@ -20,7 +20,7 @@ namespace Altaaref.Views.StudyGroups
 
             BindingContext = new MainPageViewModel(new PageService());
 
-            NavigationPage.SetHasNavigationBar(this, false);
+            //NavigationPage.SetHasNavigationBar(this, false);
         }
 	}
 }

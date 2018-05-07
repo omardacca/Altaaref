@@ -4,74 +4,97 @@
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              xmlns:template="clr-namespace:Altaaref.Views.Templates"
+             xmlns:sgtemplate="clr-namespace:Altaaref.Views.Templates.StudyGroups"
              x:Class="Altaaref.Views.StudyGroups.MainPage"
              x:Name="MainPageRef"
-             BackgroundColor="White">
+             BackgroundColor="White"
+             Title="Study Groups">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <RelativeLayout HeightRequest="100">
+        <ScrollView>
+            <StackLayout>
+                <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
 
-            <RelativeLayout.Resources>
-                <ResourceDictionary>
-                    <Color x:Key="OrangeColor">#BC4C1B</Color>
-                    
-                    <Color x:Key="HeaderColor">
-                        <x:Arguments>
-                            <x:Double>0</x:Double>
-                            <x:Double>0</x:Double>
-                            <x:Double>0</x:Double>
-                            <x:Double>.8</x:Double>
-                        </x:Arguments>
-                    </Color>    
-                </ResourceDictionary>
-            </RelativeLayout.Resources>
-            
-            <Image Source="studystudents.png" Aspect="AspectFill" IsOpaque="True" Opacity="0.8" 
-                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Constant=0}"
-                   RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.5,Constant=0}"/>
+                <Grid Padding="12" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-            <BoxView Color="{StaticResource HeaderColor}" Opacity="0.8" 
-                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Constant=0}"
-                   RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.5,Constant=0}"/>
+                    <Label Text="Study Groups" FontSize="22"
+                       Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,2,0,10"/>
 
-            <Image Source="dome.png" Aspect="AspectFill" AnchorX="-10" HeightRequest="75"
-                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.5,Constant=-50}"
-                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Constant=10}" />
+                    <Image Source="addmanicon.png" HeightRequest="45" WidthRequest="45"
+                           Grid.Row="1" Grid.Column="0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddButtonCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
 
-            <Label Text="Study Groups" FontSize="Large"
-                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.45}"
-                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=.32}" />
+                    <Image Source="searchicon.png" HeightRequest="45" WidthRequest="45"  
+                           Grid.Row="1" Grid.Column="1">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding FindButtonCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
 
-            <Image Source="addmanicon.png" HeightRequest="45" WidthRequest="45" Aspect="AspectFill" 
-                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.5}"
-                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=.05}">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AddButtonCommand}" />
-                </Image.GestureRecognizers>
-            </Image>
+                    <Label Text="Invitations awaiting acceptance" HorizontalOptions="StartAndExpand" FontSize="Medium"
+                           Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"/>
+                    <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding InvitationsList}"
+                                             Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <sgtemplate:MainPageInvitationListTemplate ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
 
-            <Image Source="searchicon.png" HeightRequest="45" WidthRequest="45" Aspect="AspectFill" 
-                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.5}"
-                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=.82}">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding FindButtonCommand}" />
-                </Image.GestureRecognizers>
-            </Image>
+                    <Label Text="Your study groups" HorizontalOptions="StartAndExpand" FontSize="Medium"
+                           Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"/>
+                    <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding MySGList}"
+                                             Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <sgtemplate:SGForMainPageTemplate ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}" />
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
 
 
-            <Label Text="Lastest in your faculties" HorizontalOptions="StartAndExpand" FontSize="Medium"
-                       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.65}"
-                       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.01}" />
 
-            <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding StudyGroupsList}"
-                       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.7}"
-                       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.01}">
-                <controls:HorizontalList.ItemTemplate>
-                    <DataTemplate>
-                        <template:StudyGroupMainPageTemplate />
-                    </DataTemplate>
-                </controls:HorizontalList.ItemTemplate>
-            </controls:HorizontalList>
-
-        </RelativeLayout>
+                    <Label Text="Lastest in your faculties" HorizontalOptions="StartAndExpand" FontSize="Medium"
+                           Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"/>
+                    <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding StudyGroupsList}"
+                                         Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <sgtemplate:SGForMainPageTemplate ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

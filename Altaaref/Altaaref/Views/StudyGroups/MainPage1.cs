@@ -12,13 +12,13 @@ namespace Altaaref.Views.StudyGroups
 {
     public class MainPage1 : ContentPage
     {
-
+        /*
         public MainPage1()
         {
             BindingContext = new MainPageViewModel(new PageService());
 
-            NavigationPage.SetHasNavigationBar(this, false);
-            BackgroundColor = Color.White;
+//            NavigationPage.SetHasNavigationBar(this, false);
+//            BackgroundColor = Color.White;
 
             var backgroundImage = new Image()
             {
@@ -243,6 +243,6 @@ namespace Altaaref.Views.StudyGroups
             this.Content = relativeLayout;
         }
 
-
+*/
     }
 }
