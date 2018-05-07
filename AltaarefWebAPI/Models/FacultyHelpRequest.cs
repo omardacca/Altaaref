@@ -9,5 +9,6 @@ namespace AltaarefWebAPI.Models
     {
         public HelpRequest HelpRequest { get; set; }
         public int FacultyId { get; set; }
+        public string FacultyName { get; set; }
     }
 }

@@ -116,7 +116,7 @@ namespace Altaaref.ViewModels.HelpRequest
 
         public async Task GetStudentInfo()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/Students/204228043";
+            string url = "https://altaarefapp.azurewebsites.net/api/Students/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<Student>(content);
@@ -138,7 +138,7 @@ namespace Altaaref.ViewModels.HelpRequest
 
             GeneralHelpRequestList = new List<StudentHelpRequest>(list);
         }
-
+        
         public async Task GetNotGeneralHelpRequest()
         {
             string url = "https://altaarefapp.azurewebsites.net/api/HelpFaculties/GetStudentFacultiesHR/" + StudentId;

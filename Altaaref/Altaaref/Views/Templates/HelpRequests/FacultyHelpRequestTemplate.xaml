@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             x:Class="Altaaref.Views.Templates.HelpRequests.FacultyHelpRequestTemplate"
+             x:Name="facultypage">
+    
+    
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="200" />
+                <Setter Property="Margin" Value="0, 5, 5, 0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+
+        <Frame Style="{StaticResource FirstPanelStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ic:CircleImage 
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Aspect="AspectFill"
+                    Source="{Binding HelpRequest.Student.ProfilePicBlobUrl}" 
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Start"
+                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+
+                <Label Text="{Binding HelpRequest.Student.FullName}"
+                        Grid.Row="0" Grid.Column="1"/>
+
+                <Label Text="{Binding HelpRequest.Date, StringFormat='{0:dd-MMM-yy}'}" HorizontalTextAlignment="Start" 
+                        Grid.Row="1" Grid.Column="1"/>
+
+                <Label Text="{Binding HelpRequest.Views, StringFormat='{0} Views'}" HorizontalOptions="Center"
+                        Grid.Row="2" Grid.Column="0"/>
+
+                <Label Text="{Binding HelpRequest.Message}" FontSize="14"
+                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+
+                    <controls:ButtonFrame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ParentContext.ViewCommand, Source={x:Reference facultypage}}" CommandParameter="{Binding .}" />
+                    </controls:ButtonFrame.GestureRecognizers>
+                </controls:ButtonFrame>
+
+            </Grid>
+        </Frame>
+
+    </ContentView.Content>
+</ContentView>

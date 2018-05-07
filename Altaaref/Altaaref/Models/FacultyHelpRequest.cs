@@ -1,12 +1,24 @@
-﻿using System;
+﻿using Altaaref.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Altaaref.Models
 {
-    public class FacultyHelpRequest
+    public class FacultyHelpRequest : BaseViewModel
     {
-        public HelpRequest HelpRequest { get; set; }
+        private StudentHelpRequest _helpRequest;
+        public StudentHelpRequest HelpRequest
+        {
+            get { return _helpRequest; }
+            set
+            {
+                _helpRequest = value;
+                OnPropertyChanged(nameof(HelpRequest));
+            }
+        }
+
         public int FacultyId { get; set; }
+        public string FacultyName { get; set; }
     }
 }

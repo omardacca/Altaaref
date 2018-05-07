@@ -18,7 +18,7 @@
                    TargetType="Frame">
                 <Setter Property="HeightRequest" Value="200" />
                 <Setter Property="Margin" Value="0, 5, 5, 0" />
-                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+<!--                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />-->
             </Style>
 
 
@@ -26,50 +26,54 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Frame Style="{StaticResource FirstPanelStyle}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+        <RelativeLayout>
+            <Frame Style="{StaticResource FirstPanelStyle}"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
 
-                <ic:CircleImage 
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ic:CircleImage 
                     HeightRequest="50"
                     WidthRequest="50"
                     Aspect="AspectFill"
-                    Source="{Binding HelpRequest.Student.ProfilePicBlobUrl}" 
+                    Source="{Binding Student.ProfilePicBlobUrl}" 
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="Start"
                     Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
 
-                <Label Text="{Binding HelpRequest.Student.FullName}"
-                        Grid.Row="0" Grid.Column="1"/>
+                    <Label Text="{Binding Student.FullName}"
+                            Grid.Row="0" Grid.Column="1"/>
 
-                <Label Text="{Binding HelpRequest.Date, StringFormat='{0:dd-MMM-yy}'}" HorizontalTextAlignment="Start" 
-                        Grid.Row="1" Grid.Column="1"/>
+                    <Label Text="{Binding Date, StringFormat='{0:dd-MMM-yy}'}" HorizontalTextAlignment="Start" 
+                            Grid.Row="1" Grid.Column="1"/>
 
-                <Label Text="{Binding HelpRequest.Views, StringFormat='{0} Views'}" HorizontalOptions="Center"
-                        Grid.Row="2" Grid.Column="0"/>
+                    <Label Text="{Binding Views, StringFormat='{0} Views'}" HorizontalOptions="Center"
+                           Grid.Row="2" Grid.Column="0"/>
 
-                <Label Text="{Binding HelpRequest.Message}" FontSize="14"
-                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <Label Text="{Binding Message}" FontSize="14"
+                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
 
-                <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-                    <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+                        <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
 
-                    <controls:ButtonFrame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ParentContext.ViewCommand, Source={x:Reference requestlistpage}}" CommandParameter="{Binding .}" />
-                    </controls:ButtonFrame.GestureRecognizers>
-                </controls:ButtonFrame>
+                        <controls:ButtonFrame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ParentContext.ViewCommand, Source={x:Reference requestlistpage}}" CommandParameter="{Binding .}" />
+                        </controls:ButtonFrame.GestureRecognizers>
+                    </controls:ButtonFrame>
 
-            </Grid>
-        </Frame>
+                </Grid>
+            </Frame>
+        </RelativeLayout>
     </ContentView.Content>
 </ContentView>

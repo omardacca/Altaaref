@@ -73,7 +73,8 @@ namespace AltaarefWebAPI.Controllers
                                         Views = h.HelpRequest.Views,
                                         Student = h.HelpRequest.Student
                                     },
-                                    FacultyId = h.FacultyId
+                                    FacultyId = h.FacultyId,
+                                    FacultyName = h.Faculty.Name
                                 });
 
             if (helpFaculty == null)
