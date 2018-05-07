@@ -26,12 +26,9 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
+        <ScrollView>
         <StackLayout>
-            <RelativeLayout>
-                <Frame Style="{StaticResource FirstPanelStyle}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
-
-                    <Grid Padding="5">
+            <Grid Padding="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -51,13 +48,13 @@
                             </Grid.ColumnDefinitions>
 
                             <ic:CircleImage 
-                            HeightRequest="45"
-                            WidthRequest="45"
-                            Aspect="AspectFill"
-                            Source="{Binding Student.ProfilePicBlobUrl}" 
-                            HorizontalOptions="StartAndExpand"
-                            VerticalOptions="Start"
-                            Grid.Row="0" Grid.Column="0"/>
+                                HeightRequest="45"
+                                WidthRequest="45"
+                                Aspect="AspectFill"
+                                Source="{Binding Student.ProfilePicBlobUrl}" 
+                                HorizontalOptions="StartAndExpand"
+                                VerticalOptions="Start"
+                                Grid.Row="0" Grid.Column="0"/>
 
                             <Entry Placeholder="Need Help ? Share it and Let others help you"
                                Grid.Row="0" Grid.Column="1" />
@@ -68,10 +65,10 @@
                                FontSize="14"
                                Grid.Row="2" />
 
-                        <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding GeneralHelpRequestList}"
-                                        Grid.Row="3"
-                                        HorizontalOptions="StartAndExpand" HeightRequest="160"
-                                        Margin="0, 0, 0, 2" IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}">
+                        <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding GeneralHelpRequestList}"
+                                                 HorizontalOptions="StartAndExpand" 
+                                                 Grid.Row="3"
+                                                 Margin="0, 0, 0, 2" IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}">
                             <controls:HorizontalList.ItemTemplate>
                                 <DataTemplate>
                                     <template:GeneralHelpRequestTemplate />
@@ -79,7 +76,7 @@
                             </controls:HorizontalList.ItemTemplate>
                         </controls:HorizontalList>
 
-                        <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4">
+                <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4">
                             <Label Text="See All" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
 
                             <controls:ButtonFrame.GestureRecognizers>
@@ -88,23 +85,22 @@
                         </controls:ButtonFrame>
 
 
-                        <Label Text="In your faculties" 
+                    <Label Text="In your faculties" 
                                HorizontalOptions="StartAndExpand"
                                FontSize="14"
                                Grid.Row="5" />
+                    <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding FacultiesHelpRequestsList}"
+                                             HorizontalOptions="StartAndExpand"
+                                             Grid.Row="6"
+                                             Margin="0, 0, 0, 10" IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:HelpRequestsListTemplate />
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
 
-                        <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding FacultiesHelpRequestsList}"
-                                        Grid.Row="6" 
-                                        HorizontalOptions="StartAndExpand" HeightRequest="160"
-                                        Margin="0, 0, 0, 10" IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}">
-                            <controls:HorizontalList.ItemTemplate>
-                                <DataTemplate>
-                                    <template:HelpRequestsListTemplate />
-                                </DataTemplate>
-                            </controls:HorizontalList.ItemTemplate>
-                        </controls:HorizontalList>
-
-                        <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4">
+                    <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="7">
                             <Label Text="See All" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
 
                             <controls:ButtonFrame.GestureRecognizers>
@@ -114,9 +110,8 @@
 
                     </Grid>
                     
-                </Frame>
-            </RelativeLayout>
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
     
 </ContentPage>

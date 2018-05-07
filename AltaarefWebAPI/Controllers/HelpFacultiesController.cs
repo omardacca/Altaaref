@@ -59,7 +59,22 @@ namespace AltaarefWebAPI.Controllers
             var studentFaculties = _context.StudentFaculties.Where(sf => sf.StudentId == StudentId).Select(m => m.FacultyId);
 
             var helpFaculty = _context.HelpFaculty.Where(hf => hf.HelpRequest.IsGeneral == false &&
-                                studentFaculties.Contains(hf.FacultyId)).Select(hf => hf.HelpRequest);
+                                studentFaculties.Contains(hf.FacultyId))
+                                .Select(h =>
+                                new FacultyHelpRequest
+                                {
+                                    HelpRequest = new HelpRequest
+                                    {
+                                        Id = h.HelpRequest.Id,
+                                        IsGeneral = h.HelpRequest.IsGeneral,
+                                        Date = h.HelpRequest.Date,
+                                        IsMet = h.HelpRequest.IsMet,
+                                        Message = h.HelpRequest.Message,
+                                        Views = h.HelpRequest.Views,
+                                        Student = h.HelpRequest.Student
+                                    },
+                                    FacultyId = h.FacultyId
+                                });
 
             if (helpFaculty == null)
             {

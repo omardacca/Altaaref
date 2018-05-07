@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Altaaref.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -45,6 +46,16 @@ namespace Altaaref.ViewModels.HelpRequest
             }
         }
 
+        private Student _student;
+        public Student Student
+        {
+            get { return _student; }
+            private set
+            {
+                _student = value;
+                OnPropertyChanged(nameof(Student));
+            }
+        }
 
         private List<StudentHelpRequest> _generalHelpRequestList;
         public List<StudentHelpRequest> GeneralHelpRequestList
@@ -57,8 +68,8 @@ namespace Altaaref.ViewModels.HelpRequest
             }
         }
 
-        private List<StudentHelpRequest> _facultiesHelpRequestsList;
-        public List<StudentHelpRequest> FacultiesHelpRequestsList
+        private List<FacultyHelpRequest> _facultiesHelpRequestsList;
+        public List<FacultyHelpRequest> FacultiesHelpRequestsList
         {
             get { return _facultiesHelpRequestsList; }
             private set
@@ -68,7 +79,7 @@ namespace Altaaref.ViewModels.HelpRequest
             }
         }
 
-        public ICommand ViewCommand => new Command<StudentHelpRequest>(HandleHRTap);
+        public ICommand ViewCommand => new Command<StudentHelpRequest>(HandleHRTap); // changed
         public ICommand GeneralViewAllCommand => new Command(HandleGeneralViewAll);
         public ICommand FacultiesViewAllCommand => new Command(HandleFacultiesViewAll);
 
@@ -82,6 +93,7 @@ namespace Altaaref.ViewModels.HelpRequest
 
         private async Task InitLists()
         {
+            await GetStudentInfo();
             await GetGeneralHelpRequest();
             await GetNotGeneralHelpRequest();
         }
@@ -102,6 +114,16 @@ namespace Altaaref.ViewModels.HelpRequest
             await _pageService.PushAsync(new Views.CommonPages.ViewHelpRequestsDetails(studentHelpRequest));
         }
 
+        public async Task GetStudentInfo()
+        {
+            string url = "https://altaarefapp.azurewebsites.net/api/Students/204228043";
+
+            string content = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<Student>(content);
+
+            Student = list;
+        }
+
         public async Task GetGeneralHelpRequest()
         {
             string url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/General";
@@ -119,17 +141,17 @@ namespace Altaaref.ViewModels.HelpRequest
 
         public async Task GetNotGeneralHelpRequest()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/AllNotGeneral/" + this.restrictDate.Date.Date;
+            string url = "https://altaarefapp.azurewebsites.net/api/HelpFaculties/GetStudentFacultiesHR/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<StudentHelpRequest>>(content);
+            var list = JsonConvert.DeserializeObject<List<FacultyHelpRequest>>(content);
 
             if (list == null || list.Count == 0)
                 FacultiesListEmpty = true;
             else
                 FacultiesListEmpty = false;
 
-            FacultiesHelpRequestsList = new List<StudentHelpRequest>(list);
+            FacultiesHelpRequestsList = new List<FacultyHelpRequest>(list);
         }
 
         //public async void GetNotGeneralWithFacultyIdHelpRequest()

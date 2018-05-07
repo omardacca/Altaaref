@@ -111,7 +111,7 @@ namespace Altaaref.ViewModels
 
             string url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/" + StudentHelpRequest.Id;
 
-            HelpRequest updated = new HelpRequest
+            Models.HelpRequest updated = new Models.HelpRequest
             {
                 Id = StudentHelpRequest.Id,
                 IsGeneral = StudentHelpRequest.IsGeneral,

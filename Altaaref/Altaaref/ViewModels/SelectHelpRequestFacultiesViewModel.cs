@@ -52,7 +52,7 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private HelpRequest newHelpRequest;
+        private Models.HelpRequest newHelpRequest;
 
         private List<Faculty> FacultiesSelectedList;
 
@@ -76,7 +76,7 @@ namespace Altaaref.ViewModels
         public ICommand SubmitButtonCommand { get; set; }
         public ICommand FacultySelectedCommand { get; set; }
 
-        public SelectHelpRequestFacultiesViewModel(IPageService pageService, HelpRequest newHelpRequest)
+        public SelectHelpRequestFacultiesViewModel(IPageService pageService, Models.HelpRequest newHelpRequest)
         {
             _pageService = pageService;
             this.newHelpRequest = newHelpRequest;
@@ -157,7 +157,7 @@ namespace Altaaref.ViewModels
             var content = new StringContent(JsonConvert.SerializeObject(newHelpRequest), Encoding.UTF8, "application/json");
             var response = _client.PostAsync(postUrl, content);
 
-            var InsertedHelpRequestId = JsonConvert.DeserializeObject<HelpRequest>(await response.Result.Content.ReadAsStringAsync());
+            var InsertedHelpRequestId = JsonConvert.DeserializeObject<Models.HelpRequest>(await response.Result.Content.ReadAsStringAsync());
 
 
             if (response.Result.IsSuccessStatusCode)

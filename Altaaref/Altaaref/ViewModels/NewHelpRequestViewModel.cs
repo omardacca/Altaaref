@@ -17,8 +17,8 @@ namespace Altaaref.ViewModels
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private HelpRequest _newHelpRequest;
-        public HelpRequest NewHelpRequest
+        private Models.HelpRequest _newHelpRequest;
+        public Models.HelpRequest NewHelpRequest
         {
             get { return _newHelpRequest; }
             private set { SetValue(ref _newHelpRequest, value); }
@@ -47,7 +47,7 @@ namespace Altaaref.ViewModels
 
         private void InitNewHelpRequest()
         {
-            NewHelpRequest = new HelpRequest
+            NewHelpRequest = new Models.HelpRequest
             {
                 StudentId = StudentId,
                 Message = "",
@@ -83,7 +83,7 @@ namespace Altaaref.ViewModels
             var content = new StringContent(JsonConvert.SerializeObject(NewHelpRequest), Encoding.UTF8, "application/json");
             var response = _client.PostAsync(postUrl, content);
 
-            var InsertedHelpRequestId = JsonConvert.DeserializeObject<HelpRequest>(await response.Result.Content.ReadAsStringAsync());
+            var InsertedHelpRequestId = JsonConvert.DeserializeObject<Models.HelpRequest>(await response.Result.Content.ReadAsStringAsync());
 
 
             if (response.Result.IsSuccessStatusCode)
