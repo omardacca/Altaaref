@@ -66,7 +66,7 @@ namespace Altaaref.ViewModels.HelpRequests
         private async Task GetRecentNotebooksList()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/Details/" + StudentId; // CHANGE THE URL
+            var url = "https://altaarefapp.azurewebsites.net/api/Notebooks/Recent/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);

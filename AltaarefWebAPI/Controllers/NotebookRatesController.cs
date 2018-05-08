@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AltaarefWebAPI.Contexts;
 using AltaarefWebAPI.Models;
+using System.Linq;
 
 namespace AltaarefWebAPI.Controllers
 {
@@ -45,6 +46,34 @@ namespace AltaarefWebAPI.Controllers
             }
 
             return Ok(notebookRates);
+        }
+
+        // GET: api/NotebookRates/5
+        [HttpGet("TopRated/{StudentId}")]
+        public async Task<IActionResult> GetNotebookTopRated([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentCoursesId = _context.StudentCourses.Where(sc => sc.StudentId == StudentId).Select(sc => sc.CourseId).Distinct();
+
+            var notebookRates = from p in _context.NotebookRates
+                                where studentCoursesId.Contains(p.Notebook.CourseId)
+                                group p by p.NotebookId into nt
+                                select new { NotebookId = nt.Key, Sum = nt.Sum(n => n.Rate) };
+
+            var topTenRated = notebookRates
+                                .OrderBy(nr => nr.Sum)
+                                .Take(10);
+
+            if (topTenRated == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(topTenRated);
         }
 
         // GET: api/NotebookRates/5
