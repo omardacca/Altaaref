@@ -117,15 +117,16 @@
                         <StackLayout Orientation="Horizontal">
                             <ic:CircleImage Source="notebooksandgirl.png" Aspect="AspectFill"
                                             Opacity=".6"
-                                            WidthRequest="100" HeightRequest="200"
+                                            WidthRequest="150" HeightRequest="250"
                                             VerticalOptions="Center"/>
-                            <Label Text="We noticed a lack of notebooks in COURSE course, help others by adding your notebook now!"
-                                   FontSize="18"
-                                   VerticalOptions="Center"/>
+                            <Label Text="{Binding FreeCourse.Name, StringFormat='We noticed a lack of notebooks in {0} course, help others by adding your notebook now!'}"
+                                FontSize="16"
+                                VerticalOptions="Center"/>
                         </StackLayout>
                         
-                        <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"
-                                              Grid.Column="0">
+                        <controls:ButtonFrame HeightRequest="17" 
+                                              WidthRequest="160"
+                                              VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
                             <Label Text="Add Now!" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                             <controls:ButtonFrame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding AddButtonCommand}" />

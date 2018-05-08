@@ -325,12 +325,6 @@
     <AndroidResource Include="Resources\drawable\tomorrowon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\bgmalibubeach.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\bgmorpheus.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\staroutline.png" />
   </ItemGroup>
   <ItemGroup>

@@ -66,6 +66,25 @@ namespace AltaarefWebAPI.Controllers
             return Ok(course);
         }
 
+        // GET: api/Courses/5
+        [HttpGet("StudentCourses/{StudentId}")]
+        public async Task<IActionResult> GetStudentCourses([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var course = _context.StudentCourses.Where(sc => sc.StudentId == StudentId);
+
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(course);
+        }
+
         // PUT: api/Courses/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse([FromRoute] int id, [FromBody] Course course)

@@ -48,6 +48,66 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Notebooks/5
+        [HttpGet("Search/ByNotebookName/{notebooktext}")]
+        public async Task<IActionResult> GetSearchByName([FromRoute] string notebooktext)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var notebook = _context.Notebook.Where(nb => nb.Name.Contains(notebooktext))
+                                            .Select(nb => new ViewNotebookStudent { StudentId = nb.StudentId, StudentName = nb.Student.FullName, Notebook = nb });
+
+            if (notebook == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(notebook);
+        }
+
+        // GET: api/Notebooks/5
+        [HttpGet("Search/ByCourseId/{CourseId}")]
+        public async Task<IActionResult> GetSearchCourseId([FromRoute] int CourseId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var notebook = _context.Notebook.Where(nb => nb.CourseId == CourseId)
+                                            .Select(nb => new ViewNotebookStudent { StudentId = nb.StudentId, StudentName = nb.Student.FullName, Notebook = nb });
+
+            if (notebook == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(notebook);
+        }
+
+        // GET: api/Notebooks/5
+        [HttpGet("Search/ByCourseIdAndName/{CourseId}/{notebooktext}")]
+        public async Task<IActionResult> GetSearchCourseId([FromRoute] int CourseId, [FromRoute] string notebooktext)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var notebook = _context.Notebook.Where(nb => nb.CourseId == CourseId && nb.Name.Contains(notebooktext))
+                                            .Select(nb => new ViewNotebookStudent { StudentId = nb.StudentId, StudentName = nb.Student.FullName, Notebook = nb });
+
+            if (notebook == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(notebook);
+        }
+
+        // GET: api/Notebooks/5
         [HttpGet("Recent/{StudentId}")]
         public async Task<IActionResult> GetRecentNotebook([FromRoute] int StudentId)
         {

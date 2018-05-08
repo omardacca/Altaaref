@@ -107,15 +107,6 @@ namespace Altaaref.ViewModels.HelpRequests
             _pageService = pageService;
 
             var tasks = InitLists();
-
-            if(!_isFreeNotebooksEmpty)
-            {
-                Random rnd = new Random();
-                int selected = rnd.Next(_freeNotebookCourses.Count);
-
-                FreeCourse = _freeNotebookCourses[selected];
-            }
-
         }
 
         private async Task InitLists()
@@ -123,6 +114,14 @@ namespace Altaaref.ViewModels.HelpRequests
             await GetRecentNotebooksList();
             await GetTopRatedNotebooksList();
             await GetEmptyNotebooksCoursesList();
+
+            if (!_isFreeNotebooksEmpty)
+            {
+                Random rnd = new Random();
+                int selected = rnd.Next(_freeNotebookCourses.Count);
+
+                FreeCourse = _freeNotebookCourses[selected];
+            }
         }
 
         private async void HandleItemTapped(ViewNotebookStudent vns)
@@ -177,14 +176,14 @@ namespace Altaaref.ViewModels.HelpRequests
 
 
 
-        private void AddAction()
+        private async void AddAction()
         {
-            //_pageService.PushAsync(new Views.StudyGroups.NewGroupPage());
+            await _pageService.PushAsync(new Views.NotebooksDB.AddNewNotebook());
         }
 
         private void FindAction()
         {
-            //_pageService.PushAsync(new Views.StudyGroups.FindStudyGroup());
+            _pageService.PushAsync(new Views.NotebooksDB.FindNotebookPage());
         }
     }
 }
