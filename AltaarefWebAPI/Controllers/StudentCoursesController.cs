@@ -70,6 +70,34 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studentCourses);
         }
 
+        private class MiniCourse
+        {
+            public int CourseId { get; set; }
+            public string CourseName { get; set; }
+        }
+       
+        // GET: api/StudentCourses/5
+        [HttpGet("GetFreeNotebookCourses/{StudentId}")]
+        public async Task<IActionResult> GetNotebookFreeCourses([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentCoursesId = _context.StudentCourses.Where(sc => sc.StudentId == StudentId).Select(sc =>  sc.CourseId).Distinct();
+
+            var courses = _context.Course.Where(n => studentCoursesId.Contains(n.Id) && n.Notebooks.Count() <= 1);
+
+            if (courses == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(courses);
+        }
+
+
         // PUT: api/StudentCourses/5
         [HttpPut("{StudentId}/{CourseId}")]
         public async Task<IActionResult> PutStudentCourses([FromRoute] int StudentId, [FromRoute] int CourseId, [FromBody] StudentCourses studentCourses)

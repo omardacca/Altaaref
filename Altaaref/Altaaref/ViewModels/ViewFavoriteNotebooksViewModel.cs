@@ -34,8 +34,7 @@ namespace Altaaref.ViewModels
         }
 
 
-        private ICommand _selectedCommand;
-        public ICommand SelectedCommand { get { return _selectedCommand; } }
+        public ICommand ItemTappedCommand => new Command<ViewNotebookStudent>(ViewFavoriteNotebookSelected);
 
         private bool _busy;
         public bool Busy
@@ -60,7 +59,7 @@ namespace Altaaref.ViewModels
         public ViewFavoriteNotebooksViewModel(IPageService pageService)
         {
             _pageService = pageService;
-            _selectedCommand = new Command<ViewNotebookStudent>(ViewFavoriteNotebookSelected);
+
             GetFavoriteNotebooksList();
         }
 

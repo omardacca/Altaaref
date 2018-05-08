@@ -17,7 +17,7 @@ namespace Altaaref.Views.MainMenu
                     Text = "Notebooks Storage",
                     Column = 0,
                     Row = 0,
-                    NavigateType = typeof(CommonPages.MainPage)
+                    NavigateType = typeof(NotebooksDB.NotebooksMainPage)
                 },
                 new MenuItem()
                 {

@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Altaaref.Views.Templates.Notebooks.ViewFavoriteNotebooksTemplate">
+             x:Class="Altaaref.Views.Templates.Notebooks.ViewFavoriteNotebooksTemplate"
+             x:Name="thispageref">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -34,6 +35,11 @@
                         <Label Text="{Binding Notebook.ViewsCount, StringFormat='{0} Views'}" />
                     </StackLayout>
                 </StackLayout>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ParentContext.ItemTappedCommand, Source={x:Reference thispageref}}" CommandParameter="{Binding .}" />
+                </Frame.GestureRecognizers>
+                
             </Frame>
         </RelativeLayout>
     </ContentView.Content>

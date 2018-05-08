@@ -26,7 +26,6 @@
 
             <RelativeLayout IsVisible="{Binding IsListEmpty, Converter={StaticResource boolConverter}}">
                 <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding ViewFavNotebooksList}"
-                                         SelectedCommand="{Binding SelectedCommand}"
                                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
                     <controls:HorizontalList.ItemTemplate>
                         <DataTemplate>
