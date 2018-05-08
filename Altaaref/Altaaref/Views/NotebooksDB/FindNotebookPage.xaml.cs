@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Altaaref.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace Altaaref.Views.NotebooksDB
 		public FindNotebookPage ()
 		{
 			InitializeComponent ();
-		}
+
+            BindingContext = new FindNotebookViewModel(new PageService());
+        }
 	}
 }

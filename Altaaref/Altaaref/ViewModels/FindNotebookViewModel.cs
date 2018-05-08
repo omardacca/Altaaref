@@ -45,7 +45,7 @@ namespace Altaaref.ViewModels
         }
 
         private bool _coursesSwitch;
-        public bool CoursesSwich
+        public bool CoursesSwitch
         {
             get { return _coursesSwitch; }
             set
@@ -66,6 +66,7 @@ namespace Altaaref.ViewModels
         public FindNotebookViewModel(IPageService pageService)
         {
             _pageService = pageService;
+            CoursesSwitch = false;
 
             var tasks = InitObjects();
         }

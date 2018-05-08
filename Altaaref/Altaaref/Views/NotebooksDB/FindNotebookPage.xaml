@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Altaaref.UserControls
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              x:Class="Altaaref.Views.NotebooksDB.FindNotebookPage"
              Title="Find Notebook">
@@ -28,41 +28,43 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <Label Text="Find Notebook" FontSize="24" 
-                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    Grid.Row="0"/>
 
                 <Label Text="Please fill at least one field in the following form" FontSize="16" 
-                       Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                       Grid.Row="1"/>
 
-                <Label Text="Search by course ?" Grid.Row="2" Grid.Column="0"
-                <Switch IsToggled="{Binding CoursesSwitch}" Grid.Row="2" Grid.Column="1" />
+                <StackLayout Orientation="Horizontal" 
+                             Grid.Row="2">
+                    <Label Text="Search by course ?" />
+                    <Switch IsToggled="False"/>
+                </StackLayout>
 
                 <Picker Title="Select Course" 
                     ItemsSource="{Binding CoursesList}" 
                     ItemDisplayBinding="{Binding Name}" 
                     HorizontalOptions="FillAndExpand" 
                     SelectedIndex="{Binding SelectedCourseIndex}"
-                    Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    Grid.Row="3"/>
 
-            <Entry Placeholder="Notebook Name.."
-                   Text="{Binding NotebookNameText}"
-                   Grid.Row="4" WidthRequest="400" Grid.Column="0" Grid.ColumnSpan="2" />
+                <Entry Placeholder="Notebook Name.."
+                       Text="{Binding NotebookNameText}"
+                       WidthRequest="400"
+                       Grid.Row="4" />
 
                 <controls:ButtonFrame HeightRequest="17" Grid.Row="5">
                     <Label Text="Search" 
-                           BackgroundColor="Black" 
-                           TextColor="White" 
-                           HorizontalTextAlignment="Center" 
-                           VerticalOptions="Center"
-                           Grid.Column="0" Grid.ColumnSpan="2"/>
-                    
+                        BackgroundColor="Black" 
+                        TextColor="White"
+                        HorizontalTextAlignment="Center" 
+                        VerticalOptions="Center"/>
+
                     <controls:ButtonFrame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SearchCommand}" />
                     </controls:ButtonFrame.GestureRecognizers>
-                    
+
                 </controls:ButtonFrame>
 
             </Grid>
