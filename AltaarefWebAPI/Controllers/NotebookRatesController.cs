@@ -68,6 +68,16 @@ namespace AltaarefWebAPI.Controllers
                                 .OrderBy(nr => nr.Sum)
                                 .Take(10);
 
+            var finalObjects = _context.Notebook
+                .Where(nt => topTenRated.Select(tnr => tnr.NotebookId).Contains(nt.Id))
+                .Select(nt =>
+                    new ViewNotebookStudent
+                    {
+                        StudentId = nt.StudentId,
+                        StudentName = nt.Student.FullName,
+                        Notebook = nt
+                    });
+
             if (topTenRated == null)
             {
                 return NotFound();

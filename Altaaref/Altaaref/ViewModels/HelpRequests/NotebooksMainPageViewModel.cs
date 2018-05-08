@@ -15,6 +15,12 @@ namespace Altaaref.ViewModels.HelpRequests
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
+        private class Rates
+        {
+            public int NotebookId { get; set; }
+            public int Sum { get; set; }
+        }
+
         private bool _busy;
         public bool Busy
         {
@@ -78,11 +84,11 @@ namespace Altaaref.ViewModels.HelpRequests
         private async Task GetTopRatedNotebooksList()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/Details/" + StudentId; // CHANGE THE URL
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/TopRated/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);
-            TopRatedNotebooksList = new List<ViewNotebookStudent>(list);
+            var list = JsonConvert.DeserializeObject<List<Rates>>(content);
+            TopRatedNotebooksList = new List<Rates>(list);
 
             Busy = false;
         }
