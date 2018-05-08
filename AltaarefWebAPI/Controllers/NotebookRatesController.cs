@@ -78,12 +78,12 @@ namespace AltaarefWebAPI.Controllers
                         Notebook = nt
                     });
 
-            if (topTenRated == null)
+            if (finalObjects == null)
             {
                 return NotFound();
             }
 
-            return Ok(topTenRated);
+            return Ok(finalObjects);
         }
 
         // GET: api/NotebookRates/5

@@ -87,8 +87,8 @@ namespace Altaaref.ViewModels.HelpRequests
             var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/TopRated/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<Rates>>(content);
-            TopRatedNotebooksList = new List<Rates>(list);
+            var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);
+            TopRatedNotebooksList = new List<ViewNotebookStudent>(list);
 
             Busy = false;
         }
