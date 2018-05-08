@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Altaaref.Views.NotebooksDB.NotebooksMainPage"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:templates="clr-namespace:Altaaref.Views.Templates.Notebooks"
+             x:Name="MainPageRef"
+             Title="Notebooks Storage">
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="120" />
+                <Setter Property="Margin" Value="0, 5, 5, 0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+
+                <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
+
+                <Grid Padding="12" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Study Groups" 
+                           FontSize="22"
+                           Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                           Margin="0,2,0,10"/>
+
+                    <Image Source="addmanicon.png" 
+                           HeightRequest="45" 
+                           WidthRequest="45"
+                           Grid.Row="1" Grid.Column="0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddButtonCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <Image Source="searchicon.png" 
+                           HeightRequest="45" 
+                           WidthRequest="45"  
+                           Grid.Row="1" Grid.Column="1">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding FindButtonCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+
+                    <Label Text="Recent Notebook" 
+                           HorizontalOptions="StartAndExpand" 
+                           FontSize="Medium"
+                           Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                           Margin="0, 8, 0, 2"/>
+                    
+                    <controls:HorizontalList ListOrientation="Horizontal" 
+                                             ItemsSource="{Binding RecentNotebooksList}"
+                                             Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <templates:ViewFavoriteNotebooksTemplate ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+
+                    <Label Text="Top Rated Notebooks" 
+                           HorizontalOptions="StartAndExpand" 
+                           FontSize="Medium"
+                           Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                           Margin="0, 8, 0, 2"/>
+
+                    <controls:HorizontalList ListOrientation="Horizontal" 
+                                             ItemsSource="{Binding TopRatedNotebooksList}"
+                                             Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <templates:ViewFavoriteNotebooksTemplate ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+
+                    <Frame Style="{StaticResource FirstPanelStyle}">
+                        <Label Text="Image and then text ABOUT SPECIFIC COURSE under of it maybe .."/>
+                    </Frame>
+
+
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

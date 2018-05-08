@@ -12,15 +12,19 @@ using Xamarin.Forms.Xaml;
 
 namespace Altaaref.Views.MutualHelp
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MainHelpRequest : ContentPage
-	{
-		public MainHelpRequest ()
-		{
-			InitializeComponent ();
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class MainHelpRequest : ContentPage
+    {
+        public MainHelpRequest()
+        {
+            InitializeComponent();
 
             BindingContext = new MainPageHelpRequestViewModel(new PageService());
         }
 
+        void HandleNewHRTapped(object sender, ItemTappedEventArgs e)
+        {
+            (BindingContext as MainPageHelpRequestViewModel).HandleNewHRTap();
+        }
     }
 }

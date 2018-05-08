@@ -6,7 +6,8 @@
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              x:Class="Altaaref.Views.MutualHelp.MainHelpRequest"
-             x:Name="mainpage">
+             x:Name="mainpage"
+             Title="Mutual Help">
 
 
     <ContentPage.Resources>
@@ -27,9 +28,9 @@
 
     <ContentPage.Content>
         <ScrollView>
-        <StackLayout>
-            <Grid Padding="5">
-                        <Grid.RowDefinitions>
+            <StackLayout>
+                <Grid Padding="5">
+                    <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -37,62 +38,71 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                        <Label Text="Mutual Help" FontSize="24" HorizontalOptions="StartAndExpand" />
+                        <Label Text="Mutual Help" 
+                               FontSize="24" 
+                               HorizontalOptions="StartAndExpand" 
+                               Grid.Row="0"/>
 
-                        <Grid Grid.Row="1" Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="1" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                            <ic:CircleImage 
-                                HeightRequest="45"
-                                WidthRequest="45"
-                                Aspect="AspectFill"
-                                Source="{Binding Student.ProfilePicBlobUrl}" 
-                                HorizontalOptions="StartAndExpand"
-                                VerticalOptions="Start"
-                                Grid.Row="0" Grid.Column="0"/>
+                        <ic:CircleImage 
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            Aspect="AspectFill"
+                            Source="{Binding Student.ProfilePicBlobUrl}" 
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="Start"
+                            Grid.Row="0" Grid.Column="0"/>
 
-                            <Entry Placeholder="Need Help ? Share it and Let others help you"
+                        <Entry Focused="HandleNewHRTapped" 
+                               Placeholder="Need Help ? Share it now"
                                Grid.Row="0" Grid.Column="1" />
-                        </Grid>
+                    </Grid>
 
-                        <Label Text="General" 
-                               HorizontalOptions="StartAndExpand"
-                               FontSize="14"
-                               Grid.Row="2" />
+                    <Label Text="General" 
+                            HorizontalOptions="StartAndExpand"
+                            FontSize="16"
+                            Grid.Row="2"
+                            Margin="0, 10, 0, 2"/>
 
-                        <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding GeneralHelpRequestList}"
-                                                 HorizontalOptions="StartAndExpand" 
-                                                 Grid.Row="3"
-                                                 Margin="0, 0, 0, 2" IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}">
-                            <controls:HorizontalList.ItemTemplate>
-                                <DataTemplate>
-                                    <template:GeneralHelpRequestTemplate ParentContext="{Binding BindingContext, Source={x:Reference mainpage}}"/>
-                                </DataTemplate>
-                            </controls:HorizontalList.ItemTemplate>
-                        </controls:HorizontalList>
+                    <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding GeneralHelpRequestList}"
+                                                HorizontalOptions="StartAndExpand" 
+                                                Grid.Row="3"
+                                                Margin="0, 0, 0, 0" IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:GeneralHelpRequestTemplate ParentContext="{Binding BindingContext, Source={x:Reference mainpage}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
 
-                <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4">
-                            <Label Text="See All" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4"
+                                          Margin="0, 0 , 0 , 8">
+                    <Label Text="See All" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
 
-                            <controls:ButtonFrame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding GeneralViewAllCommand}" />
-                            </controls:ButtonFrame.GestureRecognizers>
-                        </controls:ButtonFrame>
+                        <controls:ButtonFrame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GeneralViewAllCommand}" />
+                        </controls:ButtonFrame.GestureRecognizers>
+                    </controls:ButtonFrame>
 
 
                     <Label Text="In your faculties" 
-                               HorizontalOptions="StartAndExpand"
-                               FontSize="14"
-                               Grid.Row="5" />
+                           HorizontalOptions="StartAndExpand"
+                           FontSize="16"
+                           Grid.Row="5"
+                           Margin="0, 10, 0, 2"/>
                     <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding FacultiesHelpRequestsList}"
                                              HorizontalOptions="StartAndExpand"
+                                             WidthRequest="400"
                                              Grid.Row="6"
-                                             Margin="0, 0, 0, 10" IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}">
+                                             Margin="0, 0, 0, 0" IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}">
                         <controls:HorizontalList.ItemTemplate>
                             <DataTemplate>
                                 <template:FacultyHelpRequestTemplate ParentContext="{Binding BindingContext, Source={x:Reference mainpage}}"/>
@@ -100,8 +110,11 @@
                         </controls:HorizontalList.ItemTemplate>
                     </controls:HorizontalList>
 
-                    <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="7">
-                            <Label Text="See All" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    <controls:ButtonFrame HeightRequest="17" 
+                                          VerticalOptions="EndAndExpand" 
+                                          Margin="0,0,0,2"
+                                          Grid.Row="7">
+                            <Label Text="See All" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
 
                             <controls:ButtonFrame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding FacultiesViewAllCommand}"  />

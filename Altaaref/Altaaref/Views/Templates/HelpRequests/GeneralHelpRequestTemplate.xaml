@@ -24,52 +24,58 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-
         <Frame Style="{StaticResource FirstPanelStyle}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+            <StackLayout>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <ic:CircleImage 
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    Aspect="AspectFill"
-                    Source="{Binding Student.ProfilePicBlobUrl}" 
-                    HorizontalOptions="StartAndExpand"
-                    VerticalOptions="Start"
-                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+                    <ic:CircleImage 
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        Aspect="AspectFill"
+                        Source="{Binding Student.ProfilePicBlobUrl}" 
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Start"
+                        Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
 
-                <Label Text="{Binding Student.FullName}"
-                        Grid.Row="0" Grid.Column="1"/>
+                    <Label Text="{Binding Student.FullName}"
+                            Grid.Row="0" Grid.Column="1"/>
 
-                <Label Text="{Binding Date, StringFormat='{0:dd-MMM-yy}'}" HorizontalTextAlignment="Start" 
-                        Grid.Row="1" Grid.Column="1"/>
+                    <Label Text="{Binding Date, StringFormat='{0:dd-MMM-yy}'}" HorizontalTextAlignment="Start" 
+                            Grid.Row="1" Grid.Column="1"/>
 
-                <Label Text="{Binding Views, StringFormat='{0} Views'}" HorizontalOptions="Center"
-                        Grid.Row="2" Grid.Column="0"/>
+                    <Label Text="{Binding Views, StringFormat='{0} Views'}" HorizontalOptions="Center"
+                            Grid.Row="2" Grid.Column="0"/>
 
-                <Label Text="{Binding Message}" FontSize="14"
-                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <Label Text="{Binding Message}" FontSize="14"
+                            Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+                </Grid>
 
-                <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-                    <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                
+                <controls:ButtonFrame HeightRequest="17" 
+                                      VerticalOptions="EndAndExpand">
+                    
+                    <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" 
+                           TextColor="White" 
+                           HorizontalTextAlignment="Center" 
+                           VerticalOptions="Center"/>
 
                     <controls:ButtonFrame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ParentContext.ViewCommand, Source={x:Reference generalpage}}" CommandParameter="{Binding .}" />
                     </controls:ButtonFrame.GestureRecognizers>
+                    
                 </controls:ButtonFrame>
-
-            </Grid>
+                
+            </StackLayout>
         </Frame>
-
     </ContentView.Content>
 </ContentView>

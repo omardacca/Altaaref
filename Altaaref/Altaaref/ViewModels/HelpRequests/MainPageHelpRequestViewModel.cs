@@ -98,15 +98,19 @@ namespace Altaaref.ViewModels.HelpRequest
             await GetNotGeneralHelpRequest();
         }
 
+        public async void HandleNewHRTap()
+        {
+            await _pageService.PushAsync(new Views.MutualHelp.NewHelpRequest());
+        }
 
         private void HandleGeneralViewAll()
         {
-            
+            _pageService.PushAsync(new Views.MutualHelp.HRGeneralList());
         }
 
         private void HandleFacultiesViewAll()
         {
-
+            _pageService.PushAsync(new Views.MutualHelp.HRFacultiesList());
         }
 
         private async void HandleHRTap(StudentHelpRequest studentHelpRequest)

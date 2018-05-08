@@ -18,7 +18,7 @@ namespace Altaaref.Views.Templates.HelpRequests
 		}
 
         public static readonly BindableProperty ParentContextProperty =
-            BindableProperty.Create("ParentContext", typeof(object), typeof(HelpRequestsListTemplate), null, propertyChanged: OnParentContextPropertyChanged);
+            BindableProperty.Create("ParentContext", typeof(object), typeof(GeneralHelpRequestTemplate), null, propertyChanged: OnParentContextPropertyChanged);
 
         public object ParentContext
         {
@@ -30,7 +30,7 @@ namespace Altaaref.Views.Templates.HelpRequests
         {
             if (newValue != oldValue && newValue != null)
             {
-                (bindable as HelpRequestsListTemplate).ParentContext = newValue;
+                (bindable as GeneralHelpRequestTemplate).ParentContext = newValue;
             }
         }
     }

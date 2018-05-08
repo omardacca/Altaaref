@@ -47,6 +47,29 @@ namespace AltaarefWebAPI.Controllers
             return Ok(notebook);
         }
 
+        // GET: api/Notebooks/5
+        [HttpGet("Recent/{StudentId}")]
+        public async Task<IActionResult> GetRecentNotebook([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentCoursesId = _context.StudentCourses.Where(sc => sc.StudentId == StudentId).Select(sc => sc.CourseId).Distinct();
+
+            var notebook = _context.Notebook.Where(nb => studentCoursesId.Contains(nb.CourseId) &&
+                                            nb.PublishDate.AddDays(14) >= DateTime.Today)
+                                            .Select(nb => new ViewNotebookStudent { StudentId = nb.StudentId, StudentName = nb.Student.FullName, Notebook = nb });
+
+            if (notebook == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(notebook);
+        }
+
 
         // GET: api/Notebooks/5
         [HttpGet("StudentFavoriteNumber/{id}")]

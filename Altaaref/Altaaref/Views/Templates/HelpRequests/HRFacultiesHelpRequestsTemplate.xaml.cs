@@ -10,15 +10,15 @@ using Xamarin.Forms.Xaml;
 namespace Altaaref.Views.Templates.HelpRequests
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class FacultyHelpRequestTemplate : ContentView
+	public partial class HRFacultiesHelpRequestsTemplate : ContentView
 	{
-		public FacultyHelpRequestTemplate ()
+		public HRFacultiesHelpRequestsTemplate ()
 		{
 			InitializeComponent ();
 		}
 
         public static readonly BindableProperty ParentContextProperty =
-            BindableProperty.Create("ParentContext", typeof(object), typeof(FacultyHelpRequestTemplate), null, propertyChanged: OnParentContextPropertyChanged);
+            BindableProperty.Create("ParentContext", typeof(object), typeof(HRFacultiesHelpRequestsTemplate), null, propertyChanged: OnParentContextPropertyChanged);
 
         public object ParentContext
         {
@@ -30,8 +30,9 @@ namespace Altaaref.Views.Templates.HelpRequests
         {
             if (newValue != oldValue && newValue != null)
             {
-                (bindable as FacultyHelpRequestTemplate).ParentContext = newValue;
+                (bindable as HRFacultiesHelpRequestsTemplate).ParentContext = newValue;
             }
         }
+
     }
 }
