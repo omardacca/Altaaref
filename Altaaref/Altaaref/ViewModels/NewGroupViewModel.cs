@@ -1,5 +1,6 @@
 ﻿using Altaaref.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -77,6 +78,7 @@ namespace Altaaref.ViewModels
         {
             Busy = true;
             StudyGroup = new Models.StudyGroup();
+            StudyGroup.Date = DateTime.Today;
             CoursesNameList = new List<string>();
             HandleSubmition = new Command(OnSubmitButtonTapped);
             await GetCoursesAsync();

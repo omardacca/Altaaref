@@ -33,10 +33,11 @@ namespace Altaaref.Views.CommonPages
             {
                 MenuItems = new ObservableCollection<MainPageMenuItem>(new[]
                 {
-                    new MainPageMenuItem { Id = 0, Title = "My Study Groups", Icon = "mystudygroups.png",TargetType = typeof(Views.CommonPages.MyStudyGroupsPage) },
-                    new MainPageMenuItem { Id = 1, Title = "Study Groups Invitations", Icon = "invitationicon.png",TargetType = typeof(Views.CommonPages.ViewStudyGroupInvitations) },
-                    new MainPageMenuItem { Id = 2, Title = "My Favorite Notebook", Icon = "menufavorite.png",TargetType = typeof(Views.CommonPages.ViewFavoriteNotebooks) },
-                    new MainPageMenuItem { Id = 3, Title = "My Help Requests", Icon = "helpmenuitem.png",TargetType = typeof(Views.CommonPages.MyHelpRequests) },
+                    new MainPageMenuItem { Id = 0, Title = "Home Page", Icon = "homepage.png",TargetType = typeof(Views.CommonPages.MainPage) },
+                    new MainPageMenuItem { Id = 1, Title = "My Study Groups", Icon = "mystudygroups.png",TargetType = typeof(Views.CommonPages.MyStudyGroupsPage) },
+                    new MainPageMenuItem { Id = 2, Title = "Study Groups Invitations", Icon = "invitationicon.png",TargetType = typeof(Views.CommonPages.ViewStudyGroupInvitations) },
+                    new MainPageMenuItem { Id = 3, Title = "My Favorite Notebook", Icon = "menufavorite.png",TargetType = typeof(Views.CommonPages.ViewFavoriteNotebooks) },
+                    new MainPageMenuItem { Id = 4, Title = "My Help Requests", Icon = "helpmenuitem.png",TargetType = typeof(Views.CommonPages.MyHelpRequests) },
                 });
             }
             

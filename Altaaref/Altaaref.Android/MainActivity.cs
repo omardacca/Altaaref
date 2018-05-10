@@ -166,6 +166,42 @@ namespace Altaaref.Droid
             }
         }
 
+        private string GetRealPathFromUri(Android.Net.Uri contentUri)
+        {
+            Android.Database.ICursor cursor = ContentResolver.Query(contentUri, null, null, null, null);
+            cursor.MoveToFirst();
+            string docId = cursor.GetString(0);
+            docId = docId.Substring(docId.LastIndexOf(":") + 1);
+            cursor.Close();
+
+            cursor = ContentResolver.Query(Android.Provider.MediaStore.Images.Media.ExternalContentUri, null,
+                Android.Provider.MediaStore.Images.Media.InterfaceConsts.Id + " = ? ", new String[] { docId }, null);
+
+            cursor.MoveToFirst();
+
+            string path = cursor.GetString(cursor.GetColumnIndex(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data));
+            cursor.Close();
+
+            return path;
+        }
+
+        private bool IsDocumentUri(Android.Net.Uri uri)
+        {
+            bool ret = false;
+            if (uri != null)
+                ret = Android.Provider.DocumentsContract.IsDocumentUri(this, uri);
+            return ret;
+        }
+
+        private bool IsDownloadDoc(string uriAuthority)
+        {
+            bool ret = false;
+
+            if ("com.android.providers.downloads.documents".Equals(uriAuthority))
+                ret = true;
+            return ret;
+        }
+
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
         {
             base.OnActivityResult(requestCode, resultCode, intent);
@@ -175,6 +211,45 @@ namespace Altaaref.Droid
                 StartDownload();
             }
 
+            if(requestCode == 123)
+            {
+                string ret = "";
+
+                Intent sendIntent = new Intent();
+                sendIntent.SetType("application/pdf");
+
+                sendIntent.SetAction(Intent.ActionSend);
+
+                if(IsDocumentUri(intent.Data))
+                {
+                    string documentId = Android.Provider.DocumentsContract.GetDocumentId(intent.Data);
+                    string uriAuthority = intent.Data.Authority;
+
+                    if(IsDownloadDoc(uriAuthority))
+                    {
+                        Android.Net.Uri downloadUri = Android.Net.Uri.Parse("content://downloads/public_downloads");
+
+                        Android.Net.Uri downloadUriAppendId = ContentUris.WithAppendedId(downloadUri, long.Parse(documentId));
+
+                        sendIntent.SetData(downloadUriAppendId);
+                        sendIntent.PutExtra(Android.Content.Intent.ExtraStream, downloadUriAppendId);
+
+                        StartActivity(Android.Content.Intent.CreateChooser(sendIntent, "Share"));
+
+                        //ret = GetRealPathFromUri()
+                    }
+                }
+
+
+                //                var path1 = Android.OS.Environment.ExternalStorageDirectory.Path + "/" + Android.OS.Environment.DirectoryDownloads + "/examsY3a.pdf";
+
+                //sendIntent.SetData(Android.Net.Uri.Parse(path));
+                //sendIntent.PutExtra(Android.Content.Intent.ExtraStream, Android.Net.Uri.Parse("content://" + Android.Net.Uri.Parse(intent.Data.Path)));
+
+
+                //StartActivity(Android.Content.Intent.CreateChooser(sendIntent, "Share"));
+            }
+            
             // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
             if (requestCode == RC_SIGN_IN)
             {

@@ -9,6 +9,7 @@ using Android.Content.PM;
 using Android.Widget;
 using Android.Content;
 using Xamarin.Forms;
+using Android.Support.V4.Content;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Downloader))]
 namespace Altaaref.Droid
@@ -27,15 +28,26 @@ namespace Altaaref.Droid
             // Get the MainActivity instance
             MainActivity activity = MainActivity.Instance as MainActivity;
 
-            Intent intent = new Intent();
-            intent.SetType("application/pdf");
-            //            intent.SetAction(Intent.ActionSend);
-            intent.SetAction(Intent.ActionOpenDocument);
+            Intent viewIntent = new Intent();
+            viewIntent.SetType("application/pdf");
+            viewIntent.SetAction(Intent.ActionGetContent);
+            
+            //viewIntent.SetAction(Intent.ActionGetContent);
 
-            activity.Url = url;
-            activity.Filename = filename;
+            activity.StartActivityForResult(viewIntent, 123);
+            //            activity.StartActivityForResult(Android.Content.Intent.CreateChooser(viewIntent, "Share"), 123);
 
-            activity.StartActivityForResult(Intent.CreateChooser(intent, "Download File"), MainActivity.DownloadFile);
+            //Intent intent = new Intent();
+            //intent.SetType("application/pdf");
+            ////            intent.SetAction(Intent.ActionSend);
+            //intent.SetAction(Intent.ActionSend);
+            //intent.PutExtra(Android.Content.Intent.ExtraStream, "thisisfile");
+
+            //activity.Url = url;
+            //activity.Filename = filename;
+
+            //activity.StartActivity(Android.Content.Intent.CreateChooser(intent, "Share"));
+            //activity.StartActivityForResult(Intent.CreateChooser(intent, "Download File"), MainActivity.DownloadFile);
         }
 
 

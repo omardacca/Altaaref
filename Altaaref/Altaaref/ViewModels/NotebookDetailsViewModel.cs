@@ -77,8 +77,8 @@ namespace Altaaref.ViewModels
             }
         }
 
-        public ICommand FavoriteImageButtonCommand { get; private set; }
-        public ICommand DownloadCommand { get; set; }
+        public ICommand FavoriteImageButtonCommand => new Command(OnFavoriteTap);
+        public ICommand DownloadCommand => new Command(HandleOnDownloadButtonClicked);
         public ICommand ViewProfileCommand { get; set; }
         public ICommand OneStarCommand { get; set; }
         public ICommand TwoStarCommand { get; set; }
@@ -189,8 +189,6 @@ namespace Altaaref.ViewModels
 
             await InitFavoriteImageButton();
 
-            FavoriteImageButtonCommand = new Command(OnFavoriteTap);
-            DownloadCommand = new Command(HandleOnDownloadButtonClicked);
             ViewProfileCommand = new Command(OnViewProfileTapped);
             
         }
@@ -631,10 +629,10 @@ namespace Altaaref.ViewModels
             var httpClient = new HttpClient(); 
             return httpClient.GetStreamAsync(new Uri(url));
         }
-
+  // but for the simplicity and to try the method, I created it here..
+        public async
         // This method should not be here, and it should be in 'Adding new Notebook Form..'
-        // but for the simplicity and to try the method, I created it here..
-        public async Task<bool> UploadFileToBlob(Stream fileStream)
+       Task<bool> UploadFileToBlob(Stream fileStream)
         {
             // Retrieve storage account from connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=csb08eb270fff55x4a98xb1a;AccountKey=7ROeIOcZq54z+OnYRzR+YJow+sSu3ElALl/HCxjX/LaGLQy6eDY8Ij/E1aFNC4v1ls0SUHPteDzkU1cBzrPpXw==;EndpointSuffix=core.windows.net");

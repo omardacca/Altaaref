@@ -26,9 +26,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
 
                 <Label Text="Find Notebook" FontSize="24" 
                     Grid.Row="0"/>
@@ -39,34 +36,34 @@
                 <StackLayout Orientation="Horizontal" 
                              Grid.Row="2">
                     <Label Text="Search by course ?" />
-                    <Switch IsToggled="False"/>
+                    <Switch IsToggled="{Binding CoursesSwitch}"/>
                 </StackLayout>
 
                 <Picker Title="Select Course" 
-                    ItemsSource="{Binding CoursesList}" 
-                    ItemDisplayBinding="{Binding Name}" 
-                    HorizontalOptions="FillAndExpand" 
-                    SelectedIndex="{Binding SelectedCourseIndex}"
-                    Grid.Row="3"/>
+                        ItemsSource="{Binding CoursesList}" 
+                        ItemDisplayBinding="{Binding Name}" 
+                        HorizontalOptions="FillAndExpand" 
+                        SelectedIndex="{Binding SelectedCourseIndex}"
+                        IsEnabled="{Binding CoursesSwitch}"
+                        Grid.Row="3"/>
 
                 <Entry Placeholder="Notebook Name.."
                        Text="{Binding NotebookNameText}"
                        WidthRequest="400"
                        Grid.Row="4" />
 
-                <controls:ButtonFrame HeightRequest="17" Grid.Row="5">
-                    <Label Text="Search" 
-                        BackgroundColor="Black" 
-                        TextColor="White"
-                        HorizontalTextAlignment="Center" 
-                        VerticalOptions="Center"/>
+                    <controls:ButtonFrame HeightRequest="17" Grid.Row="5" WidthRequest="200">
+                        <Label Text="Search" 
+                            BackgroundColor="Black" 
+                            TextColor="White"
+                            HorizontalTextAlignment="Center" 
+                            VerticalOptions="Center"/>
 
-                    <controls:ButtonFrame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SearchCommand}" />
-                    </controls:ButtonFrame.GestureRecognizers>
+                        <controls:ButtonFrame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SearchCommand}" />
+                        </controls:ButtonFrame.GestureRecognizers>
 
-                </controls:ButtonFrame>
-
+                    </controls:ButtonFrame>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

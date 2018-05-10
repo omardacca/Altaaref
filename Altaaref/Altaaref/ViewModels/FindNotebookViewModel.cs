@@ -54,8 +54,8 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private int? _selectedCourseIndex;
-        public int? SelectedCourseIndex
+        private int _selectedCourseIndex;
+        public int SelectedCourseIndex
         {
             get { return _selectedCourseIndex; }
             set { SetValue(ref _selectedCourseIndex, value); }
@@ -78,7 +78,7 @@ namespace Altaaref.ViewModels
 
         private async Task GetStudentCourses()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/Courses/StudentCourses/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/Courses/GetStudentCourses/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Courses>>(content);
@@ -91,15 +91,15 @@ namespace Altaaref.ViewModels
 
             if (_coursesSwitch && (_notebooknameText == null || _notebooknameText.Trim() == ""))
             {
-                await _pageService.PushAsync(new Views.NotebooksDB.FindNotebookResults(_coursesSwitch, _selectedCourseIndex));
+                await _pageService.PushAsync(new Views.NotebooksDB.FindNotebookResults(_coursesSwitch, CoursesList[_selectedCourseIndex].Id));
             }
             else if (_coursesSwitch && (_notebooknameText != null && _notebooknameText.Trim() != ""))
             {
-                await _pageService.PushAsync(new Views.NotebooksDB.FindNotebookResults(_coursesSwitch, _selectedCourseIndex, _notebooknameText));
+                await _pageService.PushAsync(new Views.NotebooksDB.FindNotebookResults(_coursesSwitch, CoursesList[_selectedCourseIndex].Id, _notebooknameText));
             }
             else
             {
-                await _pageService.PushAsync(new Views.NotebooksDB.FindNotebookResults(_coursesSwitch, _selectedCourseIndex=null, _notebooknameText));
+                await _pageService.PushAsync(new Views.NotebooksDB.FindNotebookResults(_coursesSwitch, null, _notebooknameText));
             }
 
         }

@@ -81,7 +81,7 @@
                 ItemsSource="{Binding NumberOfAttendantsList}" SelectedIndex="{Binding SelectedNumberOfAttendants}"/>
 
         <controls:ButtonFrame HeightRequest="17" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" IsEnabled="{Binding IsFormValid}">
-            <Label Text="Find" TextColor="White" FontSize="Medium"  BackgroundColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+            <Label Text="Find" TextColor="White"  BackgroundColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
             <controls:ButtonFrame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding HandleSubmitFind}" />
             </controls:ButtonFrame.GestureRecognizers>

@@ -52,7 +52,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Text="Study Groups" 
+                    <Label Text="Notebooks Storage" 
                            FontSize="22"
                            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
                            Margin="0,2,0,10"/>

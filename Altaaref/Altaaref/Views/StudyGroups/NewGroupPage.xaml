@@ -1,45 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
              x:Class="Altaaref.Views.StudyGroups.NewGroupPage"
              Title="New Study Group">
-    <Grid Padding="15">
-        <ActivityIndicator IsRunning="{Binding Busy}"
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
                            IsVisible="{Binding Busy}"
                            Color="Black"
                            VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" />
-        <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+            <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-        <Label Text="Course" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
-        <Picker Title="Select Course" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" 
+                <Label Text="Course" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
+                <Picker Title="Select Course" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" 
                 ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}"
                 SelectedIndex="{Binding SelectedCourseIndex}" />
 
-        <Label Text="Address" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
-        <Entry Placeholder="Group Title.." Grid.Row="1" Grid.Column="1" VerticalOptions="Center"
+                <Label Text="Address" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
+                <Entry Placeholder="Address.." Grid.Row="1" Grid.Column="1" VerticalOptions="Center"
                Text="{Binding StudyGroup.Address}"/>
 
-        <Label Text="Message" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"/>
-        <Editor Grid.Row="2" Grid.Column="1" VerticalOptions="Center" HeightRequest="200"
+                <Label Text="Message" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"/>
+                <Editor Grid.Row="2" Grid.Column="1" VerticalOptions="Center" HeightRequest="200"
                 Text="{Binding StudyGroup.Message}" />
 
-        <Label Text="Date" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"/>
-        <DatePicker Grid.Row="3" Grid.Column="1" Date="{Binding StudyGroup.Date}" Format="d MM yyyy" VerticalOptions="Center"/>
+                <Label Text="Date" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"/>
+                <DatePicker Grid.Row="3" Grid.Column="1" Date="{Binding StudyGroup.Date}" Format="d MM yyyy" VerticalOptions="Center"/>
 
-        <Label Text="Time" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
-        <TimePicker Grid.Row="4" Grid.Column="1" VerticalOptions="Center"
+                <Label Text="Time" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
+                <TimePicker Grid.Row="4" Grid.Column="1" VerticalOptions="Center"
                     Time="{Binding StudyGroup.Time}" />
 
-        <Label Text="Is Public" Grid.Row="5" Grid.Column="0" VerticalOptions="Center"/>
-        <Switch IsToggled="{Binding StudyGroup.IsPublic}" Grid.Row="5" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start"/>
+                <Label Text="Is Public" Grid.Row="5" Grid.Column="0" VerticalOptions="Center"/>
+                <Switch IsToggled="{Binding StudyGroup.IsPublic}" Grid.Row="5" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start"/>
 
-        <Button Text="Submit" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
-                Command="{Binding HandleSubmition}"/>
 
-    </Grid>
+                <controls:ButtonFrame HeightRequest="17" 
+                                      WidthRequest="400"
+                                      VerticalOptions="EndAndExpand" 
+                                      HorizontalOptions="CenterAndExpand"
+                                      Grid.Row="6" 
+                                      Grid.Column="0" 
+                                      Grid.ColumnSpan="2">
+                    <Label Text="Submit" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    <controls:ButtonFrame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding HandleSubmition}" />
+                    </controls:ButtonFrame.GestureRecognizers>
+                </controls:ButtonFrame>
+
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

@@ -26,8 +26,7 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private ICommand _selectedCommand;
-        public ICommand SelectedCommand { get { return _selectedCommand; } }
+        public ICommand ItemTappedCommand => new Command<ViewNotebookStudent>(ViewNotebookSelected);
 
         private bool _busy;
         public bool Busy
@@ -55,13 +54,12 @@ namespace Altaaref.ViewModels
         {
             _pageService = pageService;
 
-            _selectedCommand = new Command<ViewNotebookStudent>(ViewNotebookSelected);
             GetMyNotebooksList();
         }
 
-        public void ViewNotebookSelected(ViewNotebookStudent viewNotebookStudent)
+        private async void ViewNotebookSelected(ViewNotebookStudent viewNotebookStudent)
         {
-            _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent));
+            await _pageService.PushAsync(new Views.NotebooksDB.NotebookDetails(viewNotebookStudent));
         }
 
         public async void GetMyNotebooksList()
