@@ -16,6 +16,7 @@ namespace Altaaref.ViewModels
 {
     public class AddNewNotebookViewModel : BaseViewModel
     {
+        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
 
         private List<Courses> _coursesList;
@@ -47,14 +48,8 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _titleEntry, value); }
         }
 
-        private string _urlEntry;
-        public string UlrEnty
-        {
-            get { return _urlEntry; }
-            set { SetValue(ref _urlEntry, value); }
-        }
-
-        public ICommand HandleSubmition { get; private set; }
+        //public ICommand HandleSubmition { get; private set; }
+        public ICommand UploadCommand => new Command(UploadToBlob);
 
         private int _selectedCourseIndex;
         public int SelectedCourseIndex
@@ -79,70 +74,8 @@ namespace Altaaref.ViewModels
         {
             _pageService = pageService;
             CoursesNameList = new List<string>();
-            HandleSubmition = new Command(OnSubmitButtonTapped);
 
             Init();
-        }
-
-        private async void OnSubmitButtonTapped()
-        {
-            var UploadedUri = await UploadFileFromUrl();
-            var courseid = _coursesList[_selectedCourseIndex].Id;
-            Notebook newNotebook = new Notebook()
-            {
-                Name = this.TitleEntry,
-                FileName = this.TitleEntry.Trim(), // will delete this column later
-                BlobURL = UploadedUri,
-                CourseId = courseid
-            };
-
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/Notebooks";
-
-            var content = new StringContent(JsonConvert.SerializeObject(newNotebook), Encoding.UTF8, "application/json");
-            var response = _client.PostAsync(postUrl, content).Result;
-
-            if(response.IsSuccessStatusCode)
-            {
-                await _pageService.DisplayAlert("Verification", "We will check and verify your notebook as soon as possible, thanks for sharing.", "OK", "Cancel");
-            }
-            else
-            {
-                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
-            }
-        }
-
-        private async Task<string> UploadFileFromUrl()
-        {
-            return await UploadFileToBlob(await GetStreamAsync(UlrEnty), TitleEntry.Trim() + Guid.NewGuid() + ".pdf");
-        }
-
-        private Task<Stream> GetStreamAsync(string url)
-        {
-            var httpClient = new HttpClient();
-            return httpClient.GetStreamAsync(new Uri(url));
-        }
-
-        public async Task<string> UploadFileToBlob(Stream fileStream, string filename)
-        {
-            // Retrieve storage account from connection string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=csb08eb270fff55x4a98xb1a;AccountKey=7ROeIOcZq54z+OnYRzR+YJow+sSu3ElALl/HCxjX/LaGLQy6eDY8Ij/E1aFNC4v1ls0SUHPteDzkU1cBzrPpXw==;EndpointSuffix=core.windows.net");
-
-            // Create the blob client.
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            // Retrieve reference to a previously created container.
-            CloudBlobContainer container = blobClient.GetContainerReference("notebooks");
-
-            // Create the container if it doesn't already exist.
-            await container.CreateIfNotExistsAsync();
-
-            // Retrieve reference to a blob named "filename".
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(filename);
-
-            // Create the "filename" blob with the text "Hello, world!"
-            await blockBlob.UploadFromStreamAsync(fileStream);
-
-            return blockBlob.Uri.AbsoluteUri;
         }
 
         async void Init()
@@ -168,7 +101,15 @@ namespace Altaaref.ViewModels
             CoursesList = new List<Courses>(list);
         }
 
-        
+        private void UploadToBlob()
+        {
+            var courseid = _coursesList[_selectedCourseIndex].Id;
+            var titleEntry = TitleEntry;
+
+            DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, StudentId);
+        }
+
+
 
     }
 }

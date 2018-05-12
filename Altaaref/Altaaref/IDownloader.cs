@@ -7,5 +7,6 @@ namespace Altaaref
     public interface IDownloader
     {
         void StartDownload(string url, string filename);
+        void SaveTo();
     }
 }

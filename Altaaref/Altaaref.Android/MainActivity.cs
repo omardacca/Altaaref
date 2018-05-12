@@ -21,6 +21,12 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using Microsoft.WindowsAzure.MobileServices;
 using Lottie.Forms.Droid;
+using System.IO;
+using System.Net.Http;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Text;
+using Newtonsoft.Json;
 
 // https://github.com/xamarin/monodroid-samples/blob/master/FusedLocationProvider/FusedLocationProvider/MainActivity.cs
 
@@ -49,6 +55,8 @@ namespace Altaaref.Droid
 
         static readonly int RC_LAST_LOCATION_PERMISSION_CHECK = 1000;
         static readonly int RC_LOCATION_UPDATES_PERMISSION_CHECK = 1100;
+        public static readonly int UPLOAD_CODE = 123;
+        public static readonly int SAVETO_CODE = 124;
 
         static readonly string KEY_REQUESTING_LOCATION_UPDATES = "requesting_location_updates";
 
@@ -62,6 +70,10 @@ namespace Altaaref.Droid
         public static readonly int DownloadFile = 1000;
         public string Url { get; set; }
         public string Filename { get; set; }
+
+        public int CourseId { get; set; }
+        public string Name { get; set; }
+        public int StudentId { get; set; }
 
 
         protected override void OnCreate(Bundle bundle)
@@ -139,7 +151,7 @@ namespace Altaaref.Droid
             {
                 // This may not be executed on the main thread.
                 FirebaseInstanceId.Instance.DeleteInstanceId();
-                Console.WriteLine("Forced token: " + FirebaseInstanceId.Instance.Token);
+                //Console.WriteLine("Forced token: " + FirebaseInstanceId.Instance.Token);
             });
 #endif
 
@@ -202,24 +214,42 @@ namespace Altaaref.Droid
             return ret;
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
+        protected async override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
         {
             base.OnActivityResult(requestCode, resultCode, intent);
 
-            if (requestCode == DownloadFile)
+            if(requestCode == UPLOAD_CODE)
             {
-                StartDownload();
+                if (IsDocumentUri(intent.Data))
+                {
+                    string documentId = Android.Provider.DocumentsContract.GetDocumentId(intent.Data);
+                    string uriAuthority = intent.Data.Authority;
+
+                    if (IsDownloadDoc(uriAuthority))
+                    {
+                        Android.Net.Uri downloadUri = Android.Net.Uri.Parse("content://downloads/public_downloads");
+
+                        Android.Net.Uri downloadUriAppendId = ContentUris.WithAppendedId(downloadUri, long.Parse(documentId));
+
+                        Java.IO.File file = new Java.IO.File(downloadUriAppendId.ToString());
+
+                        Stream inputStream = ContentResolver.OpenInputStream(downloadUriAppendId);
+
+                        string blobUrl = await UploadFileToBlob(inputStream);
+
+                        AddNotebook(blobUrl);
+                    }
+                }
+
             }
-
-            if(requestCode == 123)
+            
+            if(requestCode == SAVETO_CODE)
             {
-                string ret = "";
-
                 Intent sendIntent = new Intent();
                 sendIntent.SetType("application/pdf");
 
+                //sendIntent.SetAction(Intent.ActionSend);
                 sendIntent.SetAction(Intent.ActionSend);
-
                 if(IsDocumentUri(intent.Data))
                 {
                     string documentId = Android.Provider.DocumentsContract.GetDocumentId(intent.Data);
@@ -234,27 +264,50 @@ namespace Altaaref.Droid
                         sendIntent.SetData(downloadUriAppendId);
                         sendIntent.PutExtra(Android.Content.Intent.ExtraStream, downloadUriAppendId);
 
-                        StartActivity(Android.Content.Intent.CreateChooser(sendIntent, "Share"));
+                        StartActivity(Android.Content.Intent.CreateChooser(sendIntent, "Save"));
 
-                        //ret = GetRealPathFromUri()
                     }
                 }
-
-
-                //                var path1 = Android.OS.Environment.ExternalStorageDirectory.Path + "/" + Android.OS.Environment.DirectoryDownloads + "/examsY3a.pdf";
-
-                //sendIntent.SetData(Android.Net.Uri.Parse(path));
-                //sendIntent.PutExtra(Android.Content.Intent.ExtraStream, Android.Net.Uri.Parse("content://" + Android.Net.Uri.Parse(intent.Data.Path)));
-
-
-                //StartActivity(Android.Content.Intent.CreateChooser(sendIntent, "Share"));
             }
-            
+
+
             // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
             if (requestCode == RC_SIGN_IN)
             {
                 var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(intent);
                 HandleSignInResult(result);
+            }
+        }
+
+        public class Notebook
+        {
+            public string Name { get; set; }
+            public string BlobURL { get; set; }
+            public int CourseId { get; set; }
+            public int StudentId { get; set; }
+        }
+
+        private void AddNotebook(string blobUrl)
+        {
+            HttpClient _client = new HttpClient();
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/Notebooks";
+
+            Notebook newNotebook = new Notebook
+            {
+                CourseId = CourseId,
+                Name = Name,
+                BlobURL = blobUrl,
+                StudentId = StudentId
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(newNotebook), Encoding.UTF8, "application/json");
+            var response = _client.PostAsync(postUrl, content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+            }
+            else
+            {
             }
         }
 
@@ -302,18 +355,11 @@ namespace Altaaref.Droid
             mGoogleApiClient.Disconnect();
         }
 
-
-        public void SelectFromDrive()
-        {
-            
-        }
-
-
-        private void StartDownload()
+        public void StartDownload(string url, string filename)
         {
             if ((int)Build.VERSION.SdkInt < 23)
             {
-                Download();
+                Download(url, filename);
                 return;
             }
 
@@ -325,7 +371,7 @@ namespace Altaaref.Droid
             const string permission = Manifest.Permission.WriteExternalStorage;
             if (CheckSelfPermission(permission) == (int)Android.Content.PM.Permission.Granted)
             {
-                Download();
+                Download(Url, Filename);
                 return;
             }
 
@@ -347,6 +393,29 @@ namespace Altaaref.Droid
             }
             //Finally request permissions with the list of permissions and Id
             RequestPermissions(Permissions, RequestLocationId);
+        }
+
+        public async Task<string> UploadFileToBlob(Stream path)
+        {
+            // Retrieve storage account from connection string.
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=csb08eb270fff55x4a98xb1a;AccountKey=7ROeIOcZq54z+OnYRzR+YJow+sSu3ElALl/HCxjX/LaGLQy6eDY8Ij/E1aFNC4v1ls0SUHPteDzkU1cBzrPpXw==;EndpointSuffix=core.windows.net");
+
+            // Create the blob client.
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+            // Retrieve reference to a previously created container.
+            CloudBlobContainer container = blobClient.GetContainerReference("notebooks");
+
+            // Create the container if it doesn't already exist.
+            await container.CreateIfNotExistsAsync();
+
+            // Retrieve reference to a blob named "filename".
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(Guid.NewGuid().ToString() + ".pdf");
+
+            // Create the "filename" blob with the text "Hello, world!"
+            await blockBlob.UploadFromStreamAsync(path);
+
+            return blockBlob.Uri.AbsoluteUri;
         }
 
         public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
@@ -376,7 +445,7 @@ namespace Altaaref.Droid
                 if (grantResults[0] == Permission.Granted)
                 {
                     //Permission granted
-                    Download();
+                    Download(Url, Filename);
                 }
                 else
                 {
@@ -392,12 +461,12 @@ namespace Altaaref.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
-        private void Download()
+        
+        private void Download(string Url, string filename)
         {
             Android.Net.Uri contentUri = Android.Net.Uri.Parse(Url);
             Android.App.DownloadManager.Request r = new Android.App.DownloadManager.Request(contentUri);
-            r.SetDestinationInExternalPublicDir(Android.OS.Environment.DirectoryDownloads, Filename);
+            r.SetDestinationInExternalPublicDir(Android.OS.Environment.DirectoryDownloads, filename);
             r.AllowScanningByMediaScanner();
             r.SetNotificationVisibility(Android.App.DownloadVisibility.VisibleNotifyCompleted);
             Android.App.DownloadManager dm = (Android.App.DownloadManager)Xamarin.Forms.Forms.Context.GetSystemService(Android.Content.Context.DownloadService);
@@ -532,7 +601,7 @@ namespace Altaaref.Droid
             public override async void OnTokenRefresh()
             {
                 var refreshedToken = FirebaseInstanceId.Instance.Token;
-                Console.WriteLine($"Token received: {refreshedToken}");
+                //Console.WriteLine($"Token received: {refreshedToken}");
                 await SendRegistrationToServerAsync(refreshedToken);
             }
 
@@ -563,11 +632,11 @@ namespace Altaaref.Droid
                     await push.RegisterAsync(token, templates);
 
                     // Push object contains installation ID afterwards.
-                    Console.WriteLine(push.InstallationId.ToString());
+                    //Console.WriteLine(push.InstallationId.ToString());
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    //Console.WriteLine(ex.Message);
                     Debugger.Break();
                 }
             }
@@ -582,7 +651,7 @@ namespace Altaaref.Droid
                 {
                     base.OnMessageReceived(message);
 
-                    Console.WriteLine("Received: " + message);
+                    //Console.WriteLine("Received: " + message);
 
                     // Android supports different message payloads. To use the code below it must be something like this (you can paste this into Azure test send window):
                     // {
@@ -599,7 +668,7 @@ namespace Altaaref.Droid
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Error extracting message: " + ex);
+                        //Console.WriteLine("Error extracting message: " + ex);
                     }
                 }
             }

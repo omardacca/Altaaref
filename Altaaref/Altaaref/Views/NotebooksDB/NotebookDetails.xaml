@@ -91,14 +91,26 @@
                     </Frame>
                 </StackLayout>
 
-                <controls:ButtonFrame HeightRequest="17"
-                                      Grid.Row="4"
-                                      Margin="0, 0, 0, 10">
-                    <Label Text="Download" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                    <controls:ButtonFrame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding DownloadCommand}" />
-                    </controls:ButtonFrame.GestureRecognizers>
-                </controls:ButtonFrame>
+                <StackLayout Orientation="Horizontal"
+                             Grid.Row="4"
+                             Margin="0, 0, 0, 10"
+                             HorizontalOptions="CenterAndExpand">
+                    <controls:ButtonFrame HeightRequest="17" WidthRequest="80">
+                        <Label Text="Download" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <controls:ButtonFrame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding DownloadCommand}" />
+                        </controls:ButtonFrame.GestureRecognizers>
+                    </controls:ButtonFrame>
+
+                    <controls:ButtonFrame HeightRequest="17" WidthRequest="80">
+                        <Label Text="Send to" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <controls:ButtonFrame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SendToCommand}" />
+                        </controls:ButtonFrame.GestureRecognizers>
+                    </controls:ButtonFrame>
+                </StackLayout>
+                
+                
 
                 <Frame Grid.Row="5" Padding="0" Margin="0, 0, 0, 10">
                     <Grid>

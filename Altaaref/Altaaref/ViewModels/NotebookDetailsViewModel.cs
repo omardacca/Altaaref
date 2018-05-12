@@ -79,6 +79,8 @@ namespace Altaaref.ViewModels
 
         public ICommand FavoriteImageButtonCommand => new Command(OnFavoriteTap);
         public ICommand DownloadCommand => new Command(HandleOnDownloadButtonClicked);
+        public ICommand SendToCommand => new Command(HandleSaveToCommand);
+
         public ICommand ViewProfileCommand { get; set; }
         public ICommand OneStarCommand { get; set; }
         public ICommand TwoStarCommand { get; set; }
@@ -658,6 +660,11 @@ namespace Altaaref.ViewModels
         private void HandleOnDownloadButtonClicked()
         {
             DependencyService.Get<IDownloader>().StartDownload(_viewNotebookStudent.Notebook.BlobURL, _viewNotebookStudent.Notebook.FileName);
+        }
+
+        private void HandleSaveToCommand()
+        {
+            DependencyService.Get<IDownloader>().SaveTo();
         }
 
         // same note as UploadFileToBlob method up there,

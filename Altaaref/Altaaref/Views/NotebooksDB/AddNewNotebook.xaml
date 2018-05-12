@@ -20,12 +20,11 @@
                            HorizontalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
                         </StackLayout>
                     </ViewCell>
-                    <EntryCell Label="URL" Text="{Binding UlrEnty}" Placeholder="(External link to notebook)" Keyboard="Url" />
                 </TableSection>
             </TableRoot>
         </TableView>
 
-        <Button Text="Submit Notebook" Command="{Binding HandleSubmition}" />
+        <Button Text="Submit Notebook" Command="{Binding UploadCommand}" />
 
     </StackLayout>
 </ContentPage>

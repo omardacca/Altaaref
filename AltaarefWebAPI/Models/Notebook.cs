@@ -12,12 +12,7 @@ namespace AltaarefWebAPI.Models
         public int ViewsCount { get; set; }
         public DateTime PublishDate { get; set; }
         public string BlobURL { get; set; }
-        public string FileName { get; set; }
-
-        // for simplicity, currently I will not add FileExtension Column,
-        // will updated it after decide which file types will support and how it will be received in the form..
-        // public string FileExtension { get; set; } 
-
+        
         public ICollection<StudentFavNotebooks> StudentFavNotebooks { get; set; }
         public ICollection<NotebookRates> NotebookRates { get; set; }
 
