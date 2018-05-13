@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using AltaarefWebAPI.Contexts;
 using AltaarefWebAPI.Models;
-using AutoMapper;
+//using AutoMapper;
 using AltaarefWebAPI.ViewModels;
 using AltaarefWebAPI.Helpers;
 
@@ -18,12 +18,10 @@ namespace AltaarefWebAPI.Controllers
     {
         private readonly AltaarefDbContext _appDbContext;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IMapper _mapper;
 
-        public AccountsController(UserManager<AppUser> userManager, IMapper mapper, AltaarefDbContext appDbContext)
+        public AccountsController(UserManager<AppUser> userManager, AltaarefDbContext appDbContext)
         {
             _userManager = userManager;
-            _mapper = mapper;
             _appDbContext = appDbContext;
         }
 
