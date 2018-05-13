@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180513184406_TryToReAddIdentity1")]
+    partial class TryToReAddIdentity1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,16 +232,10 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<string>("FullName");
 
-                    b.Property<string>("IdentityId");
-
-                    b.Property<string>("IdentityId1");
-
                     b.Property<string>("ProfilePicBlobUrl")
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdentityId1");
 
                     b.ToTable("Student");
                 });
@@ -541,13 +536,6 @@ namespace AltaarefWebAPI.Migrations
                         .WithMany("NotebookRates")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.Student", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.AppUser", "Identity")
-                        .WithMany()
-                        .HasForeignKey("IdentityId1");
                 });
 
             modelBuilder.Entity("AltaarefWebAPI.Models.StudentCourses", b =>
