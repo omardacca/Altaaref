@@ -28,6 +28,7 @@ namespace AltaarefWebAPI.Controllers
             _appDbContext = appDbContext;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
