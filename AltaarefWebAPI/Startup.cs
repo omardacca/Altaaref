@@ -13,6 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using FluentValidation.AspNetCore;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace AltaarefWebAPI
 {
@@ -56,6 +59,27 @@ namespace AltaarefWebAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseExceptionHandler(
+              builder =>
+              {
+                  builder.Run(
+                            async context =>
+                            {
+                                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+
+                                var error = context.Features.Get<IExceptionHandlerFeature>();
+                                if (error != null)
+                                {
+                                    //context.Response.AddApplicationError(error.Error.Message);
+                                    await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
+                                }
+                            });
+              });
+
+            app.UseAuthentication();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMvc();
         }
 
