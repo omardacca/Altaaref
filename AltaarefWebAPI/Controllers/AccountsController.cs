@@ -38,21 +38,21 @@ namespace AltaarefWebAPI.Controllers
 
             var userIdentity = _mapper.Map<AppUser>(model);
 
-            var result = await _userManager.CreateAsync(userIdentity, model.Password);
+            //var result = await _userManager.CreateAsync(userIdentity, model.Password);
 
-            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            //if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-            await _appDbContext.Student.AddAsync(
-                new Student
-                {
-                    IdentityId = userIdentity.Id,
-                    FullName = userIdentity.FullName,
-                    ProfilePicBlobUrl = userIdentity.ProfilePicBlobUrl,
-                    DOB = userIdentity.DOB,
-                    Id = userIdentity.StudentId
-                });
+            //await _appDbContext.Student.AddAsync(
+            //    new Student
+            //    {
+            //        IdentityId = userIdentity.Id,
+            //        FullName = userIdentity.FullName,
+            //        ProfilePicBlobUrl = userIdentity.ProfilePicBlobUrl,
+            //        DOB = userIdentity.DOB,
+            //        Id = userIdentity.StudentId
+            //    });
 
-            await _appDbContext.SaveChangesAsync();
+            //await _appDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }
