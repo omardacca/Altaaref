@@ -37,6 +37,7 @@ namespace AltaarefWebAPI.Controllers
 
             var userIdentity = new AppUser
             {
+                StudentId = model.StudentId,
                 FullName = model.FullName,
                 UserName = model.Email
             };
@@ -45,17 +46,17 @@ namespace AltaarefWebAPI.Controllers
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-            //await _appDbContext.Student.AddAsync(
-            //    new Student
-            //    {
-            //        IdentityId = userIdentity.Id,
-            //        FullName = userIdentity.FullName,
-            //        ProfilePicBlobUrl = userIdentity.ProfilePicBlobUrl,
-            //        DOB = userIdentity.DOB,
-            //        Id = userIdentity.StudentId
-            //    });
+            await _appDbContext.Student.AddAsync(
+                new Student
+                {
+                    IdentityId = userIdentity.Id,
+                    FullName = model.FullName,
+                    ProfilePicBlobUrl = model.ProfilePicBlobUrl,
+                    DOB = model.DOB,
+                    Id = model.StudentId
+                });
 
-            //await _appDbContext.SaveChangesAsync();
+            await _appDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }
