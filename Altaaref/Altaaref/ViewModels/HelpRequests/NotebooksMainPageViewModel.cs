@@ -109,6 +109,11 @@ namespace Altaaref.ViewModels.HelpRequests
             var tasks = InitLists();
         }
 
+        public async void Refresh()
+        {
+            await InitLists();
+        }
+
         private async Task InitLists()
         {
             await GetRecentNotebooksList();
@@ -179,6 +184,8 @@ namespace Altaaref.ViewModels.HelpRequests
         private async void AddAction()
         {
             await _pageService.PushAsync(new Views.NotebooksDB.AddNewNotebook());
+
+            var tasks = InitLists();
         }
 
         private void FindAction()

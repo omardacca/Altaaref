@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AltaarefWebAPI.Contexts
 {
-    public class AltaarefDbContext : DbContext
+    public class AltaarefDbContext : IdentityDbContext<AppUser>
     {
         public AltaarefDbContext(DbContextOptions<AltaarefDbContext> options) : base(options) { }
         public AltaarefDbContext() { }
@@ -32,6 +33,8 @@ namespace AltaarefWebAPI.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            base.OnModelCreating(modelBuilder);
 
             // Many to Many - FacultyCourses, Faculty, Courses
             modelBuilder.Entity<FacultyCourse>()

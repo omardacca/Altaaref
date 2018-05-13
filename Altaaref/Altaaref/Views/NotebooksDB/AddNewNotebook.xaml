@@ -1,7 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Altaaref.Views.NotebooksDB.AddNewNotebook">
+             x:Class="Altaaref.Views.NotebooksDB.AddNewNotebook"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             Title="New Notebook">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <StackLayout>
         <TableView Intent="Form">
             <TableRoot>
@@ -24,7 +36,18 @@
             </TableRoot>
         </TableView>
 
-        <Button Text="Submit Notebook" Command="{Binding UploadCommand}" />
+        <controls:ButtonFrame HeightRequest="17">
+            <Label Text="Submit Notebook" 
+                   BackgroundColor="{StaticResource OrangeColor}" 
+                   TextColor="White" 
+                   HorizontalTextAlignment="Center" 
+                   VerticalOptions="Center"/>
+            <controls:ButtonFrame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding UploadCommand}" />
+            </controls:ButtonFrame.GestureRecognizers>
+        </controls:ButtonFrame>
+
+        
 
     </StackLayout>
 </ContentPage>

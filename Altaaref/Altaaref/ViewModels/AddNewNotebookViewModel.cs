@@ -49,7 +49,7 @@ namespace Altaaref.ViewModels
         }
 
         //public ICommand HandleSubmition { get; private set; }
-        public ICommand UploadCommand => new Command(UploadToBlob);
+        public ICommand UploadCommand => new Command(async () => await UploadToBlob());
 
         private int _selectedCourseIndex;
         public int SelectedCourseIndex
@@ -101,12 +101,16 @@ namespace Altaaref.ViewModels
             CoursesList = new List<Courses>(list);
         }
 
-        private void UploadToBlob()
+        private async Task UploadToBlob()
         {
             var courseid = _coursesList[_selectedCourseIndex].Id;
             var titleEntry = TitleEntry;
 
-            DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, StudentId);
+            await DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, StudentId);
+
+            await _pageService.DisplayAlert("Upload Success", "Notebook Added Successfully.", "Ok", "Cancel");
+
+            await _pageService.PopAsync();
         }
 
 

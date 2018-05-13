@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180513103509_AddAspnetUsers")]
+    partial class AddAspnetUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +30,6 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<DateTime>("DOB");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -55,11 +54,7 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("ProfilePicBlobUrl");
-
                     b.Property<string>("SecurityStamp");
-
-                    b.Property<int>("StudentId");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -231,16 +226,16 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<string>("FullName");
 
-                    b.Property<string>("IdentityId");
+                    b.Property<string>("IdenitytyId");
 
-                    b.Property<string>("IdentityId1");
+                    b.Property<string>("IdentityId");
 
                     b.Property<string>("ProfilePicBlobUrl")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityId1");
+                    b.HasIndex("IdentityId");
 
                     b.ToTable("Student");
                 });
@@ -547,7 +542,7 @@ namespace AltaarefWebAPI.Migrations
                 {
                     b.HasOne("AltaarefWebAPI.Models.AppUser", "Identity")
                         .WithMany()
-                        .HasForeignKey("IdentityId1");
+                        .HasForeignKey("IdentityId");
                 });
 
             modelBuilder.Entity("AltaarefWebAPI.Models.StudentCourses", b =>

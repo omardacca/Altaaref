@@ -9,6 +9,6 @@ namespace Altaaref
 {
     public interface IUploader
     {
-        void UploadToBlob(int CourseId, string Name, int StudentId);
+        Task UploadToBlob(int CourseId, string Name, int StudentId);
     }
 }

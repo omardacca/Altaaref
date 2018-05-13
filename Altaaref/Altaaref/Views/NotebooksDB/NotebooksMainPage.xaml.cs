@@ -20,5 +20,5 @@ namespace Altaaref.Views.NotebooksDB
 
             BindingContext = new NotebooksMainPageViewModel(new PageService());
         }
-	}
+    }
 }

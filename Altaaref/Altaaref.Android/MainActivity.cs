@@ -305,9 +305,11 @@ namespace Altaaref.Droid
 
             if (response.IsSuccessStatusCode)
             {
+                Toast.MakeText(this, "Notebook Added Successfully", ToastLength.Short);
             }
             else
             {
+                Toast.MakeText(this, "Notebook not added, something went wrong!", ToastLength.Short);
             }
         }
 

@@ -611,7 +611,6 @@ namespace Altaaref.ViewModels
             Busy = false;
         }
 
-
         private async Task AddViewToViewCount()
         {
             string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + _viewNotebookStudent.Notebook.Id;
@@ -625,55 +624,15 @@ namespace Altaaref.ViewModels
             await GetNotebookAsync();
         }
 
-        // reads and returns external file as Stream
-        private  Task<Stream> getStreamAsync(string url)
-        {
-            var httpClient = new HttpClient(); 
-            return httpClient.GetStreamAsync(new Uri(url));
-        }
-  // but for the simplicity and to try the method, I created it here..
-        public async
-        // This method should not be here, and it should be in 'Adding new Notebook Form..'
-       Task<bool> UploadFileToBlob(Stream fileStream)
-        {
-            // Retrieve storage account from connection string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=csb08eb270fff55x4a98xb1a;AccountKey=7ROeIOcZq54z+OnYRzR+YJow+sSu3ElALl/HCxjX/LaGLQy6eDY8Ij/E1aFNC4v1ls0SUHPteDzkU1cBzrPpXw==;EndpointSuffix=core.windows.net");
-
-            // Create the blob client.
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            // Retrieve reference to a previously created container.
-            CloudBlobContainer container = blobClient.GetContainerReference("notebooks");
-
-            // Create the container if it doesn't already exist.
-            await container.CreateIfNotExistsAsync();
-
-            // Retrieve reference to a blob named "filename".
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference("newImage.jpg");
-
-            // Create the "filename" blob with the text "Hello, world!"
-            await blockBlob.UploadFromStreamAsync(fileStream);
-
-            return await Task.FromResult(true);
-        }
-
         private void HandleOnDownloadButtonClicked()
         {
-            DependencyService.Get<IDownloader>().StartDownload(_viewNotebookStudent.Notebook.BlobURL, _viewNotebookStudent.Notebook.FileName);
+            DependencyService.Get<IDownloader>().StartDownload(_viewNotebookStudent.Notebook.BlobURL, _viewNotebookStudent.Notebook.Name.Trim() + ".pdf");
         }
 
         private void HandleSaveToCommand()
         {
             DependencyService.Get<IDownloader>().SaveTo();
         }
-
-        // same note as UploadFileToBlob method up there,
-        // Favorite button implementation should be changed obviously
-        public async void HandleFavoriteButtonClicked(string url)
-        {
-            await UploadFileToBlob(await getStreamAsync(url));
-        }
-
         
     }
 }
