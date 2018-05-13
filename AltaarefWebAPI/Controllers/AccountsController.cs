@@ -35,9 +35,15 @@ namespace AltaarefWebAPI.Controllers
 
             //var userIdentity = _mapper.Map<AppUser>(model);
 
-            //var result = await _userManager.CreateAsync(userIdentity, model.Password);
+            var userIdentity = new AppUser
+            {
+                FullName = model.FullName,
+                Email = model.Email
+            };
 
-            //if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            var result = await _userManager.CreateAsync(userIdentity, model.Password);
+
+            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             //await _appDbContext.Student.AddAsync(
             //    new Student
