@@ -32,20 +32,20 @@ namespace AltaarefWebAPI
             services.AddDbContext<AltaarefDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //var builder = services.AddIdentityCore<AppUser>(o =>
-            //{
-            //    // configure identity options
-            //    o.Password.RequireDigit = true;
-            //    o.Password.RequireLowercase = false;
-            //    o.Password.RequireUppercase = false;
-            //    o.Password.RequireNonAlphanumeric = false;
-            //    o.Password.RequiredLength = 6;
-            //});
+            var builder = services.AddIdentityCore<AppUser>(o =>
+            {
+                // configure identity options
+                o.Password.RequireDigit = true;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 6;
+            });
 
-            //builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-            //builder.AddEntityFrameworkStores<AltaarefDbContext>().AddDefaultTokenProviders();
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+            builder.AddEntityFrameworkStores<AltaarefDbContext>().AddDefaultTokenProviders();
 
-            //services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
