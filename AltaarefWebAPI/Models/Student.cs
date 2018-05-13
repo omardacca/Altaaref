@@ -12,8 +12,8 @@ namespace AltaarefWebAPI.Models
         public DateTime DOB { get; set; }
         public string ProfilePicBlobUrl { get; set; }
 
-        public string IdentityId { get; set; }
-        public AppUser Identity { get; set; }
+        //public string IdentityId { get; set; }
+        //public AppUser Identity { get; set; }
 
         public ICollection<HelpRequest> HelpRequests { get; set; }
         public ICollection<StudentFavNotebooks> StudentFavNotebooks { get; set; }

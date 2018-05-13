@@ -44,7 +44,7 @@ namespace AltaarefWebAPI.Controllers
             await _appDbContext.Student.AddAsync(
                 new Student
                 {
-                    IdentityId = userIdentity.Id,
+                    //IdentityId = userIdentity.Id,
                     FullName = userIdentity.FullName,
                     ProfilePicBlobUrl = userIdentity.ProfilePicBlobUrl,
                     DOB = userIdentity.DOB,

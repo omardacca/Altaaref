@@ -231,16 +231,10 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<string>("FullName");
 
-                    b.Property<string>("IdentityId");
-
-                    b.Property<string>("IdentityId1");
-
                     b.Property<string>("ProfilePicBlobUrl")
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdentityId1");
 
                     b.ToTable("Student");
                 });
@@ -541,13 +535,6 @@ namespace AltaarefWebAPI.Migrations
                         .WithMany("NotebookRates")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.Student", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.AppUser", "Identity")
-                        .WithMany()
-                        .HasForeignKey("IdentityId1");
                 });
 
             modelBuilder.Entity("AltaarefWebAPI.Models.StudentCourses", b =>
