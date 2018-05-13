@@ -36,7 +36,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userIdentity = _mapper.Map<AppUser>(model);
+            //var userIdentity = _mapper.Map<AppUser>(model);
 
             //var result = await _userManager.CreateAsync(userIdentity, model.Password);
 
