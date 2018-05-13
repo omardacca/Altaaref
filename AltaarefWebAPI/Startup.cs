@@ -21,6 +21,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AltaarefWebAPI.Helpers;
 using System.Text;
+using AltaarefWebAPI.Auth;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AltaarefWebAPI
 {
@@ -43,6 +45,10 @@ namespace AltaarefWebAPI
             services.AddMvc();
             services.AddDbContext<AltaarefDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             // Get options from app settings
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
