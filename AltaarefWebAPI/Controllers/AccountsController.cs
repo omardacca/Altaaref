@@ -13,7 +13,6 @@ using AltaarefWebAPI.Helpers;
 
 namespace AltaarefWebAPI.Controllers
 {
-    [Produces("application/json")]
     [Route("api/Accounts")]
     public class AccountsController : Controller
     {
