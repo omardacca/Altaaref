@@ -38,7 +38,7 @@ namespace AltaarefWebAPI.Controllers
             var userIdentity = new AppUser
             {
                 FullName = model.FullName,
-                Email = model.Email
+                UserName = model.Email
             };
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);

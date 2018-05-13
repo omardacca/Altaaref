@@ -16,6 +16,7 @@ using FluentValidation.AspNetCore;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using AltaarefWebAPI.Extensions;
 
 namespace AltaarefWebAPI
 {
@@ -70,8 +71,8 @@ namespace AltaarefWebAPI
 
                                 var error = context.Features.Get<IExceptionHandlerFeature>();
                                 if (error != null)
-                                {
-                                    //context.Response.AddApplicationError(error.Error.Message);
+                                {   
+                                    context.Response.AddApplicationError(error.Error.Message);
                                     await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
                                 }
                             });
