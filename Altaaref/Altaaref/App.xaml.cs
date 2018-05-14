@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Altaaref.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,19 +15,27 @@ namespace Altaaref
         public const string MobileServiceUrl = "https://altaarefapp.azurewebsites.net";
         
 
-        //public static IAuthenticate Authenticator { get; private set; }
-
-        //public static void Init(IAuthenticate authenticator)
-        //{
-        //    Authenticator = authenticator;
-        //}
-
         public App ()
 		{
 			InitializeComponent();
 
-            MainPage = new NavigationPage(new Views.CommonPages.MainPage());
-            //MainPage = new NavigationPage(new Views.CommonPages.MainPage());
+            SetMainPage();
+        }
+
+        private void SetMainPage()
+        {
+            if(!string.IsNullOrEmpty(Settings.AccessToken))
+            {
+                var page = new Views.MainMenu.MenuPage().GetMenuPage();
+                NavigationPage.SetHasNavigationBar(page, false);
+
+                MainPage = new NavigationPage(page);
+            }
+            else
+            {
+                MainPage = new NavigationPage(new Views.LoginPage());
+            }
+            
         }
 
 		protected override void OnStart ()

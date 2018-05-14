@@ -39,8 +39,17 @@ namespace Altaaref.Views.MainMenu
             {
                 var widget = new MenuItemWidgetView(x);
                 widget.Tapped += (object sender, WidgetTappedEventArgs e) => {
-                    var page = Activator.CreateInstance(e.Page) as Page;
-                    Navigation.PushAsync(page);
+
+                    if(x.Row == 2 && x.Column == 1)
+                    {
+                        Navigation.PushAsync(new Views.LoginPage(LoginPage.LOGOUT_CODE));
+                    }
+                    else
+                    {
+                        var page = Activator.CreateInstance(e.Page) as Page;
+                        Navigation.PushAsync(page);
+                    }
+
                 };
                 menu.Children.Add(widget, x.Column, x.Row);
             });

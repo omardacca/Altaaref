@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Altaaref.Views.MainMenu
 {
-    public class MenuPage
+    public class MenuPage : ContentPage
     {
         public Page GetMenuPage()
         {

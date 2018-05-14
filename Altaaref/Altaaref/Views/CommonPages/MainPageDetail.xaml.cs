@@ -53,6 +53,11 @@ namespace Altaaref.Views.CommonPages
             await Navigation.PushAsync(new Views.CommonPages.MyNotebooksList());
         }
 
+        async void HandleLogin(object sender, ItemTappedEventArgs e)
+        {
+            await Navigation.PushAsync(new Views.LoginPage());
+        }
+
         //bool authenticated = false;
         //protected override async void OnAppearing()
         //{

@@ -62,7 +62,7 @@ namespace Altaaref.Views.MainMenu
                     Text = "Sign Out",
                     Column = 1,
                     Row = 2,
-                    NavigateType = typeof(CommonPages.MainPage)
+                    NavigateType = typeof(LoginPage)
                 }
             };
         }
