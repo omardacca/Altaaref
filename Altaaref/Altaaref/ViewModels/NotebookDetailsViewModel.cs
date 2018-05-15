@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Altaaref.Helpers;
 using Altaaref.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -15,7 +16,6 @@ namespace Altaaref.ViewModels
 {
     public class NotebookDetailsViewModel : BaseViewModel
     {
-        int _tempStudentId = 204228043;
         private HttpClient _client = new HttpClient();
 
         private bool _isFavorite;
@@ -538,7 +538,7 @@ namespace Altaaref.ViewModels
         // Get if current is favorite or not
         private async Task UpdateFieldFavoriteStatus()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + _tempStudentId + "/" + _viewNotebookStudent.Notebook.Id;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + Settings.Identity + "/" + _viewNotebookStudent.Notebook.Id;
 
             var content = await _client.GetAsync(url);
             var response = content.IsSuccessStatusCode;
@@ -564,7 +564,7 @@ namespace Altaaref.ViewModels
         // Deletes current Favorite
         private bool DeleteFavorite()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + _tempStudentId + "/" + _viewNotebookStudent.Notebook.Id;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/" + Settings.Identity + "/" + _viewNotebookStudent.Notebook.Id;
             var response = _client.DeleteAsync(url);
             return response.Result.IsSuccessStatusCode;
         }

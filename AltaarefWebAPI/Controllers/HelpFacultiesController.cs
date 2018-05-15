@@ -48,15 +48,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/HelpFaculties/5
-        [HttpGet("GetStudentFacultiesHR/{StudentId}")]
-        public async Task<IActionResult> GetStudentNotGeneralHelpRequest([FromRoute] int StudentId)
+        [HttpGet("GetStudentFacultiesHR/{IdentityId}")]
+        public async Task<IActionResult> GetStudentNotGeneralHelpRequest([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studentFaculties = _context.StudentFaculties.Where(sf => sf.StudentId == StudentId).Select(m => m.FacultyId);
+            var studentFaculties = _context.StudentFaculties.Where(sf => sf.Student.IdentityId == IdentityId).Select(m => m.FacultyId);
 
             var helpFaculty = _context.HelpFaculty.Where(hf => hf.HelpRequest.IsGeneral == false &&
                                 studentFaculties.Contains(hf.FacultyId))

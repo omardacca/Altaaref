@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace Altaaref.ViewModels.HelpRequests
 {
     public class NotebooksMainPageViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -137,7 +137,7 @@ namespace Altaaref.ViewModels.HelpRequests
         private async Task GetRecentNotebooksList()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/Notebooks/Recent/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/Notebooks/Recent/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);
@@ -152,7 +152,7 @@ namespace Altaaref.ViewModels.HelpRequests
         private async Task GetTopRatedNotebooksList()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/TopRated/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/TopRated/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);
@@ -167,7 +167,7 @@ namespace Altaaref.ViewModels.HelpRequests
         private async Task GetEmptyNotebooksCoursesList()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/StudentCourses/GetFreeNotebookCourses/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/StudentCourses/GetFreeNotebookCourses/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Courses>>(content);

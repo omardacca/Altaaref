@@ -52,15 +52,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudentCourses/5
-        [HttpGet("{StudentId}/{CourseId}")]
-        public async Task<IActionResult> GetStudentCourses([FromRoute] int StudentId, [FromRoute] int CourseId)
+        [HttpGet("{IdentityId}/{CourseId}")]
+        public async Task<IActionResult> GetStudentCourses([FromRoute] string IdentityId, [FromRoute] int CourseId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studentCourses = await _context.StudentCourses.SingleOrDefaultAsync(m => m.StudentId == StudentId && m.CourseId == CourseId);
+            var studentCourses = await _context.StudentCourses.SingleOrDefaultAsync(m => m.Student.IdentityId == IdentityId && m.CourseId == CourseId);
 
             if (studentCourses == null)
             {
@@ -77,15 +77,15 @@ namespace AltaarefWebAPI.Controllers
         }
        
         // GET: api/StudentCourses/5
-        [HttpGet("GetFreeNotebookCourses/{StudentId}")]
-        public async Task<IActionResult> GetNotebookFreeCourses([FromRoute] int StudentId)
+        [HttpGet("GetFreeNotebookCourses/{IdentityId}")]
+        public async Task<IActionResult> GetNotebookFreeCourses([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studentCoursesId = _context.StudentCourses.Where(sc => sc.StudentId == StudentId).Select(sc =>  sc.CourseId).Distinct();
+            var studentCoursesId = _context.StudentCourses.Where(sc => sc.Student.IdentityId == IdentityId).Select(sc =>  sc.CourseId).Distinct();
 
             var courses = _context.Course.Where(n => studentCoursesId.Contains(n.Id) && n.Notebooks.Count() <= 1);
 
@@ -99,15 +99,15 @@ namespace AltaarefWebAPI.Controllers
 
 
         // PUT: api/StudentCourses/5
-        [HttpPut("{StudentId}/{CourseId}")]
-        public async Task<IActionResult> PutStudentCourses([FromRoute] int StudentId, [FromRoute] int CourseId, [FromBody] StudentCourses studentCourses)
+        [HttpPut("{IdentityId}/{CourseId}")]
+        public async Task<IActionResult> PutStudentCourses([FromRoute] string IdentityId, [FromRoute] int CourseId, [FromBody] StudentCourses studentCourses)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (StudentId != studentCourses.StudentId || CourseId != studentCourses.CourseId)
+            if (IdentityId != studentCourses.Student.IdentityId || CourseId != studentCourses.CourseId)
             {
                 return BadRequest();
             }
@@ -120,7 +120,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentCoursesExists(StudentId, CourseId))
+                if (!StudentCoursesExists(IdentityId, CourseId))
                 {
                     return NotFound();
                 }
@@ -149,7 +149,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (StudentCoursesExists(studentCourses.StudentId ,studentCourses.CourseId))
+                if (StudentCoursesExists(studentCourses.Student.IdentityId ,studentCourses.CourseId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -163,15 +163,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // DELETE: api/StudentCourses/5
-        [HttpDelete("{StudentId}/{CourseId}")]
-        public async Task<IActionResult> DeleteStudentCourses([FromRoute] int StudentId, [FromRoute] int CourseId)
+        [HttpDelete("{IdentityId}/{CourseId}")]
+        public async Task<IActionResult> DeleteStudentCourses([FromRoute] string IdentityId, [FromRoute] int CourseId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studentCourses = await _context.StudentCourses.SingleOrDefaultAsync(m => m.CourseId == CourseId && m.StudentId == StudentId);
+            var studentCourses = await _context.StudentCourses.SingleOrDefaultAsync(m => m.CourseId == CourseId && m.Student.IdentityId == IdentityId);
             if (studentCourses == null)
             {
                 return NotFound();
@@ -183,9 +183,9 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studentCourses);
         }
 
-        private bool StudentCoursesExists(int StudentId, int CourseId)
+        private bool StudentCoursesExists(string IdentityId, int CourseId)
         {
-            return _context.StudentCourses.Any(e => e.CourseId == CourseId || e.StudentId == StudentId);
+            return _context.StudentCourses.Any(e => e.CourseId == CourseId || e.Student.IdentityId == IdentityId);
         }
     }
 }

@@ -98,15 +98,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/HelpRequests/5
-        [HttpGet("ByStudentId/{StudentId}")]
-        public async Task<IActionResult> GetHelpRequestByStudentId([FromRoute] int StudentId)
+        [HttpGet("ByStudentId/{IdentityId}")]
+        public async Task<IActionResult> GetHelpRequestByStudentId([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var helpRequest = _context.HelpRequest.Where(h => h.StudentId == StudentId)
+            var helpRequest = _context.HelpRequest.Where(h => h.Student.IdentityId == IdentityId)
                 .Select(h =>
                 new HelpRequest
                 {   Id = h.Id,

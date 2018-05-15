@@ -108,15 +108,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Notebooks/5
-        [HttpGet("Recent/{StudentId}")]
-        public async Task<IActionResult> GetRecentNotebook([FromRoute] int StudentId)
+        [HttpGet("Recent/{IdentityId}")]
+        public async Task<IActionResult> GetRecentNotebook([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studentCoursesId = _context.StudentCourses.Where(sc => sc.StudentId == StudentId).Select(sc => sc.CourseId).Distinct();
+            var studentCoursesId = _context.StudentCourses.Where(sc => sc.Student.IdentityId == IdentityId).Select(sc => sc.CourseId).Distinct();
 
             var notebook = _context.Notebook.Where(nb => studentCoursesId.Contains(nb.CourseId) &&
                                             nb.PublishDate.AddDays(14) >= DateTime.Today)

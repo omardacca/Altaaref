@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Altaaref.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -65,7 +66,7 @@ namespace Altaaref.ViewModels
         public async void GetMyNotebooksList()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/Notebooks/GetStudentNotebooks/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/Notebooks/GetStudentNotebooks/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);

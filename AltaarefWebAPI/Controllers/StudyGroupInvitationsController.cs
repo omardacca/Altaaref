@@ -35,8 +35,8 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudyGroupInvitations/5
-        [HttpGet("{StudentId}")]
-        public async Task<IActionResult> GetViewStudyGroupInvitations([FromRoute] int StudentId)
+        [HttpGet("{IdentityId}")]
+        public async Task<IActionResult> GetViewStudyGroupInvitations([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
@@ -44,7 +44,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studyGroupInvitations = _context.StudyGroupInvitations
-                .Where(si => si.StudentId == StudentId && si.StudyGroup.Date >= DateTime.Today.Date && si.VerificationStatus == false) 
+                .Where(si => si.Student.IdentityId == IdentityId && si.StudyGroup.Date >= DateTime.Today.Date && si.VerificationStatus == false) 
                 .Select(m => 
                 new ViewInvitation
                 {
@@ -72,15 +72,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // PUT: api/StudyGroupInvitations/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudyGroupInvitations([FromRoute] int id, [FromBody] StudyGroupInvitations studyGroupInvitations)
+        [HttpPut("{IdentityId}")]
+        public async Task<IActionResult> PutStudyGroupInvitations([FromRoute] string IdentityId, [FromBody] StudyGroupInvitations studyGroupInvitations)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != studyGroupInvitations.StudentId)
+            if (IdentityId != studyGroupInvitations.Student.IdentityId)
             {
                 return BadRequest();
             }
@@ -93,7 +93,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudyGroupInvitationsExists(id))
+                if (!StudyGroupInvitationsExists(IdentityId))
                 {
                     return NotFound();
                 }
@@ -131,15 +131,15 @@ namespace AltaarefWebAPI.Controllers
 
 
         // DELETE: api/StudyGroupInvitations/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStudyGroupInvitations([FromRoute] int id)
+        [HttpDelete("{IdentityId}")]
+        public async Task<IActionResult> DeleteStudyGroupInvitations([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var studyGroupInvitations = await _context.StudyGroupInvitations.SingleOrDefaultAsync(m => m.StudentId == id);
+            var studyGroupInvitations = await _context.StudyGroupInvitations.SingleOrDefaultAsync(m => m.Student.IdentityId == IdentityId);
             if (studyGroupInvitations == null)
             {
                 return NotFound();
@@ -151,9 +151,9 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroupInvitations);
         }
 
-        private bool StudyGroupInvitationsExists(int id)
+        private bool StudyGroupInvitationsExists(string IdentityId)
         {
-            return _context.StudyGroupInvitations.Any(e => e.StudentId == id);
+            return _context.StudyGroupInvitations.Any(e => e.Student.IdentityId == IdentityId);
         }
     }
 }

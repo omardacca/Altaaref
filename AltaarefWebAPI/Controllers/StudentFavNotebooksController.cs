@@ -36,8 +36,8 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudentFavNotebooks/5/5
-        [HttpGet("{StudentId}/{NotebookId}")]
-        public async Task<IActionResult> GetStudentFavNotebooks([FromRoute] int StudentId, [FromRoute] int NotebookId)
+        [HttpGet("{IdentityId}/{NotebookId}")]
+        public async Task<IActionResult> GetStudentFavNotebooks([FromRoute] string IdentityId, [FromRoute] int NotebookId)
         {
             if (!ModelState.IsValid)
             {
@@ -45,7 +45,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studentFavNotebooks = await _context.StudentFavNotebooks
-                .SingleOrDefaultAsync(m => m.NotebookId == NotebookId && m.StudentId == StudentId);
+                .SingleOrDefaultAsync(m => m.NotebookId == NotebookId && m.Student.IdentityId == IdentityId);
 
             if (studentFavNotebooks == null)
             {
@@ -56,8 +56,8 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudentFavNotebooks/5/5
-        [HttpGet("Details/{StudentId}")]
-        public async Task<IActionResult> GetStudentFavNotebookDetails([FromRoute] int StudentId)
+        [HttpGet("Details/{IdentityId}")]
+        public async Task<IActionResult> GetStudentFavNotebookDetails([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studentFavNotebooks = _context.StudentFavNotebooks
-                .Where(m => m.StudentId == StudentId)
+                .Where(m => m.Student.IdentityId == IdentityId)
                 .Select(fv => new ViewNotebookStudent { StudentId = fv.StudentId, StudentName = fv.Student.FullName, Notebook = fv.Notebook });
 
             if (studentFavNotebooks == null)
@@ -77,15 +77,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // PUT: api/StudentFavNotebooks/5
-        [HttpPut("{StudentId}/{NotebookId}")]
-        public async Task<IActionResult> PutStudentFavNotebooks([FromRoute] int StudentId, [FromRoute] int NotebookId, [FromBody] StudentFavNotebooks studentFavNotebooks)
+        [HttpPut("{IdentityId}/{NotebookId}")]
+        public async Task<IActionResult> PutStudentFavNotebooks([FromRoute] string IdentityId, [FromRoute] int NotebookId, [FromBody] StudentFavNotebooks studentFavNotebooks)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (StudentId != studentFavNotebooks.StudentId || NotebookId != studentFavNotebooks.NotebookId)
+            if (IdentityId != studentFavNotebooks.Student.IdentityId || NotebookId != studentFavNotebooks.NotebookId)
             {
                 return BadRequest();
             }
@@ -98,7 +98,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentFavNotebooksExists(StudentId, NotebookId))
+                if (!StudentFavNotebooksExists(IdentityId, NotebookId))
                 {
                     return NotFound();
                 }
@@ -127,7 +127,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (StudentFavNotebooksExists(studentFavNotebooks.NotebookId, studentFavNotebooks.StudentId))
+                if (StudentFavNotebooksExists(studentFavNotebooks.Student.IdentityId, studentFavNotebooks.NotebookId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -142,8 +142,8 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // DELETE: api/StudentFavNotebooks/5
-        [HttpDelete("{StudentId}/{NotebookId}")]
-        public async Task<IActionResult> DeleteStudentFavNotebooks([FromRoute] int StudentId, [FromRoute] int NotebookId)
+        [HttpDelete("{IdentityId}/{NotebookId}")]
+        public async Task<IActionResult> DeleteStudentFavNotebooks([FromRoute] string IdentityId, [FromRoute] int NotebookId)
         {
             if (!ModelState.IsValid)
             {
@@ -151,7 +151,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studentFavNotebooks = await _context.StudentFavNotebooks
-                .SingleOrDefaultAsync(m => m.NotebookId == NotebookId && m.StudentId == StudentId);
+                .SingleOrDefaultAsync(m => m.NotebookId == NotebookId && m.Student.IdentityId == IdentityId);
             if (studentFavNotebooks == null)
             {
                 return NotFound();
@@ -163,9 +163,9 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studentFavNotebooks);
         }
 
-        private bool StudentFavNotebooksExists(int StudentId, int NotebookId)
+        private bool StudentFavNotebooksExists(string IdentityId, int NotebookId)
         {
-            return _context.StudentFavNotebooks.Any(e => e.NotebookId == NotebookId && e.StudentId == StudentId);
+            return _context.StudentFavNotebooks.Any(e => e.NotebookId == NotebookId && e.Student.IdentityId == IdentityId);
         }
     }
 }

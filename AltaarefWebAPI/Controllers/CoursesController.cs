@@ -67,15 +67,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Courses/5
-        [HttpGet("GetStudentCourses/{StudentId}")]
-        public async Task<IActionResult> GetStudentCourses([FromRoute] int StudentId)
+        [HttpGet("GetStudentCourses/{IdentityId}")]
+        public async Task<IActionResult> GetStudentCourses([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var course = _context.StudentCourses.Where(sc => sc.StudentId == StudentId).Select(sc => sc.Course);
+            var course = _context.StudentCourses.Where(sc => sc.Student.IdentityId == IdentityId).Select(sc => sc.Course);
 
             if (course == null)
             {

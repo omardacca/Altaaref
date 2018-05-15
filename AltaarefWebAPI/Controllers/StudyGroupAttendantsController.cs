@@ -88,8 +88,8 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroupAttendants);
         }
 
-        [HttpGet("{StudyGroupId}/{StudentId}")]
-        public async Task<IActionResult> GetStudyGroupAttendantsBySGAIdStdId([FromRoute] int StudyGroupId, [FromRoute] int StudentId)
+        [HttpGet("{StudyGroupId}/{IdentityId}")]
+        public async Task<IActionResult> GetStudyGroupAttendantsBySGAIdStdId([FromRoute] int StudyGroupId, [FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studyGroupAttendants = await _context.StudyGroupAttendants
-                .SingleOrDefaultAsync(m => m.StudyGroupId == StudyGroupId && m.StudentId == StudentId);
+                .SingleOrDefaultAsync(m => m.StudyGroupId == StudyGroupId && m.Student.IdentityId == IdentityId);
 
             if (studyGroupAttendants == null)
             {
@@ -178,8 +178,8 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroupAttendants);
         }
 
-        [HttpDelete("{StudyGroupId}/{StudentId}")]
-        public async Task<IActionResult> DeleteSGABySGIdAndStId([FromRoute] int StudyGroupId, [FromRoute] int StudentId)
+        [HttpDelete("{StudyGroupId}/{IdentityId}")]
+        public async Task<IActionResult> DeleteSGABySGIdAndStId([FromRoute] int StudyGroupId, [FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
@@ -187,7 +187,7 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var studyGroupAttendants = await _context.StudyGroupAttendants
-                .SingleOrDefaultAsync(m => m.StudyGroupId == StudyGroupId && m.StudentId == StudentId);
+                .SingleOrDefaultAsync(m => m.StudyGroupId == StudyGroupId && m.Student.IdentityId == IdentityId);
             if (studyGroupAttendants == null)
             {
                 return NotFound();
