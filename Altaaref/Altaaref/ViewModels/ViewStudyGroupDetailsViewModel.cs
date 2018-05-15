@@ -299,7 +299,7 @@ namespace Altaaref.ViewModels
         // Ready
         private async void RemoveAttendanceAsync()
         {
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupView.StudyGroupId + "/" + Settings.StudentId;
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupView.StudyGroupId + "/" + Settings.Identity;
 
             var response = _client.DeleteAsync(postUrl);
 

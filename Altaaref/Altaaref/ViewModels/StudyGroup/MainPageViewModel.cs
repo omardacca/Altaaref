@@ -13,8 +13,6 @@ namespace Altaaref.ViewModels.StudyGroup
 {
     public class MainPageViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
-
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -103,7 +101,7 @@ namespace Altaaref.ViewModels.StudyGroup
         private void PutInvitationVerificationSatus(StudyGroupInvitations UpdatedViewInvitation)
         {
             Busy = true;
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + UpdatedViewInvitation.StudentId;
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + Settings.Identity;
 
             var content = new StringContent(JsonConvert.SerializeObject(UpdatedViewInvitation), Encoding.UTF8, "application/json");
             var response = _client.PutAsync(postUrl, content);
@@ -118,12 +116,12 @@ namespace Altaaref.ViewModels.StudyGroup
             // if clicked to attend - post him
             if (!vInvitation.VerificationStatus)
             {
-                PostAttendance(new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId });
-                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = true });
+                PostAttendance(new StudyGroupAttendants { StudentId = Settings.StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId });
+                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = Settings.StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = true });
             }
             else // not applied it in the VIEW
             {
-                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = false });
+                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = Settings.StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = false });
                 DeleteAttendant(vInvitation.StudyGroup.StudyGroupId);
             }
             vInvitation.VerificationStatus = !vInvitation.VerificationStatus;
@@ -155,7 +153,7 @@ namespace Altaaref.ViewModels.StudyGroup
         {
             Busy = true;
 
-            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupId + "/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupId + "/" + Settings.Identity;
 
             var response = _client.DeleteAsync(url);
 

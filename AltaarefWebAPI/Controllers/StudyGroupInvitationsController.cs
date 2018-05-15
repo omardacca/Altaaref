@@ -72,15 +72,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // PUT: api/StudyGroupInvitations/5
-        [HttpPut("{IdentityId}")]
-        public async Task<IActionResult> PutStudyGroupInvitations([FromRoute] string IdentityId, [FromBody] StudyGroupInvitations studyGroupInvitations)
+        [HttpPut("{StudentId}")]
+        public async Task<IActionResult> PutStudyGroupInvitations([FromRoute] int StudentId, [FromBody] StudyGroupInvitations studyGroupInvitations)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (IdentityId != studyGroupInvitations.Student.IdentityId)
+            if (StudentId != studyGroupInvitations.Student.Id)
             {
                 return BadRequest();
             }
@@ -93,7 +93,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudyGroupInvitationsExists(IdentityId))
+                if (!StudyGroupInvitationsExists(StudentId))
                 {
                     return NotFound();
                 }
@@ -151,9 +151,9 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroupInvitations);
         }
 
-        private bool StudyGroupInvitationsExists(string IdentityId)
+        private bool StudyGroupInvitationsExists(int StudentId)
         {
-            return _context.StudyGroupInvitations.Any(e => e.Student.IdentityId == IdentityId);
+            return _context.StudyGroupInvitations.Any(e => e.StudentId == StudentId);
         }
     }
 }
