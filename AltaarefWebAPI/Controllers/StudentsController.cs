@@ -49,7 +49,7 @@ namespace AltaarefWebAPI.Controllers
 
 
         // GET: api/Students/5
-        [HttpGet("GetIdentityIdByStdId/{IdentityId}")]
+        [HttpGet("GetStdIdByIdentity/{IdentityId}")]
         public async Task<IActionResult> GetStudentIdByIdentityId([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
@@ -57,7 +57,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var student = await _context.Student.SingleOrDefaultAsync(m => m.IdentityId == IdentityId);
+            var student = _context.Student.SingleOrDefaultAsync(m => m.IdentityId == IdentityId).Result.IdentityId;
 
             if (student == null)
             {

@@ -45,9 +45,9 @@ namespace Altaaref
         private async Task GetStudentId()
         {
             HttpClient _client = new HttpClient();
-            var url = "https://altaarefapp.azurewebsites.net/api/GetIdentityIdByStdId/" + Settings.Identity;
+            var url = "https://altaarefapp.azurewebsites.net/api/Students/GetIdentityIdByStdId/" + Settings.Identity;
 
-            string content = await _client.GetStringAsync(url);
+            var content = await _client.GetStringAsync(url);
             var stdid = JsonConvert.DeserializeObject<int>(content);
 
             Settings.StudentId = stdid;

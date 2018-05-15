@@ -521,7 +521,7 @@ namespace Altaaref.ViewModels
         public async Task GetStudentInfo()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/Students/Infofornotebooks/" + Settings.Identity
+            var url = "https://altaarefapp.azurewebsites.net/api/Students/Infofornotebooks/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var obj = JsonConvert.DeserializeObject<StudentInfoForNotebooks>(content);
