@@ -37,7 +37,7 @@
         </TableView>
 
         <controls:ButtonFrame HeightRequest="17">
-            <Label Text="Submit Notebook" 
+            <Label Text="Select and Submit Notebook" 
                    BackgroundColor="{StaticResource OrangeColor}" 
                    TextColor="White" 
                    HorizontalTextAlignment="Center" 

@@ -29,6 +29,7 @@ namespace Altaaref.Views
                 Settings.AccessToken = "";
                 Settings.Username = "";
                 Settings.Password = "";
+                Settings.Identity = "";
             }
 
             InitializeComponent();

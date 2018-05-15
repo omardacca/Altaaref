@@ -152,15 +152,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Notebooks/5
-        [HttpGet("GetStudentNotebooks/{StudentId}")]
-        public async Task<IActionResult> GetStudentNotebooks([FromRoute] int StudentId)
+        [HttpGet("GetStudentNotebooks/{IdentityId}")]
+        public async Task<IActionResult> GetStudentNotebooks([FromRoute] string IdentityId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var notebook = _context.Notebook.Where(m => m.StudentId == StudentId)
+            var notebook = _context.Notebook.Where(m => m.Student.IdentityId == IdentityId)
                 .Select(fv => new ViewNotebookStudent { StudentId = fv.StudentId, StudentName = fv.Student.FullName, Notebook = fv});
 
             if (notebook == null)

@@ -16,6 +16,15 @@ namespace Altaaref.ViewModels
     {
         private readonly IPageService _pageService;
 
+        private class AccountObject
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string FullName { get; set; }
+            public int StudentId { get; set; }
+            public DateTime DOB { get; set; }
+        }
+
         private string _emailEntry;
         public string EmailEntry
         {
@@ -92,9 +101,7 @@ namespace Altaaref.ViewModels
 
             if(isSuccess)
             {
-                var page = new Views.MainMenu.MenuPage().GetMenuPage();
-                NavigationPage.SetHasNavigationBar(page, false);
-                await _pageService.PushAsync(page);
+                await _pageService.PushAsync(new Views.LoginPage());
             }
         }
 
@@ -105,13 +112,13 @@ namespace Altaaref.ViewModels
             var request = new HttpRequestMessage(
                 HttpMethod.Post, "https://altaarefapp.azurewebsites.net/api/Accounts");
 
-            Student std = new Student
+            AccountObject std = new AccountObject
             {
-                IdentityId = Settings.Identity,
-                Id = _studentIdEntry,
+                Email = _emailEntry,
+                Password = _passwordEntry,
+                StudentId = _studentIdEntry,
                 FullName = _fullNameEntry,
-                DOB = _dobDatePicker,
-                ProfilePicBlobUrl = "https://csb08eb270fff55x4a98xb1a.blob.core.windows.net/profilepics/IMG_8038.JPG"
+                DOB = _dobDatePicker
             };
 
             var serStd = JsonConvert.SerializeObject(std);
