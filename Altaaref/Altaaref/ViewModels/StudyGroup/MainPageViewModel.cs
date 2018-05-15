@@ -131,7 +131,6 @@ namespace Altaaref.ViewModels.StudyGroup
             Busy = false;
         }
 
-
         private async void PostAttendance(StudyGroupAttendants attendant)
         {
             Busy = true;

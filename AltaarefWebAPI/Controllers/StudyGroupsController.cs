@@ -255,7 +255,9 @@ namespace AltaarefWebAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetStudyGroup", new { courseId = studyGroup.CourseId, IdentityId = studyGroup.Student.IdentityId },
+            var identityId = await _context.Student.SingleOrDefaultAsync(s => s.Id == studyGroup.StudentId);
+
+            return CreatedAtAction("GetStudyGroup", new { courseId = studyGroup.CourseId, IdentityId = identityId },
                 new StudyGroup
                 {
                     Id = studyGroup.Id,
