@@ -47,10 +47,11 @@ namespace Altaaref
             HttpClient _client = new HttpClient();
             var url = "https://altaarefapp.azurewebsites.net/api/Students/GetIdentityIdByStdId/" + Settings.Identity;
 
-            var content = await _client.GetStringAsync(url);
-            var stdid = JsonConvert.DeserializeObject<int>(content);
+            string idstring = await _client.GetStringAsync(url);
 
-            Settings.StudentId = stdid;
+            Settings.StudentId = int.Parse(idstring);
+
+            
         }
 
 		protected override void OnStart ()
