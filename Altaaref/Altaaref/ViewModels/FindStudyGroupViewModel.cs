@@ -12,7 +12,6 @@ namespace Altaaref.ViewModels
 {
     public class FindStudyGroupViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 

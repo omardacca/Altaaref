@@ -74,5 +74,17 @@ namespace Altaaref.Helpers
                 AppSettings.AddOrUpdateValue("Identity", value);
             }
         }
+
+        public static int StudentId
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault("StudentId", 0);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue("StudentId", value);
+            }
+        }
     }
 }

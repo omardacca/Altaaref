@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Altaaref.Views.StudyGroups;
 using Newtonsoft.Json;
 using System;
@@ -13,7 +14,6 @@ namespace Altaaref.ViewModels
 {
     public class ViewStudyGroupDetailsViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -161,7 +161,7 @@ namespace Altaaref.ViewModels
         private async void InitIsAttendantAsync()
         {
             Busy = true;
-            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupView.StudyGroupId + "/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupView.StudyGroupId + "/" + Settings.Identity;
 
             try
             {
@@ -277,7 +277,7 @@ namespace Altaaref.ViewModels
 
             var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants";
 
-            var sga = new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = StudyGroupView.StudyGroupId };
+            var sga = new StudyGroupAttendants { StudentId = Settings.StudentId, StudyGroupId = StudyGroupView.StudyGroupId };
 
             var content = new StringContent(JsonConvert.SerializeObject(sga), Encoding.UTF8, "application/json");
             var response = _client.PostAsync(postUrl, content);
@@ -299,7 +299,7 @@ namespace Altaaref.ViewModels
         // Ready
         private async void RemoveAttendanceAsync()
         {
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupView.StudyGroupId + "/" + StudentId;
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupView.StudyGroupId + "/" + Settings.StudentId;
 
             var response = _client.DeleteAsync(postUrl);
 
@@ -319,7 +319,7 @@ namespace Altaaref.ViewModels
         {
             var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupComments";
 
-            NewComment.StudentId = StudentId;
+            NewComment.StudentId = Settings.StudentId;
             NewComment.StudyGroupId = StudyGroupView.StudyGroupId;
             NewComment.FullTime = DateTime.Now;
 

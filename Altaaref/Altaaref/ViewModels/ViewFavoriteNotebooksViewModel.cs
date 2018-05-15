@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace Altaaref.ViewModels
 
     public class ViewFavoriteNotebooksViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -71,7 +71,7 @@ namespace Altaaref.ViewModels
         public async void GetFavoriteNotebooksList()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/Details/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/StudentFavNotebooks/Details/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);

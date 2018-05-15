@@ -396,7 +396,7 @@ namespace Altaaref.ViewModels
         public async Task PutRate()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + ViewNotebookStudent.StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + Settings.Identity;
 
             var content = new StringContent(JsonConvert.SerializeObject(NotebookRate), Encoding.UTF8, "application/json");
             var response = await _client.PutAsync(url, content);
@@ -407,7 +407,7 @@ namespace Altaaref.ViewModels
         public async Task DeleteRate()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + ViewNotebookStudent.StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + Settings.Identity;
 
             try
             {
@@ -428,7 +428,7 @@ namespace Altaaref.ViewModels
         {
             Busy = true;
 
-            NotebookRates sfn = new NotebookRates { StudentId = 204228043, NotebookId = _viewNotebookStudent.Notebook.Id, Rate = rate };
+            NotebookRates sfn = new NotebookRates { StudentId = Settings.StudentId, NotebookId = _viewNotebookStudent.Notebook.Id, Rate = rate };
 
             var content = new StringContent(JsonConvert.SerializeObject(sfn), Encoding.UTF8, "application/json");
 
@@ -443,7 +443,7 @@ namespace Altaaref.ViewModels
         {
  
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + ViewNotebookStudent.StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/NotebookRates/" + ViewNotebookStudent.Notebook.Id + "/" + Settings.Identity;
             try
             {
                 var content = await _client.GetStringAsync(url);
@@ -521,7 +521,7 @@ namespace Altaaref.ViewModels
         public async Task GetStudentInfo()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/Students/Infofornotebooks/" + ViewNotebookStudent.StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/Students/Infofornotebooks/" + Settings.Identity
 
             string content = await _client.GetStringAsync(url);
             var obj = JsonConvert.DeserializeObject<StudentInfoForNotebooks>(content);
@@ -552,7 +552,7 @@ namespace Altaaref.ViewModels
         // Add Current to favorite
         private bool AddToFavorite()
         {
-            StudentFavNotebooks sfn = new StudentFavNotebooks { StudentId = 204228043, NotebookId = _viewNotebookStudent.Notebook.Id };
+            StudentFavNotebooks sfn = new StudentFavNotebooks { StudentId = Settings.StudentId, NotebookId = _viewNotebookStudent.Notebook.Id };
 
             var content = new StringContent(JsonConvert.SerializeObject(sfn), Encoding.UTF8, "application/json");
 

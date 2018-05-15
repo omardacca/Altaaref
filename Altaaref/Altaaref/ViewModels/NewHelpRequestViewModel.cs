@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,6 @@ namespace Altaaref.ViewModels
 {
     public class NewHelpRequestViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
-
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -49,7 +48,7 @@ namespace Altaaref.ViewModels
         {
             NewHelpRequest = new Models.HelpRequest
             {
-                StudentId = StudentId,
+                StudentId = Settings.StudentId,
                 Message = "",
                 IsGeneral = false
             };

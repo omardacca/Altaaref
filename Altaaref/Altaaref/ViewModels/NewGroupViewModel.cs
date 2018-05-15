@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace Altaaref.ViewModels
 {
     public class NewGroupViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -115,7 +115,7 @@ namespace Altaaref.ViewModels
             var courseid = _coursesList[_selectedCourseIndex].Id;
 
             StudyGroup.CourseId = courseid;
-            StudyGroup.StudentId = StudentId;
+            StudyGroup.StudentId = Settings.StudentId;
 
 
             var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroups";

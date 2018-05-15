@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,6 @@ namespace Altaaref.ViewModels
 
     public class ViewStudyGroupInvitationsViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
 
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
@@ -85,7 +85,7 @@ namespace Altaaref.ViewModels
         private async void GetInvitationsListAsync()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewInvitation>>(content);
@@ -125,7 +125,7 @@ namespace Altaaref.ViewModels
         {
             Busy = true;
 
-            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupId + "/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupAttendants/" + StudyGroupId + "/" + Settings.Identity;
 
             var response = _client.DeleteAsync(url);
 
@@ -146,7 +146,7 @@ namespace Altaaref.ViewModels
         private void PutInvitationVerificationSatus(StudyGroupInvitations UpdatedViewInvitation)
         {
             Busy = true;
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + UpdatedViewInvitation.StudentId;
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + Settings.Identity;
 
             var content = new StringContent(JsonConvert.SerializeObject(UpdatedViewInvitation), Encoding.UTF8, "application/json");
             var response = _client.PutAsync(postUrl, content);
@@ -161,12 +161,12 @@ namespace Altaaref.ViewModels
             // if clicked to attend - post him
             if(!vInvitation.VerificationStatus)
             {
-                PostAttendance(new StudyGroupAttendants { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId});
-                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = true });
+                PostAttendance(new StudyGroupAttendants { StudentId = Settings.StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId});
+                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = Settings.StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = true });
             }
             else
             {
-                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = false });
+                PutInvitationVerificationSatus(new StudyGroupInvitations { StudentId = Settings.StudentId, StudyGroupId = vInvitation.StudyGroup.StudyGroupId, VerificationStatus = false });
                 DeleteAttendant(vInvitation.StudyGroup.StudyGroupId);
             }
             vInvitation.VerificationStatus = !vInvitation.VerificationStatus;

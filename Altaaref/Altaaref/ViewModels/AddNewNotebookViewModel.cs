@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
@@ -16,7 +17,6 @@ namespace Altaaref.ViewModels
 {
     public class AddNewNotebookViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
 
         private List<Courses> _coursesList;
@@ -106,7 +106,7 @@ namespace Altaaref.ViewModels
             var courseid = _coursesList[_selectedCourseIndex].Id;
             var titleEntry = TitleEntry;
 
-            await DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, StudentId);
+            await DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, Settings.StudentId);
 
             await _pageService.DisplayAlert("Upload Success", "Notebook Added Successfully.", "Ok", "Cancel");
 

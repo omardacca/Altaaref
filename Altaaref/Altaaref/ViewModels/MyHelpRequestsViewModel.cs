@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,6 @@ namespace Altaaref.ViewModels
 
     public class MyHelpRequestsViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
-
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
         
@@ -95,7 +94,7 @@ namespace Altaaref.ViewModels
         {
             Busy = true;
 
-            string url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/ByStudentId/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/HelpRequests/ByStudentId/" + Settings.Identity;
             
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudentHelpRequest>>(content);

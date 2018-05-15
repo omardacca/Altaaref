@@ -34,7 +34,6 @@ namespace Altaaref.ViewModels
 
     public class SelectHelpRequestFacultiesViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 

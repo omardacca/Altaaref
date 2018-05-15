@@ -1,7 +1,9 @@
 ﻿using Altaaref.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -22,10 +24,12 @@ namespace Altaaref
             SetMainPage();
         }
 
-        private void SetMainPage()
+        private async void SetMainPage()
         {
             if(!string.IsNullOrEmpty(Settings.AccessToken))
             {
+                await GetStudentId();
+
                 var page = new Views.MainMenu.MenuPage().GetMenuPage();
                 NavigationPage.SetHasNavigationBar(page, false);
 
@@ -36,6 +40,17 @@ namespace Altaaref
                 MainPage = new NavigationPage(new Views.LoginPage());
             }
             
+        }
+
+        private async Task GetStudentId()
+        {
+            HttpClient _client = new HttpClient();
+            var url = "https://altaarefapp.azurewebsites.net/api/GetIdentityIdByStdId/" + Settings.Identity;
+
+            string content = await _client.GetStringAsync(url);
+            var stdid = JsonConvert.DeserializeObject<int>(content);
+
+            Settings.StudentId = stdid;
         }
 
 		protected override void OnStart ()

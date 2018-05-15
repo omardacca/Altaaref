@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace Altaaref.ViewModels
 {
     public class FindNotebookViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -78,7 +78,7 @@ namespace Altaaref.ViewModels
 
         private async Task GetStudentCourses()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/Courses/GetStudentCourses/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/Courses/GetStudentCourses/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Courses>>(content);
