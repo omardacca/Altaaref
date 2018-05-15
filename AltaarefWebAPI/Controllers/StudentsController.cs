@@ -57,14 +57,16 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var student = _context.Student.SingleOrDefaultAsync(m => m.IdentityId == IdentityId).Result.Id.ToString();
+            var student = await _context.Student.SingleOrDefaultAsync(m => m.IdentityId == IdentityId);
+
+            var id = student.Id;
 
             if (student == null)
             {
                 return NotFound();
             }
 
-            return Ok(student);
+            return Ok(id);
         }
 
         // GET: api/Students/5

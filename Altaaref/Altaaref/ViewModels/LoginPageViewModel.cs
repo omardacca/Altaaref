@@ -89,6 +89,12 @@ namespace Altaaref.ViewModels
                 Settings.Identity = Identity;
                 //Settings.AccessTokenExpiration = accessTokenExpiration;
 
+                var url = "https://altaarefapp.azurewebsites.net/api/Students/GetStdIdByIdentity/" + Settings.Identity;
+                string stdidres = await _client.GetStringAsync(url);
+                Settings.StudentId = int.Parse(stdidres);
+
+
+
                 var page = new Views.MainMenu.MenuPage().GetMenuPage();
                 NavigationPage.SetHasNavigationBar(page, false);
 

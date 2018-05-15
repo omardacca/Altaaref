@@ -15,7 +15,6 @@ namespace Altaaref
 
         public const string NotificationReceivedKey = "NotificationReceived";
         public const string MobileServiceUrl = "https://altaarefapp.azurewebsites.net";
-        
 
         public App ()
 		{
@@ -24,12 +23,10 @@ namespace Altaaref
             SetMainPage();
         }
 
-        private async void SetMainPage()
+        private void SetMainPage()
         {
             if(!string.IsNullOrEmpty(Settings.AccessToken))
             {
-                await GetStudentId();
-
                 var page = new Views.MainMenu.MenuPage().GetMenuPage();
                 NavigationPage.SetHasNavigationBar(page, false);
 
@@ -39,18 +36,6 @@ namespace Altaaref
             {
                 MainPage = new NavigationPage(new Views.LoginPage());
             }
-            
-        }
-
-        private async Task GetStudentId()
-        {
-            HttpClient _client = new HttpClient();
-            var url = "https://altaarefapp.azurewebsites.net/api/Students/GetIdentityIdByStdId/" + Settings.Identity;
-
-            string idstring = await _client.GetStringAsync(url);
-
-            Settings.StudentId = int.Parse(idstring);
-
             
         }
 
