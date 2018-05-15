@@ -255,17 +255,7 @@ namespace AltaarefWebAPI.Controllers
                 }
             }
 
-            return CreatedAtAction(
-                "GetStudyGroup", 
-                new
-                {
-                    CourseId = studyGroup.CourseId,
-                    StudentId = studyGroup.StudentId,
-                    Message = studyGroup.Message,
-                    Date = studyGroup.Date,
-                    Time = studyGroup.Time,
-                    IsPublic = studyGroup.IsPublic
-                },
+            return CreatedAtAction("GetStudyGroup", new { courseId = studyGroup.CourseId, IdentityId = studyGroup.Student.IdentityId },
                 new StudyGroup
                 {
                     Id = studyGroup.Id,

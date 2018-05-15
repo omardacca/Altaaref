@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -92,7 +93,7 @@ namespace Altaaref.ViewModels.StudyGroup
         private async Task GetData()
         {
             await GetInvitationsListAsync();
-            await GetStudyGroupsByStudentId(StudentId);
+            await GetStudyGroupsByStudentId();
             await GetMyStudyGroupsList();
         }
 
@@ -197,7 +198,7 @@ namespace Altaaref.ViewModels.StudyGroup
         private async Task GetInvitationsListAsync()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + StudentId;
+            var url = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewInvitation>>(content);
@@ -209,11 +210,11 @@ namespace Altaaref.ViewModels.StudyGroup
             Busy = false;
         }
 
-        private async Task GetStudyGroupsByStudentId(int studentId)
+        private async Task GetStudyGroupsByStudentId()
         {
             Busy = true;
 
-            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById/" + studentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(content);
@@ -225,7 +226,7 @@ namespace Altaaref.ViewModels.StudyGroup
         private async Task GetMyStudyGroupsList()
         {
             Busy = true;
-            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/StudyGroups/ById/" + Settings.Identity;
 
             string results = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(results);
