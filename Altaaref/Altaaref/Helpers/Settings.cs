@@ -1,4 +1,5 @@
-﻿using Plugin.Settings;
+﻿using Altaaref.Models;
+using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using System;
 
@@ -59,6 +60,18 @@ namespace Altaaref.Helpers
             set
             {
                 AppSettings.AddOrUpdateValue("AccessTokenExpiration", value);
+            }
+        }
+
+        public static string Identity
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault("Identity", "");
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue("Identity", value);
             }
         }
     }

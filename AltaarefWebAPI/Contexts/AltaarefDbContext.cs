@@ -241,6 +241,10 @@ namespace AltaarefWebAPI.Contexts
                 .HasOne(nr => nr.Student)
                 .WithMany(nr => nr.NotebookRates)
                 .HasForeignKey(nr => nr.StudentId);
+
+            modelBuilder.Entity<Student>()
+                .Property(s => s.ProfilePicBlobUrl)
+                .HasDefaultValue("https://csb08eb270fff55x4a98xb1a.blob.core.windows.net/notebooks/defaultprofpic.png");
         }
 
     }

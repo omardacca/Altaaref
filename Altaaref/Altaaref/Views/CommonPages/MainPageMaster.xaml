@@ -1,31 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              x:Class="Altaaref.Views.CommonPages.MainPageMaster"
              Title="Master">
-  <StackLayout>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout>
     <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
       <ListView.Header>
-        <Grid BackgroundColor="#03A9F4">
+        <Grid BackgroundColor="Black">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="10"/>
           </Grid.ColumnDefinitions>
           <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
           </Grid.RowDefinitions>
-          <Label
-              Grid.Column="1"
-              Grid.Row="2"
-              Text="Altaaref"
-              Style="{DynamicResource SubtitleStyle}"/>
+
+            <ic:CircleImage 
+                HeightRequest="75"
+                WidthRequest="75"
+                Aspect="AspectFill"
+                Source="{Binding Student.ProfilePicBlobUrl}"
+                Grid.Row="1" Grid.Column="1"/>
+
+            <Label
+                Grid.Column="1"
+                Grid.Row="2"
+                Text="{Binding Student.FullName}"
+                TextColor="{StaticResource WhiteColor}"/>
+            
         </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>

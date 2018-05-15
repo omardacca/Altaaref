@@ -28,6 +28,12 @@
                 </controls:ButtonFrame.GestureRecognizers>
 
             </controls:ButtonFrame>
+
+            <Label Text="New to Altaaref ? Create an Account">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RegisterPageCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
         </StackLayout>
         
     </ContentPage.Content>

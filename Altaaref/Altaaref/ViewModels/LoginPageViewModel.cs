@@ -55,6 +55,7 @@ namespace Altaaref.ViewModels
 
 
         public ICommand LoginCommand => new Command(async () => await LoginAsync(_usernameEntry, _passwordEntry));
+        public ICommand RegisterPageCommand => new Command(async () => await HandleRegisterPageTap());
 
         public LoginPageViewModel(IPageService pageService)
         {
@@ -79,11 +80,13 @@ namespace Altaaref.ViewModels
                 JObject jwtDynamic = JsonConvert.DeserializeObject<dynamic>(resCont);
 
                 var accessToken = jwtDynamic.Value<string>("auth_token");
+                var Identity = jwtDynamic.Value<string>("id");
                 //var accessTokenExpiration = jwtDynamic.Value<DateTime>("expires_in");
 
                 Settings.Username = username;
                 Settings.Password = password;
                 Settings.AccessToken = accessToken;
+                Settings.Identity = Identity;
                 //Settings.AccessTokenExpiration = accessTokenExpiration;
 
                 var page = new Views.MainMenu.MenuPage().GetMenuPage();
@@ -103,6 +106,11 @@ namespace Altaaref.ViewModels
 
                 IsErrorVisible = true;
             }
+        }
+
+        private async Task HandleRegisterPageTap()
+        {
+            await _pageService.PushAsync(new Views.RegisterPage());
         }
     }
 }

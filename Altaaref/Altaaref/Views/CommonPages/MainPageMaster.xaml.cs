@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +32,18 @@ namespace Altaaref.Views.CommonPages
         class MainPageMasterViewModel : INotifyPropertyChanged
         {
             public ObservableCollection<MainPageMenuItem> MenuItems { get; set; }
-            
+
+            private Student _student;
+            public Student Student
+            {
+                get { return _student; }
+                private set
+                {
+                    _student = value;
+                    OnPropertyChanged(nameof(Student));
+                }
+            }
+
             public MainPageMasterViewModel()
             {
                 MenuItems = new ObservableCollection<MainPageMenuItem>(new[]
@@ -39,8 +54,10 @@ namespace Altaaref.Views.CommonPages
                     new MainPageMenuItem { Id = 3, Title = "My Favorite Notebook", Icon = "menufavorite.png",TargetType = typeof(Views.CommonPages.ViewFavoriteNotebooks) },
                     new MainPageMenuItem { Id = 4, Title = "My Help Requests", Icon = "helpmenuitem.png",TargetType = typeof(Views.CommonPages.MyHelpRequests) },
                 });
+
+                var std = GetStudent();
             }
-            
+
             #region INotifyPropertyChanged Implementation
             public event PropertyChangedEventHandler PropertyChanged;
             void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -51,6 +68,20 @@ namespace Altaaref.Views.CommonPages
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
             #endregion
-        }
+
+            private async Task GetStudent()
+            {
+                HttpClient _client = new HttpClient();
+                string url = "https://altaarefapp.azurewebsites.net/api/Students/GetStudentByIdentity/" + Settings.Identity;
+
+                string content = await _client.GetStringAsync(url);
+                var obj = JsonConvert.DeserializeObject<Student>(content);
+
+                Student = obj;
+            }
+
+
+
+    }
     }
 }

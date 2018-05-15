@@ -46,15 +46,29 @@ namespace AltaarefWebAPI.Controllers
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-            await _appDbContext.Student.AddAsync(
-                new Student
-                {
-                    IdentityId = userIdentity.Id,
-                    FullName = model.FullName,
-                    ProfilePicBlobUrl = model.ProfilePicBlobUrl,
-                    DOB = model.DOB,
-                    Id = model.StudentId
-                });
+            if(model.ProfilePicBlobUrl != null)
+            {
+                await _appDbContext.Student.AddAsync(
+                    new Student
+                    {
+                        IdentityId = userIdentity.Id,
+                        FullName = model.FullName,
+                        ProfilePicBlobUrl = model.ProfilePicBlobUrl,
+                        DOB = model.DOB,
+                        Id = model.StudentId
+                    });
+            }
+            else
+            {
+                await _appDbContext.Student.AddAsync(
+                    new Student
+                    {
+                        IdentityId = userIdentity.Id,
+                        FullName = model.FullName,
+                        DOB = model.DOB,
+                        Id = model.StudentId
+                    });
+            }
 
             await _appDbContext.SaveChangesAsync();
 
