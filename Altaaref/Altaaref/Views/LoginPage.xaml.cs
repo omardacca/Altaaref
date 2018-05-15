@@ -30,6 +30,7 @@ namespace Altaaref.Views
                 Settings.Username = "";
                 Settings.Password = "";
                 Settings.Identity = "";
+                Settings.StudentId = 0;
             }
 
             InitializeComponent();

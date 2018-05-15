@@ -195,15 +195,15 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // PUT: api/StudyGroups/5
-        [HttpPut("{courseId}/{IdentityId}")]
-        public async Task<IActionResult> PutStudyGroup([FromRoute] int courseId, [FromRoute] string IdentityId, [FromBody] StudyGroup studyGroup)
+        [HttpPut("{courseId}/{StudentId}")]
+        public async Task<IActionResult> PutStudyGroup([FromRoute] int courseId, [FromRoute] int StudentId, [FromBody] StudyGroup studyGroup)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (courseId != studyGroup.CourseId || IdentityId != studyGroup.Student.IdentityId)
+            if (courseId != studyGroup.CourseId || StudentId != studyGroup.StudentId)
             {
                 return BadRequest();
             }
@@ -216,7 +216,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudyGroupExists(courseId, IdentityId))
+                if (!StudyGroupExists(courseId, StudentId))
                 {
                     return NotFound();
                 }
@@ -245,7 +245,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (StudyGroupExists(studyGroup.CourseId, studyGroup.Student.IdentityId))
+                if (StudyGroupExists(studyGroup.CourseId, studyGroup.StudentId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -289,9 +289,9 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studyGroup);
         }
 
-        private bool StudyGroupExists(int courseId, string IdentityId)
+        private bool StudyGroupExists(int courseId, int StudentId)
         {
-            return _context.StudyGroups.Any(e => e.CourseId == courseId && e.Student.IdentityId == IdentityId);
+            return _context.StudyGroups.Any(e => e.CourseId == courseId && e.StudentId == StudentId);
         }
     }
 }

@@ -122,8 +122,10 @@ namespace Altaaref.ViewModels
 
             var content = new StringContent(JsonConvert.SerializeObject(StudyGroup), Encoding.UTF8, "application/json");
             var response= _client.PostAsync(postUrl, content);
-            
-            var StudyGroupInserted = JsonConvert.DeserializeObject<Models.StudyGroup>(await response.Result.Content.ReadAsStringAsync());
+
+            var insertedRes = await response.Result.Content.ReadAsStringAsync();
+
+            var StudyGroupInserted = JsonConvert.DeserializeObject<Models.StudyGroup>(insertedRes);
 
 
             if (response.Result.IsSuccessStatusCode)
