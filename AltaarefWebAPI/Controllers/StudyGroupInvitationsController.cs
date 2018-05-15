@@ -80,7 +80,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (StudentId != studyGroupInvitations.Student.Id)
+            if (StudentId != studyGroupInvitations.StudentId)
             {
                 return BadRequest();
             }

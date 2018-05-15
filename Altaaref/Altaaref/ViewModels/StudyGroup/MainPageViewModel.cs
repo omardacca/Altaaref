@@ -101,7 +101,7 @@ namespace Altaaref.ViewModels.StudyGroup
         private void PutInvitationVerificationSatus(StudyGroupInvitations UpdatedViewInvitation)
         {
             Busy = true;
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + Settings.Identity;
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/StudyGroupInvitations/" + UpdatedViewInvitation.StudentId;
 
             var content = new StringContent(JsonConvert.SerializeObject(UpdatedViewInvitation), Encoding.UTF8, "application/json");
             var response = _client.PutAsync(postUrl, content);
