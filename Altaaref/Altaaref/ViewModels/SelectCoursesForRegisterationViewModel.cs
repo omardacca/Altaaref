@@ -1,4 +1,5 @@
 ﻿using Altaaref.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -24,16 +25,27 @@ namespace Altaaref.ViewModels
 
         private List<Faculty> FacultiesSelectedList;
 
+        private Dictionary<int, Courses> CoursesByFaculty = new Dictionary<int, Courses>();
+
         public SelectCoursesForRegisterationViewModel(List<Faculty> FacultiesSelectedList)
         {
+            this.FacultiesSelectedList = FacultiesSelectedList;
 
+            foreach(var fc in FacultiesSelectedList)
+            {
+                var task = GetFacultiesCourses(fc.Id);
+            }
         }
 
-        private async Task GetFacultiesCourses()
+        private async Task GetFacultiesCourses(int facultyId)
         {
             Busy = true;
 
+            string url = "https://altaarefapp.azurewebsites.net/api/FacultyCourses/GetCoursesByFacultiesId/" + facultyId;
 
+            string content = await _client.GetStringAsync(url);
+            var crs = JsonConvert.DeserializeObject<Courses>(content);
+            CoursesByFaculty.Add(facultyId, crs);
 
             Busy = false;
         }
