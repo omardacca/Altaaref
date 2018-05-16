@@ -25,7 +25,7 @@ namespace Altaaref.ViewModels
 
         private List<Faculty> FacultiesSelectedList;
 
-        private Dictionary<int, Courses> CoursesByFaculty = new Dictionary<int, Courses>();
+        private Dictionary<Faculty, Courses> CoursesByFaculty = new Dictionary<Faculty, Courses>();
 
         public SelectCoursesForRegisterationViewModel(IPageService pageService, List<Faculty> FacultiesSelectedList)
         {
@@ -33,19 +33,19 @@ namespace Altaaref.ViewModels
 
             foreach(var fc in FacultiesSelectedList)
             {
-                var task = GetFacultiesCourses(fc.Id);
+                var task = GetFacultiesCourses(fc);
             }
         }
 
-        private async Task GetFacultiesCourses(int facultyId)
+        private async Task GetFacultiesCourses(Faculty faculty)
         {
             Busy = true;
 
-            string url = "https://altaarefapp.azurewebsites.net/api/FacultyCourses/GetCoursesByFacultiesId/" + facultyId;
+            string url = "https://altaarefapp.azurewebsites.net/api/FacultyCourses/GetCoursesByFacultiesId/" + faculty.Id;
 
             string content = await _client.GetStringAsync(url);
             var crs = JsonConvert.DeserializeObject<Courses>(content);
-            CoursesByFaculty.Add(facultyId, crs);
+            CoursesByFaculty.Add(faculty, crs);
 
             Busy = false;
         }

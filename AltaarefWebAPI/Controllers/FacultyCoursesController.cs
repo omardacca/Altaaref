@@ -49,7 +49,7 @@ namespace AltaarefWebAPI.Controllers
 
         // GET: api/FacultyCourses/5
         [HttpGet("GetCoursesByFacultiesId/{facultyId}")]
-        public async Task<IActionResult> GetCoursesByFacultiesId([FromRoute] int facultyId)
+        public IActionResult GetCoursesByFacultiesId([FromRoute] int facultyId)
         {
             if (!ModelState.IsValid)
             {
