@@ -24,7 +24,7 @@
                                 IsVisible="{Binding Busy}"
                                 Color="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
 
-            <Label Text="No General Help Request Found!" IsVisible="{Binding IsListEmpty}"
+            <Label Text="No Help Request Found in your faculties!" IsVisible="{Binding IsListEmpty}"
                    VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="Large" HorizontalTextAlignment="Center"/>
 
             <RelativeLayout IsVisible="{Binding IsListEmpty, Converter={StaticResource boolConverter}}">

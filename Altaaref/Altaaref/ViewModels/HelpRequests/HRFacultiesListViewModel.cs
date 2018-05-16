@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -76,7 +77,7 @@ namespace Altaaref.ViewModels.HelpRequests
         {
             Busy = true;
 
-            string url = "https://altaarefapp.azurewebsites.net/api/HelpFaculties/GetStudentFacultiesHR/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/HelpFaculties/GetStudentFacultiesHR/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<FacultyHelpRequest>>(content);

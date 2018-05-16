@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace Altaaref.ViewModels.HelpRequest
 {
     public class MainPageHelpRequestViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
@@ -120,7 +120,7 @@ namespace Altaaref.ViewModels.HelpRequest
 
         public async Task GetStudentInfo()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/Students/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/Students/" + Settings.StudentId;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<Student>(content);
@@ -145,7 +145,7 @@ namespace Altaaref.ViewModels.HelpRequest
         
         public async Task GetNotGeneralHelpRequest()
         {
-            string url = "https://altaarefapp.azurewebsites.net/api/HelpFaculties/GetStudentFacultiesHR/" + StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/HelpFaculties/GetStudentFacultiesHR/" + Settings.Identity;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<FacultyHelpRequest>>(content);

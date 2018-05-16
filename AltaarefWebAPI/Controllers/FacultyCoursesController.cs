@@ -48,6 +48,37 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/FacultyCourses/5
+        [HttpGet("GetCoursesByFacultiesId")]
+        public async Task<IActionResult> GetCoursesByFacultiesId([FromRoute] List<Faculty> FacSelst)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if(FacSelst == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            List<Course> courses = new List<Course>();
+
+            foreach(var fac in FacSelst)
+            {
+                var crs = (await _context.FacultyCourse.SingleOrDefaultAsync(fc => fc.FacultyId == fac.Id)).Course;
+                courses.Add(crs);
+            }
+
+
+            if (courses.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(courses);
+        }
+
+        // GET: api/FacultyCourses/5
         [HttpGet("Courses/{FacultyId}")]
         public IActionResult GetCoursesByFacultyId([FromRoute] int FacultyId)
         {
