@@ -55,7 +55,7 @@ namespace AltaarefWebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var crs = (await _context.FacultyCourse.SingleOrDefaultAsync(fc => fc.FacultyId == facultyId)).Course;
+            var crs = _context.FacultyCourse.Where(fc => fc.FacultyId == facultyId).Select(fc => fc.Course).ToList();
 
             if (crs == null)
             {

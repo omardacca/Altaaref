@@ -27,7 +27,7 @@ namespace Altaaref.ViewModels
 
         private Dictionary<int, Courses> CoursesByFaculty = new Dictionary<int, Courses>();
 
-        public SelectCoursesForRegisterationViewModel(List<Faculty> FacultiesSelectedList)
+        public SelectCoursesForRegisterationViewModel(IPageService pageService, List<Faculty> FacultiesSelectedList)
         {
             this.FacultiesSelectedList = FacultiesSelectedList;
 
