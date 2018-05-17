@@ -107,6 +107,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            // IdentityId should replaced with StudentId
             if (IdentityId != studentCourses.Student.IdentityId || CourseId != studentCourses.CourseId)
             {
                 return BadRequest();
@@ -120,7 +121,8 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentCoursesExists(IdentityId, CourseId))
+                // studentCourses.StudentId should be StudentId that will have to be in the parameters instead of IdentityId
+                if (!StudentCoursesExists(studentCourses.StudentId, CourseId))
                 {
                     return NotFound();
                 }
@@ -183,9 +185,9 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studentCourses);
         }
 
-        private bool StudentCoursesExists(string IdentityId, int CourseId)
+        private bool StudentCoursesExists(int StudentId, int CourseId)
         {
-            return _context.StudentCourses.Any(e => e.CourseId == CourseId || e.Student.IdentityId == IdentityId);
+            return _context.StudentCourses.Any(e => e.CourseId == CourseId || e.Student.Id == StudentId);
         }
     }
 }
