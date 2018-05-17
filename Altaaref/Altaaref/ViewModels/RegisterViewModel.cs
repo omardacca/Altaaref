@@ -101,7 +101,7 @@ namespace Altaaref.ViewModels
 
             if(isSuccess)
             {
-                await _pageService.PushAsync(new Views.LoginPage());
+                await _pageService.PushAsync(new Views.SelectingFacultiesInRegisterationPage());
             }
         }
 

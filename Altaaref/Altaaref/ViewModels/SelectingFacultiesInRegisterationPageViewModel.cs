@@ -35,7 +35,7 @@ namespace Altaaref.ViewModels
         }
 
         public ICommand FacultySelectedCommand => new Command(facultySelected);
-        public ICommand NextButtonCommand => new Command(HandleNextButtonTap);
+        public ICommand NextButtonCommand => new Command(async () => await HandleNextButtonTap());
 
         private List<ViewFaculty> _facultiesList;
         public List<ViewFaculty> FacultiesList
@@ -79,9 +79,9 @@ namespace Altaaref.ViewModels
                 FacultiesSelectedList.Add(faculty);
         }
 
-        private void HandleNextButtonTap()
+        private async Task HandleNextButtonTap()
         {
-            
+           await  _pageService.PushAsync(new Views.SelectCoursesForRegisterationPage(FacultiesSelectedList));
         }
 
         private async Task GetFacultiesList()

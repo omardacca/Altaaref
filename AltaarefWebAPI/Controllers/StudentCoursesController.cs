@@ -149,7 +149,7 @@ namespace AltaarefWebAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (StudentCoursesExists(studentCourses.Student.IdentityId ,studentCourses.CourseId))
+                if (StudentCoursesExists(studentCourses.Student.Id ,studentCourses.CourseId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }

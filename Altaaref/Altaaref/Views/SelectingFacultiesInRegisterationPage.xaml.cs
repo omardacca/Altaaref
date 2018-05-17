@@ -13,7 +13,7 @@ namespace Altaaref.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SelectingFacultiesInRegisterationPage : ContentPage
 	{
-		public SelectingFacultiesInRegisterationPage ()
+		public SelectingFacultiesInRegisterationPage()
 		{
 			InitializeComponent ();
 

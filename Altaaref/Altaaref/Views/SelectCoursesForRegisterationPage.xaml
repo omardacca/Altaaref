@@ -1,28 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:acview="clr-namespace:Altaaref.UserControls.AccordionView"
              x:Class="Altaaref.Views.SelectCoursesForRegisterationPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <ListView IsGroupingEnabled="True" ItemsSource="{Binding CoursesByFaculty}">
-                <ListView.GroupHeaderTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ContentView Padding="10,0,0,0">
-                                <Label Text="{Binding Key.Name}" VerticalOptions="Center"/>
-                                <ContentView.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={x:Reference TheMainPage}, Path=BindingContext.HeaderSelectedCommand}"                                      CommandParameter="{Binding .}"/>
-                                </ContentView.GestureRecognizers>
-                            </ContentView>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.GroupHeaderTemplate>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Text="{Binding ItemTitle}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
-    </ContentPage.Content>
+    
 </ContentPage>
