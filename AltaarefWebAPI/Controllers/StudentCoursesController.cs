@@ -137,27 +137,30 @@ namespace AltaarefWebAPI.Controllers
 
         // POST: api/StudentCourses
         [HttpPost]
-        public async Task<IActionResult> PostStudentCourses([FromBody] StudentCourses studentCourses)
+        public async Task<IActionResult> PostStudentCourses([FromBody] List<StudentCourses> studentCoursesList)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.StudentCourses.Add(studentCourses);
+            _context.StudentCourses.AddRange(studentCoursesList);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (StudentCoursesExists(studentCourses.Student.Id ,studentCourses.CourseId))
+                foreach(var studentCourses in studentCoursesList)
                 {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
-                }
-                else
-                {
-                    throw;
+                    if (StudentCoursesExists(studentCourses.Student.Id, studentCourses.CourseId))
+                    {
+                        return new StatusCodeResult(StatusCodes.Status409Conflict);
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
