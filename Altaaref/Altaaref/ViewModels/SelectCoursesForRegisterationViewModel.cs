@@ -93,7 +93,7 @@ namespace Altaaref.ViewModels
         private List<Courses> _coursesSelectedList = new List<Courses>();
 
         public ICommand ItemTapCommand => new Command<CourseInList>(HandleItemTapped);
-        public ICommand DoneCommand => new Command(async () => await PostRegister());
+        public ICommand DoneCommand => new Command(async () => await PostLists());
 
         List<List<CourseInList>> ListOfListsOfCourses = new List<List<CourseInList>>();
 
@@ -106,6 +106,7 @@ namespace Altaaref.ViewModels
 
         public SelectCoursesForRegisterationViewModel(IPageService pageService, List<Faculty> FacultiesSelectedList)
         {
+            _pageService = pageService;
             this.FacultiesSelectedList = FacultiesSelectedList;
 
             ViewModel = new ViewModel
@@ -189,7 +190,7 @@ namespace Altaaref.ViewModels
 
         }
 
-        private async Task PostRegister()
+        private async Task PostStudentCourses()
         {
             HttpClient _client = new HttpClient();
 
@@ -226,6 +227,46 @@ namespace Altaaref.ViewModels
             {
                 await _pageService.DisplayAlert("Failure", "Something went wrong!", "Ok", "Cancel");
             }
+        }
+
+        private async Task<bool> PostStudentFaculties()
+        {
+            HttpClient _client = new HttpClient();
+
+            var request = new HttpRequestMessage(
+                HttpMethod.Post, "https://altaarefapp.azurewebsites.net/api/StudentFaculties");
+
+            List<StudentFaculty> studentCourses = new List<StudentFaculty>();
+
+            foreach (var crs in FacultiesSelectedList)
+            {
+                studentCourses.Add(new StudentFaculty
+                {
+                    FacultyId = crs.Id,
+                    StudentId = Settings.StudentId
+                });
+            }
+
+            var serStd = JsonConvert.SerializeObject(studentCourses);
+
+            request.Content = new StringContent(serStd, Encoding.UTF8, "application/json");
+
+            var response = await _client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private async Task PostLists()
+        {
+            await PostStudentFaculties();
+            await PostStudentCourses();
         }
     }
 }

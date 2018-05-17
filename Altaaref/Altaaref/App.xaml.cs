@@ -20,9 +20,8 @@ namespace Altaaref
 		{
 			InitializeComponent();
 
-            //SetMainPage();
+            SetMainPage();
 
-            MainPage = new NavigationPage(new Views.SelectingFacultiesInRegisterationPage());
         }
 
         private void SetMainPage()
