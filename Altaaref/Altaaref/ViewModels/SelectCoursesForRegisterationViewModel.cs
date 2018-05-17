@@ -93,6 +93,7 @@ namespace Altaaref.ViewModels
         private List<Courses> _coursesSelectedList = new List<Courses>();
 
         public ICommand ItemTapCommand => new Command<CourseInList>(HandleItemTapped);
+        public ICommand DoneCommand => new Command(async () => await PostRegister());
 
         List<List<CourseInList>> ListOfListsOfCourses = new List<List<CourseInList>>();
 
@@ -188,7 +189,7 @@ namespace Altaaref.ViewModels
 
         }
 
-        private async Task<bool> PostRegister()
+        private async Task PostRegister()
         {
             HttpClient _client = new HttpClient();
 
@@ -214,11 +215,16 @@ namespace Altaaref.ViewModels
 
             if (response.IsSuccessStatusCode)
             {
-                return true;
+                await _pageService.DisplayAlert("Success", "You have been registered successfully", "Ok", "Cancel");
+
+                var page = new Views.MainMenu.MenuPage().GetMenuPage();
+                NavigationPage.SetHasNavigationBar(page, false);
+
+                await _pageService.PushAsync(page);
             }
             else
             {
-                return false;
+                await _pageService.DisplayAlert("Failure", "Something went wrong!", "Ok", "Cancel");
             }
         }
     }

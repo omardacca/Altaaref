@@ -23,6 +23,11 @@ namespace Altaaref.Views
             {
                 this.Title = "Accordion";
 
+                var toolbarItem = new ToolbarItem();
+                toolbarItem.Text = "Done";
+                toolbarItem.SetBinding(ToolbarItem.CommandProperty, "DoneCommand");
+                this.ToolbarItems.Add(toolbarItem);
+
                 var template = new DataTemplate(typeof(DefaultTemplate));
 
                 var bind = new Binding(path: "BindingContext", source: this);

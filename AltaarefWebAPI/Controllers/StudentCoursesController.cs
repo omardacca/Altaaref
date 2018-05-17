@@ -161,7 +161,7 @@ namespace AltaarefWebAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetStudentCourses", new { studentCourses.CourseId, studentCourses.StudentId }, studentCourses);
+            return NoContent();
         }
 
         // DELETE: api/StudentCourses/5
