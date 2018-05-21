@@ -13,12 +13,12 @@ namespace AltaarefWebAPI.Controllers
     public class NotificationController : Controller
     {
         [HttpPost]
-        public async Task<IActionResult> SendNotificationAsync([FromBody] string message)
+        public async Task<IActionResult> SendNotificationAsync([FromBody] string message, [FromBody] string templateParam)
         {
             //HttpConfiguration confing = this.Configuration;
             try
             {
-                await InternalSendNotificationAsync(message, null);
+                await InternalSendNotificationAsync(message, null, templateParam);
             }
             catch(Exception ex)
             {
@@ -29,7 +29,7 @@ namespace AltaarefWebAPI.Controllers
             return Ok();
         }
 
-        private async Task<NotificationOutcome> InternalSendNotificationAsync(string message, string installationId)
+        private async Task<NotificationOutcome> InternalSendNotificationAsync(string message, string installationId, string templateParam)
         {
             //HttpConfiguration config = this.Configuration;
             //var settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
@@ -51,7 +51,7 @@ namespace AltaarefWebAPI.Controllers
             // will receive the notification. This includes APNS, GCM, WNS, and MPNS template registrations.
             var templateParams = new Dictionary<string, string>
             {
-                ["TopicMessage"] = message
+                [templateParam] = message
             };
 
             NotificationOutcome result = null;

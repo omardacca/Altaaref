@@ -636,7 +636,7 @@ namespace Altaaref.Droid
                     };
 
                     var topictemplates = new JObject();
-                    topictemplates["topics"] = new JObject
+                    topictemplates["TopicMessage"] = new JObject
                     {
                         {"body", templateTopicFCM }
                     };
