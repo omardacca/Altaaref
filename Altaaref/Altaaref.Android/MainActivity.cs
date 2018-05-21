@@ -613,8 +613,8 @@ namespace Altaaref.Droid
                     const string templateBodyFCM =
                         "{" +
                             "\"notification\" : {" +
-                            "\"body\" : \"$(messageParam1)\"," +
-                                "\"title\" : \"Xamarin University\"," +
+                            "\"body\" : \"$(TopicMessage)\"," +
+                                "\"title\" : \"Xamarin University message\"," +
                             "\"icon\" : \"myicon\" }" +
                         "}";
 
@@ -623,7 +623,7 @@ namespace Altaaref.Droid
                         "\"message\" : {" +
                         "\"topic\" : \"news\"," +
                         "\"notification\" : {" +
-                            "\"body\" : \"$(TopicMessage)\"," +
+                            "\"body\" : \"$(TopicMessage1)\"," +
                                 "\"title\" : \"Topic message\"," +
                             "\"icon\" : \"myicon\" }" +
                          "}" +

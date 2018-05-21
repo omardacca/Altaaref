@@ -9,16 +9,22 @@ using Microsoft.Azure.NotificationHubs;
 
 namespace AltaarefWebAPI.Controllers
 {
+    public class mess
+    {
+        public string message { get; set; }
+        public string templateParam { get; set; }
+    }
+
     [Route("api/Notification")]
     public class NotificationController : Controller
     {
         [HttpPost]
-        public async Task<IActionResult> SendNotificationAsync([FromBody] string message, [FromBody] string templateParam)
+        public async Task<IActionResult> SendNotificationAsync([FromBody] mess message)
         {
             //HttpConfiguration confing = this.Configuration;
             try
             {
-                await InternalSendNotificationAsync(message, null, templateParam);
+                await InternalSendNotificationAsync(message.message, null, message.templateParam);
             }
             catch(Exception ex)
             {
