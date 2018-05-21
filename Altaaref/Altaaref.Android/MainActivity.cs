@@ -620,15 +620,7 @@ namespace Altaaref.Droid
                         "}";
 
                     const string templateTopicFCM =
-                        "{" +
-                        "\"message\" : {" +
-                        "\"topic\" : \"/topics/news\"," +
-                        "\"notification\" : {" +
-                            "\"body\" : \"$(messageParam)\"," +
-                                "\"title\" : \"Xamarin University\"," +
-                            "\"icon\" : \"myicon\" }" +
-                         "}" +
-                        "}";
+                        "{\"to\": \"/topics/news\",\"data\": {\"message\": \"This is a Firebase Cloud Messaging Topic Message!\",}}";
 
                     var templates = new JObject();
                     templates["genericMessage"] = new JObject
