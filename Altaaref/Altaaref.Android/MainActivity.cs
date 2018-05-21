@@ -613,7 +613,7 @@ namespace Altaaref.Droid
                     const string templateBodyFCM =
                         "{" +
                             "\"notification\" : {" +
-                            "\"body\" : \"$(messageParam)\"," +
+                            "\"body\" : \"$(messageParam1)\"," +
                                 "\"title\" : \"Xamarin University\"," +
                             "\"icon\" : \"myicon\" }" +
                         "}";
@@ -623,8 +623,8 @@ namespace Altaaref.Droid
                         "\"message\" : {" +
                         "\"topic\" : \"news\"," +
                         "\"notification\" : {" +
-                            "\"body\" : \"$(messageParam)\"," +
-                                "\"title\" : \"Xamarin University\"," +
+                            "\"body\" : \"$(TopicMessage)\"," +
+                                "\"title\" : \"Topic message\"," +
                             "\"icon\" : \"myicon\" }" +
                          "}" +
                         "}";
@@ -645,7 +645,7 @@ namespace Altaaref.Droid
                     var push = client.GetPush();
 
                     await push.RegisterAsync(token, templates);
-                    //await push.RegisterAsync(token, topictemplates);
+                    await push.RegisterAsync(token, topictemplates);
 
                     // Push object contains installation ID afterwards.
                     //Console.WriteLine(push.InstallationId.ToString());
