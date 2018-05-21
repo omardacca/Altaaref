@@ -621,9 +621,9 @@ namespace Altaaref.Droid
                     const string templateTopicFCM =
                         "{" +
                         "\"message\" : {" +
-                        "\"topics\" : \"news\"," +
+                        "\"topic\" : \"news\"," +
                         "\"notification\" : {" +
-                            "\"body\" : \"$(messageParam)\"," +
+                            "\"body\" : \"This is a Firebase Cloud Messaging Topic Message!\"," +
                                 "\"title\" : \"Xamarin University\"," +
                             "\"icon\" : \"myicon\" }" +
                          "}" +

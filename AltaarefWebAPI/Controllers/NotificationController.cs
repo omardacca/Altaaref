@@ -34,7 +34,15 @@ namespace AltaarefWebAPI.Controllers
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                string json = "{\"to\": \"news\",\"data\": {\"message\": \"This is a Firebase Cloud Messaging Topic Message!\",}}";
+                string json = "{" +
+                        "\"message\" : {" +
+                        "\"topic\" : \"news\"," +
+                        "\"notification\" : {" +
+                            "\"body\" : \"This is a Firebase Cloud Messaging Topic Message!\"," +
+                                "\"title\" : \"Xamarin University\"," +
+                            "\"icon\" : \"myicon\" }" +
+                         "}" +
+                        "}";
 
 
                 streamWriter.Write(json);
