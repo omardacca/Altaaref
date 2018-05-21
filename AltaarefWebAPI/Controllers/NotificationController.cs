@@ -51,7 +51,7 @@ namespace AltaarefWebAPI.Controllers
             // will receive the notification. This includes APNS, GCM, WNS, and MPNS template registrations.
             var templateParams = new Dictionary<string, string>
             {
-                ["messageParam"] = message
+                ["genericMessage"] = message
             };
 
             NotificationOutcome result = null;
