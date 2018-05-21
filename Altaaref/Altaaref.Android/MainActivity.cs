@@ -613,18 +613,18 @@ namespace Altaaref.Droid
                     const string templateBodyFCM =
                         "{" +
                             "\"notification\" : {" +
-                            "\"body\" : \"$(TopicMessage)\"," +
-                                "\"title\" : \"Xamarin University message\"," +
+                            "\"body\" : \"$(messageParam)\"," +
+                                "\"title\" : \"Xamarin University\"," +
                             "\"icon\" : \"myicon\" }" +
                         "}";
 
                     const string templateTopicFCM =
                         "{" +
                         "\"message\" : {" +
-                        "\"topic\" : \"news\"," +
+                        "\"topics\" : \"news\"," +
                         "\"notification\" : {" +
-                            "\"body\" : \"$(TopicMessage1)\"," +
-                                "\"title\" : \"Topic message\"," +
+                            "\"body\" : \"$(messageParam)\"," +
+                                "\"title\" : \"Xamarin University\"," +
                             "\"icon\" : \"myicon\" }" +
                          "}" +
                         "}";
@@ -636,7 +636,7 @@ namespace Altaaref.Droid
                     };
 
                     var topictemplates = new JObject();
-                    topictemplates["TopicMessage"] = new JObject
+                    topictemplates["topics"] = new JObject
                     {
                         {"body", templateTopicFCM }
                     };
