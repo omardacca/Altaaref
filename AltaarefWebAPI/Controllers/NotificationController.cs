@@ -22,7 +22,7 @@ namespace AltaarefWebAPI.Controllers
     {
         [HttpPost]
         [Route("topic")]
-        public async string SendMessage()
+        public string SendMessage()
         {
             string serverKey = "AAAAnO7dP3I:APA91bEfzkmagwS55b1SpnE8YI_Qn8Hks3prHWhtk3x_OTZ6vLyWDpzH8mPMnDkpahGKxU66wuUSWqe0UCvC_Bn6z3tRkSwXKDafhtkZDbmWQt2AjHlz8VbTINN5XqSogzRiFroz58cl";
 
