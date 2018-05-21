@@ -22,40 +22,39 @@ namespace AltaarefWebAPI.Controllers
     {
         [HttpPost]
         [Route("topic")]
-        public String SendNotificationFromFirebaseCloud()
+        static void SendMessage()
         {
-            var result = "-1";
-            var webAddr = "https://fcm.googleapis.com/fcm/send";
+            string serverKey = "AAAAnO7dP3I:APA91bEfzkmagwS55b1SpnE8YI_Qn8Hks3prHWhtk3x_OTZ6vLyWDpzH8mPMnDkpahGKxU66wuUSWqe0UCvC_Bn6z3tRkSwXKDafhtkZDbmWQt2AjHlz8VbTINN5XqSogzRiFroz58cl";
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Headers.Add("Authorization:key=" + "AAAAnO7dP3I:APA91bEfzkmagwS55b1SpnE8YI_Qn8Hks3prHWhtk3x_OTZ6vLyWDpzH8mPMnDkpahGKxU66wuUSWqe0UCvC_Bn6z3tRkSwXKDafhtkZDbmWQt2AjHlz8VbTINN5XqSogzRiFroz58cl");
-            httpWebRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            try
             {
-                string json = "{" +
-                        "\"message\" : {" +
-                        "\"topic\" : \"news\"," +
-                        "\"notification\" : {" +
-                            "\"body\" : \"This is a Firebase Cloud Messaging Topic Message!\"," +
-                                "\"title\" : \"Xamarin University\"," +
-                            "\"icon\" : \"myicon\" }" +
-                         "}" +
-                        "}";
+                var result = "-1";
+                var webAddr = "https://fcm.googleapis.com/fcm/send";
 
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Headers.Add("Authorization:key=" + serverKey);
+                httpWebRequest.Method = "POST";
 
-                streamWriter.Write(json);
-                streamWriter.Flush();
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = "{\"to\": \"/topics/news\",\"data\": {\"message\": \"This is a Firebase Cloud Messaging Topic Message!\",}}";
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+
+                // return result;
             }
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            catch (Exception ex)
             {
-                result = streamReader.ReadToEnd();
+                //  Response.Write(ex.Message);
             }
-
-            return result;
         }
 
         [HttpPost]

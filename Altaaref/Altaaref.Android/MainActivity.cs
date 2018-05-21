@@ -27,6 +27,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Text;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Altaaref.Droid
 {
@@ -621,9 +622,9 @@ namespace Altaaref.Droid
                     const string templateTopicFCM =
                         "{" +
                         "\"message\" : {" +
-                        "\"topic\" : \"news\"," +
+                        "\"topic\" : \"/topics/news\"," +
                         "\"notification\" : {" +
-                            "\"body\" : \"This is a Firebase Cloud Messaging Topic Message!\"," +
+                            "\"body\" : \"$(messageParam)\"," +
                                 "\"title\" : \"Xamarin University\"," +
                             "\"icon\" : \"myicon\" }" +
                          "}" +
@@ -658,36 +659,36 @@ namespace Altaaref.Droid
             }
         }
 
-            // This service is used if app is in the foreground and a message is received.
-            [Service]
-            [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
-            public class MyFirebaseMessagingService : FirebaseMessagingService
+        // This service is used if app is in the foreground and a message is received.
+        [Service]
+        [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
+        public class MyFirebaseMessagingService : FirebaseMessagingService
+        {
+            public override void OnMessageReceived(RemoteMessage message)
             {
-                public override void OnMessageReceived(RemoteMessage message)
+                base.OnMessageReceived(message);
+
+                //Console.WriteLine("Received: " + message);
+
+                // Android supports different message payloads. To use the code below it must be something like this (you can paste this into Azure test send window):
+                // {
+                //   "notification" : {
+                //      "body" : "The body",
+                //                 "title" : "The title",
+                //                 "icon" : "myicon
+                //   }
+                // }
+                try
                 {
-                    base.OnMessageReceived(message);
-
-                    //Console.WriteLine("Received: " + message);
-
-                    // Android supports different message payloads. To use the code below it must be something like this (you can paste this into Azure test send window):
-                    // {
-                    //   "notification" : {
-                    //      "body" : "The body",
-                    //                 "title" : "The title",
-                    //                 "icon" : "myicon
-                    //   }
-                    // }
-                    try
-                    {
-                        var msg = message.GetNotification().Body;
-                        MessagingCenter.Send<object, string>(this, Altaaref.App.NotificationReceivedKey, msg);
-                    }
-                    catch (Exception ex)
-                    {
-                        //Console.WriteLine("Error extracting message: " + ex);
-                    }
+                    var msg = message.GetNotification().Body;
+                    MessagingCenter.Send<object, string>(this, Altaaref.App.NotificationReceivedKey, msg);
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine("Error extracting message: " + ex);
                 }
             }
+        }
     }
 }
 
