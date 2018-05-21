@@ -12,7 +12,6 @@ namespace AltaarefWebAPI.Controllers
     public class NotificationController : ApiController
     {
         [HttpPost]
-        [Route("")]
         public async Task<IHttpActionResult> SendNotificationAsync([FromBody] string message)
         {
             HttpConfiguration confing = this.Configuration;

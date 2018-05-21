@@ -1,40 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              x:Class="Altaaref.Views.LoginPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
 
-        <StackLayout HorizontalOptions="CenterAndExpand">
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="{Binding ErrorMessage}" IsVisible="{Binding IsErrorVisible}" TextColor="Red" />
+            <StackLayout HorizontalOptions="CenterAndExpand"
+                     IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
 
-            <Entry Text="{Binding UsernameEntry}"
+                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding IsErrorVisible}" TextColor="Red" />
+
+                <Entry Text="{Binding UsernameEntry}"
                    Placeholder="Username" />
 
-            <Entry Text="{Binding PasswordEntry}"
+                <Entry Text="{Binding PasswordEntry}"
                    Placeholder="Password" 
                    IsPassword="True"/>
 
-            <controls:ButtonFrame HeightRequest="17" Grid.Row="5" WidthRequest="200">
-                <Label Text="Login" 
+                <controls:ButtonFrame HeightRequest="17" Grid.Row="5" WidthRequest="200">
+                    <Label Text="Login" 
                             BackgroundColor="Black" 
                             TextColor="White"
                             HorizontalTextAlignment="Center" 
                             VerticalOptions="Center"/>
 
-                <controls:ButtonFrame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding LoginCommand}" />
-                </controls:ButtonFrame.GestureRecognizers>
+                    <controls:ButtonFrame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LoginCommand}" />
+                    </controls:ButtonFrame.GestureRecognizers>
 
-            </controls:ButtonFrame>
+                </controls:ButtonFrame>
 
-            <Label Text="New to Altaaref ? Create an Account">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding RegisterPageCommand}" />
-                </Label.GestureRecognizers>
-            </Label>
+                <Label Text="New to Altaaref ? Create an Account">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding RegisterPageCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
         </StackLayout>
-        
     </ContentPage.Content>
 </ContentPage>

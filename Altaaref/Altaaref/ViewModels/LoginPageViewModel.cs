@@ -13,16 +13,17 @@ using Xamarin.Forms;
 
 namespace Altaaref.ViewModels
 {
+    public class logincred
+    {
+        public string username;
+        public string password;
+    }
+
     public class LoginPageViewModel : BaseViewModel
     {
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 
-        private class logincred
-        {
-            public string username;
-            public string password;
-        }
 
         private bool _isErrorVisible;
         public bool IsErrorVisible
@@ -52,7 +53,15 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _passwordEntry, value); }
         }
 
-
+        private bool _busy;
+        public bool Busy
+        {
+            get { return _busy; }
+            set
+            {
+                SetValue(ref _busy, value);
+            }
+        }
 
         public ICommand LoginCommand => new Command(async () => await LoginAsync(_usernameEntry, _passwordEntry));
         public ICommand RegisterPageCommand => new Command(async () => await HandleRegisterPageTap());
@@ -64,6 +73,8 @@ namespace Altaaref.ViewModels
 
         private async Task LoginAsync(string username, string password)
         {
+            Busy = true;
+
             logincred news = new logincred { username = username, password = password };
 
             var request = new HttpRequestMessage(
@@ -101,6 +112,8 @@ namespace Altaaref.ViewModels
                 var page = new Views.MainMenu.MenuPage().GetMenuPage();
                 NavigationPage.SetHasNavigationBar(page, false);
 
+                Busy = false;
+
                 await _pageService.PushAsync(page);
             }
             else
@@ -114,6 +127,8 @@ namespace Altaaref.ViewModels
                 ErrorMessage = "Invalid Username or Password";
 
                 IsErrorVisible = true;
+
+                Busy = false;
             }
         }
 

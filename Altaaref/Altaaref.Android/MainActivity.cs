@@ -28,18 +28,12 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System.Text;
 using Newtonsoft.Json;
 
-// https://github.com/xamarin/monodroid-samples/blob/master/FusedLocationProvider/FusedLocationProvider/MainActivity.cs
-
 namespace Altaaref.Droid
 {
     [Activity(Label = "Altaaref", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, GoogleApiClient.IOnConnectionFailedListener
     {
         GoogleApiClient mGoogleApiClient;
-
-        //        GoogleSignInAccount signin = GoogleSignIn.getLastSignedInAccount(this);
-        //DriveResourceClient resource;
-        //DriveClient drive;
 
         const long ONE_MINUTE = 60 * 1000;
         const long FIVE_MINUTES = 5 * ONE_MINUTE;
@@ -130,6 +124,8 @@ namespace Altaaref.Droid
                 // [END build_client]
 
                 #endregion
+
+                FirebaseMessaging.Instance.SubscribeToTopic("news");
             }
             else
             {
@@ -622,23 +618,41 @@ namespace Altaaref.Droid
                             "\"icon\" : \"myicon\" }" +
                         "}";
 
+                    const string templateTopicFCM =
+                        "{" +
+                        "\"message\" : {" +
+                        "\"topic\" : \"news\"," +
+                        "\"notification\" : {" +
+                            "\"body\" : \"$(messageParam)\"," +
+                                "\"title\" : \"Xamarin University\"," +
+                            "\"icon\" : \"myicon\" }" +
+                         "}" +
+                        "}";
+
                     var templates = new JObject();
                     templates["genericMessage"] = new JObject
                     {
-                        {"body", templateBodyFCM}
+                        {"body", templateBodyFCM},
+                    };
+
+                    var topictemplates = new JObject();
+                    topictemplates["topics"] = new JObject
+                    {
+                        {"body", templateTopicFCM }
                     };
 
                     var client = new MobileServiceClient(Altaaref.App.MobileServiceUrl);
                     var push = client.GetPush();
 
                     await push.RegisterAsync(token, templates);
+                    //await push.RegisterAsync(token, topictemplates);
 
                     // Push object contains installation ID afterwards.
                     //Console.WriteLine(push.InstallationId.ToString());
                 }
                 catch (Exception ex)
                 {
-                    //Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.Message);
                     Debugger.Break();
                 }
             }

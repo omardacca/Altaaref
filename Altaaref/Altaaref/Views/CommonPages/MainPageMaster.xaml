@@ -12,23 +12,18 @@
     </ContentPage.Resources>
 
     <StackLayout>
-    <ListView x:Name="MenuItemsListView"
-              SeparatorVisibility="None"
-              HasUnevenRows="true"
-              ItemsSource="{Binding MenuItems}">
-      <ListView.Header>
         <Grid BackgroundColor="Black">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="10"/>
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
-          </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+            </Grid.RowDefinitions>
 
             <ic:CircleImage 
                 HeightRequest="75"
@@ -42,22 +37,115 @@
                 Grid.Row="2"
                 Text="{Binding Student.FullName}"
                 TextColor="{StaticResource WhiteColor}"/>
-            
+
         </Grid>
-      </ListView.Header>
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                            <Image Source="{Binding Icon}" />
-                            <Label VerticalOptions="FillAndExpand" 
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Image Source="homesidemenuicon.png" Margin="0, 0, 4, 0" />
+            <Label VerticalOptions="FillAndExpand" 
                     VerticalTextAlignment="Center" 
-                    Text="{Binding Title}" 
+                    Text="Home Page" 
                     FontSize="18"/>
-            </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-  </StackLayout>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding HomePageCommand}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <StackLayout Padding="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <BoxView HeightRequest=".5" WidthRequest="350"
+                     Color="LightGray"
+                     Margin="0,1,0,4" />
+        </StackLayout>
+
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Image Source="groupsidemenuicon.png" Margin="0, 0, 4, 0" />
+            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="My Study Groups" 
+                    FontSize="18"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding MyStudyGroupsCommand}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Image Source="groupinvitation.png" Margin="0, 0, 4, 0" />
+            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="Study Groups Invitations" 
+                    FontSize="18"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding StudyGroupsInvitationsCommand}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Image Source="favoritemenusideicon.png" Margin="0, 0, 4, 0" />
+            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="My Favorite Notebook" 
+                    FontSize="18"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding FavoriteNotebooksCommand}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Image Source="notebooksidemenuicon.png" Margin="0, 0, 4, 0" />
+            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="My Notebook" 
+                    FontSize="18"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding MyNotebooksCommand}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Image Source="helpsidemenuicon.png" Margin="0, 0, 4, 0" />
+            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="My Help Requests" 
+                    FontSize="18"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding MyHelpRequestsCommand}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <StackLayout Padding="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <BoxView HeightRequest=".5" WidthRequest="350"
+                     Color="LightGray"
+                     Margin="0,1,0,4" />
+        </StackLayout>
+        
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            
+            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="Settings" 
+                    FontSize="18"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SettingsCommand}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            
+            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="Sign Out" 
+                    FontSize="18"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SignOutCommand}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+        
+    </StackLayout>
 </ContentPage>

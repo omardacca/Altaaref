@@ -60,9 +60,12 @@
                     </Image>
 
                     <Label Text="Invitations awaiting acceptance" HorizontalOptions="StartAndExpand" FontSize="Medium"
-                           Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"/>
+                           Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"
+                           IsVisible="{Binding InvitationListEmpty, Converter={StaticResource boolConverter}}"/>
+                    
                     <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding InvitationsList}"
-                                             Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                                             Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                             IsVisible="{Binding InvitationListEmpty, Converter={StaticResource boolConverter}}">
                         <controls:HorizontalList.ItemTemplate>
                             <DataTemplate>
                                 <sgtemplate:MainPageInvitationListTemplate ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}"/>
@@ -71,9 +74,12 @@
                     </controls:HorizontalList>
 
                     <Label Text="Your study groups" HorizontalOptions="StartAndExpand" FontSize="Medium"
-                           Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"/>
+                           Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"
+                           IsVisible="{Binding MyGroupsEmpty, Converter={StaticResource boolConverter}}"/>
+                    
                     <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding MySGList}"
-                                             Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                                             Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                                             IsVisible="{Binding MyGroupsEmpty, Converter={StaticResource boolConverter}}">
                         <controls:HorizontalList.ItemTemplate>
                             <DataTemplate>
                                 <sgtemplate:SGForMainPageTemplate ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}" />
@@ -84,9 +90,12 @@
 
 
                     <Label Text="Lastest in your faculties" HorizontalOptions="StartAndExpand" FontSize="Medium"
-                           Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"/>
+                           Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"
+                           IsVisible="{Binding SGBStudentListEmpty, Converter={StaticResource boolConverter}}"/>
+                    
                     <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding StudyGroupsList}"
-                                         Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2">
+                                             Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                                             IsVisible="{Binding SGBStudentListEmpty, Converter={StaticResource boolConverter}}">
                         <controls:HorizontalList.ItemTemplate>
                             <DataTemplate>
                                 <sgtemplate:SGForMainPageTemplate ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}"/>

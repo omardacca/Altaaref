@@ -192,7 +192,7 @@ namespace Altaaref.ViewModels
 
         private async Task PostStudentCourses()
         {
-            HttpClient _client = new HttpClient();
+            Busy = true;
 
             var request = new HttpRequestMessage(
                 HttpMethod.Post, "https://altaarefapp.azurewebsites.net/api/StudentCourses");
@@ -222,16 +222,18 @@ namespace Altaaref.ViewModels
                 NavigationPage.SetHasNavigationBar(page, false);
 
                 await _pageService.PushAsync(page);
+                Busy = false;
             }
             else
             {
                 await _pageService.DisplayAlert("Failure", "Something went wrong!", "Ok", "Cancel");
+                Busy = false;
             }
         }
 
         private async Task<bool> PostStudentFaculties()
         {
-            HttpClient _client = new HttpClient();
+            Busy = true;
 
             var request = new HttpRequestMessage(
                 HttpMethod.Post, "https://altaarefapp.azurewebsites.net/api/StudentFaculties");
@@ -255,10 +257,12 @@ namespace Altaaref.ViewModels
 
             if (response.IsSuccessStatusCode)
             {
+                Busy = false;
                 return true;
             }
             else
             {
+                Busy = false;
                 return false;
             }
         }

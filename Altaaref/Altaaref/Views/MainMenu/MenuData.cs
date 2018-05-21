@@ -12,8 +12,8 @@ namespace Altaaref.Views.MainMenu
             {
                 new MenuItem()
                 {
-                    BackgroundImage = "temp1.png",
-                    IconImage = "notebookicon.png",
+                    BackgroundImage = "bgnotebookmainmenu.png",
+                    IconImage = "",
                     Text = "Notebooks Storage",
                     Column = 0,
                     Row = 0,
@@ -21,17 +21,17 @@ namespace Altaaref.Views.MainMenu
                 },
                 new MenuItem()
                 {
-                    BackgroundImage = "temp2.png",
-                    IconImage = "helpicon.png",
+                    BackgroundImage = "bgmutualhelpmainmenu.png",
+                    IconImage = "",
                     Text = "Mutual Help",
                     Column = 1,
                     Row = 0,
-                    NavigateType = typeof(CommonPages.MainPage)
+                    NavigateType = typeof(MutualHelp.MainHelpRequest)
                 },
                 new MenuItem()
                 {
-                    BackgroundImage = "temp3.png",
-                    IconImage = "groupicon.png",
+                    BackgroundImage = "bgstudygroupmainmenu.png",
+                    IconImage = "",
                     Text = "Study Groups",
                     Column = 0,
                     Row = 1,
@@ -39,8 +39,8 @@ namespace Altaaref.Views.MainMenu
                 },
                 new MenuItem()
                 {
-                    BackgroundImage = "temp4.png",
-                    IconImage = "trimicon.png",
+                    BackgroundImage = "bghitchhikingmainmenu.png",
+                    IconImage = "",
                     Text = "Hitchhiking",
                     Column = 1,
                     Row = 1,
@@ -48,8 +48,8 @@ namespace Altaaref.Views.MainMenu
                 },
                 new MenuItem()
                 {
-                    BackgroundImage = "temp5.png",
-                    IconImage = "trimicon.png",
+                    BackgroundImage = "bghomepagemainmenu.png",
+                    IconImage = "",
                     Text = "Home Page",
                     Column = 0,
                     Row = 2,
@@ -57,8 +57,8 @@ namespace Altaaref.Views.MainMenu
                 },
                 new MenuItem()
                 {
-                    BackgroundImage = "temp6.png",
-                    IconImage = "trimicon.png",
+                    BackgroundImage = "bgsignoutmainmenu.png",
+                    IconImage = "",
                     Text = "Sign Out",
                     Column = 1,
                     Row = 2,

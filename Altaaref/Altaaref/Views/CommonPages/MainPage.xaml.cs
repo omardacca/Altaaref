@@ -17,7 +17,7 @@ namespace Altaaref.Views.CommonPages
         public MainPage()
         {
             InitializeComponent();
-            MasterPage.ListView.ItemSelected += ListView_ItemSelected;
+            //MasterPage.ListView.ItemSelected += ListView_ItemSelected;
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -32,7 +32,7 @@ namespace Altaaref.Views.CommonPages
             Detail = new NavigationPage(page);
             IsPresented = false;
 
-            MasterPage.ListView.SelectedItem = null;
+            //MasterPage.ListView.SelectedItem = null;
         }
     }
 }

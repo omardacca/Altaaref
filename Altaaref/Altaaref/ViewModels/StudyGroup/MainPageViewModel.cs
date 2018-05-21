@@ -77,6 +77,36 @@ namespace Altaaref.ViewModels.StudyGroup
         private ICommand _acceptCommand;
         public ICommand AcceptCommand { get { return _acceptCommand; } }
 
+        private bool _invitationListEmpty;
+        public bool InvitationListEmpty
+        {
+            get { return _invitationListEmpty; }
+            set
+            {
+                SetValue(ref _invitationListEmpty, value);
+            }
+        }
+
+        private bool _sgbStudentListEmpty;
+        public bool SGBStudentListEmpty
+        {
+            get { return _sgbStudentListEmpty; }
+            set
+            {
+                SetValue(ref _sgbStudentListEmpty, value);
+            }
+        }
+
+        private bool _myGroupsEmpty;
+        public bool MyGroupsEmpty
+        {
+            get { return _myGroupsEmpty; }
+            set
+            {
+                SetValue(ref _myGroupsEmpty, value);
+            }
+        }
+
         public MainPageViewModel(IPageService pageService)
         {
             _pageService = pageService;
@@ -201,8 +231,8 @@ namespace Altaaref.ViewModels.StudyGroup
             var list = JsonConvert.DeserializeObject<List<ViewInvitation>>(content);
             InvitationsList = new List<ViewInvitation>(list);
 
-            //if (ViewInvitationList == null || ViewInvitationList.Count == 0)
-            //    IsListEmpty = true;
+            if (InvitationsList == null || InvitationsList.Count == 0)
+                InvitationListEmpty = true;
 
             Busy = false;
         }
@@ -217,6 +247,9 @@ namespace Altaaref.ViewModels.StudyGroup
             var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(content);
             StudyGroupsList = list;
 
+            if (StudyGroupsList == null || StudyGroupsList.Count == 0)
+                SGBStudentListEmpty = true;
+
             Busy = false;
         }
 
@@ -229,8 +262,8 @@ namespace Altaaref.ViewModels.StudyGroup
             var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(results);
             MySGList = new List<StudyGroupView>(list);
 
-//            if (MySGList == null || MySGList.Count == 0)
-//                IsListEmpty = true;
+            if (MySGList == null || MySGList.Count == 0)
+                MyGroupsEmpty = true;
 
             Busy = false;
         }

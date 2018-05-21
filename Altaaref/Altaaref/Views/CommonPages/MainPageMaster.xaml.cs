@@ -1,5 +1,6 @@
 ﻿using Altaaref.Helpers;
 using Altaaref.Models;
+using Altaaref.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,19 +20,20 @@ namespace Altaaref.Views.CommonPages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPageMaster : ContentPage
     {
-        public ListView ListView;
+        //public ListView ListView;
 
         public MainPageMaster()
         {
             InitializeComponent();
 
             BindingContext = new MainPageMasterViewModel();
-            ListView = MenuItemsListView;
+            //ListView = MenuItemsListView;
         }
 
         class MainPageMasterViewModel : INotifyPropertyChanged
         {
-            public ObservableCollection<MainPageMenuItem> MenuItems { get; set; }
+            //public ObservableCollection<MainPageMenuItem> MenuItems { get; set; }
+            private IPageService pageService = new PageService();
 
             private Student _student;
             public Student Student
@@ -46,15 +48,6 @@ namespace Altaaref.Views.CommonPages
 
             public MainPageMasterViewModel()
             {
-                MenuItems = new ObservableCollection<MainPageMenuItem>(new[]
-                {
-                    new MainPageMenuItem { Id = 0, Title = "Home Page", Icon = "homepage.png",TargetType = typeof(Views.CommonPages.MainPage) },
-                    new MainPageMenuItem { Id = 1, Title = "My Study Groups", Icon = "mystudygroups.png",TargetType = typeof(Views.CommonPages.MyStudyGroupsPage) },
-                    new MainPageMenuItem { Id = 2, Title = "Study Groups Invitations", Icon = "invitationicon.png",TargetType = typeof(Views.CommonPages.ViewStudyGroupInvitations) },
-                    new MainPageMenuItem { Id = 3, Title = "My Favorite Notebook", Icon = "menufavorite.png",TargetType = typeof(Views.CommonPages.ViewFavoriteNotebooks) },
-                    new MainPageMenuItem { Id = 4, Title = "My Help Requests", Icon = "helpmenuitem.png",TargetType = typeof(Views.CommonPages.MyHelpRequests) },
-                });
-
                 var std = GetStudent();
             }
 
@@ -80,8 +73,51 @@ namespace Altaaref.Views.CommonPages
                 Student = obj;
             }
 
+            public ICommand HomePageCommand => new Command(async() => await HandleHomePageTap());
+            public ICommand MyStudyGroupsCommand => new Command(async () => await HandleStudyGroupsTap());
+            public ICommand StudyGroupsInvitationsCommand => new Command(async () => await HandleStudyGroupsInvitationTap());
+            public ICommand FavoriteNotebooksCommand => new Command(async () => await HandleFavoriteNotebooksTap());
+            public ICommand MyNotebooksCommand => new Command(async () => await HandleMyNotebooksTap());
+            public ICommand MyHelpRequestsCommand => new Command(async () => await HandleMyHelpRequestsTap());
+            public ICommand SettingsCommand => new Command(async () => await HandleSettingsTap());
+            public ICommand SignOutCommand => new Command(async () => await HandleSignOutTap());
 
 
-    }
+            async Task HandleHomePageTap()
+            {
+                await pageService.PushAsync(new Views.CommonPages.MainPage());
+            }
+            async Task HandleStudyGroupsTap()
+            {
+                await pageService.PushAsync(new Views.CommonPages.MyStudyGroupsPage());
+            }
+            async Task HandleStudyGroupsInvitationTap()
+            {
+                await pageService.PushAsync(new Views.CommonPages.ViewStudyGroupInvitations());
+            }
+            async Task HandleFavoriteNotebooksTap()
+            {
+                await pageService.PushAsync(new Views.CommonPages.ViewFavoriteNotebooks());
+            }
+            async Task HandleMyNotebooksTap()
+            {
+                await pageService.PushAsync(new Views.CommonPages.MyNotebooksList());
+            }
+            async Task HandleMyHelpRequestsTap()
+            {
+                await pageService.PushAsync(new Views.CommonPages.MyHelpRequests());
+            }
+            async Task HandleSettingsTap()
+            {
+                await pageService.PushAsync(new Views.CommonPages.MainPage());
+            }
+            async Task HandleSignOutTap()
+            {
+                await pageService.PushAsync(new Views.LoginPage(LoginPage.LOGOUT_CODE));
+            }
+
+
+
+        }
     }
 }

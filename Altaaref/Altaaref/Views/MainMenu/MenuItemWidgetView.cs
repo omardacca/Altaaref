@@ -21,6 +21,8 @@ namespace Altaaref.Views.MainMenu
 
             layout.GestureRecognizers.Add(tapGestureRecognizer);
 
+            var boxview = new BoxView() { BackgroundColor = Color.Black, Opacity = .4 };
+
             var backgroundImage = new Image()
             {
                 Source = new FileImageSource() { File = square.BackgroundImage },
@@ -30,6 +32,15 @@ namespace Altaaref.Views.MainMenu
 
             layout.Children.Add(backgroundImage,
             Constraint.Constant(0),
+            Constraint.Constant(0),
+            Constraint.RelativeToParent((parent) => {
+                return parent.Width;
+            }),
+            Constraint.RelativeToParent((parent) => {
+                return parent.Height;
+            }));
+
+            layout.Children.Add(boxview, Constraint.Constant(0),
             Constraint.Constant(0),
             Constraint.RelativeToParent((parent) => {
                 return parent.Width;

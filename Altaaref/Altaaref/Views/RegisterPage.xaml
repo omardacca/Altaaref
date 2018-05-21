@@ -1,51 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              x:Class="Altaaref.Views.RegisterPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
+                        IsVisible="{Binding Busy}"
+                        Color="Black"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="{Binding ErrorMessage}"
+            <StackLayout IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                <Label Text="{Binding ErrorMessage}"
                    TextColor="Red" />
 
-            <Entry Text="{Binding EmailEntry}"
+                <Entry Text="{Binding EmailEntry}"
                    Placeholder="Email" />
 
-            <Entry Text="{Binding PasswordEntry}"
+                <Entry Text="{Binding PasswordEntry}"
                    Placeholder="Password"
                    IsPassword="True" />
 
-            <Entry Text="{Binding VerifyPasswordEntry}"
+                <Entry Text="{Binding VerifyPasswordEntry}"
                    Placeholder="Verify Password"
                    IsPassword="True" />
 
-            <Entry Text="{Binding FullNameEntry}"
+                <Entry Text="{Binding FullNameEntry}"
                    Placeholder="Full Name" />
 
-            <Entry Text="{Binding StudentIdEntry}"
+                <Entry Text="{Binding StudentIdEntry}"
                    Placeholder="Student ID" />
 
-            <DatePicker Date="{Binding DOBDatePicker}" />
+                <DatePicker Date="{Binding DOBDatePicker}" />
 
-            <controls:ButtonFrame WidthRequest="200">
-                <Label Text="Register" 
+                <controls:ButtonFrame WidthRequest="200">
+                    <Label Text="Register" 
                             BackgroundColor="Black" 
                             TextColor="White"
                             HorizontalTextAlignment="Center" 
                             VerticalOptions="Center"/>
 
-                <controls:ButtonFrame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding RegisterCommand}" />
-                </controls:ButtonFrame.GestureRecognizers>
+                    <controls:ButtonFrame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding RegisterCommand}" />
+                    </controls:ButtonFrame.GestureRecognizers>
 
-            </controls:ButtonFrame>
+                </controls:ButtonFrame>
 
-            <Label Text="Already Registered ? Login Now">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding LoginPageCommand}" />
-                </Label.GestureRecognizers>
-            </Label>
+                <Label Text="Already Registered ? Login Now">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LoginPageCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

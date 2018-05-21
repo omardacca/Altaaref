@@ -15,6 +15,7 @@ namespace Altaaref.ViewModels
     public class RegisterViewModel : BaseViewModel
     {
         private readonly IPageService _pageService;
+        private HttpClient _client = new HttpClient();
 
         private class AccountObject
         {
@@ -84,6 +85,16 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _errorMessage, value); }
         }
 
+        private bool _busy;
+        public bool Busy
+        {
+            get { return _busy; }
+            set
+            {
+                SetValue(ref _busy, value);
+            }
+        }
+
         public RegisterViewModel(IPageService pageService)
         {
             _pageService = pageService;
@@ -101,13 +112,14 @@ namespace Altaaref.ViewModels
 
             if(isSuccess)
             {
+                await LoginAsync(_emailEntry, _passwordEntry);
                 await _pageService.PushAsync(new Views.SelectingFacultiesInRegisterationPage());
             }
         }
 
         private async Task<bool> PostRegister()
         {
-            HttpClient _client = new HttpClient();
+            Busy = true;
 
             var request = new HttpRequestMessage(
                 HttpMethod.Post, "https://altaarefapp.azurewebsites.net/api/Accounts");
@@ -129,6 +141,8 @@ namespace Altaaref.ViewModels
 
             if (response.IsSuccessStatusCode)
             {
+                Busy = false;
+
                 return true;
             }
             else
@@ -141,7 +155,65 @@ namespace Altaaref.ViewModels
                 ErrorMessage = error;
                 IsErrorVisible = true;
 
+                Busy = false;
+
                 return false;
+            }
+
+        }
+
+        private async Task LoginAsync(string username, string password)
+        {
+            Busy = true;
+
+            logincred news = new logincred { username = username, password = password };
+
+            var request = new HttpRequestMessage(
+                HttpMethod.Post, "https://altaarefapp.azurewebsites.net/api/auth/login");
+
+            request.Content = new StringContent(JsonConvert.SerializeObject(news), Encoding.UTF8, "application/json");
+
+            var response = await _client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var resCont = await response.Content.ReadAsStringAsync();
+
+                JObject jwtDynamic = JsonConvert.DeserializeObject<dynamic>(resCont);
+
+                var accessToken = jwtDynamic.Value<string>("auth_token");
+                var Identity = jwtDynamic.Value<string>("id");
+                //var accessTokenExpiration = jwtDynamic.Value<DateTime>("expires_in");
+
+                Settings.Username = username;
+                Settings.Password = password;
+                Settings.AccessToken = accessToken;
+                Settings.Identity = Identity;
+                //Settings.AccessTokenExpiration = accessTokenExpiration;
+
+                var url = "https://altaarefapp.azurewebsites.net/api/Students/GetStdIdByIdentity/" + Settings.Identity;
+                var stdIdRes = _client.GetAsync(url);
+                if (stdIdRes.Result.IsSuccessStatusCode)
+                {
+                    var stdistr = await stdIdRes.Result.Content.ReadAsStringAsync();
+                    int stdIdInt = JsonConvert.DeserializeObject<int>(stdistr);
+                    Settings.StudentId = stdIdInt;
+                }
+
+                Busy = false;
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+
+                var deserror = JsonConvert.DeserializeObject(error);
+
+                // extract errors later.. 
+
+                ErrorMessage = "Invalid Username or Password";
+
+                IsErrorVisible = true;
+                Busy = false;
             }
         }
 

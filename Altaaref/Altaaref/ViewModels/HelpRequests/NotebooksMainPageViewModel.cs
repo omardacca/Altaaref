@@ -35,7 +35,6 @@ namespace Altaaref.ViewModels.HelpRequests
             }
         }
 
-        
         private bool _isFreeNotebooksEmpty;
         public bool IsFreeNotebooksEmpty
         {
