@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Mobile.Server.Config;
 using Microsoft.Azure.NotificationHubs;
 
 namespace AltaarefWebAPI.Controllers
 {
     [Route("api/Notification")]
-    public class NotificationController : ApiController
+    public class NotificationController : Controller
     {
         [HttpPost]
-        public async Task<IHttpActionResult> SendNotificationAsync([FromBody] string message)
+        public async Task<IActionResult> SendNotificationAsync([FromBody] string message)
         {
-            HttpConfiguration confing = this.Configuration;
+            //HttpConfiguration confing = this.Configuration;
             try
             {
                 await InternalSendNotificationAsync(message, null);
             }
             catch(Exception ex)
             {
-                confing.Services.GetTraceWriter().Error(ex.Message, null, "Push.SendAsync Error");
+                //confing.Services.GetTraceWriter().Error(ex.Message, null, "Push.SendAsync Error");
                 return BadRequest(ex.Message);
             }
 
@@ -30,8 +31,8 @@ namespace AltaarefWebAPI.Controllers
 
         private async Task<NotificationOutcome> InternalSendNotificationAsync(string message, string installationId)
         {
-            HttpConfiguration config = this.Configuration;
-            var settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
+            //HttpConfiguration config = this.Configuration;
+            //var settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
             /*
             string notificationHubName = settings.NotificationHubName;
