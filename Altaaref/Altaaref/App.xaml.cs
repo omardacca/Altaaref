@@ -1,4 +1,5 @@
 ﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace Altaaref
 {
 	public partial class App : Application
 	{
-
         public const string NotificationReceivedKey = "NotificationReceived";
         public const string MobileServiceUrl = "https://altaarefapp.azurewebsites.net";
 
