@@ -29,6 +29,8 @@ namespace AltaarefWebAPI.Contexts
         public DbSet<HelpRequestComment> HelpRequestComment { get; set; }
         public DbSet<StudyGroupComment> StudyGroupComment { get; set; }
         public DbSet<NotebookRates> NotebookRates { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -245,6 +247,13 @@ namespace AltaarefWebAPI.Contexts
             modelBuilder.Entity<Student>()
                 .Property(s => s.ProfilePicBlobUrl)
                 .HasDefaultValue("https://csb08eb270fff55x4a98xb1a.blob.core.windows.net/notebooks/defaultprofpic.png");
+
+            // One to Many - Student, UserNotification
+
+            modelBuilder.Entity<UserNotification>()
+                .HasOne(n => n.Student)
+                .WithMany(n => n.UserNotifications)
+                .HasForeignKey(s => s.StudentId);
         }
 
     }

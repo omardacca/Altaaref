@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="2.5.2.1" />
+    <PackageReference Include="FirebaseNet16" Version="1.6.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0-rc1" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.19.4" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
