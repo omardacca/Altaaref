@@ -48,7 +48,7 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/UserNotifications/5
-        [HttpGet("{GetByStudentId/StudentId}")]
+        [HttpGet("GetByStudentId/{StudentId}")]
         public async Task<IActionResult> GetUserNotificationByStudentId([FromRoute] int StudentId)
         {
             if (!ModelState.IsValid)
