@@ -109,7 +109,7 @@ namespace Altaaref.Views.CommonPages
             }
             async Task HandleSettingsTap()
             {
-                await pageService.PushAsync(new Views.CommonPages.MainPage());
+                await pageService.PushAsync(new Views.CommonPages.SettingsPages.SettingsMainPage());
             }
             async Task HandleSignOutTap()
             {

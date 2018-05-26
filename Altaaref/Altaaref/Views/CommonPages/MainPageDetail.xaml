@@ -13,6 +13,5 @@
         <Button Text="Main Menu Page" Clicked="HandleButtonMainMenuPage" />
         <Button Text="My Notebooks" Clicked="HandleMyNotebooks" />
         <Button Text="Login" Clicked="HandleLogin" />
-        <Button Text="send notification" Clicked="HandleSendNotif" />
     </StackLayout>
 </ContentPage>

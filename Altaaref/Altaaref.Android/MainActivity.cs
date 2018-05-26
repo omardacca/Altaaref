@@ -126,7 +126,7 @@ namespace Altaaref.Droid
 
                 #endregion
 
-                FirebaseMessaging.Instance.SubscribeToTopic("news");
+                //FirebaseMessaging.Instance.SubscribeToTopic("news");
             }
             else
             {

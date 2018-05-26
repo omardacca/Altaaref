@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             x:Class="Altaaref.Views.CommonPages.SettingsPages.NotebookNotificationsSettings">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="200" />
+                <Setter Property="Margin" Value="0, 5, 5, 0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+
+                <StackLayout>
+                    <Frame Style="{StaticResource FirstPanelStyle}">
+                        <StackLayout>
+                            <Label Text="Add course you would like to get notify when anyone add notebook related to it" 
+                                   FontSize="18"/>
+
+                            <Picker Title="Select Course" ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}" 
+                                    HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedCourseIndex}" 
+                                    Grid.Row="0" Grid.Column="0"/>
+
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                
+                
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

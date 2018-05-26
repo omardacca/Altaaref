@@ -29,6 +29,27 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/StudentCourses/5
+        [HttpGet("GetCourses/{StudentId}")]
+        public IActionResult GetCoursesByStudentId([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentCourses = _context.StudentCourses.Where(
+                sc => sc.StudentId == StudentId)
+                .Select(sc => sc.Course);
+
+            if (studentCourses == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studentCourses);
+        }
+
+        // GET: api/StudentCourses/5
         [HttpGet("{CourseId}")]
         public IActionResult GetStudentsByCourse([FromRoute] int CourseId)
         {

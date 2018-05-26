@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="Downloader.cs" />
     <Compile Include="FusedLocationProviderCallback.cs" />
+    <Compile Include="Helpers\FCMNotificationSubscriber.cs" />
     <Compile Include="LocationProvider.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

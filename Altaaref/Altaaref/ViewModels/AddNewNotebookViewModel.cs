@@ -110,6 +110,9 @@ namespace Altaaref.ViewModels
 
             await _pageService.DisplayAlert("Upload Success", "Notebook Added Successfully.", "Ok", "Cancel");
 
+            await FCMPushNotificationSender.Send(
+                "NS" + courseid, "New Notebook", "New notebook that you may interest in has been added");
+
             await _pageService.PopAsync();
         }
 

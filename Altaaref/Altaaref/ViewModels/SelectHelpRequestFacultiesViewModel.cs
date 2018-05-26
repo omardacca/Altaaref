@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -161,6 +162,12 @@ namespace Altaaref.ViewModels
 
             if (response.Result.IsSuccessStatusCode)
             {
+                foreach(var faculty in FacultiesSelectedList)
+                {
+                    await FCMPushNotificationSender.Send(
+                        "HR" + faculty.Id, "Help", "Someone asked for help in your faculty");
+                }
+
                 Busy = false;
                 return InsertedHelpRequestId.Id;
             }

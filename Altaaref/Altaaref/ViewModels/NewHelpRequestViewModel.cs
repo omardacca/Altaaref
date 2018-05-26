@@ -66,6 +66,8 @@ namespace Altaaref.ViewModels
                 else
                 {
                     await PostGeneralHelpRequest();
+                    await FCMPushNotificationSender.Send(
+                        "HRGeneral", "Help", "Someone asked for help, check it out.");
                 }
             }
             else

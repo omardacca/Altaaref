@@ -131,7 +131,12 @@ namespace Altaaref.ViewModels
             if (response.Result.IsSuccessStatusCode)
             {
                 await _pageService.DisplayAlert("Group Created", "The group created successfuly", "OK", "Cancel");
-                await _pageService.PushAsync(new Views.StudyGroups.SelectStudentsToInvite(StudyGroupInserted.CourseId, StudyGroupInserted.Id));   
+                await _pageService.PushAsync(new Views.StudyGroups.SelectStudentsToInvite(StudyGroupInserted.CourseId, StudyGroupInserted.Id));
+
+                await FCMPushNotificationSender.Send(
+                    "SG" + StudyGroup.CourseId,
+                    "New Study Group", 
+                    "New study group added in a course you interested in, join now!");
             }
             else
             {

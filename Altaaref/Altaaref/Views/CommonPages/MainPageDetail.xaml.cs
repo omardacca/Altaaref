@@ -59,26 +59,6 @@ namespace Altaaref.Views.CommonPages
             await Navigation.PushAsync(new Views.LoginPage());
         }
 
-        async void HandleSendNotif(object sender, ItemTappedEventArgs e)
-        {
-            FCMClient client = new FCMClient("AAAAnO7dP3I:APA91bEfzkmagwS55b1SpnE8YI_Qn8Hks3prHWhtk3x_OTZ6vLyWDpzH8mPMnDkpahGKxU66wuUSWqe0UCvC_Bn6z3tRkSwXKDafhtkZDbmWQt2AjHlz8VbTINN5XqSogzRiFroz58cl");
-
-            var message = new Message()
-            {
-                To = "/topics/news",
-                Notification = new AndroidNotification()
-                {
-                    Title = "Title",
-                    Body = "body",
-                }
-            };
-
-            var result = await client.SendMessageAsync(message);
-            if(result == null)
-            {
-                Navigation.PushAsync(new Views.LoginPage());
-            }
-        }
 
         //bool authenticated = false;
         //protected override async void OnAppearing()

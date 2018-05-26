@@ -34,23 +34,30 @@ namespace Altaaref.Views.MainMenu
             HttpClient _client = new HttpClient();
             string url = "https://altaarefapp.azurewebsites.net/api/UserNotifications/GetByStudentId/" + Settings.StudentId;
 
-
             try
             {
                 string results = await _client.GetStringAsync(url);
                 var list = JsonConvert.DeserializeObject<List<UserNotification>>(results);
 
                 if (list != null && list.Count != 0)
-                    Application.Current.Properties.Add("UserNotifications", list);
+                    Application.Current.Properties["SerializedUserNotif"] = results;
                 else
-                    Application.Current.Properties.Add("UserNotifications", null);
+                    Application.Current.Properties["SerializedUserNotif"] = null;
+
+                await Application.Current.SavePropertiesAsync();
+
+                // Subscribe to topics
+                foreach (var un in list)
+                    DependencyService.Get<IFCMNotificationSubscriber>().Subscribe(un.Topic);
 
                 // Busy = false;
 
             }
             catch (Exception e)
             {
-                Application.Current.Properties.Add("UserNotifications", null);
+                Application.Current.Properties["SerializedUserNotif"] = null;
+                await Application.Current.SavePropertiesAsync();
+
                 // Busy = false;
             }
 
