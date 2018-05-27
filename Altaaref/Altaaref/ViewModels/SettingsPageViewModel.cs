@@ -23,12 +23,12 @@ namespace Altaaref.ViewModels
 
         async Task HandleStudyGroupsTap()
         {
-            //_pageService.PushAsync(new Views.CommonPages.)
+            await _pageService.PushAsync(new Views.CommonPages.SettingsPages.NotebookNotificationsSettings(NotificationSettingsViewModelType.StudyGroup));
         }
 
         async Task HandleNotebooksTap()
         {
-            await _pageService.PushAsync(new Views.CommonPages.SettingsPages.NotebookNotificationsSettings());
+            await _pageService.PushAsync(new Views.CommonPages.SettingsPages.NotebookNotificationsSettings(NotificationSettingsViewModelType.NotebooksStorage));
         }
 
         async Task HandleMutualHelpTap()

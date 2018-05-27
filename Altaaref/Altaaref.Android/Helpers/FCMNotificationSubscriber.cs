@@ -21,5 +21,10 @@ namespace Altaaref.Droid.Helpers
         {
             FirebaseMessaging.Instance.SubscribeToTopic(topic);
         }
+
+        public void UnSubscribe(string topic)
+        {
+            FirebaseMessaging.Instance.UnsubscribeFromTopic(topic);
+        }
     }
 }

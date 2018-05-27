@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
-             x:Class="Altaaref.Views.CommonPages.SettingsPages.NotebookNotificationsSettings">
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:templates="clr-namespace:Altaaref.Views.Templates.Settings"
+             x:Class="Altaaref.Views.CommonPages.SettingsPages.NotebookNotificationsSettings"
+             x:Name="SettingsPageRef"
+             Title="Notifications Settings">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -24,24 +28,59 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
 
-                <StackLayout>
-                    <Frame Style="{StaticResource FirstPanelStyle}">
-                        <StackLayout>
-                            <Label Text="Add course you would like to get notify when anyone add notebook related to it" 
+            <StackLayout>
+                <Frame Style="{StaticResource FirstPanelStyle}">
+                    <StackLayout>
+                        <Label Text="{Binding TitleLabel}" 
                                    FontSize="18"/>
 
-                            <Picker Title="Select Course" ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}" 
+                        <Picker Title="Select Course" ItemsSource="{Binding PickerList}" ItemDisplayBinding="{Binding Name}" 
                                     HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedCourseIndex}" 
-                                    Grid.Row="0" Grid.Column="0"/>
+                                IsEnabled="{Binding IsCoursesListEmpty}"/>
 
-                        </StackLayout>
-                    </Frame>
+                        <controls:ButtonFrame HeightRequest="17"
+                                              IsEnabled="{Binding IsCoursesListEmpty}">
+                            <Label Text="Add Notification to Course" 
+                                   BackgroundColor="{StaticResource OrangeColor}" 
+                                   TextColor="White" 
+                                   HorizontalTextAlignment="Center" 
+                                   VerticalOptions="Center"/>
+                            <controls:ButtonFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddCommand}" />
+                            </controls:ButtonFrame.GestureRecognizers>
+                        </controls:ButtonFrame>
+
+                    </StackLayout>
+
+                </Frame>
+
+                <BoxView HeightRequest=".5" WidthRequest="350"
+                            Color="LightGray"
+                            Margin="0,1,0,4" />
+
+                <StackLayout>
+
+                    <Label Text="{Binding EmptyListLabel}" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           FontSize="18"
+                           IsVisible="{Binding IsNotificationListEmpty}"/>
+
+                    <controls:HorizontalList ListOrientation="Vertical" 
+                                             ItemsSource="{Binding NotificationCourses}"
+                                             IsVisible="{Binding IsNotificationListEmpty, Converter={StaticResource boolConverter}}">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <templates:NotificationSettingsTemplate ParentContext="{Binding BindingContext, Source={x:Reference SettingsPageRef}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
                 </StackLayout>
-                
-                
             </StackLayout>
+
+
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Altaaref.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,11 @@ namespace Altaaref.Views.CommonPages.SettingsPages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NotebookNotificationsSettings : ContentPage
 	{
-		public NotebookNotificationsSettings ()
+		public NotebookNotificationsSettings (NotificationSettingsViewModelType modelType)
 		{
 			InitializeComponent ();
+
+            BindingContext = new ViewModels.NotificationsSettingsViewModel(new PageService(), modelType);
 		}
 	}
 }

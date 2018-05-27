@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Altaaref.Models
 {
-    public class Courses
+    public class Courses : StudentStudiesBase
     {
         public int Id { get; set; }
         public string Name { get; set; }

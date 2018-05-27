@@ -47,6 +47,25 @@ namespace AltaarefWebAPI.Controllers
             return Ok(studentFaculty);
         }
 
+        // GET: api/StudentFaculties/5
+        [HttpGet("GetFaculties/{StudentId}")]
+        public async List<Faculty> GetStudentFaculties([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentFaculty = _context.StudentFaculties.Where(m => m.StudentId == StudentId).ToList();
+
+            if (studentFaculty == null)
+            {
+                return NotFound();
+            }
+
+            return studentFaculty;
+        }
+
         // PUT: api/StudentFaculties/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudentFaculty([FromRoute] int id, [FromBody] StudentFaculty studentFaculty)

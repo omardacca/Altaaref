@@ -6,20 +6,29 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout>
-                <Label Text="Notifications" Margin="2" />
-                <Label Text="Study Groups Notifications">
+                <Label Text="Notifications" 
+                       Margin="2"
+                       FontSize="22"/>
+                
+                <Label Text="Study Groups Notifications"
+                       FontSize="18"
+                       Margin="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding StudyGroupCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
 
-                <Label Text="Notebooks Storage Notifications">
+                <Label Text="Notebooks Storage Notifications"
+                       FontSize="18"
+                       Margin="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NotebooksCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
 
-                <Label Text="Mutual Help Notifications">
+                <Label Text="Mutual Help Notifications"
+                       FontSize="18"
+                       Margin="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding MutualHelpCommand}" />
                     </Label.GestureRecognizers>

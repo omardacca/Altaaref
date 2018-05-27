@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             x:Class="Altaaref.Views.Templates.Settings.NotificationSettingsTemplate"
+             x:Name="thisPageRef">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{Binding Name}"
+                   HorizontalOptions="StartAndExpand"
+                   VerticalOptions="Center"
+                   Margin="4"
+                   FontSize="18"/>
+
+            <controls:ButtonFrame HeightRequest="17" 
+                                  HorizontalOptions="End"
+                                  Margin="0,2, 6, 2">
+                <Label Text="Remove" 
+                                   BackgroundColor="{StaticResource OrangeColor}" 
+                                   TextColor="White" 
+                                   HorizontalTextAlignment="Center" 
+                                   VerticalOptions="Center"/>
+                <controls:ButtonFrame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ParentContext.RemoveCommand, Source={x:Reference thisPageRef}}" CommandParameter="{Binding .}" />
+                </controls:ButtonFrame.GestureRecognizers>
+            </controls:ButtonFrame>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>
