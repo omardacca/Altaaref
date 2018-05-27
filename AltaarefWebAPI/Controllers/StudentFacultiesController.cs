@@ -49,7 +49,7 @@ namespace AltaarefWebAPI.Controllers
 
         // GET: api/StudentFaculties/5
         [HttpGet("GetFaculties/{StudentId}")]
-        public async List<Faculty> GetStudentFaculties([FromRoute] int StudentId)
+        public async Task<IActionResult> GetStudentFaculties([FromRoute] int StudentId)
         {
             if (!ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace AltaarefWebAPI.Controllers
                 return NotFound();
             }
 
-            return studentFaculty;
+            return Ok(studentFaculty);
         }
 
         // PUT: api/StudentFaculties/5
