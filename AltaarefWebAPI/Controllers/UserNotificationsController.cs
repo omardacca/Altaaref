@@ -57,7 +57,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userNotification = await _context.UserNotifications.SingleOrDefaultAsync(m => m.StudentId == StudentId && m.Topic == "GE" + StudentId.ToString());
+            var userNotification = _context.UserNotifications.Where(m => m.Topic == "GE" + StudentId.ToString());
 
             if (userNotification == null)
             {
