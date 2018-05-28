@@ -136,6 +136,21 @@ namespace AltaarefWebAPI.Controllers
             return CreatedAtAction("GetUserNotification", new { id = userNotification.Id }, userNotification);
         }
 
+        // POST: api/UserNotifications
+        [HttpPost("GeneralHR")]
+        public async Task<IActionResult> PostGeneralUserNotification([FromBody] UserNotification userNotification)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.UserNotifications.Add(userNotification);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetUserNotification", new { id = userNotification.Id }, userNotification);
+        }
+
         // DELETE: api/UserNotifications/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserNotification([FromRoute] int id)

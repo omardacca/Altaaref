@@ -66,6 +66,9 @@ namespace Altaaref.ViewModels
             string url = "https://altaarefapp.azurewebsites.net/api/UserNotifications/GetGeneralHR/" + Settings.StudentId;
 
             string content = await _client.GetStringAsync(url);
+
+
+
             var results = JsonConvert.DeserializeObject<UserNotification>(content);
 
             if (results == null) IsGeneralToggled = false;
