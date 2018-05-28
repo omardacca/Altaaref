@@ -212,8 +212,13 @@ namespace Altaaref.ViewModels
             IsNotificationListEmpty = false;
 
             List<int> coursesIdFromSettings = new List<int>();
-            foreach(var crs in NotificationList)
-                coursesIdFromSettings.Add(int.Parse(crs.Topic.Substring(2)));
+
+            if(_modelType == NotificationSettingsViewModelType.MutualHelpCourse)
+                foreach (var crs in NotificationList)
+                    coursesIdFromSettings.Add(int.Parse(crs.Topic.Substring(3)));
+            else
+                foreach (var crs in NotificationList)
+                    coursesIdFromSettings.Add(int.Parse(crs.Topic.Substring(2)));
 
             List<Courses> templist = new List<Courses>();
             Courses tempCourse;

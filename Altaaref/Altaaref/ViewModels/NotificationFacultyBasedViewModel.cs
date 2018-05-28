@@ -184,9 +184,13 @@ namespace Altaaref.Models
             IsNotificationListEmpty = false;
 
             List<int> facultiesIdFromSettings = new List<int>();
-            foreach (var crs in NotificationList)
-                facultiesIdFromSettings.Add(int.Parse(crs.Topic.Substring(2)));
 
+            if(_modelType == NotificationSettingsViewModelType.MutualHelpFaculty)
+                foreach (var fclt in NotificationList)
+                    facultiesIdFromSettings.Add(int.Parse(fclt.Topic.Substring(3)));
+            else
+                foreach (var fclt in NotificationList)
+                    facultiesIdFromSettings.Add(int.Parse(fclt.Topic.Substring(2)));
             List<Faculty> templist = new List<Faculty>();
             Faculty tempFaculty;
             foreach (var fclt in facultiesIdFromSettings)
@@ -218,6 +222,8 @@ namespace Altaaref.Models
             }
 
             await GetNotifications();
+
+            InitNotificationList();
 
             await InitLists();
         }

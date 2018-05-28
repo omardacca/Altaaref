@@ -30,10 +30,11 @@ namespace Altaaref.Views.CommonPages
             //ListView = MenuItemsListView;
         }
 
-        class MainPageMasterViewModel : INotifyPropertyChanged
+        class MainPageMasterViewModel : BaseViewModel
         {
             //public ObservableCollection<MainPageMenuItem> MenuItems { get; set; }
             private IPageService pageService = new PageService();
+            private HttpClient _client = new HttpClient();
 
             private Student _student;
             public Student Student
@@ -51,20 +52,8 @@ namespace Altaaref.Views.CommonPages
                 var std = GetStudent();
             }
 
-            #region INotifyPropertyChanged Implementation
-            public event PropertyChangedEventHandler PropertyChanged;
-            void OnPropertyChanged([CallerMemberName] string propertyName = "")
-            {
-                if (PropertyChanged == null)
-                    return;
-
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-            #endregion
-
             private async Task GetStudent()
             {
-                HttpClient _client = new HttpClient();
                 string url = "https://altaarefapp.azurewebsites.net/api/Students/GetStudentByIdentity/" + Settings.Identity;
 
                 string content = await _client.GetStringAsync(url);
@@ -73,7 +62,7 @@ namespace Altaaref.Views.CommonPages
                 Student = obj;
             }
 
-            public ICommand HomePageCommand => new Command(async() => await HandleHomePageTap());
+            public ICommand HomePageCommand => new Command(async () => await HandleHomePageTap());
             public ICommand MyStudyGroupsCommand => new Command(async () => await HandleStudyGroupsTap());
             public ICommand StudyGroupsInvitationsCommand => new Command(async () => await HandleStudyGroupsInvitationTap());
             public ICommand FavoriteNotebooksCommand => new Command(async () => await HandleFavoriteNotebooksTap());

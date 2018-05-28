@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              xmlns:templates="clr-namespace:Altaaref.Views.Templates.Settings"
-             x:Class="Altaaref.Views.CommonPages.SettingsPages.NotificationSettingsFacultyBased">
+             x:Class="Altaaref.Views.CommonPages.SettingsPages.NotificationSettingsFacultyBased"
+             x:Name="SettingsPageRef">
     
     <ContentView.Resources>
         <ResourceDictionary>
@@ -67,7 +68,7 @@
                            IsVisible="{Binding IsNotificationListEmpty}"/>
 
                     <controls:HorizontalList ListOrientation="Vertical" 
-                                             ItemsSource="{Binding NotificationCourses}"
+                                             ItemsSource="{Binding NotificationFaculty}"
                                              IsVisible="{Binding IsNotificationListEmpty, Converter={StaticResource boolConverter}}">
                         <controls:HorizontalList.ItemTemplate>
                             <DataTemplate>

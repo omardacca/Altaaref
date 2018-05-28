@@ -42,6 +42,21 @@
                     </Label.GestureRecognizers>
                 </Label>
 
+                <StackLayout Orientation="Horizontal" Margin="2">
+                    <Label Text="General Help Requests"
+                           FontSize="18"
+                           HorizontalOptions="StartAndExpand"
+                           VerticalOptions="Center"/>
+                    <Switch IsToggled="{Binding IsGeneralToggled}"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center">
+                        <Switch.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleCommand}" />
+                        </Switch.GestureRecognizers>
+                    </Switch>
+
+
+                </StackLayout>
             </StackLayout>
 
             <StackLayout Padding="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal">

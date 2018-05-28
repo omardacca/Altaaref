@@ -47,6 +47,26 @@ namespace AltaarefWebAPI.Controllers
             return Ok(userNotification);
         }
 
+
+        // GET: api/UserNotifications/5
+        [HttpGet("GetGeneralHR/{StudentId}")]
+        public async Task<IActionResult> GetGeneralUserNotification([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userNotification = await _context.UserNotifications.SingleOrDefaultAsync(m => m.StudentId == StudentId);
+
+            if (userNotification == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userNotification);
+        }
+
         // GET: api/UserNotifications/5
         [HttpGet("GetByStudentId/{StudentId}")]
         public async Task<IActionResult> GetUserNotificationByStudentId([FromRoute] int StudentId)
@@ -126,6 +146,27 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var userNotification = await _context.UserNotifications.SingleOrDefaultAsync(m => m.Id == id);
+            if (userNotification == null)
+            {
+                return NotFound();
+            }
+
+            _context.UserNotifications.Remove(userNotification);
+            await _context.SaveChangesAsync();
+
+            return Ok(userNotification);
+        }
+
+        // DELETE: api/UserNotifications/5
+        [HttpDelete("DeleteGeneralHR/{StudentId}")]
+        public async Task<IActionResult> DeleteGeneralUserNotification([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userNotification = await _context.UserNotifications.SingleOrDefaultAsync(m => m.StudentId == StudentId);
             if (userNotification == null)
             {
                 return NotFound();
