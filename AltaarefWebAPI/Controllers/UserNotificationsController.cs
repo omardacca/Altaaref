@@ -52,6 +52,7 @@ namespace AltaarefWebAPI.Controllers
         [HttpGet("GetGeneralByStudentId/{StudentId}")]
         public async Task<IActionResult> GetGeneralUserNotification([FromRoute] int StudentId)
         {
+            return Ok("welcome");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
