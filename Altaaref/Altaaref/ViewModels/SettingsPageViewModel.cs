@@ -63,7 +63,7 @@ namespace Altaaref.ViewModels
         async Task GetGeneralHRStatus()
         {
             // Busy = true;
-            string url = "https://altaarefapp.azurewebsites.net/api/UserNotifications/GetGeneralHR/" + Settings.StudentId;
+            string url = "https://altaarefapp.azurewebsites.net/api/UserNotifications/GetGeneralByStudentId/" + Settings.StudentId;
 
             try
             {

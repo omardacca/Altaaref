@@ -49,7 +49,7 @@ namespace AltaarefWebAPI.Controllers
 
 
         // GET: api/UserNotifications/5
-        [HttpGet("GetGeneralHR/{StudentId}")]
+        [HttpGet("GetGeneralByStudentId/{StudentId}")]
         public async Task<IActionResult> GetGeneralUserNotification([FromRoute] int StudentId)
         {
             if (!ModelState.IsValid)
@@ -57,7 +57,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userNotification = await _context.UserNotifications.SingleOrDefaultAsync(m => m.StudentId == StudentId && m.Topic.Substring(2) == StudentId.ToString());
+            var userNotification = await _context.UserNotifications.SingleOrDefaultAsync(m => m.StudentId == StudentId && m.Topic == "GE" + StudentId.ToString());
 
             if (userNotification == null)
             {
