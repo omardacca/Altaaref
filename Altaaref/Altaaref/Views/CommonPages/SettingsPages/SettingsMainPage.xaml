@@ -49,13 +49,12 @@
                            VerticalOptions="Center"/>
                     <Switch IsToggled="{Binding IsGeneralToggled}"
                             HorizontalOptions="End"
-                            VerticalOptions="Center">
-                        <Switch.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ToggleCommand}" />
-                        </Switch.GestureRecognizers>
-                    </Switch>
+                            VerticalOptions="Center"/>
 
-
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleCommand}" />
+                    </StackLayout.GestureRecognizers>
+                    
                 </StackLayout>
             </StackLayout>
 

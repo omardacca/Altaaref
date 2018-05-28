@@ -65,16 +65,51 @@ namespace Altaaref.ViewModels
             // Busy = true;
             string url = "https://altaarefapp.azurewebsites.net/api/UserNotifications/GetGeneralHR/" + Settings.StudentId;
 
-            string content = await _client.GetStringAsync(url);
+            try
+            {
+                string content = await _client.GetStringAsync(url);
 
+                var results = JsonConvert.DeserializeObject<UserNotification>(content);
 
+                if (results == null) IsGeneralToggled = false;
+                else IsGeneralToggled = true;
+            }
+            catch(Exception e)
+            {
 
-            var results = JsonConvert.DeserializeObject<UserNotification>(content);
-
-            if (results == null) IsGeneralToggled = false;
-            else IsGeneralToggled = true;
+            }
 
             // Busy = false;
+        }
+
+
+        async Task PostGeneralHRStatus()
+        {
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/UserNotifications/GeneralHR";
+
+            var newGeneral = new UserNotification
+            {
+                StudentId = Settings.StudentId,
+                Title = "Help!",
+                Body = "Student is calling for help, check it out.",
+                Topic = "GE" + Settings.StudentId
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(newGeneral), Encoding.UTF8, "application/json");
+            var response = _client.PostAsync(postUrl, content);
+
+            var newInserted = JsonConvert.DeserializeObject<UserNotification>(await response.Result.Content.ReadAsStringAsync());
+
+
+            if (response.Result.IsSuccessStatusCode)
+            {
+                // Subscribe to topic
+                DependencyService.Get<IFCMNotificationSubscriber>().Subscribe("GE" + Settings.StudentId);
+
+                IsGeneralToggled = true;
+
+                
+            }
         }
 
         async Task<bool> DeleteGeneralHR()
@@ -83,12 +118,20 @@ namespace Altaaref.ViewModels
 
             var response = await _client.DeleteAsync(postUrl);
 
+            if (response.IsSuccessStatusCode)
+            {
+                DependencyService.Get<IFCMNotificationSubscriber>().UnSubscribe("GE" + Settings.StudentId);
+                IsGeneralToggled = false;
+            }
             return response.IsSuccessStatusCode;
         }
 
         async Task HandleGeneralHRToggle()
         {
-            await DeleteGeneralHR();
+            if (IsGeneralToggled)
+                await PostGeneralHRStatus();
+            else
+                await DeleteGeneralHR();
         }
 
 
