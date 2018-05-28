@@ -56,7 +56,9 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studentFaculty = _context.StudentFaculties.Where(m => m.StudentId == StudentId).ToList();
+            var studentFaculty = _context.StudentFaculties.Where(m => m.StudentId == StudentId)
+                .Select(sf => new Faculty { Id = sf.FacultyId, Name = sf.Faculty.Name })
+                .ToList();
 
             if (studentFaculty == null)
             {

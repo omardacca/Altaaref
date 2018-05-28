@@ -33,17 +33,17 @@ namespace Altaaref.ViewModels
             }
         }
 
-        private List<StudentStudiesBase> _pickerList;
-        public List<StudentStudiesBase> PickerList
+        private List<Courses> _coursesList;
+        public List<Courses> CoursesList
         {
             get
             {
-                return _pickerList;
+                return _coursesList;
             }
             set
             {
-                _pickerList = value;
-                OnPropertyChanged(nameof(PickerList));
+                _coursesList = value;
+                OnPropertyChanged(nameof(CoursesList));
             }
         }
 
@@ -131,12 +131,9 @@ namespace Altaaref.ViewModels
         {
             NotificationCourses = new List<Courses>();
 
-            if (_modelType == NotificationSettingsViewModelType.MutualHelpFaculty)
-                await GetStudentFaculties();
-            else
-                await GetStudentCourses();
+            await GetStudentCourses();
 
-            FilterPickerList();
+            FilterCoursesList();
         }
 
         private void InitNotificationList()
@@ -180,31 +177,29 @@ namespace Altaaref.ViewModels
             string url = "https://altaarefapp.azurewebsites.net/api/StudentCourses/GetCourses/" + Settings.StudentId;
 
             string content = await _client.GetStringAsync(url);
-            PickerList = JsonConvert.DeserializeObject<List<StudentStudiesBase>>(content);
+            CoursesList = JsonConvert.DeserializeObject<List<Courses>>(content);
 
             Busy = false;
         }
 
-        private async Task GetStudentFaculties()
-        {
-            Busy = true;
-            string url = "https://altaarefapp.azurewebsites.net/api/StudentFaculties/GetFaculties/" + Settings.StudentId;
+        //private async Task GetStudentFaculties()
+        //{
+        //    Busy = true;
+        //    string url = "https://altaarefapp.azurewebsites.net/api/StudentFaculties/GetFaculties/" + Settings.StudentId;
 
-            string content = await _client.GetStringAsync(url);
-            PickerList = JsonConvert.DeserializeObject<List<StudentStudiesBase>>(content);
+        //    string content = await _client.GetStringAsync(url);
+        //    FacultyList = JsonConvert.DeserializeObject<List<Faculty>>(content);
+            
+        //    Busy = false;
+        //}
 
-            foreach (var s in PickerList) await _pageService.DisplayAlert("we", s.Name, "ok", "cancel");
-
-            Busy = false;
-        }
-
-        private void FilterPickerList()
+        private void FilterCoursesList()
         {
             // Note: note that if notification list include General or Custom Notification
             // (not one of XX prefix) then it will not be included here, because its already
             // filtered in the switch cases in the constructor based on the modelType
 
-            if (PickerList.Count == 0)
+            if (CoursesList.Count == 0)
             {
                 IsPickerListEmpty = false;
                 return;
@@ -224,14 +219,14 @@ namespace Altaaref.ViewModels
             Courses tempCourse;
             foreach(var crs in coursesIdFromSettings)
             {
-                tempCourse = PickerList.Find(c => c.Id == crs) as Courses;
+                tempCourse = CoursesList.Find(c => c.Id == crs) as Courses;
                 templist.Add(tempCourse);
-                PickerList.Remove(tempCourse);
+                CoursesList.Remove(tempCourse);
             }
 
             NotificationCourses = templist;
 
-            if (PickerList.Count == 0)
+            if (CoursesList.Count == 0)
             {
                 IsPickerListEmpty = false;
                 return;
@@ -241,7 +236,7 @@ namespace Altaaref.ViewModels
 
         private async Task HandleAddTap()
         {
-            _courseId = _pickerList[_selectedCourseIndex].Id;
+            _courseId = _coursesList[_selectedCourseIndex].Id;
 
             switch (_modelType)
             {

@@ -26,11 +26,19 @@
                     </Label.GestureRecognizers>
                 </Label>
 
-                <Label Text="Mutual Help Notifications"
+                <Label Text="Mutual Help Notifications Based on Course"
                        FontSize="18"
                        Margin="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding MutualHelpCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label Text="Mutual Help Notifications Based on Faculty"
+                       FontSize="18"
+                       Margin="2">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MutualHelpFacultyCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
 

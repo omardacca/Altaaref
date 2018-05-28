@@ -4,10 +4,8 @@
              xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:controls="clr-namespace:Altaaref.UserControls"
              xmlns:templates="clr-namespace:Altaaref.Views.Templates.Settings"
-             x:Class="Altaaref.Views.CommonPages.SettingsPages.NotebookNotificationsSettings"
-             x:Name="SettingsPageRef"
-             Title="Notifications Settings">
-
+             x:Class="Altaaref.Views.CommonPages.SettingsPages.NotificationSettingsFacultyBased">
+    
     <ContentView.Resources>
         <ResourceDictionary>
 
@@ -35,13 +33,13 @@
                         <Label Text="{Binding TitleLabel}" 
                                    FontSize="18"/>
 
-                        <Picker Title="Select Course" ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}" 
-                                    HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedCourseIndex}" 
+                        <Picker Title="Select Faculty" ItemsSource="{Binding FacultyList}" ItemDisplayBinding="{Binding Name}" 
+                                    HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedFacultyIndex}" 
                                 IsEnabled="{Binding IsPickerListEmpty}"/>
 
                         <controls:ButtonFrame HeightRequest="17"
                                               IsEnabled="{Binding IsPickerListEmpty}">
-                            <Label Text="Add Notification to Course" 
+                            <Label Text="Add Notification to Faculty" 
                                    BackgroundColor="{StaticResource OrangeColor}" 
                                    TextColor="White" 
                                    HorizontalTextAlignment="Center" 
