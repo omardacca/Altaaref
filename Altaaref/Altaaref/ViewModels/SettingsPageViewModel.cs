@@ -69,9 +69,9 @@ namespace Altaaref.ViewModels
             {
                 string content = await _client.GetStringAsync(url);
 
-                var results = JsonConvert.DeserializeObject<UserNotification>(content);
+                var results = JsonConvert.DeserializeObject<List<UserNotification>>(content);
 
-                if (results == null) IsGeneralToggled = false;
+                if (results.Count == 0) IsGeneralToggled = false;
                 else IsGeneralToggled = true;
             }
             catch(Exception e)
