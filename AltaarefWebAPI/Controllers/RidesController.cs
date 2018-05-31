@@ -97,6 +97,55 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Rides/5
+        [HttpGet("GetWithDate/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}/{fromDate:datetime}")]
+        public IActionResult GetRidesWithDate(double FromLong, double FromLat, double ToLong, double ToLat, DateTime fromDate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var RidesList = _context.Rides.Where(s =>
+                s.FromLong == FromLong &&
+                s.FromLat == FromLat &&
+                s.ToLong == ToLong &&
+                s.ToLat == ToLat &&
+                s.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
+                .Select(ride => new Ride
+                {
+                    Id = ride.Id,
+                    FromLat = ride.FromLat,
+                    FromLong = ride.FromLong,
+                    ToLat = ride.ToLat,
+                    ToLong = ride.ToLong,
+                    Date = ride.Date,
+                    Time = ride.Time,
+                    FromCity = ride.FromCity,
+                    FromAddress = ride.FromAddress,
+                    ToCity = ride.ToCity,
+                    ToAddress = ride.ToAddress,
+                    Message = ride.Message,
+                    NumOfFreeSeats = ride.NumOfFreeSeats,
+                    DriverId = ride.DriverId,
+                    Driver = new Student
+                    {
+                        Id = ride.Driver.Id,
+                        FullName = ride.Driver.FullName,
+                        ProfilePicBlobUrl = ride.Driver.ProfilePicBlobUrl
+                    },
+                    RideAttendants = ride.RideAttendants
+                });
+
+            if (RidesList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(RidesList);
+
+        }
+
+        // GET: api/Rides/5
         [HttpGet("GetWithoutDate/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}")]
         public IActionResult GetWithDateTime(double FromLong, double FromLat, double ToLong, double ToLat)
         {
