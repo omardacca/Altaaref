@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180531014153_AddDriverRelToRideAndStudent")]
+    partial class AddDriverRelToRideAndStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,19 +259,6 @@ namespace AltaarefWebAPI.Migrations
                     b.HasIndex("DriverId");
 
                     b.ToTable("Rides");
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.RideAttendants", b =>
-                {
-                    b.Property<int>("RideId");
-
-                    b.Property<int>("AttendantId");
-
-                    b.HasKey("RideId", "AttendantId");
-
-                    b.HasIndex("AttendantId");
-
-                    b.ToTable("RideAttendants");
                 });
 
             modelBuilder.Entity("AltaarefWebAPI.Models.Student", b =>
@@ -621,19 +609,6 @@ namespace AltaarefWebAPI.Migrations
                     b.HasOne("AltaarefWebAPI.Models.Student", "Driver")
                         .WithMany("Rides")
                         .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.RideAttendants", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.Student", "Attendant")
-                        .WithMany("RideAttendants")
-                        .HasForeignKey("AttendantId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AltaarefWebAPI.Models.Ride", "Ride")
-                        .WithMany("RideAttendants")
-                        .HasForeignKey("RideId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

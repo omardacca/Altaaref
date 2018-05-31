@@ -72,10 +72,13 @@
       <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="Plugin.CurrentActivity">
-      <Version>1.0.1</Version>
+      <Version>2.1.0.4</Version>
     </PackageReference>
     <PackageReference Include="Plugin.Permissions">
-      <Version>2.2.1</Version>
+      <Version>3.0.0.12</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.Geolocator">
+      <Version>4.5.0.6</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>2.0.2</Version>
@@ -126,6 +129,7 @@
     <Compile Include="Helpers\FCMNotificationSubscriber.cs" />
     <Compile Include="LocationProvider.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignInResultCallback.cs" />
@@ -352,6 +356,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\bghomepagemainmenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\switchon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\switchoff.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

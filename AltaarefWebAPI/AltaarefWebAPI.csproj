@@ -12,6 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180531013752_AddDriverRelToRideAndStudent.cs" />
+    <Compile Remove="Migrations\20180531013752_AddDriverRelToRideAndStudent.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

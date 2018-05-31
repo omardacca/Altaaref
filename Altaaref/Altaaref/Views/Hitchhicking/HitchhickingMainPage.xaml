@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates.Hitchhicking"
+             xmlns:custom="clr-namespace:DurianCode.PlacesSearchBar;assembly=DurianCode.PlacesSearchBar"
+             x:Class="Altaaref.Views.Hitchhicking.HitchhickingMainPage"
+             x:Name="thispageref"
+             Title="Add New Ride">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="15">
+                <Label Text="{Binding Lat}" />
+                <Label Text="{Binding Long}" />
+
+                <Button Command="{Binding GetLoc}" Text="Get Location" />
+
+                <custom:PlacesBar x:Name="search_from" 
+                              Text="{Binding FromText}"
+                              Placeholder="From City" 
+                              Type="Cities"  
+                              ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
+                <AbsoluteLayout>
+                    <ActivityIndicator IsRunning="false"
+				AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
+                    <controls:HorizontalList ListOrientation="Vertical"
+                                         IsVisible="{Binding IsFromVisible}"
+                                         ItemsSource="{Binding FromAutoCompletePredictions}"
+				                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                         AbsoluteLayout.LayoutFlags="SizeProportional" >
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+                </AbsoluteLayout>
+
+                <Entry Text="{Binding NewRide.FromAddress}" Placeholder="From Address (Optional)" />
+
+                <custom:PlacesBar x:Name="search_to"
+                              Text="{Binding ToText}"
+                              Placeholder="To City" 
+                              Type="Cities"  
+                              ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
+                <AbsoluteLayout>
+                    <ActivityIndicator IsRunning="false"
+				AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
+                    <controls:HorizontalList ListOrientation="Vertical"
+                                         IsVisible="{Binding IsToVisible}"
+                                         ItemsSource="{Binding ToAutoCompletePredictions}"
+				                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                         AbsoluteLayout.LayoutFlags="SizeProportional" >
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+                </AbsoluteLayout>
+
+                <Entry Text="{Binding NewRide.ToAddress}" Placeholder="To Address (Optional)"/>
+
+                <Entry Text="{Binding NewRide.NumberOfFreeSeats}" Placeholder="Number of free seats"/>
+
+                <DatePicker Date="{Binding NewRide.Date}" Format="d MM yyyy"/>
+
+                <TimePicker
+                    Time="{Binding NewRide.Time}" />
+
+                <Editor Text="{Binding NewRide.Message}"
+                        HeightRequest="200"/>
+
+                <controls:ButtonFrame   HeightRequest="17" 
+                                    WidthRequest="400">
+                    <Label Text="Submit" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    <controls:ButtonFrame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SubmitCommand}" />
+                    </controls:ButtonFrame.GestureRecognizers>
+                </controls:ButtonFrame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

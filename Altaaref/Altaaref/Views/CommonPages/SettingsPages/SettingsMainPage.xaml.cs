@@ -19,5 +19,10 @@ namespace Altaaref.Views.CommonPages.SettingsPages
 
             BindingContext = new SettingsPageViewModel(new PageService());
         }
-	}
+
+        //async void Handle_Toggled(object sender, Xamarin.Forms.ToggledEventArgs e)
+        //{
+        //    await (BindingContext as SettingsPageViewModel).HandleGeneralHRToggle();
+        //}
+    }
 }

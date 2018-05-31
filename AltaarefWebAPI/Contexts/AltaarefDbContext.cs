@@ -30,6 +30,7 @@ namespace AltaarefWebAPI.Contexts
         public DbSet<StudyGroupComment> StudyGroupComment { get; set; }
         public DbSet<NotebookRates> NotebookRates { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
+        public DbSet<Ride> Rides { get; set; }
 
 
 
@@ -254,6 +255,27 @@ namespace AltaarefWebAPI.Contexts
                 .HasOne(n => n.Student)
                 .WithMany(n => n.UserNotifications)
                 .HasForeignKey(s => s.StudentId);
+
+            // One to Many - Student, Ride
+            modelBuilder.Entity<Ride>()
+                .HasOne(r => r.Driver)
+                .WithMany(r => r.Rides)
+                .HasForeignKey(r => r.DriverId);
+
+            // Many to Many - Student, Ride, RideAttendants
+
+            modelBuilder.Entity<RideAttendants>()
+                .HasKey(ra => new { ra.RideId , ra.AttendantId });
+
+            modelBuilder.Entity<RideAttendants>()
+                .HasOne(ra => ra.Attendant)
+                .WithMany(ra => ra.RideAttendants)
+                .HasForeignKey(ra => ra.AttendantId);
+
+            modelBuilder.Entity<RideAttendants>()
+                .HasOne(ra => ra.Ride)
+                .WithMany(ra => ra.RideAttendants)
+                .HasForeignKey(ra => ra.RideId);
         }
 
     }

@@ -82,7 +82,6 @@ namespace Altaaref.ViewModels
             // Busy = false;
         }
 
-
         async Task PostGeneralHRStatus()
         {
             var postUrl = "https://altaarefapp.azurewebsites.net/api/UserNotifications/GeneralHR";
@@ -126,7 +125,7 @@ namespace Altaaref.ViewModels
             return response.IsSuccessStatusCode;
         }
 
-        async Task HandleGeneralHRToggle()
+        public async Task HandleGeneralHRToggle()
         {
             if (IsGeneralToggled)
                 await PostGeneralHRStatus();

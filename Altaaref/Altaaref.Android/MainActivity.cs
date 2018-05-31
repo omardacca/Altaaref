@@ -27,7 +27,9 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Text;
 using Newtonsoft.Json;
+using Plugin.Permissions;
 using System.Collections.Generic;
+using Plugin.CurrentActivity;
 
 namespace Altaaref.Droid
 {
@@ -134,6 +136,8 @@ namespace Altaaref.Droid
             }
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            CrossCurrentActivity.Current.Init(this, bundle);
 
             ImageCircleRenderer.Init();
 
@@ -417,8 +421,10 @@ namespace Altaaref.Droid
             return blockBlob.Uri.AbsoluteUri;
         }
 
-        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        public async override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
             if (requestCode == RC_LAST_LOCATION_PERMISSION_CHECK || requestCode == RC_LOCATION_UPDATES_PERMISSION_CHECK)
             {
                 if (grantResults.Length == 1 && grantResults[0] == Permission.Granted)

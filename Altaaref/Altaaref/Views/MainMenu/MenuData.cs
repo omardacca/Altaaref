@@ -44,7 +44,7 @@ namespace Altaaref.Views.MainMenu
                     Text = "Hitchhiking",
                     Column = 1,
                     Row = 1,
-                    NavigateType = typeof(CommonPages.MainPage)
+                    NavigateType = typeof(Hitchhicking.HitchhickingMainPage)
                 },
                 new MenuItem()
                 {

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
              x:Class="Altaaref.Views.CommonPages.SettingsPages.SettingsMainPage"
              Title="Settings">
     <ContentPage.Content>
@@ -44,19 +45,19 @@
 
                 <StackLayout Orientation="Horizontal" Margin="2">
                     <Label Text="General Help Requests"
-                           FontSize="18"
-                           HorizontalOptions="StartAndExpand"
-                           VerticalOptions="Center"/>
-                    <Switch IsToggled="{Binding IsGeneralToggled}"
-                            HorizontalOptions="End"
-                            VerticalOptions="Center"/>
+                        FontSize="18"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Center"/>
 
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ToggleCommand}" />
-                    </StackLayout.GestureRecognizers>
-                    
+                    <controls:ToggleButton Command="{Binding ToggleCommand}" 
+                                           Checked="{Binding IsGeneralToggled, Mode=TwoWay}"
+                                           CheckedImage="switchon.png" 
+                                           UnCheckedImage="switchoff.png"
+                                           Animate="True"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center"/>
                 </StackLayout>
-            </StackLayout>
+           </StackLayout>
 
             <StackLayout Padding="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                 <BoxView HeightRequest=".5" WidthRequest="350"

@@ -11,9 +11,10 @@ using System;
 namespace AltaarefWebAPI.Migrations
 {
     [DbContext(typeof(AltaarefDbContext))]
-    partial class AltaarefDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180531012558_AddedRideTable")]
+    partial class AddedRideTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,8 +230,6 @@ namespace AltaarefWebAPI.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int>("DriverId");
-
                     b.Property<string>("FromAddress");
 
                     b.Property<string>("FromCity");
@@ -255,22 +254,7 @@ namespace AltaarefWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DriverId");
-
                     b.ToTable("Rides");
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.RideAttendants", b =>
-                {
-                    b.Property<int>("RideId");
-
-                    b.Property<int>("AttendantId");
-
-                    b.HasKey("RideId", "AttendantId");
-
-                    b.HasIndex("AttendantId");
-
-                    b.ToTable("RideAttendants");
                 });
 
             modelBuilder.Entity("AltaarefWebAPI.Models.Student", b =>
@@ -613,27 +597,6 @@ namespace AltaarefWebAPI.Migrations
                     b.HasOne("AltaarefWebAPI.Models.Student", "Student")
                         .WithMany("NotebookRates")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.Ride", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.Student", "Driver")
-                        .WithMany("Rides")
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AltaarefWebAPI.Models.RideAttendants", b =>
-                {
-                    b.HasOne("AltaarefWebAPI.Models.Student", "Attendant")
-                        .WithMany("RideAttendants")
-                        .HasForeignKey("AttendantId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AltaarefWebAPI.Models.Ride", "Ride")
-                        .WithMany("RideAttendants")
-                        .HasForeignKey("RideId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
