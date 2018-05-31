@@ -47,6 +47,93 @@ namespace AltaarefWebAPI.Controllers
             return Ok(ride);
         }
 
+        // GET: api/Rides/5
+        [HttpGet("GetWithDateTime/{FromLong}/{FromLat}/{ToLong}/{ToLat}/{fromDate:datetime}/{timeDate:datetime}")]
+        public IActionResult GetRidesWithDateAndTime(double FromLong, double FromLat, double ToLong, double ToLat, DateTime fromDate, DateTime timeDate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var RidesList = _context.Rides.Where(s =>
+                s.FromLong == FromLong &&
+                s.FromLat == FromLat &&
+                s.ToLong == ToLong &&
+                s.ToLat == ToLat &&
+                s.Date.ToShortDateString() == DateTime.Today.ToShortDateString() &&
+                s.Time.ToShortTimeString() == DateTime.Today.ToShortTimeString())
+                .Select(ride => new Ride
+                {
+                    Id = ride.Id,
+                    FromLat = ride.FromLat,
+                    FromLong = ride.FromLong,
+                    ToLat = ride.ToLat,
+                    ToLong = ride.ToLong,
+                    Date = ride.Date,
+                    Time = ride.Time,
+                    FromCity = ride.FromCity,
+                    FromAddress = ride.FromAddress,
+                    ToCity = ride.ToCity,
+                    ToAddress = ride.ToAddress,
+                    Message = ride.Message,
+                    NumOfFreeSeats = ride.NumOfFreeSeats,
+                    DriverId = ride.DriverId,
+                    Driver = ride.Driver,
+                    RideAttendants = ride.RideAttendants
+                });
+
+            if (RidesList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(RidesList);
+        }
+
+        // GET: api/Rides/5
+        [HttpGet("GetWithoutDate/{FromLong}/{FromLat}/{ToLong}/{ToLat}")]
+        public IActionResult GetWithDateTime(double FromLong, double FromLat, double ToLong, double ToLat)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var RidesList = _context.Rides.Where(s =>
+                s.FromLong == FromLong &&
+                s.FromLat == FromLat &&
+                s.ToLong == ToLong &&
+                s.ToLat == ToLat)
+                .Select(ride => new Ride
+                {
+                    Id = ride.Id,
+                    FromLat = ride.FromLat,
+                    FromLong = ride.FromLong,
+                    ToLat = ride.ToLat,
+                    ToLong = ride.ToLong,
+                    Date = ride.Date,
+                    Time = ride.Time,
+                    FromCity = ride.FromCity,
+                    FromAddress = ride.FromAddress,
+                    ToCity = ride.ToCity,
+                    ToAddress = ride.ToAddress,
+                    Message = ride.Message,
+                    NumOfFreeSeats = ride.NumOfFreeSeats,
+                    DriverId = ride.DriverId,
+                    Driver = ride.Driver,
+                    RideAttendants = ride.RideAttendants
+                });
+
+            if (RidesList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(RidesList);
+        }
+
+
         // PUT: api/Rides/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRide([FromRoute] int id, [FromBody] Ride ride)

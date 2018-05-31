@@ -22,7 +22,8 @@
                               Type="Cities"  
                               ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
                 <AbsoluteLayout>
-                    <ActivityIndicator IsRunning="false"
+                    <ActivityIndicator IsRunning="{Binding Busy}"
+                                       IsVisible="{Binding Busy}"
 				AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
                     <controls:HorizontalList ListOrientation="Vertical"
                                          IsVisible="{Binding IsFromVisible}"

@@ -220,7 +220,7 @@ namespace Altaaref.ViewModels.Hitchhicking
 
             if (response.Result.IsSuccessStatusCode)
             {
-                //await _pageService.DisplayAlert("Created Successfully", "Ride Created Successfully", "OK", "Cancel");
+                //await _pageService.PushAsync(new Views.Hitchhicking.RidePage());
                 Busy = false;
             }
             else
