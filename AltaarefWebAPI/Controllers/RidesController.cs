@@ -61,8 +61,8 @@ namespace AltaarefWebAPI.Controllers
                 s.FromLat == FromLat &&
                 s.ToLong == ToLong &&
                 s.ToLat == ToLat &&
-                s.Date.ToShortDateString() == DateTime.Today.ToShortDateString() &&
-                s.Time.ToShortTimeString() == DateTime.Today.ToShortTimeString())
+                s.Date.ToShortDateString() == fromDate.ToShortDateString() &&
+                s.Time.ToShortTimeString() == timeDate.ToShortTimeString())
                 .Select(ride => new Ride
                 {
                     Id = ride.Id,
@@ -110,7 +110,7 @@ namespace AltaarefWebAPI.Controllers
                 s.FromLat == FromLat &&
                 s.ToLong == ToLong &&
                 s.ToLat == ToLat &&
-                s.Date.ToShortDateString() == DateTime.Today.ToShortDateString())
+                s.Date.ToShortDateString() == fromDate.ToShortDateString())
                 .Select(ride => new Ride
                 {
                     Id = ride.Id,

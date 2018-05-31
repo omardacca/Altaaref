@@ -215,11 +215,11 @@ namespace Altaaref.ViewModels.Hitchhicking
             var place = SearchRide.FromLong.ToString() + "/" + SearchRide.FromLat.ToString() + "/" + SearchRide.ToLong + "/" + SearchRide.ToLat.ToString() + "/";
 
             if (_isDateOn && IsTimeOn)
-                url += "GetWithDateTime/" + place + SearchRide.Date.ToShortDateString() + " / " + SearchRide.Time.ToShortTimeString();
+                url += "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd") + " / " + SearchRide.Time.ToString("HH:mm");
             else if (_isDateOn)
-                url += "GetWithDateTime/" + place + SearchRide.Date.ToShortDateString();
+                url += "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd");
             else if (_isTimeOn)
-                url += "GetWithDateTime/" + place + SearchRide.Time.ToShortTimeString();
+                url += "GetWithDateTime/" + place + SearchRide.Time.ToString("HH:mm");
             else
                 url += "GetWithoutDate/" +  place;
 
