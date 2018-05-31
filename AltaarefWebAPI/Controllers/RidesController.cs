@@ -104,7 +104,7 @@ namespace AltaarefWebAPI.Controllers
                 s.FromLong == FromLong &&
                 s.FromLat == FromLat &&
                 s.ToLong == ToLong &&
-                s.ToLat == ToLat));
+                s.ToLat == ToLat);
                 //.Select(ride => new Ride
                 //{
                 //    Id = ride.Id,
