@@ -48,7 +48,7 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Rides/5
-        [HttpGet("GetWithDateTime/{FromLong}/{FromLat}/{ToLong}/{ToLat}/{fromDate:datetime}/{timeDate:datetime}")]
+        [HttpGet("GetWithDateTime/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}/{fromDate:datetime}/{timeDate:datetime}")]
         public IActionResult GetRidesWithDateAndTime(double FromLong, double FromLat, double ToLong, double ToLat, DateTime fromDate, DateTime timeDate)
         {
             if (!ModelState.IsValid)
@@ -92,7 +92,7 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Rides/5
-        [HttpGet("GetWithoutDate/{FromLong}/{FromLat}/{ToLong}/{ToLat}")]
+        [HttpGet("GetWithoutDate/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}")]
         public IActionResult GetWithDateTime(double FromLong, double FromLat, double ToLong, double ToLat)
         {
             if (!ModelState.IsValid)

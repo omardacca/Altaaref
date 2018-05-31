@@ -206,19 +206,24 @@ namespace Altaaref.ViewModels.Hitchhicking
         {
             string url = "https://altaarefapp.azurewebsites.net/api/Rides/";
 
-            if(_selectedFromPlace == null || _selectedToPlace == null)
+            if (_selectedFromPlace == null || _selectedToPlace == null)
             {
                 await _pageService.DisplayAlert("Error", "Please fill the form properly.", "Ok", "Cancel");
+                return;
             }
 
+            var place = SearchRide.FromLong.ToString() + "/" + SearchRide.FromLat.ToString() + "/" + SearchRide.ToLong + "/" + SearchRide.ToLat.ToString() + "/";
+
             if (_isDateOn && IsTimeOn)
-                url = "";
+                url += "GetWithDateTime/" + place + SearchRide.Date.ToShortDateString() + " / " + SearchRide.Time.ToShortTimeString();
             else if (_isDateOn)
-                url = "";
+                url += "GetWithDateTime/" + place + SearchRide.Date.ToShortDateString();
             else if (_isTimeOn)
-                url = "";
+                url += "GetWithDateTime/" + place + SearchRide.Time.ToShortTimeString();
             else
-                url = "";
+                url += "GetWithoutDate/" +  place;
+
+            await GetSearchResults(url);
         }
 
         private async Task GetSearchResults(string filteredUrl)
