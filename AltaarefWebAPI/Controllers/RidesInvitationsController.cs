@@ -56,13 +56,14 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ridesInvitations = _context.RidesInvitations.Where(m => m.RideId == RideId).ToList()
+            var ridesInvitations = _context.RidesInvitations.Where(m => m.RideId == RideId)
                 .Select(rideInv => new RidesInvitations
                 {
                     Candidate = rideInv.Candidate,
                     Ride = rideInv.Ride,
                     Status = rideInv.Status
-                });
+                })
+                .ToList();
 
             if (ridesInvitations == null)
             {
