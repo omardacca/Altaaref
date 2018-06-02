@@ -56,7 +56,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ride = _context.Rides.Where(m => m.DriverId == StudentId).ToList();
+            var ride = _context.Rides.Where(m => m.DriverId == StudentId).Select(m => m);
 
             if (ride == null)
             {
