@@ -36,7 +36,7 @@
                     <StackLayout Orientation="Horizontal" Spacing="0" Margin="4">
                         <Label Text="{Binding Date, StringFormat='On {0:dddd, dd MMMM yyyy}'}" 
                                FontSize="12"/>
-                        <Label Text="{Binding Time, StringFormat='{0:hh:mm tt}'}"
+                        <Label Text="{Binding Time, StringFormat=' {0:hh:mm tt}'}"
                                FontSize="12"/>
                     </StackLayout>
 

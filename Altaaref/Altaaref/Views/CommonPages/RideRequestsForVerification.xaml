@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates.Hitchhicking"
+             x:Class="Altaaref.Views.CommonPages.RideRequestsForVerification"
+             x:Name="thispageref">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
+                           IsVisible="{Binding Busy}"
+                           Color="Black"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+
+
+            <Label Text="No one send you any invitations list!" IsVisible="{Binding IsInvitationsListEmpty}"
+                   VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="Large" HorizontalTextAlignment="Center"/>
+
+            <controls:HorizontalList ListOrientation="Vertical"
+                                     ItemsSource="{Binding RequestsList}"
+                                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
+                <controls:HorizontalList.ItemTemplate>
+                    <DataTemplate>
+                        <template:RideInList ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}" />
+                    </DataTemplate>
+                </controls:HorizontalList.ItemTemplate>
+            </controls:HorizontalList>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -27,7 +27,7 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
-        public ICommand ViewInvitationsCommand => new Command(async () => await HandleViewInvitations());
+        public ICommand ItemTappedCommand => new Command<Ride>(async (ride) => await HandleViewInvitations(ride));
 
         private bool _isRidesListEmpty;
         public bool IsRidesListEmpty
@@ -72,9 +72,9 @@ namespace Altaaref.ViewModels.Hitchhicking
             Busy = false;
         }
 
-        private async Task HandleViewInvitations()
+        private async Task HandleViewInvitations(Ride ride)
         {
-            //await _pageService.PushAsync(new Views.Hitchhicking.RideInvitations());
+            await _pageService.PushAsync(new Views.CommonPages.RideRequestsForVerification(ride.Id));
         }
 
     }
