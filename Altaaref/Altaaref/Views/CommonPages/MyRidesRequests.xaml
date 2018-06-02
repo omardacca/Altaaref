@@ -7,38 +7,37 @@
              x:Class="Altaaref.Views.CommonPages.MyRidesRequests"
              x:Name="thispageref"
              Title="Select Ride to Requests">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="BackgroundColor">#F5F5F5</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
     <ContentPage.Content>
-
-        <ContentPage.Resources>
-            <ResourceDictionary>
-                <local:InverseBooleanConverter x:Key="boolConverter" />
-                <Color x:Key="BackgroundColor">#F5F5F5</Color>
-            </ResourceDictionary>
-        </ContentPage.Resources>
-
-
-        <ContentPage.Content>
-            <StackLayout>
-                <ActivityIndicator IsRunning="{Binding Busy}"
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
                                 IsVisible="{Binding Busy}"
                                 Color="Black" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
 
-                <Label Text="You dont have any rides yet!" IsVisible="{Binding IsRidesListEmpty}"
+            <Label Text="You dont have any rides yet!" IsVisible="{Binding IsRidesListEmpty}"
                    VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="Large" HorizontalTextAlignment="Center"/>
 
-                <RelativeLayout IsVisible="{Binding IsRidesListEmpty, Converter={StaticResource boolConverter}}">
-                    <controls:HorizontalList ListOrientation="Vertical" 
+            <RelativeLayout IsVisible="{Binding IsRidesListEmpty, Converter={StaticResource boolConverter}}">
+                <controls:HorizontalList ListOrientation="Vertical" 
                                          ItemsSource="{Binding RidesList}"
                                          SelectedCommand="{Binding ViewInvitationsCommand}"
                                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
-                        <controls:HorizontalList.ItemTemplate>
-                            <DataTemplate>
-                                <template:RideInList ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}" />
-                            </DataTemplate>
-                        </controls:HorizontalList.ItemTemplate>
-                    </controls:HorizontalList>
-                </RelativeLayout>
-            </StackLayout>
+                    <controls:HorizontalList.ItemTemplate>
+                        <DataTemplate>
+                            <template:RideInList ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}" />
+                        </DataTemplate>
+                    </controls:HorizontalList.ItemTemplate>
+                </controls:HorizontalList>
+            </RelativeLayout>
+        </StackLayout>
 
-        </ContentPage.Content>
+    </ContentPage.Content>
 </ContentPage>
