@@ -48,6 +48,27 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Rides/5
+        [HttpGet("GetStudentRides/{StudentId}")]
+        public async Task<IActionResult> GetRideByStudentId([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ride = _context.Rides.Where(m => m.DriverId == StudentId).ToList();
+
+            if (ride == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(ride);
+        }
+
+
+
+        // GET: api/Rides/5
         [HttpGet("GetWithDateTime/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}/{fromDate:datetime}/{timeDate:datetime}")]
         public IActionResult GetRidesWithDateAndTime(double FromLong, double FromLat, double ToLong, double ToLat, DateTime fromDate, DateTime timeDate)
         {

@@ -117,6 +117,18 @@
             </StackLayout.GestureRecognizers>
         </StackLayout>
 
+        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Image Source="helpsidemenuicon.png" Margin="0, 0, 4, 0" />
+            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="My Rides Requests" 
+                    FontSize="18"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ViewMyRidesInvitations}"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
         <StackLayout Padding="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
             <BoxView HeightRequest=".5" WidthRequest="350"
                      Color="LightGray"

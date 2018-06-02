@@ -70,6 +70,7 @@ namespace Altaaref.Views.CommonPages
             public ICommand MyHelpRequestsCommand => new Command(async () => await HandleMyHelpRequestsTap());
             public ICommand SettingsCommand => new Command(async () => await HandleSettingsTap());
             public ICommand SignOutCommand => new Command(async () => await HandleSignOutTap());
+            public ICommand ViewMyRidesInvitations => new Command(async () => await HandleViewMyRidesInv());
 
 
             async Task HandleHomePageTap()
@@ -103,6 +104,10 @@ namespace Altaaref.Views.CommonPages
             async Task HandleSignOutTap()
             {
                 await pageService.PushAsync(new Views.LoginPage(LoginPage.LOGOUT_CODE));
+            }
+            async Task HandleViewMyRidesInv()
+            {
+                await pageService.PushAsync(new Views.CommonPages.MyRidesRequests());
             }
 
 

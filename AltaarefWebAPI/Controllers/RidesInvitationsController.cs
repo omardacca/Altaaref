@@ -56,7 +56,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ridesInvitations = await _context.RidesInvitations.SingleOrDefaultAsync(m => m.RideId == RideId);
+            var ridesInvitations = _context.RidesInvitations.Where(m => m.RideId == RideId).ToList();
 
             if (ridesInvitations == null)
             {
@@ -76,7 +76,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ridesInvitations = await _context.RidesInvitations.SingleOrDefaultAsync(m => m.CandidateId == CandidateId);
+            var ridesInvitations = _context.RidesInvitations.Where(m => m.CandidateId == CandidateId).ToList();
 
             if (ridesInvitations == null)
             {
