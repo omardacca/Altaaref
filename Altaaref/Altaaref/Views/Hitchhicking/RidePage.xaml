@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:templates="clr-namespace:Altaaref.Views.Templates.Hitchhicking"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             x:Class="Altaaref.Views.Hitchhicking.RidePage"
+             x:Name="MainPageRef"
+             Title="Ride Details">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="Margin" Value="0, 2, 5, 2" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentPage.Content>
+
+        <ScrollView>
+            <StackLayout>
+<!--                <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
+                -->
+
+                <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackLayout Spacing="2"
+                                 Grid.Row="0"
+                                 Grid.Column="0">
+
+                        <Label Text="Ride Details"
+                               FontSize="24"
+                               Margin="0, 0, 0, 4"/>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Ride.FromCity, StringFormat='From {0},'}" 
+                           FontSize="16" />
+                            <Label Text="{Binding Ride.FromAddress}"
+                               FontSize="16" />
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout Spacing="2"
+                                 Orientation="Horizontal"
+                                 Grid.Row="1"
+                                 Grid.Column="0">
+                        <Label Text="{Binding Ride.ToCity, StringFormat='To {0},'}"
+                           FontSize="16" />
+                        <Label Text="{Binding Ride.ToAddress}"
+                               FontSize="16" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="1"
+                                 Grid.Row="2"
+                                 Grid.Column="0">
+                        <Label Text="{Binding Ride.Date, StringFormat='On {0:dddd, dd MMMM yyyy}'}" 
+                               FontSize="16"/>
+                        <Label Text="{Binding Ride.Time, StringFormat='{0:hh:mm tt}'}"
+                               FontSize="16"/>
+                    </StackLayout>
+
+                    <Label Text="{Binding Ride.NumOfFreeSeats, StringFormat='{0} free seats left'}"
+                           FontSize="16" 
+                           Grid.Row="3"
+                           Grid.Column="0"/>
+
+                    <Frame Grid.Row="4"
+                           Grid.Column="0"
+                           Padding="0">
+                        <Grid Padding="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding Ride.Driver.ProfilePicBlobUrl}" 
+                               Aspect="AspectFill"
+                               HeightRequest="120"
+                               WidthRequest="120"
+                               Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"/>
+                            <Label Text="{Binding Ride.Driver.FullName, StringFormat='Driver: {0}'}" 
+                               FontSize="16"
+                               VerticalOptions="Center"
+                               Grid.Row="0" Grid.Column="1"
+                                   Margin="2"/>
+                            <!--<Label Text="{Binding Ride..., StringFormat='{0} Notebooks'}" 
+                               FontSize="16" 
+                               VerticalOptions="Start"
+                               Grid.Row="1" Grid.Column="1"/>-->
+                            <controls:ButtonFrame HeightRequest="17"
+                                                  Grid.Row="2" 
+                                                  Grid.Column="1">
+                                <Label Text="View Profile" BackgroundColor="Transparent" 
+                                       TextColor="{StaticResource OrangeColor}"
+                                       HorizontalTextAlignment="Center" 
+                                       VerticalOptions="Center"/>
+                                <controls:ButtonFrame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ViewProfileCommand}" />
+                                </controls:ButtonFrame.GestureRecognizers>
+                            </controls:ButtonFrame>
+                        </Grid>
+                    </Frame>
+
+                    <StackLayout Spacing="2"
+                                 Grid.Row="5"
+                                 Grid.Column="0">
+
+                        <Label Text="Attendants" 
+                               FontSize="18"
+                               Margin="0, 0, 0, 2" />
+
+                        <StackLayout>
+                            <Label Text="No Attendants yet.." 
+                                   FontSize="14" 
+                                   IsVisible="{Binding IsAttendantsEmpty}"/>
+
+                            <controls:HorizontalList ListOrientation="Horizontal" 
+                                                 ItemsSource="{Binding Ride.RideAttendants}"
+                                                 IsVisible="{Binding IsAttendantsEmpty, Converter={StaticResource boolConverter}}">
+                                <controls:HorizontalList.ItemTemplate>
+                                    <DataTemplate>
+                                        <templates:AttendantView ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}"/>
+                                    </DataTemplate>
+                                </controls:HorizontalList.ItemTemplate>
+                            </controls:HorizontalList>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="CenterAndExpand"
+                                 Grid.Row="6"
+                                 Grid.Column="0">
+                        <Frame HeightRequest="50" WidthRequest="80">
+                            <StackLayout>
+                                <Label Text="Request To Attend"
+                                   FontSize="16"
+                                   HorizontalTextAlignment="Center"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <BoxView WidthRequest="2" HeightRequest="50" BackgroundColor="{StaticResource OrangeColor}" />
+
+                        <Frame HeightRequest="50" WidthRequest="80">
+                            <StackLayout>
+                                <Label Text="Message Driver"
+                                   FontSize="16"
+                                   HorizontalTextAlignment="Center"/>
+                            </StackLayout>
+                        </Frame>
+
+                    </StackLayout>
+                    
+                    
+                </Grid>
+
+            </StackLayout>
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>

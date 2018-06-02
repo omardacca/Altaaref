@@ -31,7 +31,7 @@ namespace AltaarefWebAPI.Contexts
         public DbSet<NotebookRates> NotebookRates { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
         public DbSet<Ride> Rides { get; set; }
-
+        public DbSet<RidesInvitations> RidesInvitations { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -275,6 +275,21 @@ namespace AltaarefWebAPI.Contexts
             modelBuilder.Entity<RideAttendants>()
                 .HasOne(ra => ra.Ride)
                 .WithMany(ra => ra.RideAttendants)
+                .HasForeignKey(ra => ra.RideId);
+
+            // Many to Many - Student, Ride, RideAttendants
+
+            modelBuilder.Entity<RidesInvitations>()
+                .HasKey(ri => new { ri.RideId, ri.CandidateId});
+
+            modelBuilder.Entity<RidesInvitations>()
+                .HasOne(ri => ri.Candidate)
+                .WithMany(ri => ri.RideInvitations)
+                .HasForeignKey(ri => ri.CandidateId);
+
+            modelBuilder.Entity<RidesInvitations>()
+                .HasOne(ra => ra.Ride)
+                .WithMany(ra => ra.RidesInvitations)
                 .HasForeignKey(ra => ra.RideId);
         }
 

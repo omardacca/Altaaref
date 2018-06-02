@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates.Hitchhicking"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:custom="clr-namespace:DurianCode.PlacesSearchBar;assembly=DurianCode.PlacesSearchBar"
+             x:Class="Altaaref.Views.Hitchhicking.FindRide"
+             x:Name="thispageref"
+             Title="Find Ride">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="BackgroundColor">#F5F5F5</Color>
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#EEEEEE</Color>
+
+            <Style x:Key="FirstPanelStyle"
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="490" />
+                <Setter Property="Margin" Value="10, 10, 10, 10" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <ScrollView x:Name="scrollview">
+            <StackLayout Padding="15"
+                         HorizontalOptions="Center">
+                <StackLayout Padding="15" Spacing="0">
+
+                    <Label Text="Find Ride" 
+                                   FontSize="24"
+                                   Margin="0, 0, 0, 8"/>
+
+                    <Label Text="From City" FontSize="16" />
+                    <custom:PlacesBar x:Name="search_from" 
+                              Text="{Binding FromText}"
+                              Placeholder="From City" 
+                              Type="Cities"  
+                              ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
+                    <AbsoluteLayout>
+                        <ActivityIndicator IsRunning="{Binding Busy}"
+                                       IsVisible="{Binding Busy}"
+				AbsoluteLayout.LayoutBounds="0.5, 0.1, 20, 20" AbsoluteLayout.LayoutFlags="PositionProportional" />
+                        <controls:HorizontalList ListOrientation="Vertical"
+                                         IsVisible="{Binding IsFromVisible}"
+                                         ItemsSource="{Binding FromAutoCompletePredictions}"
+				                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                         AbsoluteLayout.LayoutFlags="SizeProportional" >
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                    <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+                    </AbsoluteLayout>
+
+                    <Label Text="To City" FontSize="16" />
+                    <custom:PlacesBar x:Name="search_to"
+                              Text="{Binding ToText}"
+                              Placeholder="To City" 
+                              Type="Cities"  
+                              ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
+                    <AbsoluteLayout>
+                        <ActivityIndicator IsRunning="{Binding Busy}"
+                                       IsVisible="{Binding Busy}"
+				AbsoluteLayout.LayoutBounds="0.5, 0.1, 20, 20" AbsoluteLayout.LayoutFlags="PositionProportional" />
+                        <controls:HorizontalList ListOrientation="Vertical"
+                                         IsVisible="{Binding IsToVisible}"
+                                         ItemsSource="{Binding ToAutoCompletePredictions}"
+				                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                         AbsoluteLayout.LayoutFlags="SizeProportional" >
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                    <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+                    </AbsoluteLayout>
+
+
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Date (Optional)" 
+                               FontSize="16"
+                               VerticalOptions="Center"/>
+                            <controls:ToggleButton Command="{Binding DateToggleCommand}" 
+                                           Checked="{Binding IsDateOn, Mode=TwoWay}"
+                                           CheckedImage="switchon.png" 
+                                           UnCheckedImage="switchoff.png"
+                                           Animate="True"
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"/>
+
+                        </StackLayout>
+                        <DatePicker Date="{Binding SearchRide.Date}" 
+                            Format="d MM yyyy"
+                            IsEnabled="{Binding IsDateOn}"/>
+
+                    </StackLayout>
+
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Approximate time" 
+                               FontSize="16"
+                               VerticalOptions="Center"/>
+                            <controls:ToggleButton Command="{Binding TimeToggleCommand}" 
+                                           Checked="{Binding IsTimeOn, Mode=TwoWay}"
+                                           CheckedImage="switchon.png" 
+                                           UnCheckedImage="switchoff.png"
+                                           Animate="True"
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"/>
+                        </StackLayout>
+
+                        <TimePicker
+                        Time="{Binding SearchRide.Time}" 
+                        IsEnabled="{Binding IsTimeOn}"/>
+
+                    </StackLayout>
+
+                    <controls:ButtonFrame HeightRequest="17" 
+                                          WidthRequest="400"
+                                          Margin="4"
+                                          x:Name="findbutton">
+                        <Label Text="Search" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <controls:ButtonFrame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SearchButtonTapCommand}" />
+                            <TapGestureRecognizer Tapped="FindButtonFocused" />
+                        </controls:ButtonFrame.GestureRecognizers>
+                        
+                    </controls:ButtonFrame>
+                    
+                    <BoxView HeightRequest="2" 
+                        WidthRequest="100" 
+                        BackgroundColor="Gray"
+                        Margin="4"/>
+
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="No Results"
+                       FontSize="16"
+                       IsVisible="{Binding IsRidesListEmpty}"
+                       HorizontalOptions="Center"/>
+
+                    <Label Text="Results"
+                           FontSize="18"
+                           IsVisible="{Binding IsRidesListEmpty, Converter={StaticResource boolConverter}}"
+                           HorizontalOptions="Center"
+                           x:Name="resultslabel"/>
+
+                    <controls:HorizontalList ListOrientation="Vertical"
+                                             IsVisible="{Binding IsRidesListEmpty, Converter={StaticResource boolConverter}}"
+                                             ItemsSource="{Binding RidesList}"
+				                             AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                             AbsoluteLayout.LayoutFlags="SizeProportional" >
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:RideInList ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

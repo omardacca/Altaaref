@@ -4,9 +4,7 @@
              x:Class="Altaaref.Views.Templates.Hitchhicking.ViewPlaceTemplate"
              x:Name="thispageref">
   <ContentView.Content>
-      <StackLayout HeightRequest="30"
-                   Margin="2"
-                   BackgroundColor="Yellow">
+      <StackLayout HeightRequest="30">
             <Label Text="{Binding Description}" 
                    FontSize="18" 
                    TextColor="Black"

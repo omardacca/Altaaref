@@ -143,17 +143,38 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        public ICommand AutocompletePlaceTap => new Command<AutoCompletePrediction>(async (Prediction) => await HandlePlacePredictionTap(Prediction));
         public ICommand SearchButtonTapCommand => new Command(async () => await HandleSearchButtonTap());
+        public ICommand DateToggleCommand => new Command(() => HandleDateToggle());
+        public ICommand TimeToggleCommand => new Command(() => HandleTimeToggle());
+        public ICommand ItemTappedCommand => new Command<Ride>(async(ride) => await HandleResultItemTap(ride));
+
 
         public FindRideViewModel(IPageService pageService)
         {
             _pageService = pageService;
+            IsRidesListEmpty = true;
             SearchRide = new Ride
             {
                 Date = DateTime.Now,
                 Time = DateTime.Now
             };
 
+        }
+
+        private async Task HandleResultItemTap(Ride ride)
+        {
+            await _pageService.PushAsync(new Views.Hitchhicking.RidePage(ride));
+        }
+
+        private void HandleDateToggle()
+        {
+            //IsDateOn = !IsDateOn;
+        }
+
+        private void HandleTimeToggle()
+        {
+            //IsTimeOn = !IsTimeOn;
         }
 
         public void SearchBarPlacesRetrieved(AutoCompleteResult result, string FromOrTo)
@@ -166,7 +187,7 @@ namespace Altaaref.ViewModels.Hitchhicking
             else
             {
                 ToAutoCompletePredictions = result.AutoCompletePlaces;
-                IsToVisible = true;
+                IsToVisible  = true;
             }
         }
 
@@ -226,6 +247,14 @@ namespace Altaaref.ViewModels.Hitchhicking
             await GetSearchResults(url);
         }
 
+        private void UpdateListForView()
+        {
+            foreach(var ride in RidesList)
+            {
+                ride.NumOfFreeSeats -= byte.Parse(ride.RideAttendants.Count.ToString());
+            }
+        }
+
         private async Task GetSearchResults(string filteredUrl)
         {
             Busy = true;
@@ -234,8 +263,12 @@ namespace Altaaref.ViewModels.Hitchhicking
             var list = JsonConvert.DeserializeObject<List<Ride>>(results);
             RidesList = new List<Ride>(list);
 
+            UpdateListForView();
+
             if (RidesList == null || RidesList.Count == 0)
                 IsRidesListEmpty = true;
+            else
+                IsRidesListEmpty = false;
 
             Busy = false;
         }
