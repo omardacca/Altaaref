@@ -11,7 +11,6 @@ namespace Altaaref.ViewModels.Notebooks
 {
     public class FindNotebookResultsViewModel : BaseViewModel
     {
-        int StudentId = 204228043;
         private HttpClient _client = new HttpClient();
         private readonly IPageService _pageService;
 

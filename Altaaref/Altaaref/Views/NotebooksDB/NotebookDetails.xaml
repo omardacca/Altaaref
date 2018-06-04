@@ -103,9 +103,9 @@
                     </controls:ButtonFrame>
 
                     <controls:ButtonFrame HeightRequest="17" WidthRequest="80">
-                        <Label Text="Send to" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Label Text="Viewh" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                         <controls:ButtonFrame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SendToCommand}" />
+                            <TapGestureRecognizer Command="{Binding ViewCommand}" />
                         </controls:ButtonFrame.GestureRecognizers>
                     </controls:ButtonFrame>
                 </StackLayout>

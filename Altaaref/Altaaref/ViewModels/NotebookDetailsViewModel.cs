@@ -17,6 +17,7 @@ namespace Altaaref.ViewModels
     public class NotebookDetailsViewModel : BaseViewModel
     {
         private HttpClient _client = new HttpClient();
+        private readonly IPageService _pageService;
 
         private bool _isFavorite;
 
@@ -79,7 +80,7 @@ namespace Altaaref.ViewModels
 
         public ICommand FavoriteImageButtonCommand => new Command(OnFavoriteTap);
         public ICommand DownloadCommand => new Command(HandleOnDownloadButtonClicked);
-        public ICommand SendToCommand => new Command(HandleSaveToCommand);
+        public ICommand ViewCommand => new Command(async() => await HandleViewCommand());
 
         public ICommand ViewProfileCommand { get; set; }
         public ICommand OneStarCommand { get; set; }
@@ -152,8 +153,10 @@ namespace Altaaref.ViewModels
             }
         }
         
-        public NotebookDetailsViewModel(ViewNotebookStudent Notebook)
+        public NotebookDetailsViewModel(IPageService pageService ,ViewNotebookStudent Notebook)
         {
+            _pageService = pageService;
+
             Busy = true;
             IsOneStars = false;
             IsTwoStars = false;
@@ -629,9 +632,11 @@ namespace Altaaref.ViewModels
             DependencyService.Get<IDownloader>().StartDownload(_viewNotebookStudent.Notebook.BlobURL, _viewNotebookStudent.Notebook.Name.Trim() + ".pdf");
         }
 
-        private void HandleSaveToCommand()
+        private async Task HandleViewCommand()
         {
-            DependencyService.Get<IDownloader>().SaveTo();
+            //DependencyService.Get<IDownloader>().SaveTo();
+
+            await _pageService.PushAsync(new Views.NotebooksDB.PdfViewer(_viewNotebookStudent.Notebook.BlobURL));
         }
         
     }

@@ -27,7 +27,8 @@
 
             <controls:HorizontalList ListOrientation="Vertical"
                                      ItemsSource="{Binding RequestsList}"
-                                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
+                                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
+                                     IsVisible="{Binding IsInvitationsListEmpty, Converter={StaticResource boolConverter}}">
                 <controls:HorizontalList.ItemTemplate>
                     <DataTemplate>
                         <template:RideInList ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}" />
