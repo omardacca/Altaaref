@@ -64,8 +64,7 @@ namespace AltaarefWebAPI.Controllers
                     RideId = rideInv.RideId,
                     Ride = rideInv.Ride,
                     Status = rideInv.Status
-                })
-                .ToList();
+                });
 
             if (ridesInvitations == null)
             {
