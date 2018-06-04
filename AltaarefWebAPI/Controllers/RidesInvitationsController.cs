@@ -59,7 +59,9 @@ namespace AltaarefWebAPI.Controllers
             var ridesInvitations = _context.RidesInvitations.Where(m => m.RideId == RideId)
                 .Select(rideInv => new RidesInvitations
                 {
+                    CandidateId = rideInv.CandidateId,
                     Candidate = rideInv.Candidate,
+                    RideId = rideInv.RideId,
                     Ride = rideInv.Ride,
                     Status = rideInv.Status
                 })
