@@ -60,9 +60,30 @@ namespace AltaarefWebAPI.Controllers
                 .Select(rideInv => new RidesInvitations
                 {
                     CandidateId = rideInv.CandidateId,
-                    Candidate = rideInv.Candidate,
+                    Candidate = new Student
+                    {
+                        Id = rideInv.Candidate.Id,
+                        FullName = rideInv.Candidate.FullName,
+                        ProfilePicBlobUrl = rideInv.Candidate.ProfilePicBlobUrl
+                    },
                     RideId = rideInv.RideId,
-                    Ride = rideInv.Ride,
+                    Ride = new Ride
+                    {
+                        Id = rideInv.RideId,
+                        Message = rideInv.Ride.Message,
+                        Date = rideInv.Ride.Date,
+                        FromCity = rideInv.Ride.FromCity,
+                        FromAddress = rideInv.Ride.FromAddress,
+                        ToCity = rideInv.Ride.ToCity,
+                        ToAddress = rideInv.Ride.ToAddress,
+                        FromLat = rideInv.Ride.FromLat,
+                        FromLong = rideInv.Ride.FromLong,
+                        ToLat = rideInv.Ride.ToLat,
+                        ToLong = rideInv.Ride.ToLong,
+                        NumOfFreeSeats = rideInv.Ride.NumOfFreeSeats,
+                        DriverId = rideInv.Ride.DriverId,
+                        Time = rideInv.Ride.Time,
+                    },
                     Status = rideInv.Status
                 });
 
