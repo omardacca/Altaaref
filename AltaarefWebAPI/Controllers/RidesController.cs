@@ -202,7 +202,7 @@ namespace AltaarefWebAPI.Controllers
                         FullName = ride.Driver.FullName,
                         ProfilePicBlobUrl = ride.Driver.ProfilePicBlobUrl
                     },
-                    RideAttendants = ride.RideAttendants
+                    RideAttendants = new List<RideAttendants>(ride.RideAttendants)
                 });
 
             if (RidesList == null)
