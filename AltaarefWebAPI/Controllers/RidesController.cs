@@ -214,7 +214,7 @@ namespace AltaarefWebAPI.Controllers
 
         // GET: api/Rides/5
         [HttpGet("GetNumberOfAttendants/{RideId:int}")]
-        public IActionResult GetNumberOfAttendants(int RideId)
+        public IActionResult GetNumberOfAttendants([FromRoute] int RideId)
         {
             if (!ModelState.IsValid)
             {
