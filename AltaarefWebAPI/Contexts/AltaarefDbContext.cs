@@ -31,6 +31,7 @@ namespace AltaarefWebAPI.Contexts
         public DbSet<NotebookRates> NotebookRates { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
         public DbSet<Ride> Rides { get; set; }
+        public DbSet<RideAttendants> RideAttendants { get; set; }
         public DbSet<RidesInvitations> RidesInvitations { get; set; }
 
 
@@ -277,7 +278,7 @@ namespace AltaarefWebAPI.Contexts
                 .WithMany(ra => ra.RideAttendants)
                 .HasForeignKey(ra => ra.RideId);
 
-            // Many to Many - Student, Ride, RideAttendants
+            // Many to Many - Student, Ride, RideInvitations
 
             modelBuilder.Entity<RidesInvitations>()
                 .HasKey(ri => new { ri.RideId, ri.CandidateId});

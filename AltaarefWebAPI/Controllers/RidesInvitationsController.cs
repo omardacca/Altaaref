@@ -161,13 +161,6 @@ namespace AltaarefWebAPI.Controllers
             }
 
             _context.RidesInvitations.Add(ridesInvitations);
-            _context.Rides.Single(ri => ri.Id == ridesInvitations.RideId).RideAttendants.Add(new RideAttendants
-            {
-                RideId = ridesInvitations.RideId,
-                Ride = ridesInvitations.Ride,
-                AttendantId = ridesInvitations.CandidateId,
-                Attendant = ridesInvitations.Candidate
-            });
 
             try
             {
