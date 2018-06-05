@@ -87,6 +87,7 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         private async Task HandleViewProfile()
         {
+
         }
 
         private async Task<bool> DeleteRequest()

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             x:Class="Altaaref.Views.Templates.Hitchhicking.RideInvitation"
+             x:Name="thispageref">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="85" />
+                <Setter Property="Margin" Value="0, 5, 0, 0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Frame Style="{StaticResource FirstPanelStyle}" Padding="0">
+            <StackLayout Orientation="Horizontal">
+
+                <Image Source="{Binding Candidate.ProfilePicBlobUrl}"
+                   HeightRequest="95"
+                   WidthRequest="95" />
+
+                <StackLayout Margin="4"
+                             HorizontalOptions="StartAndExpand">
+                    <Label Text="{Binding Candidate.FullName}"
+                           FontSize="18"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Label Text="Request Accepted" TextColor="Red" FontSize="16" 
+                           IsVisible="{Binding Status}"/>
+                </StackLayout>
+
+
+                <Image Source="vicon.png" IsVisible="{Binding Status}" 
+                       HorizontalOptions="End" 
+                       Margin="0, 0, 2, 0"/> 
+                <Image Source="xicon.png" IsVisible="{Binding Status, Converter={StaticResource boolConverter}}"
+                       HorizontalOptions="End"
+                       Margin="0, 0, 2, 0"/>
+
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ParentContext.ItemTappedCommand, Source={x:Reference thispageref}}" CommandParameter="{Binding .}" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

@@ -74,7 +74,7 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         private async Task HandleViewInvitations(Ride ride)
         {
-            await _pageService.PushAsync(new Views.CommonPages.RideRequestsForVerification(ride.Id));
+            await _pageService.PushAsync(new Views.CommonPages.RideRequestsForVerification(ride));
         }
 
     }

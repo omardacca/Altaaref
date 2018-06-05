@@ -22,7 +22,7 @@ namespace Altaaref.ViewModels.Hitchhicking
             set
             {
                 _requestsList = value;
-                OnPropertyChanged(nameof(RidesInvitations));
+                OnPropertyChanged(nameof(RequestsList));
             }
         }
 
@@ -46,16 +46,15 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
-        private int RideId;
+        private Ride _ride;
 
         public ICommand ItemTappedCommand => new Command<RidesInvitations>(async (rideinv) => await HandleInvitationTap(rideinv));
 
-
-        public RideRequestsForVerificationViewModel(IPageService pageService, int rideId)
+        public RideRequestsForVerificationViewModel(IPageService pageService, Ride ride)
         {
             _pageService = pageService;
 
-            RideId = rideId;
+            _ride = ride;
 
             var getrides = GetRideInvitaions();
 
@@ -63,14 +62,26 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         private async Task HandleInvitationTap(RidesInvitations rideinv)
         {
+            if (_ride.RideAttendants!= null && rideinv.Ride.NumOfFreeSeats - _ride.RideAttendants.Count == 0)
+            {
+                await _pageService.DisplayAlert("Oops!", "Sorry, no more free seats lef!", "Ok", "Cancel");
+                return;
+            }
+            Busy = true;
 
+            rideinv.Status = !rideinv.Status;
+            bool result = await PutInvitationStatus(rideinv);
+            if (!result)
+                rideinv.Status = !rideinv.Status;
+            else
+                RequestsList.Find(ride => ride.RideId == rideinv.RideId && ride.CandidateId == rideinv.CandidateId).Status = rideinv.Status;
+            Busy = false;
         }
-
 
         private async Task GetRideInvitaions()
         {
             Busy = true;
-            var url = "https://altaarefapp.azurewebsites.net/api/RidesInvitations/GetRidesInvitationsByRideId/" + RideId;
+            var url = "https://altaarefapp.azurewebsites.net/api/RidesInvitations/GetRidesInvitationsByRideId/" + _ride.Id;
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<RidesInvitations>>(content);
@@ -80,6 +91,17 @@ namespace Altaaref.ViewModels.Hitchhicking
                 IsInvitationsListEmpty = true;
 
             Busy = false;
+        }
+
+        private async Task<bool> PutInvitationStatus(RidesInvitations UpdatedRideInvitaion)
+        {
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/RidesInvitations/" + UpdatedRideInvitaion.RideId + "/" + UpdatedRideInvitaion.CandidateId;
+
+            var content = new StringContent(JsonConvert.SerializeObject(UpdatedRideInvitaion), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync(postUrl, content);
+
+            return response.IsSuccessStatusCode;
+
         }
     }
 }

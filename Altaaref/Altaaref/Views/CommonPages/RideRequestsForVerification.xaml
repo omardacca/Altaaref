@@ -22,19 +22,21 @@
                            HorizontalOptions="CenterAndExpand" />
 
 
-            <Label Text="No one send you any invitations list!" IsVisible="{Binding IsInvitationsListEmpty}"
+            <StackLayout IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                <Label Text="No one send you any invitations list!" IsVisible="{Binding IsInvitationsListEmpty}"
                    VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="Large" HorizontalTextAlignment="Center"/>
 
-            <controls:HorizontalList ListOrientation="Vertical"
+                <controls:HorizontalList ListOrientation="Vertical"
                                      ItemsSource="{Binding RequestsList}"
                                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
                                      IsVisible="{Binding IsInvitationsListEmpty, Converter={StaticResource boolConverter}}">
-                <controls:HorizontalList.ItemTemplate>
-                    <DataTemplate>
-                        <template:RideInList ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}" />
-                    </DataTemplate>
-                </controls:HorizontalList.ItemTemplate>
-            </controls:HorizontalList>
+                    <controls:HorizontalList.ItemTemplate>
+                        <DataTemplate>
+                            <template:RideInvitation ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}" />
+                        </DataTemplate>
+                    </controls:HorizontalList.ItemTemplate>
+                </controls:HorizontalList>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
