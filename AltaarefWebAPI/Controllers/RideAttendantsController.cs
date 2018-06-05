@@ -57,7 +57,17 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var rideAttendants = _context.RideAttendants.Where(m => m.RideId == RideId)
-                .Select(r => r).ToList();
+                .Select(r => new RideAttendants
+                {
+                    RideId = r.RideId,
+                    AttendantId = r.AttendantId,
+                    Attendant = new Student
+                    {
+                        Id = r.Attendant.Id,
+                        FullName = r.Attendant.FullName,
+                        ProfilePicBlobUrl = r.Attendant.ProfilePicBlobUrl
+                    }
+                });
 
             if (rideAttendants == null)
             {

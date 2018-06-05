@@ -66,27 +66,22 @@ namespace Altaaref.ViewModels.Hitchhicking
         {
             _pageService = pageService;
 
-            IssendButtonVisible = true;
-
             Ride = ride;
 
-            var attendants = GetAttendants();
+            var initcond = GetIsSentInvitation();
+
+            var url = "https://altaarefapp.azurewebsites.net/api/RideAttendants/ByRideId/" + Ride.Id;
+
+            var results = _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<List<RideAttendants>>(results.Result);
+            Attendants = list;
 
             Ride.NumOfFreeSeats -= byte.Parse(Attendants.Count.ToString());
 
-            if (ride.RideAttendants.Count > 0)
+            if (Attendants.Count > 0)
                 IsAttendantsEmpty = false;
             else
                 IsAttendantsEmpty = true;
-        }
-
-        private async Task GetAttendants()
-        {
-            var url = "https://altaarefapp.azurewebsites.net/api/RideAttendants/ByRideId/" + Ride.Id;
-
-            string results = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<RideAttendants>>(results);
-            Attendants = list;
         }
 
         private async Task HandleMessageDriver()
@@ -154,6 +149,20 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         }
 
+        private async Task GetIsSentInvitation()
+        {
+//            Busy = true;
+            string url = "https://altaarefapp.azurewebsites.net/api/RidesInvitations/" + Ride.Id + "/" + Settings.StudentId;
+
+            string content = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<List<RidesInvitations>>(content);
+
+            if (list.Count == 0)
+                IssendButtonVisible = true;
+            else
+                IssendButtonVisible = false;
+            //            Busy = false;
+        }
 
     }
 }

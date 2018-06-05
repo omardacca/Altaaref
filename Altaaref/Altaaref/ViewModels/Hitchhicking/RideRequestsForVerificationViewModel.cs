@@ -62,21 +62,64 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         private async Task HandleInvitationTap(RidesInvitations rideinv)
         {
-            if (_ride.RideAttendants!= null && rideinv.Ride.NumOfFreeSeats - _ride.RideAttendants.Count == 0)
+            if (!rideinv.Status)
             {
-                await _pageService.DisplayAlert("Oops!", "Sorry, no more free seats lef!", "Ok", "Cancel");
-                return;
+                // get the current number of attendants
+                var count = await GetNumberOfAttendants(rideinv.Ride);
+
+                if (rideinv.Ride.NumOfFreeSeats - count == 0)
+                {
+                    await _pageService.DisplayAlert("Oops!", "Sorry, no more free seats lef!", "Ok", "Cancel");
+                    return;
+                }
             }
             Busy = true;
 
             rideinv.Status = !rideinv.Status;
             bool resultput = await PutInvitationStatus(rideinv);
-            bool resultpost = await PostRideAttendant(rideinv);
-            if (!resultput || !resultpost)
+
+            var passed = true;
+            if (rideinv.Status)
+                passed = await PostRideAttendant(rideinv);
+            else
+                passed = await DeleteAttendant(rideinv);
+
+
+            if (!resultput || !passed)
                 rideinv.Status = !rideinv.Status;
             else
                 RequestsList.Find(ride => ride.RideId == rideinv.RideId && ride.CandidateId == rideinv.CandidateId).Status = rideinv.Status;
             Busy = false;
+        }
+
+        private async Task<bool> DeleteAttendant(RidesInvitations rideinv)
+        {
+            Busy = true;
+
+            var url = "https://altaarefapp.azurewebsites.net/api/RideAttendants/" + rideinv.CandidateId + "/" + rideinv.RideId;
+
+            var response = await _client.DeleteAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Busy = false;
+                return true;
+            }
+            else
+            {
+                Busy = false;
+                return false;
+            }
+
+        }
+
+        private async Task<int> GetNumberOfAttendants(Ride ride)
+        {
+            var url = "https://altaarefapp.azurewebsites.net/api/Rides/GetNumberOfAttendants/" + ride.Id;
+            string results = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<List<int>>(results);
+            int count = int.Parse(list[0].ToString());
+            return count;
         }
 
         private async Task GetRideInvitaions()
@@ -118,9 +161,6 @@ namespace Altaaref.ViewModels.Hitchhicking
             var response = _client.PostAsync(postUrl, content);
 
             var insertedRes = await response.Result.Content.ReadAsStringAsync();
-
-            var RideAttendant = JsonConvert.DeserializeObject<Models.StudyGroup>(insertedRes);
-
 
             if (response.Result.IsSuccessStatusCode)
             {
