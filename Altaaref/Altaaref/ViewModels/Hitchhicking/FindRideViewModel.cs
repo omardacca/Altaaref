@@ -251,6 +251,7 @@ namespace Altaaref.ViewModels.Hitchhicking
         {
             foreach(var ride in RidesList)
             {
+                
                 ride.NumOfFreeSeats -= byte.Parse(ride.RideAttendants.Count.ToString());
             }
         }
@@ -271,6 +272,13 @@ namespace Altaaref.ViewModels.Hitchhicking
                 IsRidesListEmpty = false;
 
             Busy = false;
+        }
+
+        private async Task GetNumberOfAttendants(Ride ride)
+        {
+            var url = "https://altaarefapp.azurewebsites.net/api/GetNumberOfAttendants" + "/" + ride.Id;
+            string results = await _client.GetStringAsync(url);
+
         }
 
     }

@@ -213,6 +213,25 @@ namespace AltaarefWebAPI.Controllers
         }
 
         // GET: api/Rides/5
+        [HttpGet("GetNumberOfAttendants/{RideId:int}")]
+        public IActionResult GetNumberOfAttendants(int RideId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var RidesList = _context.Rides.Where(s => s.Id == RideId).Select(n => n.RideAttendants.Count);
+
+            if (RidesList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(RidesList);
+        }
+
+        // GET: api/Rides/5
         [HttpGet("GetRideAttendantsByRideId/{RideID}")]
         public IActionResult GetRideAttendants(int RideId)
         {
