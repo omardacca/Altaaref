@@ -70,8 +70,9 @@ namespace Altaaref.ViewModels.Hitchhicking
             Busy = true;
 
             rideinv.Status = !rideinv.Status;
-            bool result = await PutInvitationStatus(rideinv);
-            if (!result)
+            bool resultput = await PutInvitationStatus(rideinv);
+            bool resultpost = await PostRideAttendant(rideinv);
+            if (!resultput || !resultpost)
                 rideinv.Status = !rideinv.Status;
             else
                 RequestsList.Find(ride => ride.RideId == rideinv.RideId && ride.CandidateId == rideinv.CandidateId).Status = rideinv.Status;
@@ -95,12 +96,46 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         private async Task<bool> PutInvitationStatus(RidesInvitations UpdatedRideInvitaion)
         {
-            var postUrl = "https://altaarefapp.azurewebsites.net/api/RidesInvitations/" + UpdatedRideInvitaion.RideId + "/" + UpdatedRideInvitaion.CandidateId;
+            var puttUrl = "https://altaarefapp.azurewebsites.net/api/RidesInvitations/" + UpdatedRideInvitaion.RideId + "/" + UpdatedRideInvitaion.CandidateId;
 
             var content = new StringContent(JsonConvert.SerializeObject(UpdatedRideInvitaion), Encoding.UTF8, "application/json");
-            var response = await _client.PutAsync(postUrl, content);
+            var response = await _client.PutAsync(puttUrl, content);
 
             return response.IsSuccessStatusCode;
+        }
+
+        private async Task<bool> PostRideAttendant(RidesInvitations UpdatedRideInvitaion)
+        {
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/RideAttendants/";
+
+            RideAttendants rideAttendants = new RideAttendants
+            {
+                AttendantId = UpdatedRideInvitaion.CandidateId,
+                RideId = UpdatedRideInvitaion.RideId
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(rideAttendants), Encoding.UTF8, "application/json");
+            var response = _client.PostAsync(postUrl, content);
+
+            var insertedRes = await response.Result.Content.ReadAsStringAsync();
+
+            var RideAttendant = JsonConvert.DeserializeObject<Models.StudyGroup>(insertedRes);
+
+
+            if (response.Result.IsSuccessStatusCode)
+            {
+                //await FCMPushNotificationSender.Send(
+                //    "SG" + StudyGroup.CourseId,
+                //    "New Study Group",
+                //    "New study group added in a course you interested in, join now!");
+
+                return true;
+            }
+            else
+            {
+                await _pageService.DisplayAlert("Error", "Something went wrong", "OK", "Cancel");
+                return false;
+            }
 
         }
     }
