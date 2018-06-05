@@ -53,6 +53,16 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private int _attendantsCount;
+        public int AttendantsCount
+        {
+            get { return _attendantsCount; }
+            set
+            {
+                SetValue(ref _attendantsCount, value);
+            }
+        }
+
         private bool _isRidesListEmpty;
         public bool IsRidesListEmpty
         {
@@ -247,12 +257,12 @@ namespace Altaaref.ViewModels.Hitchhicking
             await GetSearchResults(url);
         }
 
-        private void UpdateListForView()
+        private async Task UpdateListForView()
         {
             foreach(var ride in RidesList)
             {
-                
-                ride.NumOfFreeSeats -= byte.Parse(ride.RideAttendants.Count.ToString());
+                await GetNumberOfAttendants(ride);
+                ride.NumOfFreeSeats -= byte.Parse(AttendantsCount.ToString());
             }
         }
 
@@ -264,7 +274,7 @@ namespace Altaaref.ViewModels.Hitchhicking
             var list = JsonConvert.DeserializeObject<List<Ride>>(results);
             RidesList = new List<Ride>(list);
 
-            UpdateListForView();
+            await UpdateListForView();
 
             if (RidesList == null || RidesList.Count == 0)
                 IsRidesListEmpty = true;
@@ -276,9 +286,11 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         private async Task GetNumberOfAttendants(Ride ride)
         {
-            var url = "https://altaarefapp.azurewebsites.net/api/GetNumberOfAttendants" + "/" + ride.Id;
+            var url = "https://altaarefapp.azurewebsites.net/api/Rides/GetNumberOfAttendants/" + ride.Id;
             string results = await _client.GetStringAsync(url);
-
+            var list = JsonConvert.DeserializeObject<List<int>>(results);
+            int count = int.Parse(list[0].ToString());
+            AttendantsCount = count;
         }
 
     }

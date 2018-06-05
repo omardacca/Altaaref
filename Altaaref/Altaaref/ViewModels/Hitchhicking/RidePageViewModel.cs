@@ -27,6 +27,17 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private List<RideAttendants> _attendants;
+        public List<RideAttendants> Attendants
+        {
+            get { return _attendants; }
+            set
+            {
+                _attendants = value;
+                OnPropertyChanged(nameof(Attendants));
+            }
+        }
+
         private bool _isAttendantsEmpty;
         public bool IsAttendantsEmpty
         {
@@ -59,12 +70,23 @@ namespace Altaaref.ViewModels.Hitchhicking
 
             Ride = ride;
 
-            Ride.NumOfFreeSeats -= byte.Parse(Ride.RideAttendants.Count.ToString());
+            var attendants = GetAttendants();
+
+            Ride.NumOfFreeSeats -= byte.Parse(Attendants.Count.ToString());
 
             if (ride.RideAttendants.Count > 0)
                 IsAttendantsEmpty = false;
             else
                 IsAttendantsEmpty = true;
+        }
+
+        private async Task GetAttendants()
+        {
+            var url = "https://altaarefapp.azurewebsites.net/api/RideAttendants/ByRideId/" + Ride.Id;
+
+            string results = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<List<RideAttendants>>(results);
+            Attendants = list;
         }
 
         private async Task HandleMessageDriver()

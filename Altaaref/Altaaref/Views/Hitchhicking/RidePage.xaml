@@ -144,7 +144,7 @@
                                    IsVisible="{Binding IsAttendantsEmpty}"/>
 
                             <controls:HorizontalList ListOrientation="Horizontal" 
-                                                 ItemsSource="{Binding Ride.RideAttendants}"
+                                                 ItemsSource="{Binding Attendants}"
                                                  IsVisible="{Binding IsAttendantsEmpty, Converter={StaticResource boolConverter}}">
                                 <controls:HorizontalList.ItemTemplate>
                                     <DataTemplate>
