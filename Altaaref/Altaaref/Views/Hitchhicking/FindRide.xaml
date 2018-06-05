@@ -30,65 +30,64 @@
         <ScrollView x:Name="scrollview">
             <StackLayout Padding="15"
                          HorizontalOptions="Center">
-                <StackLayout Padding="15" Spacing="0">
+                <ActivityIndicator IsRunning="{Binding Busy}"
+                                           IsVisible="{Binding Busy}"
+				                           AbsoluteLayout.LayoutBounds="0.5, 0.1, 20, 20" AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-                    <Label Text="Find Ride" 
+                <StackLayout IsEnabled="{Binding Busy, Converter={StaticResource boolConverter}}">
+                    <StackLayout Padding="15" Spacing="0">
+
+                        <Label Text="Find Ride" 
                                    FontSize="24"
                                    Margin="0, 0, 0, 8"/>
 
-                    <Label Text="From City" FontSize="16" />
-                    <custom:PlacesBar x:Name="search_from" 
+                        <Label Text="From City" FontSize="16" />
+                        <custom:PlacesBar x:Name="search_from" 
                               Text="{Binding FromText}"
                               Placeholder="From City" 
                               Type="Cities"  
                               ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
-                    <AbsoluteLayout>
-                        <ActivityIndicator IsRunning="{Binding Busy}"
-                                       IsVisible="{Binding Busy}"
-				AbsoluteLayout.LayoutBounds="0.5, 0.1, 20, 20" AbsoluteLayout.LayoutFlags="PositionProportional" />
-                        <controls:HorizontalList ListOrientation="Vertical"
-                                         IsVisible="{Binding IsFromVisible}"
-                                         ItemsSource="{Binding FromAutoCompletePredictions}"
-				                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
-                                         AbsoluteLayout.LayoutFlags="SizeProportional" >
-                            <controls:HorizontalList.ItemTemplate>
-                                <DataTemplate>
-                                    <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
-                                </DataTemplate>
-                            </controls:HorizontalList.ItemTemplate>
-                        </controls:HorizontalList>
-                    </AbsoluteLayout>
+                        <AbsoluteLayout>
+                            <controls:HorizontalList ListOrientation="Vertical"
+                                                 IsVisible="{Binding IsFromVisible}"
+                                                 ItemsSource="{Binding FromAutoCompletePredictions}"
+				                                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                                 AbsoluteLayout.LayoutFlags="SizeProportional" >
+                                <controls:HorizontalList.ItemTemplate>
+                                    <DataTemplate>
+                                        <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                                    </DataTemplate>
+                                </controls:HorizontalList.ItemTemplate>
+                            </controls:HorizontalList>
+                        </AbsoluteLayout>
 
-                    <Label Text="To City" FontSize="16" />
-                    <custom:PlacesBar x:Name="search_to"
+                        <Label Text="To City" FontSize="16" />
+                        <custom:PlacesBar x:Name="search_to"
                               Text="{Binding ToText}"
                               Placeholder="To City" 
                               Type="Cities"  
                               ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
-                    <AbsoluteLayout>
-                        <ActivityIndicator IsRunning="{Binding Busy}"
-                                       IsVisible="{Binding Busy}"
-				AbsoluteLayout.LayoutBounds="0.5, 0.1, 20, 20" AbsoluteLayout.LayoutFlags="PositionProportional" />
-                        <controls:HorizontalList ListOrientation="Vertical"
+                        <AbsoluteLayout>
+                            <controls:HorizontalList ListOrientation="Vertical"
                                          IsVisible="{Binding IsToVisible}"
                                          ItemsSource="{Binding ToAutoCompletePredictions}"
 				                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                                          AbsoluteLayout.LayoutFlags="SizeProportional" >
-                            <controls:HorizontalList.ItemTemplate>
-                                <DataTemplate>
-                                    <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
-                                </DataTemplate>
-                            </controls:HorizontalList.ItemTemplate>
-                        </controls:HorizontalList>
-                    </AbsoluteLayout>
+                                <controls:HorizontalList.ItemTemplate>
+                                    <DataTemplate>
+                                        <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                                    </DataTemplate>
+                                </controls:HorizontalList.ItemTemplate>
+                            </controls:HorizontalList>
+                        </AbsoluteLayout>
 
 
-                    <StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="Date (Optional)" 
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Date (Optional)" 
                                FontSize="16"
                                VerticalOptions="Center"/>
-                            <controls:ToggleButton Command="{Binding DateToggleCommand}" 
+                                <controls:ToggleButton Command="{Binding DateToggleCommand}" 
                                            Checked="{Binding IsDateOn, Mode=TwoWay}"
                                            CheckedImage="switchon.png" 
                                            UnCheckedImage="switchoff.png"
@@ -96,75 +95,76 @@
                                            HorizontalOptions="Start"
                                            VerticalOptions="Center"/>
 
-                        </StackLayout>
-                        <DatePicker Date="{Binding SearchRide.Date}" 
+                            </StackLayout>
+                            <DatePicker Date="{Binding SearchRide.Date}" 
                             Format="d MM yyyy"
                             IsEnabled="{Binding IsDateOn}"/>
 
-                    </StackLayout>
+                        </StackLayout>
 
-                    <StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="Approximate time" 
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Approximate time" 
                                FontSize="16"
                                VerticalOptions="Center"/>
-                            <controls:ToggleButton Command="{Binding TimeToggleCommand}" 
+                                <controls:ToggleButton Command="{Binding TimeToggleCommand}" 
                                            Checked="{Binding IsTimeOn, Mode=TwoWay}"
                                            CheckedImage="switchon.png" 
                                            UnCheckedImage="switchoff.png"
                                            Animate="True"
                                            HorizontalOptions="Start"
                                            VerticalOptions="Center"/>
-                        </StackLayout>
+                            </StackLayout>
 
-                        <TimePicker
+                            <TimePicker
                         Time="{Binding SearchRide.Time}" 
                         IsEnabled="{Binding IsTimeOn}"/>
 
-                    </StackLayout>
+                        </StackLayout>
 
-                    <controls:ButtonFrame HeightRequest="17" 
+                        <controls:ButtonFrame HeightRequest="17" 
                                           WidthRequest="400"
                                           Margin="4"
                                           x:Name="findbutton">
-                        <Label Text="Search" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                        <controls:ButtonFrame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SearchButtonTapCommand}" />
-                            <TapGestureRecognizer Tapped="FindButtonFocused" />
-                        </controls:ButtonFrame.GestureRecognizers>
-                        
-                    </controls:ButtonFrame>
-                    
-                    <BoxView HeightRequest="2" 
+                            <Label Text="Search" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                            <controls:ButtonFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SearchButtonTapCommand}" />
+                                <TapGestureRecognizer Tapped="FindButtonFocused" />
+                            </controls:ButtonFrame.GestureRecognizers>
+
+                        </controls:ButtonFrame>
+
+                        <BoxView HeightRequest="2" 
                         WidthRequest="100" 
                         BackgroundColor="Gray"
                         Margin="4"/>
 
-                </StackLayout>
+                    </StackLayout>
 
-                <StackLayout>
-                    <Label Text="No Results"
+                    <StackLayout>
+                        <Label Text="No Results"
                        FontSize="16"
                        IsVisible="{Binding IsRidesListEmpty}"
                        HorizontalOptions="Center"/>
 
-                    <Label Text="Results"
+                        <Label Text="Results"
                            FontSize="18"
                            IsVisible="{Binding IsRidesListEmpty, Converter={StaticResource boolConverter}}"
                            HorizontalOptions="Center"
                            x:Name="resultslabel"/>
 
-                    <controls:HorizontalList ListOrientation="Vertical"
+                        <controls:HorizontalList ListOrientation="Vertical"
                                              IsVisible="{Binding IsRidesListEmpty, Converter={StaticResource boolConverter}}"
                                              ItemsSource="{Binding RidesList}"
 				                             AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                                              AbsoluteLayout.LayoutFlags="SizeProportional" >
-                        <controls:HorizontalList.ItemTemplate>
-                            <DataTemplate>
-                                <template:RideInList ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
-                            </DataTemplate>
-                        </controls:HorizontalList.ItemTemplate>
-                    </controls:HorizontalList>
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                    <template:RideInList ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

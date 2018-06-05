@@ -68,7 +68,14 @@ namespace Altaaref.ViewModels.Hitchhicking
 
             Ride = ride;
 
-            var initcond = GetIsSentInvitation();
+            if (Settings.StudentId == ride.DriverId)
+            {
+                IssendButtonVisible = true;
+            }
+            else
+            {
+                var initcond = GetIsSentInvitation();
+            }
 
             var url = "https://altaarefapp.azurewebsites.net/api/RideAttendants/ByRideId/" + Ride.Id;
 

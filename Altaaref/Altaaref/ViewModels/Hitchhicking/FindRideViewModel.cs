@@ -225,7 +225,7 @@ namespace Altaaref.ViewModels.Hitchhicking
                 ToText = prediction.Description;
 
                 var place = await Places.GetPlace(prediction.Place_ID, App.GooglePlacesApi);
-
+                
                 SearchRide.ToLong = place.Longitude;
                 SearchRide.ToLat = place.Latitude;
                 SearchRide.ToCity = place.Name;
@@ -246,11 +246,11 @@ namespace Altaaref.ViewModels.Hitchhicking
             var place = SearchRide.FromLong.ToString() + "/" + SearchRide.FromLat.ToString() + "/" + SearchRide.ToLong + "/" + SearchRide.ToLat.ToString() + "/";
 
             if (_isDateOn && IsTimeOn)
-                url += "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd") + " / " + SearchRide.Time.ToString("HH:mm");
+                url = url + "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd") + "/" + SearchRide.Time.ToString("HH:mm");
             else if (_isDateOn)
-                url += "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd");
+                url = url + "GetWithDate/" + place + SearchRide.Date.ToString("yyyy-MM-dd");
             else if (_isTimeOn)
-                url += "GetWithDateTime/" + place + SearchRide.Time.ToString("HH:mm");
+                url = url + "GetWithTime/" + place + SearchRide.Time.ToString("HH:mm");
             else
                 url += "GetWithoutDate/" +  place;
 
