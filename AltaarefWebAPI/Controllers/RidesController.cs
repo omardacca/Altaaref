@@ -416,7 +416,7 @@ namespace AltaarefWebAPI.Controllers
             _context.Rides.Add(ride);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRide", new { id = ride.Id }, ride);
+            return CreatedAtAction("GetRideByStudentId", new { StudentId = ride.DriverId }, ride);
         }
 
         // DELETE: api/Rides/5

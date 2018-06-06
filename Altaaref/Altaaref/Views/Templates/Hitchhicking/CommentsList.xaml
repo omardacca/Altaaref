@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             x:Class="Altaaref.Views.Templates.Hitchhicking.CommentsList">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Frame Style="{StaticResource FirstPanelStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ic:CircleImage HeightRequest="90" WidthRequest="90" Aspect="AspectFill"
+                                Source="{Binding Student.ProfilePicBlobUrl}"
+                                Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HorizontalOptions="Start" VerticalOptions="Start" />
+                <Label Text="{Binding Student.FullName}" Grid.Row="0" Grid.Column="1" HorizontalOptions="Start"/>
+                <Label Text="{Binding FullTime}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" />
+                <Label Text="{Binding Comment}" Grid.Row="2" Grid.Column="1" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand"/>
+
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+
+</ContentView>

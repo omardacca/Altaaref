@@ -166,12 +166,19 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         private async Task HandleSubmition()
         {
+            Busy = true;
             NewRide.DriverId = Settings.StudentId;
 
             var insertedRide = await PostRide();
 
             if(insertedRide != null)
+            {
                 await _pageService.PushAsync(new Views.Hitchhicking.RidePage(insertedRide));
+                Busy = false;
+            }
+
+            Busy = false;
+
         }
 
         private async Task<Ride> PostRide()
@@ -182,13 +189,12 @@ namespace Altaaref.ViewModels.Hitchhicking
 
             var content = new StringContent(JsonConvert.SerializeObject(NewRide), Encoding.UTF8, "application/json");
             var response = _client.PostAsync(postUrl, content);
-
             var InsertedRide = JsonConvert.DeserializeObject<Ride>(await response.Result.Content.ReadAsStringAsync());
-
 
             if (response.Result.IsSuccessStatusCode)
             {
                 // Send Notification
+
 
                 var datestring = NewRide.Date.ToString("MMdd");
                 datestring += NewRide.Date.ToString("HHmm");

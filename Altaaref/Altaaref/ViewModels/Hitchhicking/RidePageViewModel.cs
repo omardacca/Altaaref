@@ -27,6 +27,16 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private bool _busy;
+        public bool Busy
+        {
+            get { return _busy; }
+            set
+            {
+                SetValue(ref _busy, value);
+            }
+        }
+
         private List<RideAttendants> _attendants;
         public List<RideAttendants> Attendants
         {
@@ -69,6 +79,17 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private List<RideComments> _rideComments;
+        public List<RideComments> RideComments
+        {
+            get { return _rideComments; }
+            set
+            {
+                _rideComments = value;
+                OnPropertyChanged(nameof(RideComments));
+            }
+        }
+
         private bool _commentsEmpty;
         public bool CommentsEmpty
         {
@@ -79,9 +100,18 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private bool _isDeleteButtonVisible;
+        public bool IsDeleteButtonVisible
+        {
+            get { return _isDeleteButtonVisible; }
+            set { SetValue(ref _isDeleteButtonVisible, value); }
+        }
+
         public ICommand ViewProfileCommand => new Command(async () => await HandleViewProfile());
         public ICommand SendAttendantCommand => new Command(async () => await HandleSendAttendant());
         public ICommand MessageDriver => new Command(async () => await HandleMessageDriver());
+        public ICommand PostButtonCommand => new Command(async () => await AddComment());
+        public ICommand DeleteCommand => new Command(async () => await HandleDelete());
 
         public RidePageViewModel(Ride ride, IPageService pageService)
         {
@@ -112,6 +142,99 @@ namespace Altaaref.ViewModels.Hitchhicking
                 IsAttendantsEmpty = false;
             else
                 IsAttendantsEmpty = true;
+
+            NewComment = new RideComments
+            {
+                RideId = ride.Id,
+                StudentId = Settings.StudentId
+            };
+
+            var comments = GetComments();
+
+            if (ride.DriverId == Settings.StudentId)
+                IsDeleteButtonVisible = true;
+            else
+                IsDeleteButtonVisible = false;
+        }
+
+        private async Task HandleDelete()
+        {
+            var results = await _pageService.DisplayAlert("Are you sure ?", "Are you sure you want to cancel this ride ?", "OK", "Cancel");
+
+            if (!results) return;
+
+            Busy = true;
+            var url = "https://altaarefapp.azurewebsites.net/api/Rides/" + Ride.Id;
+
+            try
+            {
+                var content = await _client.DeleteAsync(url);
+
+                Busy = false;
+            }
+            catch (HttpRequestException e)
+            {
+                Busy = false;
+            }
+
+            Busy = false;
+        }
+
+        private async Task GetComments()
+        {
+            Busy = true;
+            string url = "https://altaarefapp.azurewebsites.net/api/RideComments/GetByRideId/" + Ride.Id;
+
+            try
+            {
+                var content = await _client.GetStringAsync(url);
+                var ridcomments = JsonConvert.DeserializeObject<List<RideComments>>(content);
+                RideComments = ridcomments;
+
+                if (RideComments != null && RideComments.Count != 0)
+                    CommentsEmpty = false;
+                else
+                    CommentsEmpty = true;
+            }
+            catch (HttpRequestException e)
+            {
+                CommentsEmpty = true;
+                Busy = false;
+            }
+
+            Busy = false;
+
+        }
+
+        private async Task  AddComment()
+        {
+            if (NewComment.Comment == null) return;
+            PostNewComment();
+
+            await GetComments();
+
+            NewComment = new RideComments
+            {
+                StudentId = Settings.StudentId,
+                RideId = Ride.Id,
+                Comment = ""
+            };
+        }
+
+        private async void PostNewComment()
+        {
+            var postUrl = "https://altaarefapp.azurewebsites.net/api/RideComments";
+
+            var content = new StringContent(JsonConvert.SerializeObject(NewComment), Encoding.UTF8, "application/json");
+            var response = _client.PostAsync(postUrl, content);
+
+            if (response.Result.IsSuccessStatusCode)
+            {
+            }
+            else
+            {
+                await _pageService.DisplayAlert("Error", "Something went wrong with commenting", "OK", "Cancel");
+            }
         }
 
         private async Task HandleMessageDriver()

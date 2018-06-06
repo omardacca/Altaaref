@@ -34,9 +34,10 @@
                     Color="Black"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="CenterAndExpand" />
+//                <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
                 -->
 
-                <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                <Grid Padding="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -211,11 +212,11 @@
 
                         <Label Text="No comments.." IsVisible="{Binding CommentsEmpty}" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" />
 
-                        <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding RidesCommentsList}"
+                        <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding RideComments}"
                                              Grid.Row="1" Grid.Column="0" IsVisible="{Binding CommentsEmpty, Converter={StaticResource boolConverter}}">
                             <controls:HorizontalList.ItemTemplate>
                                 <DataTemplate>
-                                    <sgtemplates:CommentsListTemplate />
+                                    <templates:CommentsList />
                                 </DataTemplate>
                             </controls:HorizontalList.ItemTemplate>
                         </controls:HorizontalList>
@@ -223,7 +224,32 @@
 
 
                 </Grid>
+                
+                <Grid VerticalOptions="EndAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
+                    <Entry Text="{Binding NewComment.Comment}" WidthRequest="320" Placeholder="Write your comment here"
+                           HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0"/>
+                    <Label Text="Post" Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PostButtonCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+
+                <controls:ButtonFrame HeightRequest="17" WidthRequest="200"
+                                      VerticalOptions="EndAndExpand"
+                                      IsVisible="{Binding IsDeleteButtonVisible}"
+                                      Grid.Row="7"
+                                      Margin="4">
+                    <Label Text="Cancel this Ride" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    <controls:ButtonFrame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DeleteCommand}" />
+                    </controls:ButtonFrame.GestureRecognizers>
+                </controls:ButtonFrame>
             </StackLayout>
         </ScrollView>
 

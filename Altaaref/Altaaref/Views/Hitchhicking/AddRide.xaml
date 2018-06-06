@@ -8,9 +8,32 @@
              x:Class="Altaaref.Views.Hitchhicking.AddRide"
              x:Name="thispageref"
              Title="Add New Ride">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="BackgroundColor">#F5F5F5</Color>
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#EEEEEE</Color>
+
+            <Style x:Key="FirstPanelStyle"
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="490" />
+                <Setter Property="Margin" Value="10, 10, 10, 10" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Padding="15">
+            <ActivityIndicator IsRunning="{Binding Busy}"
+                               IsVisible="{Binding Busy}"
+				AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
+            <StackLayout Padding="15"
+                         IsEnabled="{Binding Busy, Converter={StaticResource boolConverter}}">
 
                 <Label Text="Find Ride" 
                                    FontSize="24"
@@ -23,8 +46,6 @@
                               Type="Cities"  
                               ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
                 <AbsoluteLayout>
-                    <ActivityIndicator IsRunning="false"
-				AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
                     <controls:HorizontalList ListOrientation="Vertical"
                                          IsVisible="{Binding IsFromVisible}"
                                          ItemsSource="{Binding FromAutoCompletePredictions}"

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Altaaref.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Altaaref.Models
 {
-    public class RideComments
+    public class RideComments : BaseViewModel
     {
         public int Id { get; set; }
 
@@ -14,7 +15,13 @@ namespace Altaaref.Models
         public int RideId { get; set; }
         public Ride Ride { get; set; }
 
-        public string Comment { get; set; }
+        private string _comment;
+        public string Comment
+        {
+            get { return _comment; }
+            set { SetValue(ref _comment, value); }
+        }
+
         public DateTime FullTime { get; set; }
     }
 }
