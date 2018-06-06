@@ -58,6 +58,27 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private RideComments _newComment;
+        public RideComments NewComment
+        {
+            get { return _newComment; }
+            set
+            {
+                _newComment = value;
+                OnPropertyChanged(nameof(NewComment));
+            }
+        }
+
+        private bool _commentsEmpty;
+        public bool CommentsEmpty
+        {
+            get { return _commentsEmpty; }
+            set
+            {
+                SetValue(ref _commentsEmpty, value);
+            }
+        }
+
         public ICommand ViewProfileCommand => new Command(async () => await HandleViewProfile());
         public ICommand SendAttendantCommand => new Command(async () => await HandleSendAttendant());
         public ICommand MessageDriver => new Command(async () => await HandleMessageDriver());
@@ -65,6 +86,8 @@ namespace Altaaref.ViewModels.Hitchhicking
         public RidePageViewModel(Ride ride, IPageService pageService)
         {
             _pageService = pageService;
+
+            NewComment = new RideComments();
 
             Ride = ride;
 

@@ -56,7 +56,20 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var rideComments = await _context.RideComments.SingleOrDefaultAsync(m => m.RideId == RideId);
+            var rideComments = _context.RideComments.Where(m => m.RideId == RideId)
+                .Select(rc => new RideComments
+                {
+                    Id = rc.Id,
+                    RideId = rc.RideId,
+                    StudentId = rc.StudentId,
+                    FullTime = rc.FullTime,
+                    Comment = rc.Comment,
+                    Student = new Student
+                    {
+                        FullName = rc.Student.FullName,
+                        ProfilePicBlobUrl = rc.Student.ProfilePicBlobUrl
+                    }
+                });
 
             if (rideComments == null)
             {
@@ -110,6 +123,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            rideComments.FullTime = DateTime.Now;
             _context.RideComments.Add(rideComments);
             await _context.SaveChangesAsync();
 

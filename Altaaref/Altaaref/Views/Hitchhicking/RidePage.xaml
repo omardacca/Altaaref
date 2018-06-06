@@ -46,6 +46,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <StackLayout Spacing="2"
@@ -197,8 +198,30 @@
                         </Frame>
 
                     </StackLayout>
-                    
-                    
+
+
+                    <Grid Grid.Row="7" Grid.Column="0" Margin="0, 2, 0, 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Comments" FontSize="23" Grid.Row="0" Grid.Column="0" 
+                        HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="0,2,0,1"/>
+
+                        <Label Text="No comments.." IsVisible="{Binding CommentsEmpty}" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" />
+
+                        <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding RidesCommentsList}"
+                                             Grid.Row="1" Grid.Column="0" IsVisible="{Binding CommentsEmpty, Converter={StaticResource boolConverter}}">
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                    <sgtemplates:CommentsListTemplate />
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+                    </Grid>
+
+
                 </Grid>
 
             </StackLayout>

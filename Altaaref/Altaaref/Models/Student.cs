@@ -11,5 +11,8 @@ namespace Altaaref.Models
         public DateTime DOB { get; set; }
         public string ProfilePicBlobUrl { get; set; }
         public string IdentityId { get; set; }
+
+        public ICollection<RideComments> RideComments { get; set; }
+
     }
 }

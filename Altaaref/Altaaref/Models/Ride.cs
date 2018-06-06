@@ -24,5 +24,7 @@ namespace Altaaref.Models
         public Student Driver { get; set; }
 
         public ICollection<RideAttendants> RideAttendants { get; set; }
+        public ICollection<RideComments> RideComments { get; set; }
+
     }
 }
