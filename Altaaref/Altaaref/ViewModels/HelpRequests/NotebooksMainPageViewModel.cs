@@ -141,6 +141,7 @@ namespace Altaaref.ViewModels.HelpRequests
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewNotebookStudent>>(content);
             RecentNotebooksList = new List<ViewNotebookStudent>(list);
+            RecentNotebooksList.Reverse();
 
             if (RecentNotebooksList == null || RecentNotebooksList.Count == 0)
                 IsRecentListEmpty = true;

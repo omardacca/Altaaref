@@ -119,13 +119,15 @@ namespace Altaaref.ViewModels
 
             await DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, Settings.StudentId);
 
-            if (!IsGeneralToggled)
-                await PutToggledFalse();
-
             await _pageService.DisplayAlert("Upload Success", "Notebook Added Successfully.", "Ok", "Cancel");
 
             await FCMPushNotificationSender.Send(
                 "NS" + courseid, "New Notebook", "New notebook that you may interest in has been added");
+
+
+
+            Notebook notebook = await GetLastNotebookAdded();
+            await PutToggled(notebook);
 
             await _pageService.PopAsync();
         }
@@ -135,18 +137,37 @@ namespace Altaaref.ViewModels
 
         }
 
-        private async Task PutToggledFalse()
+        private async Task PutToggled(Notebook Notebook)
         {
-            //var puttUrl = "https://altaarefapp.azurewebsites.net/api/Notebooks/"
+            var putUrl = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + Notebook.Id;
 
-            // notebook init and toggle false
+            Notebook.IsPrivate = IsGeneralToggled;
 
-            //var content = new StringContent(JsonConvert.SerializeObject(UpdatedRideInvitaion), Encoding.UTF8, "application/json");
-            //var response = await _client.PutAsync(puttUrl, content);
+            var content = new StringContent(JsonConvert.SerializeObject(Notebook), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync(putUrl, content);
 
             //return response.IsSuccessStatusCode;
         }
 
+        private async Task<Notebook> GetLastNotebookAdded()
+        {
+            string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/GetLastForStudent/" + Settings.StudentId;
+
+            string content = await _client.GetStringAsync(url);
+            var list = JsonConvert.DeserializeObject<List<Notebook>>(content);
+
+            Notebook max = null;
+            if(list!= null && list.Count != 0)
+            {
+                max = list[0];
+                foreach (var item in list)
+                {
+                    if (item.Id > max.Id) max = item;
+                }
+            }
+
+            return max;
+        }
 
 
     }

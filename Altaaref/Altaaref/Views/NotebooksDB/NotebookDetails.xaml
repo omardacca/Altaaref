@@ -36,7 +36,7 @@
 
             <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -55,10 +55,16 @@
                        FontSize="16"
                        Grid.Row="1" />
 
-                <Label Text="{Binding ViewNotebookStudent.Notebook.PublishDate, StringFormat='{0:D}'}"
+                <StackLayout Grid.Row="2">
+                    <Label Text="This book is Private" 
+                           FontSize="16"
+                           TextColor="Red"
+                           IsVisible="{Binding ViewNotebookStudent.Notebook.IsPrivate}" />
+                    <Label Text="{Binding ViewNotebookStudent.Notebook.PublishDate, StringFormat='{0:D}'}"
                        FontSize="16"
-                       Grid.Row="2"
                        Margin="0,0,0,10"/>
+                    
+                </StackLayout>
 
                 <StackLayout Grid.Row="3"
                              Orientation="Horizontal"

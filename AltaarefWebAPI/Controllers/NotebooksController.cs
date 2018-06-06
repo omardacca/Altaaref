@@ -76,7 +76,9 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var notebook = _context.Notebook.Where(nb => nb.CourseId == CourseId)
+            var notebook = _context.Notebook.Where(nb =>
+            nb.CourseId == CourseId &&
+            nb.IsPrivate == false)
                                             .Select(nb => new ViewNotebookStudent { StudentId = nb.StudentId, StudentName = nb.Student.FullName, Notebook = nb });
 
             if (notebook == null)
@@ -96,7 +98,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var notebook = _context.Notebook.Where(nb => nb.CourseId == CourseId && nb.Name.Contains(notebooktext))
+            var notebook = _context.Notebook.Where(nb => nb.IsPrivate == false && nb.CourseId == CourseId && nb.Name.Contains(notebooktext))
                                             .Select(nb => new ViewNotebookStudent { StudentId = nb.StudentId, StudentName = nb.Student.FullName, Notebook = nb });
 
             if (notebook == null)
@@ -118,7 +120,7 @@ namespace AltaarefWebAPI.Controllers
 
             var studentCoursesId = _context.StudentCourses.Where(sc => sc.Student.IdentityId == IdentityId).Select(sc => sc.CourseId).Distinct();
 
-            var notebook = _context.Notebook.Where(nb => studentCoursesId.Contains(nb.CourseId) &&
+            var notebook = _context.Notebook.Where(nb => nb.IsPrivate == false && studentCoursesId.Contains(nb.CourseId) &&
                                             nb.PublishDate.AddDays(14) >= DateTime.Today)
                                             .Select(nb => new ViewNotebookStudent { StudentId = nb.StudentId, StudentName = nb.Student.FullName, Notebook = nb });
 
@@ -230,7 +232,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var notebook = _context.Notebook.Where(c => c.CourseId == courseId).ToList();
+            var notebook = _context.Notebook.Where(c => c.CourseId == courseId && c.IsPrivate == false).ToList();
 
             if (notebook == null)
             {

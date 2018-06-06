@@ -22,7 +22,7 @@ namespace Altaaref.Views.NotebooksDB
 		{
             InitializeComponent ();
 
-            BindingContext = new NotebookDetailsViewModel(new PageService() ,notebook);
+            BindingContext = new NotebookDetailsViewModel(new PageService(),notebook);
         }
     }
 }
