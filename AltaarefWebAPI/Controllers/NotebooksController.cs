@@ -249,7 +249,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var notebook = _context.Notebook.Where(c => c.StudentId == StudentId).ToList();
+            var notebook = _context.Notebook.Where(c => c.StudentId == StudentId);
 
             var last = from n in notebook
                        group n by n.Id into g
