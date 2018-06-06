@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Altaaref.Views.Hitchhicking.HitchhickingMainPage"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
              xmlns:templates="clr-namespace:Altaaref.Views.Templates.Hitchhicking"
              Title="Hitchhicking Main Page"
              x:Name="MainPageRef">
