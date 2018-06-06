@@ -141,6 +141,7 @@ namespace Altaaref.ViewModels.HelpRequest
                 GeneralListEmpty = false;
 
             GeneralHelpRequestList = new List<StudentHelpRequest>(list);
+            GeneralHelpRequestList.Reverse();
         }
         
         public async Task GetNotGeneralHelpRequest()
@@ -156,6 +157,7 @@ namespace Altaaref.ViewModels.HelpRequest
                 FacultiesListEmpty = false;
 
             FacultiesHelpRequestsList = new List<FacultyHelpRequest>(list);
+            FacultiesHelpRequestsList.Reverse();
         }
 
         //public async void GetNotGeneralWithFacultyIdHelpRequest()

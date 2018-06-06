@@ -48,6 +48,8 @@ namespace Altaaref.ViewModels
             set { SetValue(ref _titleEntry, value); }
         }
 
+        public bool PickerItemSelectedFlag { get; set; }
+
         //public ICommand HandleSubmition { get; private set; }
         public ICommand UploadCommand => new Command(async () => await UploadToBlob());
         public ICommand ToggleCommand => new Command(async () => await HandlePublicCommand());
@@ -114,22 +116,29 @@ namespace Altaaref.ViewModels
 
         private async Task UploadToBlob()
         {
+            if (TitleEntry == null || TitleEntry.Trim() == "" || !PickerItemSelectedFlag)
+            {
+                await _pageService.DisplayAlert("Error!", "Please fill the form properly", "Ok", "Cancel");
+                return;
+            }
+
+            Busy = true;
+
             var courseid = _coursesList[_selectedCourseIndex].Id;
             var titleEntry = TitleEntry;
 
             await DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, Settings.StudentId);
 
+            Notebook notebook = await GetLastNotebookAdded();
+            await PutToggled(notebook);
+
             await _pageService.DisplayAlert("Upload Success", "Notebook Added Successfully.", "Ok", "Cancel");
+            await _pageService.PushAsync(new Views.NotebooksDB.NotebooksMainPage());
 
             await FCMPushNotificationSender.Send(
                 "NS" + courseid, "New Notebook", "New notebook that you may interest in has been added");
 
-
-
-            Notebook notebook = await GetLastNotebookAdded();
-            await PutToggled(notebook);
-
-            await _pageService.PopAsync();
+            Busy = false;
         }
 
         public async Task HandlePublicCommand()
@@ -139,18 +148,20 @@ namespace Altaaref.ViewModels
 
         private async Task PutToggled(Notebook Notebook)
         {
+            Busy = true;
             var putUrl = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + Notebook.Id;
 
             Notebook.IsPrivate = IsGeneralToggled;
 
             var content = new StringContent(JsonConvert.SerializeObject(Notebook), Encoding.UTF8, "application/json");
             var response = await _client.PutAsync(putUrl, content);
-
+            Busy = false;
             //return response.IsSuccessStatusCode;
         }
 
         private async Task<Notebook> GetLastNotebookAdded()
         {
+            Busy = true;    
             string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/GetLastForStudent/" + Settings.StudentId;
 
             string content = await _client.GetStringAsync(url);
@@ -165,7 +176,7 @@ namespace Altaaref.ViewModels
                     if (item.Id > max.Id) max = item;
                 }
             }
-
+            Busy = false;
             return max;
         }
 

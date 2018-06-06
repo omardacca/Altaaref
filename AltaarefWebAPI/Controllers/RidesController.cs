@@ -37,7 +37,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ride = await _context.Rides.SingleOrDefaultAsync(m => m.Id == id);
+            var ride = await _context.Rides.SingleOrDefaultAsync(m => m.Id == id && m.Date >= DateTime.Now);
 
             if (ride == null)
             {
@@ -56,7 +56,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ridesResults = _context.Rides.Where(m => m.DriverId == StudentId).Select(ride => new Ride
+            var ridesResults = _context.Rides.Where(m => m.DriverId == StudentId && m.Date >= DateTime.Now).Select(ride => new Ride
             {
                 Id = ride.Id,
                 FromLat = ride.FromLat,
@@ -98,11 +98,11 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var RidesList = _context.Rides.Where(s =>
-                        (s.FromLong >= s.FromLong - 0.15 &&
+            var RidesList = _context.Rides.Where(s => s.Date >= DateTime.Now && 
+                        ((s.FromLong >= s.FromLong - 0.15 &&
                         s.FromLong <= s.FromLong + 0.15) ||
                         (s.FromLat >= s.FromLat + 0.15 &&
-                        s.FromLat <= s.FromLat - 0.15))
+                        s.FromLat <= s.FromLat - 0.15)))
                         .Select(ride => new Ride
                         {
                             Id = ride.Id,
@@ -292,7 +292,8 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var RidesList = _context.Rides.Where(s =>
+            var RidesList = _context.Rides.Where(s => 
+                s.Date >= DateTime.Now &&
                 s.FromLong == FromLong &&
                 s.FromLat == FromLat &&
                 s.ToLong == ToLong &&

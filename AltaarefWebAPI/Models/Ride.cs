@@ -26,5 +26,6 @@ namespace AltaarefWebAPI.Models
 
         public ICollection<RideAttendants> RideAttendants { get; set; }
         public ICollection<RidesInvitations> RidesInvitations { get; set; }
+        public ICollection<RideComments> RideComments { get; set; }
     }
 }

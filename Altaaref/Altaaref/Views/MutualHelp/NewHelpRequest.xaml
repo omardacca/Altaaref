@@ -35,7 +35,7 @@
                    Margin="0, 0, 0, 25"/>
 
             <Label Text="Message" Grid.Row="1" Grid.Column="0"/>
-            <Editor Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HeightRequest="200" 
+            <Editor Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HeightRequest="150" 
                     Text="{Binding NewHelpRequest.Message}" />
 
             <Label Text="Is General" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start"/>

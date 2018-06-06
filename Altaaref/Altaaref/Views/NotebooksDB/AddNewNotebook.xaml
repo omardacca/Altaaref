@@ -30,7 +30,8 @@
                         <StackLayout Padding="10, 0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                             <Label Text="Course" HorizontalOptions="Start" VerticalOptions="Center"/>
                             <Picker Title="Select Course" ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}" 
-                                    HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedCourseIndex}" />
+                                    HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedCourseIndex}"
+                                    SelectedIndexChanged="IndexChangedEvent"/>
                         </StackLayout>
                     </ViewCell>
                 </TableSection>

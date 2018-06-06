@@ -18,6 +18,13 @@ namespace Altaaref.Views.NotebooksDB
 			InitializeComponent ();
 
             BindingContext = new AddNewNotebookViewModel(new PageService());
-		}
-	}
+
+        }
+
+        public void IndexChangedEvent()
+        {
+            (BindingContext as AddNewNotebookViewModel).PickerItemSelectedFlag = true;
+        }
+
+    }
 }

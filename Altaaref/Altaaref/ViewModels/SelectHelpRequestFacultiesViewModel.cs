@@ -105,6 +105,7 @@ namespace Altaaref.ViewModels
             {
                 List<HelpFaculty> helpFacultiesObjects = InitHelpFacultiesListBasedOnSelected(HelpRequestId);
                 await PostHelpRequestFaculty(helpFacultiesObjects);
+                await _pageService.PushAsync(new Views.MutualHelp.MainHelpRequest());
             }
         }
 

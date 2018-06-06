@@ -219,30 +219,34 @@ namespace Altaaref.Droid
         {
             base.OnActivityResult(requestCode, resultCode, intent);
 
-            if(requestCode == UPLOAD_CODE)
+            try
             {
-                if (IsDocumentUri(intent.Data))
+                if (requestCode == UPLOAD_CODE)
                 {
-                    string documentId = Android.Provider.DocumentsContract.GetDocumentId(intent.Data);
-                    string uriAuthority = intent.Data.Authority;
-
-                    if (IsDownloadDoc(uriAuthority))
+                    if (IsDocumentUri(intent.Data))
                     {
-                        Android.Net.Uri downloadUri = Android.Net.Uri.Parse("content://downloads/public_downloads");
+                        string documentId = Android.Provider.DocumentsContract.GetDocumentId(intent.Data);
+                        string uriAuthority = intent.Data.Authority;
 
-                        Android.Net.Uri downloadUriAppendId = ContentUris.WithAppendedId(downloadUri, long.Parse(documentId));
+                        if (IsDownloadDoc(uriAuthority))
+                        {
+                            Android.Net.Uri downloadUri = Android.Net.Uri.Parse("content://downloads/public_downloads");
 
-                        Java.IO.File file = new Java.IO.File(downloadUriAppendId.ToString());
+                            Android.Net.Uri downloadUriAppendId = ContentUris.WithAppendedId(downloadUri, long.Parse(documentId));
 
-                        Stream inputStream = ContentResolver.OpenInputStream(downloadUriAppendId);
+                            Java.IO.File file = new Java.IO.File(downloadUriAppendId.ToString());
 
-                        string blobUrl = await UploadFileToBlob(inputStream);
+                            Stream inputStream = ContentResolver.OpenInputStream(downloadUriAppendId);
 
-                        AddNotebook(blobUrl);
+                            string blobUrl = await UploadFileToBlob(inputStream);
+
+                            AddNotebook(blobUrl);
+                        }
                     }
-                }
 
+                }
             }
+            catch(NullReferenceException e) { }
             
             if(requestCode == SAVETO_CODE)
             {

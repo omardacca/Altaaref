@@ -52,7 +52,10 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studyGroup = await _context.StudyGroups.SingleOrDefaultAsync(m => m.CourseId == courseId && m.Student.IdentityId == IdentityId);
+            var studyGroup = await _context.StudyGroups.SingleOrDefaultAsync(m =>
+            m.CourseId == courseId && m.Student.IdentityId == IdentityId &&
+            m.Date >= DateTime.Now
+            );
 
             if (studyGroup == null)
             {
@@ -72,7 +75,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studyGroup = _context.StudyGroups.Where(m => m.Student.Id == StudentId)
+            var studyGroup = _context.StudyGroups.Where(m => m.Student.Id == StudentId && m.Date >= DateTime.Now)
                 .Select(sg => new StudyGroupView
                 {
                     StudyGroupId = sg.Id,
@@ -104,7 +107,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studyGroup = _context.StudyGroups.Where(m => m.Student.IdentityId == IdentityId)
+            var studyGroup = _context.StudyGroups.Where(m => m.Student.IdentityId == IdentityId && m.Date >= DateTime.Now)
                 .Select(sg => new StudyGroupView
                 {
                     StudyGroupId = sg.Id,

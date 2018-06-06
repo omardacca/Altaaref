@@ -92,8 +92,6 @@ namespace Altaaref.ViewModels
                 CoursesNameList.Add(course.Name);
         }
 
-
-        // SHOULD BE: STUDENT COURSES not ALL COURSES
         private async Task GetCoursesAsync()
         {
             string url = "https://altaarefapp.azurewebsites.net/api/Courses";

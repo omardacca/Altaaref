@@ -230,6 +230,7 @@ namespace Altaaref.ViewModels.StudyGroup
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<ViewInvitation>>(content);
             InvitationsList = new List<ViewInvitation>(list);
+            InvitationsList.Reverse();
 
             if (InvitationsList == null || InvitationsList.Count == 0)
                 InvitationListEmpty = true;
@@ -246,6 +247,7 @@ namespace Altaaref.ViewModels.StudyGroup
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(content);
             StudyGroupsList = list;
+            StudyGroupsList.Reverse();
 
             if (StudyGroupsList == null || StudyGroupsList.Count == 0)
                 SGBStudentListEmpty = true;
@@ -261,6 +263,7 @@ namespace Altaaref.ViewModels.StudyGroup
             string results = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<StudyGroupView>>(results);
             MySGList = new List<StudyGroupView>(list);
+            MySGList.Reverse();
 
             if (MySGList == null || MySGList.Count == 0)
                 MyGroupsEmpty = true;

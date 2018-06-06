@@ -29,8 +29,11 @@ namespace Altaaref.Droid
             activity.CourseId = CourseId;
             activity.Name = Name;
             activity.StudentId = StudentId;
-
-            activity.StartActivityForResult(viewIntent, MainActivity.UPLOAD_CODE);
+            try
+            {
+                activity.StartActivityForResult(viewIntent, MainActivity.UPLOAD_CODE);
+            }
+            catch(NullReferenceException e) { }
 
             await Task.Delay(2000);
         }

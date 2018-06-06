@@ -292,7 +292,28 @@ namespace AltaarefWebAPI.Contexts
                 .HasOne(ra => ra.Ride)
                 .WithMany(ra => ra.RidesInvitations)
                 .HasForeignKey(ra => ra.RideId);
+
+            // Many to Many - Student, Ride - RideComment
+
+            modelBuilder.Entity<RideComments>()
+                .HasOne(sgc => sgc.Student)
+                .WithMany(hf => hf.RideComments)
+                .HasForeignKey(sgc => sgc.StudentId);
+
+            modelBuilder.Entity<RideComments>()
+                .HasOne(sgc => sgc.Ride)
+                .WithMany(sgc => sgc.RideComments)
+                .HasForeignKey(sgc => sgc.RideId);
+
+            modelBuilder.Entity<RideComments>()
+                .Property(n => n.FullTime)
+                .HasDefaultValue(DateTime.Now);
+
+
         }
+
+
+        public DbSet<AltaarefWebAPI.Models.RideComments> RideComments { get; set; }
 
     }
 }

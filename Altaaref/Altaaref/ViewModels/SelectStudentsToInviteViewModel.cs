@@ -1,4 +1,5 @@
-﻿using Altaaref.Models;
+﻿using Altaaref.Helpers;
+using Altaaref.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -112,6 +113,12 @@ namespace Altaaref.ViewModels
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Student>>(content);
+
+            // Delete myself
+            var myself = list.FindIndex(0, list.Count, s => s.Id == Settings.StudentId);
+            if(myself >= 0)
+                list.Remove(list[myself]);
+
             var stdView = new List<ViewStudent>();
             foreach(Student std in list)
                 stdView.Add(new ViewStudent { Student = std, IsImageVisible = false });
