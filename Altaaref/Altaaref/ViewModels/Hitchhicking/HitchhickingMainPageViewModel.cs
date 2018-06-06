@@ -107,13 +107,13 @@ namespace Altaaref.ViewModels.Hitchhicking
 
             string content = await _client.GetStringAsync(url);
             var list = JsonConvert.DeserializeObject<List<Ride>>(content);
-            var rides = new List<Ride>();
+            var rides = new List<Ride>(list);
             MyRidesList = new List<Ride>(rides);
 
             if (rides.Count != 0)
-                IsNearbyListEmpty = false;
+                IsMyRidesListEmpty = false;
             else
-                IsNearbyListEmpty = true;
+                IsMyRidesListEmpty = true;
 
             Busy = false;
         }

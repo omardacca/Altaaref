@@ -68,7 +68,7 @@ namespace AltaarefWebAPI.Controllers
 
 
         // GET: api/Rides/5
-        [HttpGet("GetNearbyRides/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}/{fromDate:datetime}/{timeDate:datetime}")]
+        [HttpGet("GetNearbyRides/{FromLong:double}/{FromLat:double}")]
         public IActionResult GetRidesWithDateAndTime([FromRoute] double FromLong, [FromRoute] double FromLat)
         {
             if (!ModelState.IsValid)
@@ -353,7 +353,7 @@ namespace AltaarefWebAPI.Controllers
                     throw;
                 }
             }
-
+            
             return NoContent();
         }
 
