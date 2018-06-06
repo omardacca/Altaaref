@@ -253,7 +253,7 @@ namespace AltaarefWebAPI.Controllers
 
             var last = from n in notebook
                        group n by n.Id into g
-                       select g.OrderByDescending(t => t.PublishDate).FirstOrDefault();
+                       select g.OrderByDescending(t => t.Id).FirstOrDefault();
 
 
             if (last == null)
