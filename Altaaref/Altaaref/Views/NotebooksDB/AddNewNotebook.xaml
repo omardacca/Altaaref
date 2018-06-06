@@ -25,11 +25,21 @@
                             <Picker Title="Select Course" ItemsSource="{Binding CoursesList}" ItemDisplayBinding="{Binding Name}" 
                                     HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedCourseIndex}" 
                                     Grid.Row="0" Grid.Column="0"/>
+
+                            <controls:ToggleButton Command="{Binding ToggleCommand}" 
+                                           Checked="{Binding IsGeneralToggled, Mode=TwoWay}"
+                                           CheckedImage="switchon.png" 
+                                           UnCheckedImage="switchoff.png"
+                                           Animate="True"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center"/>
+
                             <ActivityIndicator IsRunning="{Binding Busy}"
-                           IsVisible="{Binding Busy}"
-                           Color="Black"
-                           VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
+                                       IsVisible="{Binding Busy}"
+                                       Color="Black"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
+
                         </StackLayout>
                     </ViewCell>
                 </TableSection>

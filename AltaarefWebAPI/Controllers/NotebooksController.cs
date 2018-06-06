@@ -240,6 +240,30 @@ namespace AltaarefWebAPI.Controllers
             return Ok(notebook);
         }
 
+        // GET: api/Notebooks/5
+        [HttpGet("GetLastForStudent/{StudentId}")]
+        public IActionResult GetLastForStudent([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var notebook = _context.Notebook.Where(c => c.StudentId == StudentId).ToList();
+
+            var last = from n in notebook
+                       group n by n.Id into g
+                       select g.OrderByDescending(t => t.PublishDate).FirstOrDefault();
+
+
+            if (last == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(last);
+        }
+        
 
         // PUT: api/Notebooks/5
         [HttpPut("{id}")]

@@ -81,6 +81,7 @@ namespace Altaaref.ViewModels
         public ICommand FavoriteImageButtonCommand => new Command(OnFavoriteTap);
         public ICommand DownloadCommand => new Command(HandleOnDownloadButtonClicked);
         public ICommand ViewCommand => new Command(async() => await HandleViewCommand());
+        public ICommand DeleteCommand => new Command(async () => await HandleDeleteCommand());
 
         public ICommand ViewProfileCommand { get; set; }
         public ICommand OneStarCommand { get; set; }
@@ -152,7 +153,17 @@ namespace Altaaref.ViewModels
                 SetValue(ref _busy, value);
             }
         }
-        
+
+        private bool _isDeleteButtonVisible;
+        public bool IsDeleteButtonVisible
+        {
+            get { return _isDeleteButtonVisible; }
+            set
+            {
+                SetValue(ref _isDeleteButtonVisible, value);
+            }
+        }
+
         public NotebookDetailsViewModel(IPageService pageService ,ViewNotebookStudent Notebook)
         {
             _pageService = pageService;
@@ -175,6 +186,11 @@ namespace Altaaref.ViewModels
             RatesDictionary = new Dictionary<int, int>();
 
             Task init = InitProperties();
+
+            if (Settings.StudentId == ViewNotebookStudent.StudentId)
+                IsDeleteButtonVisible = true;
+            else
+                IsDeleteButtonVisible = false;
         }
 
         private async Task InitProperties()
@@ -638,6 +654,29 @@ namespace Altaaref.ViewModels
 
             await _pageService.PushAsync(new Views.NotebooksDB.PdfViewer(_viewNotebookStudent.Notebook.BlobURL));
         }
-        
+
+        private async Task HandleDeleteCommand()
+        {
+            var result = await _pageService.DisplayAlert("Are you sure ?", "Are you sure you want to delete this notebook ?", "Yes", "No");
+            if (!result) return;
+
+            var deleted = await DeleteNotebook();
+            if (deleted)
+            {
+                await _pageService.DisplayAlert("Deleted!", "Your notebook was deleted successfully", "Ok", "Cancel");
+                await _pageService.PopAsync();
+            }
+            else
+            {
+                await _pageService.DisplayAlert("Error!", "Something went wrong while deleting your notebook", "OK", "Cancel");
+            }
+        }
+
+        private async Task<bool> DeleteNotebook()
+        {
+            string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/" + _viewNotebookStudent.Notebook.Id;
+            var response = _client.DeleteAsync(url);
+            return response.Result.IsSuccessStatusCode;
+        }
     }
 }

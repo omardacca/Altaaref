@@ -50,6 +50,7 @@ namespace Altaaref.ViewModels
 
         //public ICommand HandleSubmition { get; private set; }
         public ICommand UploadCommand => new Command(async () => await UploadToBlob());
+        public ICommand ToggleCommand => new Command(async () => await HandlePublicCommand());
 
         private int _selectedCourseIndex;
         public int SelectedCourseIndex
@@ -65,6 +66,16 @@ namespace Altaaref.ViewModels
             set
             {
                 SetValue(ref _busy, value);
+            }
+        }
+
+        private bool _isGeneralToggled;
+        public bool IsGeneralToggled
+        {
+            get { return _isGeneralToggled; }
+            set
+            {
+                SetValue(ref _isGeneralToggled, value);
             }
         }
 
@@ -108,12 +119,32 @@ namespace Altaaref.ViewModels
 
             await DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, Settings.StudentId);
 
+            if (!IsGeneralToggled)
+                await PutToggledFalse();
+
             await _pageService.DisplayAlert("Upload Success", "Notebook Added Successfully.", "Ok", "Cancel");
 
             await FCMPushNotificationSender.Send(
                 "NS" + courseid, "New Notebook", "New notebook that you may interest in has been added");
 
             await _pageService.PopAsync();
+        }
+
+        public async Task HandlePublicCommand()
+        {
+
+        }
+
+        private async Task PutToggledFalse()
+        {
+            //var puttUrl = "https://altaarefapp.azurewebsites.net/api/Notebooks/"
+
+            // notebook init and toggle false
+
+            //var content = new StringContent(JsonConvert.SerializeObject(UpdatedRideInvitaion), Encoding.UTF8, "application/json");
+            //var response = await _client.PutAsync(puttUrl, content);
+
+            //return response.IsSuccessStatusCode;
         }
 
 

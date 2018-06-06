@@ -13,7 +13,9 @@ namespace Altaaref.Models
 
         public DateTime PublishDate { get; set; }
         public string BlobURL { get; set; }
-        
+
+        public bool IsPrivate { get; set; }
+
         public int CourseId { get; set; }
         public Courses Course { get; set; }
         public int StudentId { get; set; }

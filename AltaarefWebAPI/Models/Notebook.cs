@@ -12,7 +12,9 @@ namespace AltaarefWebAPI.Models
         public int ViewsCount { get; set; }
         public DateTime PublishDate { get; set; }
         public string BlobURL { get; set; }
-        
+
+        public bool IsPrivate { get; set; }
+
         public ICollection<StudentFavNotebooks> StudentFavNotebooks { get; set; }
         public ICollection<NotebookRates> NotebookRates { get; set; }
 
