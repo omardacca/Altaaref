@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Altaaref.Views.Hitchhicking.AddNotification"
+             xmlns:local="clr-namespace:Altaaref;assembly=Altaaref"
+             xmlns:controls="clr-namespace:Altaaref.UserControls"
+             xmlns:template="clr-namespace:Altaaref.Views.Templates.Hitchhicking"
+             xmlns:custom="clr-namespace:DurianCode.PlacesSearchBar;assembly=DurianCode.PlacesSearchBar"
+             x:Name="thispageref"
+             Title="Susbrice to Ride Notification">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="SkyColor">#4DACFF</Color>
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+            <Color x:Key="WhiteColor">#F7F7F7</Color>
+
+            <Style x:Key="FirstPanelStyle" 
+                   TargetType="Frame">
+                <Setter Property="HeightRequest" Value="85" />
+                <Setter Property="Margin" Value="0, 5, 0, 0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Frame Style="{StaticResource FirstPanelStyle}" Padding="0">
+            <StackLayout>
+                <Label Text="From City" FontSize="16"/>
+                <custom:PlacesBar x:Name="search_from" 
+                              Text="{Binding FromText}"
+                              Placeholder="From City" 
+                              Type="Cities"  
+                              ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
+
+                <AbsoluteLayout>
+                    <ActivityIndicator IsRunning="false"
+				AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
+                    <controls:HorizontalList ListOrientation="Vertical"
+                                         IsVisible="{Binding IsFromVisible}"
+                                         ItemsSource="{Binding FromAutoCompletePredictions}"
+				                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                         AbsoluteLayout.LayoutFlags="SizeProportional" >
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+                </AbsoluteLayout>
+
+                <Label Text="To" FontSize="16" />
+                <custom:PlacesBar x:Name="search_to"
+                              Text="{Binding ToText}"
+                              Placeholder="To City" 
+                              Type="Cities"  
+                              ApiKey="AIzaSyAmg-NXTJZoNGSX_ZxjU14RAUYEaMZgIuI" />
+                <AbsoluteLayout>
+                    <ActivityIndicator IsRunning="false"
+				AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
+                    <controls:HorizontalList ListOrientation="Vertical"
+                                         IsVisible="{Binding IsToVisible}"
+                                         ItemsSource="{Binding ToAutoCompletePredictions}"
+				                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                         AbsoluteLayout.LayoutFlags="SizeProportional" >
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <template:ViewPlaceTemplate ParentContext="{Binding BindingContext, Source={x:Reference thispageref}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+                </AbsoluteLayout>
+
+            </StackLayout>
+
+            <controls:ButtonFrame   HeightRequest="17" 
+                                    WidthRequest="400">
+                <Label Text="Subscribe" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                <controls:ButtonFrame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SubscribeButtonTap}" />
+                </controls:ButtonFrame.GestureRecognizers>
+            </controls:ButtonFrame>
+        </Frame>
+    </ContentPage.Content>
+
+
+</ContentPage>

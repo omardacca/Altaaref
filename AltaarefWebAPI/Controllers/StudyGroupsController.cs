@@ -64,6 +64,38 @@ namespace AltaarefWebAPI.Controllers
 
 
         // GET: api/StudyGroups/5
+        [HttpGet("ByStudentId/{StudentId}")]
+        public async Task<IActionResult> GetStudyGroupsByStudentId([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studyGroup = _context.StudyGroups.Where(m => m.Student.Id == StudentId)
+                .Select(sg => new StudyGroupView
+                {
+                    StudyGroupId = sg.Id,
+                    CourseId = sg.CourseId,
+                    CourseName = sg.Course.Name,
+                    StudentName = sg.Student.FullName,
+                    Message = sg.Message,
+                    Address = sg.Address,
+                    Date = sg.Date,
+                    Time = sg.Time,
+                    NumberOfAttendants = sg.StudyGroupAttendants.Where(s => s.StudyGroupId == sg.Id).Count()
+                });
+
+            if (studyGroup == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(studyGroup);
+        }
+
+
+        // GET: api/StudyGroups/5
         [HttpGet("ById/{IdentityId}")]
         public async Task<IActionResult> GetStudyGroupByStudentId([FromRoute] string IdentityId)
         {

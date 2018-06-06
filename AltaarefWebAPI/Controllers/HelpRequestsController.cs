@@ -125,6 +125,35 @@ namespace AltaarefWebAPI.Controllers
             return Ok(helpRequest);
         }
 
+        // GET: api/HelpRequests/5
+        [HttpGet("GetByStdId/{StudentId}")]
+        public async Task<IActionResult> GetHelpRequestByStdId([FromRoute] int StudentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var helpRequest = _context.HelpRequest.Where(h => h.Student.Id == StudentId)
+                .Select(h =>
+                new HelpRequest
+                {
+                    Id = h.Id,
+                    IsGeneral = h.IsGeneral,
+                    IsMet = h.IsMet,
+                    Message = h.Message,
+                    Views = h.Views,
+                    Date = h.Date
+                });
+
+            if (helpRequest == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(helpRequest);
+        }
+
         // PUT: api/HelpRequests/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHelpRequest([FromRoute] int id, [FromBody] HelpRequest helpRequest)

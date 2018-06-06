@@ -158,7 +158,7 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         private async Task NavigateToAddNotif()
         {
-            //await _pageService.PushAsync(new Views.Hitchhicking.AddNotification());
+            await _pageService.PushAsync(new Views.Hitchhicking.AddNotification());
         }
 
         private async Task NavigateToAddRide()
