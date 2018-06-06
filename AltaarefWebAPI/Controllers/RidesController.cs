@@ -77,8 +77,10 @@ namespace AltaarefWebAPI.Controllers
             }
 
             var RidesList = _context.Rides.Where(s =>
-                        s.FromLong >= s.FromLong - 0.15 &&
-                        s.FromLong <= s.FromLong + 0.15)
+                        (s.FromLong >= s.FromLong - 0.15 &&
+                        s.FromLong <= s.FromLong + 0.15) || 
+                        (s.FromLat >= s.FromLat + 0.15 &&
+                        s.FromLat <= s.FromLat - 0.15))
                         .Select(r => r);
 
             if (RidesList == null)

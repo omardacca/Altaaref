@@ -93,7 +93,7 @@
                                             Opacity=".6"
                                             WidthRequest="150" HeightRequest="250"
                                             VerticalOptions="Center"/>
-                            <Label Text="Are you planning for a ride and dont have car ? give us 
+                            <Label Text="Are you planning for a ride and don't have car ? give us 
                                         some details and let us notify you when someone publish ride from your city!"
                                 FontSize="16"
                                 VerticalOptions="Center"/>
