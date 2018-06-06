@@ -103,7 +103,7 @@
                     </controls:ButtonFrame>
 
                     <controls:ButtonFrame HeightRequest="17" WidthRequest="80">
-                        <Label Text="Viewh" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Label Text="View" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                         <controls:ButtonFrame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ViewCommand}" />
                         </controls:ButtonFrame.GestureRecognizers>

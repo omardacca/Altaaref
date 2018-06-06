@@ -48,6 +48,8 @@ namespace Altaaref.Views
         {
             if (!string.IsNullOrEmpty(Settings.AccessToken))
             {
+
+
                 var page = new Views.MainMenu.MenuPage().GetMenuPage();
                 NavigationPage.SetHasNavigationBar(page, false);
 

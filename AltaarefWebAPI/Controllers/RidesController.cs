@@ -56,14 +56,36 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ride = _context.Rides.Where(m => m.DriverId == StudentId).Select(m => m);
+            var ridesResults = _context.Rides.Where(m => m.DriverId == StudentId).Select(ride => new Ride
+            {
+                Id = ride.Id,
+                FromLat = ride.FromLat,
+                FromLong = ride.FromLong,
+                ToLat = ride.ToLat,
+                ToLong = ride.ToLong,
+                Date = ride.Date,
+                Time = ride.Time,
+                FromCity = ride.FromCity,
+                FromAddress = ride.FromAddress,
+                ToCity = ride.ToCity,
+                ToAddress = ride.ToAddress,
+                Message = ride.Message,
+                NumOfFreeSeats = ride.NumOfFreeSeats,
+                DriverId = ride.DriverId,
+                Driver = new Student
+                {
+                    Id = ride.Driver.Id,
+                    FullName = ride.Driver.FullName,
+                    ProfilePicBlobUrl = ride.Driver.ProfilePicBlobUrl
+                }
+            });
 
-            if (ride == null)
+            if (ridesResults == null)
             {
                 return NotFound();
             }
 
-            return Ok(ride);
+            return Ok(ridesResults);
         }
 
 
@@ -78,10 +100,32 @@ namespace AltaarefWebAPI.Controllers
 
             var RidesList = _context.Rides.Where(s =>
                         (s.FromLong >= s.FromLong - 0.15 &&
-                        s.FromLong <= s.FromLong + 0.15) || 
+                        s.FromLong <= s.FromLong + 0.15) ||
                         (s.FromLat >= s.FromLat + 0.15 &&
                         s.FromLat <= s.FromLat - 0.15))
-                        .Select(r => r);
+                        .Select(ride => new Ride
+                        {
+                            Id = ride.Id,
+                            FromLat = ride.FromLat,
+                            FromLong = ride.FromLong,
+                            ToLat = ride.ToLat,
+                            ToLong = ride.ToLong,
+                            Date = ride.Date,
+                            Time = ride.Time,
+                            FromCity = ride.FromCity,
+                            FromAddress = ride.FromAddress,
+                            ToCity = ride.ToCity,
+                            ToAddress = ride.ToAddress,
+                            Message = ride.Message,
+                            NumOfFreeSeats = ride.NumOfFreeSeats,
+                            DriverId = ride.DriverId,
+                            Driver = new Student
+                            {
+                                Id = ride.Driver.Id,
+                                FullName = ride.Driver.FullName,
+                                ProfilePicBlobUrl = ride.Driver.ProfilePicBlobUrl
+                            }
+                        });
 
             if (RidesList == null)
             {

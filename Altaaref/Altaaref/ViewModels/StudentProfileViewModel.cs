@@ -133,8 +133,8 @@ namespace Altaaref.ViewModels
             string url = "https://altaarefapp.azurewebsites.net/api/Notebooks/GetByStudentId/" + StudentId;
 
             string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<Ride>>(content);
-            RidesList = new List<Ride>(list);
+            var list = JsonConvert.DeserializeObject<List<Notebook>>(content);
+            NotebooksList = new List<Notebook>(list);
         }
 
         private async Task GetMyRides(int StudentId)

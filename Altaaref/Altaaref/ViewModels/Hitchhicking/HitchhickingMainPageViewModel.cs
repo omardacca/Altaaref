@@ -70,6 +70,7 @@ namespace Altaaref.ViewModels.Hitchhicking
         public ICommand AddRideCommand => new Command(async () => await NavigateToAddRide());
         public ICommand FindRideCommand => new Command(async () => await NavigateToFindRide());
         public ICommand AddNotifCommand => new Command(async () => await NavigateToAddNotif());
+        public ICommand ItemTappedCommand => new Command<Ride>(async (ride) => await HandleItemTapped(ride));
 
         private bool _isMyRidesListEmpty;
         public bool IsMyRidesListEmpty
@@ -89,15 +90,32 @@ namespace Altaaref.ViewModels.Hitchhicking
         {
             _pageService = pageService;
 
-            var loc = GetLocation();
+            Busy = true;
+
+            var lat = Application.Current.Properties["Latitude"].ToString();
+            var longtitud = Application.Current.Properties["Longtitude"].ToString();
+            if (lat == null || lat == "" || longtitud == null || longtitud == "")
+            {
+                var x = GetLocation();
+            }
+
+            _position = new Plugin.Geolocator.Abstractions.Position(double.Parse(lat), double.Parse(longtitud));
 
             var init = InitLists();
+
+            Busy = false;
         }
 
         private async Task InitLists()
         {
             await GetMyRidesList();
+
             await GetNearbyList();
+        }
+
+        private async Task HandleItemTapped(Ride ride)
+        {
+            await _pageService.PushAsync(new Views.Hitchhicking.RidePage(ride));
         }
 
         private async Task GetMyRidesList()
@@ -123,7 +141,11 @@ namespace Altaaref.ViewModels.Hitchhicking
             Busy = true;
 
             // should wait or repeat until we get position
-            if (_position == null) return;
+            if (_position == null)
+            {
+                Busy = false;
+                return;
+            }
 
             string url = "https://altaarefapp.azurewebsites.net/api/Rides/GetNearbyRides/";
             var place = _position.Longitude.ToString() + "/" + _position.Latitude.ToString();

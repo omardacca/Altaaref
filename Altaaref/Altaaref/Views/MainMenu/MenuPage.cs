@@ -1,6 +1,8 @@
 ﻿using Altaaref.Helpers;
 using Altaaref.Models;
 using Newtonsoft.Json;
+using Plugin.Geolocator;
+using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -16,6 +18,8 @@ namespace Altaaref.Views.MainMenu
         {
             var getnotif = GetNotifications();
 
+            var loc = GetLocation();
+
             return new NavigationPage(new MainMenuPageContent())
             {
                 BarBackgroundColor = Color.Black,
@@ -26,6 +30,24 @@ namespace Altaaref.Views.MainMenu
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+        }
+
+        private async Task GetLocation()
+        {
+            var hasPermission = await Utils.CheckPermissions(Permission.Location);
+
+            var locator = CrossGeolocator.Current;
+            locator.DesiredAccuracy = 20;
+
+            var position = await locator.GetPositionAsync();
+
+            Application.Current.Properties["Latitude"] = position.Latitude.ToString();
+            Application.Current.Properties["Longtitude"] = position.Longitude.ToString();
+
+            await Application.Current.SavePropertiesAsync();
+
+            //Lat = "Latitude: " + position.Latitude.ToString();
+            //Long = "Longtitude: " + position.Longitude.ToString();
         }
 
         private async Task GetNotifications()
