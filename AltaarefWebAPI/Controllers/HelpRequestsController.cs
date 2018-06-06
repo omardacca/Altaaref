@@ -198,6 +198,8 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            helpRequest.Date = DateTime.Now;
+
             _context.HelpRequest.Add(helpRequest);
             await _context.SaveChangesAsync();
 
