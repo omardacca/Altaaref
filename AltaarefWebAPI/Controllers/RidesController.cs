@@ -67,6 +67,28 @@ namespace AltaarefWebAPI.Controllers
         }
 
 
+        // GET: api/Rides/5
+        [HttpGet("GetNearbyRides/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}/{fromDate:datetime}/{timeDate:datetime}")]
+        public IActionResult GetRidesWithDateAndTime([FromRoute] double FromLong, [FromRoute] double FromLat)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var RidesList = _context.Rides.Where(s =>
+                s.FromLong == FromLong &&
+                s.FromLat == FromLat)
+                .Select(r => r);
+
+            if (RidesList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(RidesList);
+        }
+
 
         // GET: api/Rides/5
         [HttpGet("GetWithDateTime/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}/{fromDate:datetime}/{timeDate:datetime}")]

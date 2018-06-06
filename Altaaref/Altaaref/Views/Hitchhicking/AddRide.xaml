@@ -11,11 +11,12 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding="15">
-                <Label Text="{Binding Lat}" />
-                <Label Text="{Binding Long}" />
 
-                <Button Command="{Binding GetLoc}" Text="Get Location" />
+                <Label Text="Find Ride" 
+                                   FontSize="24"
+                                   Margin="0, 0, 0, 8"/>
 
+                <Label Text="From" FontSize="16" />
                 <custom:PlacesBar x:Name="search_from" 
                               Text="{Binding FromText}"
                               Placeholder="From City" 
@@ -37,8 +38,7 @@
                     </controls:HorizontalList>
                 </AbsoluteLayout>
 
-                <Entry Text="{Binding NewRide.FromAddress}" Placeholder="From Address (Optional)" />
-
+                <Label Text="To" FontSize="16" />
                 <custom:PlacesBar x:Name="search_to"
                               Text="{Binding ToText}"
                               Placeholder="To City" 
@@ -60,15 +60,23 @@
                     </controls:HorizontalList>
                 </AbsoluteLayout>
 
+                <Label Text="From Address" FontSize="16" />
+                <Entry Text="{Binding NewRide.FromAddress}" Placeholder="From Address (Optional)" />
+
+                <Label Text="To Address" FontSize="16" />
                 <Entry Text="{Binding NewRide.ToAddress}" Placeholder="To Address (Optional)"/>
 
+                <Label Text="Number of free seets" FontSize="16" Margin="0, 2, 0, 0" />
                 <Entry Text="{Binding NewRide.NumberOfFreeSeats}" Placeholder="Number of free seats"/>
 
+                <Label Text="Date" FontSize="16" Margin="0, 2, 0, 0"/>
                 <DatePicker Date="{Binding NewRide.Date}" Format="d MM yyyy"/>
 
+                <Label Text="Time" FontSize="16" />
                 <TimePicker
                     Time="{Binding NewRide.Time}" />
 
+                <Label Text="Message" FontSize="16" />
                 <Editor Text="{Binding NewRide.Message}"
                         HeightRequest="200"/>
 

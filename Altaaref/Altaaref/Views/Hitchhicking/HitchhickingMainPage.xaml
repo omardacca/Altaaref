@@ -2,19 +2,112 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Altaaref.Views.Hitchhicking.HitchhickingMainPage"
-             Title="Hitchhicking Main Page">
+             xmlns:templates="clr-namespace:Altaaref.Views.Templates.Hitchhicking"
+             Title="Hitchhicking Main Page"
+             x:Name="MainPageRef">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="boolConverter" />
+            <Color x:Key="OrangeColor">#BC4C1B</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <ScrollView>
-            
-            <StackLayout Padding="15">
-                <Label Text="{Binding Lat}" />
-                <Label Text="{Binding Long}" />
+            <StackLayout>
+                <ActivityIndicator IsRunning="{Binding Busy}"
+                    IsVisible="{Binding Busy}"
+                    Color="Black"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
 
-                <Button Command="{Binding GetLoc}" Text="Get Location" />
-                <Button Command="{Binding AddRideCommand}" Text="Add Ride" />
-                <Button Command="{Binding FindRideCommand}" Text="Find Ride" />
+                <Grid Padding="12" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
+                    <Label Text="Hitchhicking" FontSize="22"
+                       Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,2,0,10"/>
+
+                    <Image Source="addmanicon.png" HeightRequest="45" WidthRequest="45"
+                           Grid.Row="1" Grid.Column="0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddRideCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <Image Source="searchicon.png" HeightRequest="45" WidthRequest="45"  
+                           Grid.Row="1" Grid.Column="1">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding FindRideCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <Label Text="My Rides" HorizontalOptions="StartAndExpand" FontSize="Medium"
+                           Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"
+                           IsVisible="{Binding IsMyRidesListEmpty, Converter={StaticResource boolConverter}}"/>
+
+                    <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding MyRidesList}"
+                                             Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                             IsVisible="{Binding IsMyRidesListEmpty, Converter={StaticResource boolConverter}}">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <templates:RideInList ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}"/>
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+
+                    <Label Text="Nearby Rides" HorizontalOptions="StartAndExpand" FontSize="Medium"
+                           Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 8, 0, 2"
+                           IsVisible="{Binding IsNearbyListEmpty, Converter={StaticResource boolConverter}}"/>
+
+                    <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding NearbyRidesList}"
+                                             Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                                             IsVisible="{Binding IsNearbyListEmpty, Converter={StaticResource boolConverter}}">
+                        <controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
+                                <sgtemplate:RideInList ParentContext="{Binding BindingContext, Source={x:Reference MainPageRef}}" />
+                            </DataTemplate>
+                        </controls:HorizontalList.ItemTemplate>
+                    </controls:HorizontalList>
+
+
+                    <StackLayout Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
+                        <StackLayout Orientation="Horizontal">
+                            <ic:CircleImage Source="hicker.png" Aspect="AspectFill"
+                                            Opacity=".6"
+                                            WidthRequest="150" HeightRequest="250"
+                                            VerticalOptions="Center"/>
+                            <Label Text="Are you planning for a ride and dont have car ? give us 
+                                        some details and let us notify you when someone publish ride from your city!"
+                                FontSize="16"
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+
+                        <controls:ButtonFrame HeightRequest="17" 
+                                              WidthRequest="160"
+                                              VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
+                            <Label Text="Do it!" BackgroundColor="{StaticResource OrangeColor}" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                            <controls:ButtonFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddNotifCommand}" />
+                            </controls:ButtonFrame.GestureRecognizers>
+                        </controls:ButtonFrame>
+                    </StackLayout>
+                </Grid>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
+
 </ContentPage>

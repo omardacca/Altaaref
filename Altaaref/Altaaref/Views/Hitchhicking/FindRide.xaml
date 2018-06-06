@@ -117,8 +117,8 @@
                             </StackLayout>
 
                             <TimePicker
-                        Time="{Binding SearchRide.Time}" 
-                        IsEnabled="{Binding IsTimeOn}"/>
+                                        Time="{Binding SearchRide.Time}" 
+                                        IsEnabled="{Binding IsTimeOn}"/>
 
                         </StackLayout>
 
