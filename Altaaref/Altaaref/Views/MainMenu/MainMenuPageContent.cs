@@ -36,19 +36,21 @@ namespace Altaaref.Views.MainMenu
 
             var squares = MenuData.GetMenuItems();
 
-            squares.ForEach(x =>
+            squares.ForEach(x => 
             {
                 var widget = new MenuItemWidgetView(x);
-                widget.Tapped += (object sender, WidgetTappedEventArgs e) => {
+                widget.Tapped += async(object sender, WidgetTappedEventArgs e) => {
 
                     if(x.Row == 2 && x.Column == 1)
                     {
-                        Navigation.PushAsync(new Views.LoginPage(LoginPage.LOGOUT_CODE));
+                        var result = await DisplayAlert("Verify", "Are you sure you want to logout ?", "Yes", "No");
+                        if(result)
+                            await Navigation.PushAsync(new Views.LoginPage(LoginPage.LOGOUT_CODE));
                     }
                     else
                     {
                         var page = Activator.CreateInstance(e.Page) as Page;
-                        Navigation.PushAsync(page);
+                        await Navigation.PushAsync(page);
                     }
 
                 };

@@ -108,6 +108,8 @@ namespace Altaaref.ViewModels.Hitchhicking
         public AddNotificationViewModel(IPageService pageService)
         {
             _pageService = pageService;
+
+            NewRide = new Ride { FromCity = "", ToCity = "" };
         }
 
         public void SearchBarPlacesRetrieved(AutoCompleteResult result, string FromOrTo)

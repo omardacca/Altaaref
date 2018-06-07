@@ -88,7 +88,7 @@
                 <Entry Text="{Binding NewRide.ToAddress}" Placeholder="To Address (Optional)"/>
 
                 <Label Text="Number of free seets" FontSize="16" Margin="0, 2, 0, 0" />
-                <Entry Text="{Binding NewRide.NumberOfFreeSeats}" Placeholder="Number of free seats"/>
+                <Entry Text="{Binding NewRide.NumOfFreeSeats}" Placeholder="Number of free seats"/>
 
                 <Label Text="Date" FontSize="16" Margin="0, 2, 0, 0"/>
                 <DatePicker Date="{Binding NewRide.Date}" Format="d MM yyyy"/>

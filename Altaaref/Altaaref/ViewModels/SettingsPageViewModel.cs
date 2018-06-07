@@ -91,7 +91,7 @@ namespace Altaaref.ViewModels
                 StudentId = Settings.StudentId,
                 Title = "Help!",
                 Body = "Student is calling for help, check it out.",
-                Topic = "GE" + Settings.StudentId
+                Topic = "HRGeneral"
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(newGeneral), Encoding.UTF8, "application/json");
@@ -103,7 +103,7 @@ namespace Altaaref.ViewModels
             if (response.Result.IsSuccessStatusCode)
             {
                 // Subscribe to topic
-                DependencyService.Get<IFCMNotificationSubscriber>().Subscribe("GE" + Settings.StudentId);
+                DependencyService.Get<IFCMNotificationSubscriber>().Subscribe("HRGeneral");
 
                 IsGeneralToggled = true;
 

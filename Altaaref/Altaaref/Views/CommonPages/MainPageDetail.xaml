@@ -3,15 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Altaaref.Views.CommonPages.MainPageDetail"
              Title="Detail">
-  <StackLayout Padding="10">
-    <Label Text="This is a detail page. To get the 'triple' line icon on each platform add a icon to each platform and update the 'Master' page with an Icon that references it."/>
-
-        <Button Text="Add New Study Group" Clicked="HandleButtonAddNewStudyGroup" />
-        <Button Text="Find Study Group" Clicked="HandleButtonFindStudyGroup" />
-        <Button Text="Add New Help Request" Clicked="HandleButtonNewHelpRequest" />
-        <Button Text="Main Help Request" Clicked="HandleButtonMainViewHelpRequest" />
-        <Button Text="Main Menu Page" Clicked="HandleButtonMainMenuPage" />
-        <Button Text="My Notebooks" Clicked="HandleMyNotebooks" />
-        <Button Text="Login" Clicked="HandleLogin" />
+  <StackLayout Padding="10" 
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="CenterAndExpand">
+        <Label Text="This page will contian news feeds and General Announcements"
+               FontSize="18"
+               HorizontalTextAlignment="Center"/>
     </StackLayout>
 </ContentPage>
