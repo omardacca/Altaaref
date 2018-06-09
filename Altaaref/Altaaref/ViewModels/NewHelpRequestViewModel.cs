@@ -23,7 +23,7 @@ namespace Altaaref.ViewModels
             private set { SetValue(ref _newHelpRequest, value); }
         }
 
-        public ICommand HandleSubmit{ get; private set; }
+        public ICommand HandleSubmit { get; private set; }
 
         private bool _busy;
         public bool Busy
@@ -68,6 +68,8 @@ namespace Altaaref.ViewModels
                     await PostGeneralHelpRequest();
                     await FCMPushNotificationSender.Send(
                         "HRGeneral", "Help", "Someone asked for help, check it out.");
+
+                    await _pageService.PushAsync(new Views.CommonPages.MyHelpRequests());
                 }
             }
             else

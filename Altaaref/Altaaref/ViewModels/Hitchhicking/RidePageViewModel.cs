@@ -58,6 +58,16 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private bool _isInvitButtonVisible;
+        public bool IsInvitButtonVisible
+        {
+            get { return _isInvitButtonVisible; }
+            set
+            {
+                SetValue(ref _isInvitButtonVisible, value);
+            }
+        }
+
         private bool _IssendButtonVisible;
         public bool IssendButtonVisible
         {
@@ -123,10 +133,11 @@ namespace Altaaref.ViewModels.Hitchhicking
 
             if (Settings.StudentId == ride.DriverId)
             {
-                IssendButtonVisible = true;
+                IsInvitButtonVisible = false;
             }
             else
             {
+                IsInvitButtonVisible = true;
                 var initcond = GetIsSentInvitation();
             }
 
@@ -206,7 +217,7 @@ namespace Altaaref.ViewModels.Hitchhicking
 
         }
 
-        private async Task  AddComment()
+        private async Task AddComment()
         {
             if (NewComment.Comment == null) return;
             PostNewComment();
@@ -307,14 +318,19 @@ namespace Altaaref.ViewModels.Hitchhicking
 //            Busy = true;
             string url = "https://altaarefapp.azurewebsites.net/api/RidesInvitations/" + Ride.Id + "/" + Settings.StudentId;
 
-            string content = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<List<RidesInvitations>>(content);
-
-            if (list.Count == 0)
+            try
+            {
+                string content = await _client.GetStringAsync(url);
+                if (content != null)
+                    IssendButtonVisible = false;
+                else
+                    IssendButtonVisible = true;
+            }
+            catch(HttpRequestException e)
+            {
                 IssendButtonVisible = true;
-            else
-                IssendButtonVisible = false;
-            //            Busy = false;
+            }
+//            Busy = false;
         }
 
     }

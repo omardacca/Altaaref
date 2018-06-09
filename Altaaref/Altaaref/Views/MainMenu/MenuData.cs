@@ -50,7 +50,7 @@ namespace Altaaref.Views.MainMenu
                 {
                     BackgroundImage = "bghomepagemainmenu.png",
                     IconImage = "",
-                    Text = "Home Page",
+                    Text = "News Feeds",
                     Column = 0,
                     Row = 2,
                     NavigateType = typeof(CommonPages.MainPage)

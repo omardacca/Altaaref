@@ -269,6 +269,11 @@ namespace Altaaref.ViewModels
 
         private async Task PostLists()
         {
+            if(_coursesSelectedList == null || _coursesSelectedList.Count == 0)
+            {
+                await _pageService.DisplayAlert("Error", "Please Selected at least one course!", "Ok", "Cancel");
+                return;
+            }
             await PostStudentFaculties();
             await PostStudentCourses();
         }

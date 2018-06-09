@@ -81,6 +81,12 @@ namespace Altaaref.ViewModels
 
         private async Task HandleNextButtonTap()
         {
+            if(FacultiesSelectedList == null || FacultiesSelectedList.Count == 0)
+            {
+                await _pageService.DisplayAlert("Error", "Please select at least one faculty!", "Ok", "Cancel");
+                return;
+            }
+
            await  _pageService.PushAsync(new Views.SelectCoursesForRegisterationPage(FacultiesSelectedList));
         }
 

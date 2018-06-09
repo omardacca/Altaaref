@@ -6,14 +6,13 @@
              Title="Settings">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout>
-                <Label Text="Notifications" 
+            <Label Text="Notifications" 
                        Margin="2"
-                       FontSize="22"/>
-                
+                       FontSize="24"/>
+            <StackLayout Margin="4">
                 <Label Text="Study Groups Notifications"
                        FontSize="18"
-                       Margin="2">
+                       Margin="0, 3, 0, 0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding StudyGroupCommand}" />
                     </Label.GestureRecognizers>
@@ -21,7 +20,7 @@
 
                 <Label Text="Notebooks Storage Notifications"
                        FontSize="18"
-                       Margin="2">
+                       Margin="0, 3, 0, 0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NotebooksCommand}" />
                     </Label.GestureRecognizers>
@@ -29,7 +28,7 @@
 
                 <Label Text="Mutual Help Notifications Based on Course"
                        FontSize="18"
-                       Margin="2">
+                       Margin="0, 3, 0, 0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding MutualHelpCommand}" />
                     </Label.GestureRecognizers>
@@ -37,13 +36,13 @@
 
                 <Label Text="Mutual Help Notifications Based on Faculty"
                        FontSize="18"
-                       Margin="2">
+                       Margin="0, 3, 0, 0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding MutualHelpFacultyCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
 
-                <StackLayout Orientation="Horizontal" Margin="2">
+                <StackLayout Orientation="Horizontal" Margin="0, 3, 0, 0">
                     <Label Text="General Help Requests"
                         FontSize="18"
                         HorizontalOptions="StartAndExpand"

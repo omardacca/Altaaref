@@ -163,9 +163,8 @@
                                  Grid.Row="6"
                                  Grid.Column="0">
                         <Frame HeightRequest="50" WidthRequest="80"
-                               IsVisible="{Binding IssendButtonVisible, Converter={StaticResource boolConverter}}">
+                               IsVisible="{Binding IsInvitButtonVisible}">
                             <StackLayout>
-
                                 <StackLayout 
                                              IsVisible="{Binding IssendButtonVisible, Converter={StaticResource boolConverter}}">
                                     <Image Source="vicon.png" 

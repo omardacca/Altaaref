@@ -127,10 +127,7 @@ namespace Altaaref.ViewModels
             var courseid = _coursesList[_selectedCourseIndex].Id;
             var titleEntry = TitleEntry;
 
-            await DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, Settings.StudentId);
-
-            Notebook notebook = await GetLastNotebookAdded();
-            await PutToggled(notebook);
+            await DependencyService.Get<IUploader>().UploadToBlob(courseid, titleEntry, Settings.StudentId, IsGeneralToggled);
 
             await _pageService.DisplayAlert("Upload Success", "Notebook Added Successfully.", "Ok", "Cancel");
             await _pageService.PushAsync(new Views.NotebooksDB.NotebooksMainPage());

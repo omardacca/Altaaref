@@ -23,8 +23,8 @@ namespace Altaaref.Models
         public int DriverId { get; set; }
         public Student Driver { get; set; }
 
-        public ICollection<RideAttendants> RideAttendants { get; set; }
-        public ICollection<RideComments> RideComments { get; set; }
+        public List<RideAttendants> RideAttendants { get; set; }
+        public List<RideComments> RideComments { get; set; }
 
     }
 }

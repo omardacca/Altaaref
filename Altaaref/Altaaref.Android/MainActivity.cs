@@ -71,13 +71,14 @@ namespace Altaaref.Droid
         public int CourseId { get; set; }
         public string Name { get; set; }
         public int StudentId { get; set; }
+        public bool IsPrivate { get; set; }
 
 
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-    
+
             Instance = this;
 
             base.OnCreate(bundle);
@@ -218,49 +219,45 @@ namespace Altaaref.Droid
         protected async override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
         {
             base.OnActivityResult(requestCode, resultCode, intent);
-
-            try
-            {
-                if (requestCode == UPLOAD_CODE)
-                {
-                    if (IsDocumentUri(intent.Data))
-                    {
-                        string documentId = Android.Provider.DocumentsContract.GetDocumentId(intent.Data);
-                        string uriAuthority = intent.Data.Authority;
-
-                        if (IsDownloadDoc(uriAuthority))
-                        {
-                            Android.Net.Uri downloadUri = Android.Net.Uri.Parse("content://downloads/public_downloads");
-
-                            Android.Net.Uri downloadUriAppendId = ContentUris.WithAppendedId(downloadUri, long.Parse(documentId));
-
-                            Java.IO.File file = new Java.IO.File(downloadUriAppendId.ToString());
-
-                            Stream inputStream = ContentResolver.OpenInputStream(downloadUriAppendId);
-
-                            string blobUrl = await UploadFileToBlob(inputStream);
-
-                            AddNotebook(blobUrl);
-                        }
-                    }
-
-                }
-            }
-            catch(NullReferenceException e) { }
             
-            if(requestCode == SAVETO_CODE)
+            if (requestCode == UPLOAD_CODE)
+            {
+                if (IsDocumentUri(intent.Data))
+                {
+                    string documentId = Android.Provider.DocumentsContract.GetDocumentId(intent.Data);
+                    string uriAuthority = intent.Data.Authority;
+
+                    if (IsDownloadDoc(uriAuthority))
+                    {
+                        Android.Net.Uri downloadUri = Android.Net.Uri.Parse("content://downloads/public_downloads");
+
+                        Android.Net.Uri downloadUriAppendId = ContentUris.WithAppendedId(downloadUri, long.Parse(documentId));
+
+                        Java.IO.File file = new Java.IO.File(downloadUriAppendId.ToString());
+
+                        Stream inputStream = ContentResolver.OpenInputStream(downloadUriAppendId);
+
+                        string bloburl = await UploadFileToBlob(inputStream);
+
+                        AddNotebook(bloburl);    
+                    }
+                }
+
+            }
+
+            if (requestCode == SAVETO_CODE)
             {
                 Intent sendIntent = new Intent();
                 sendIntent.SetType("application/pdf");
 
                 //sendIntent.SetAction(Intent.ActionSend);
                 sendIntent.SetAction(Intent.ActionSend);
-                if(IsDocumentUri(intent.Data))
+                if (IsDocumentUri(intent.Data))
                 {
                     string documentId = Android.Provider.DocumentsContract.GetDocumentId(intent.Data);
                     string uriAuthority = intent.Data.Authority;
 
-                    if(IsDownloadDoc(uriAuthority))
+                    if (IsDownloadDoc(uriAuthority))
                     {
                         Android.Net.Uri downloadUri = Android.Net.Uri.Parse("content://downloads/public_downloads");
 
@@ -290,9 +287,10 @@ namespace Altaaref.Droid
             public string BlobURL { get; set; }
             public int CourseId { get; set; }
             public int StudentId { get; set; }
+            public bool IsPrivate { get; set; }
         }
 
-        private void AddNotebook(string blobUrl)
+        private bool AddNotebook(string blobUrl)
         {
             HttpClient _client = new HttpClient();
             var postUrl = "https://altaarefapp.azurewebsites.net/api/Notebooks";
@@ -302,7 +300,8 @@ namespace Altaaref.Droid
                 CourseId = CourseId,
                 Name = Name,
                 BlobURL = blobUrl,
-                StudentId = StudentId
+                StudentId = StudentId,
+                IsPrivate = IsPrivate
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(newNotebook), Encoding.UTF8, "application/json");
@@ -316,6 +315,9 @@ namespace Altaaref.Droid
             {
                 Toast.MakeText(this, "Notebook not added, something went wrong!", ToastLength.Short);
             }
+
+            return response.IsSuccessStatusCode;
+
         }
 
         public void HandleSignInResult(GoogleSignInResult result)
@@ -414,8 +416,9 @@ namespace Altaaref.Droid
             CloudBlobContainer container = blobClient.GetContainerReference("notebooks");
 
             // Create the container if it doesn't already exist.
-            await container.CreateIfNotExistsAsync();
 
+            await container.CreateIfNotExistsAsync();
+            
             // Retrieve reference to a blob named "filename".
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(Guid.NewGuid().ToString() + ".pdf");
 

@@ -73,27 +73,19 @@
                             Margin="0, 10, 0, 2"
                             IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}"/>
 
-                    <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding GeneralHelpRequestList}"
-                                                HorizontalOptions="StartAndExpand" 
-                                                Grid.Row="3"
-                                                Margin="0, 0, 0, 0" IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}">
-                        <controls:HorizontalList.ItemTemplate>
-                            <DataTemplate>
-                                <template:GeneralHelpRequestTemplate ParentContext="{Binding BindingContext, Source={x:Reference mainpage}}"/>
-                            </DataTemplate>
-                        </controls:HorizontalList.ItemTemplate>
-                    </controls:HorizontalList>
+                    <RelativeLayout Grid.Row="3">
+                        <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding GeneralHelpRequestList}"
+                                                 HorizontalOptions="StartAndExpand"
+                                                 Margin="0, 0, 0, 0" IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}"
+                                                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                    <template:GeneralHelpRequestTemplate ParentContext="{Binding BindingContext, Source={x:Reference mainpage}}"/>
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
 
-                    <controls:ButtonFrame HeightRequest="17" VerticalOptions="EndAndExpand" Grid.Row="4"
-                                          Margin="0, 0 , 0 , 8"
-                                          IsVisible="{Binding GeneralListEmpty, Converter={StaticResource boolConverter}}">
-                    <Label Text="See All" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-
-                        <controls:ButtonFrame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GeneralViewAllCommand}" />
-                        </controls:ButtonFrame.GestureRecognizers>
-                    </controls:ButtonFrame>
-
+                    </RelativeLayout>
 
                     <Label Text="In your faculties" 
                            HorizontalOptions="StartAndExpand"
@@ -101,31 +93,21 @@
                            Grid.Row="5"
                            Margin="0, 10, 0, 2"
                            IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}"/>
-                    <controls:HorizontalList ListOrientation="Vertical" ItemsSource="{Binding FacultiesHelpRequestsList}"
+                    <RelativeLayout Grid.Row="6">
+                        <controls:HorizontalList ListOrientation="Horizontal" ItemsSource="{Binding FacultiesHelpRequestsList}"
                                              HorizontalOptions="StartAndExpand"
                                              WidthRequest="400"
-                                             Grid.Row="6"
-                                             Margin="0, 0, 0, 0" IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}">
-                        <controls:HorizontalList.ItemTemplate>
-                            <DataTemplate>
-                                <template:FacultyHelpRequestTemplate ParentContext="{Binding BindingContext, Source={x:Reference mainpage}}"/>
-                            </DataTemplate>
-                        </controls:HorizontalList.ItemTemplate>
-                    </controls:HorizontalList>
+                                             Margin="0, 0, 0, 0" IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}"
+                                             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}">
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                    <template:FacultyHelpRequestTemplate ParentContext="{Binding BindingContext, Source={x:Reference mainpage}}"/>
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+                    </RelativeLayout>
 
-                    <controls:ButtonFrame HeightRequest="17" 
-                                          VerticalOptions="EndAndExpand" 
-                                          Margin="0,0,0,2"
-                                          Grid.Row="7"
-                                          IsVisible="{Binding FacultiesListEmpty, Converter={StaticResource boolConverter}}">
-                            <Label Text="See All" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-
-                            <controls:ButtonFrame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding FacultiesViewAllCommand}"  />
-                            </controls:ButtonFrame.GestureRecognizers>
-                        </controls:ButtonFrame>
-
-                    </Grid>
+                </Grid>
                     
             </StackLayout>
         </ScrollView>

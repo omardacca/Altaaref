@@ -17,7 +17,7 @@ namespace Altaaref.Droid
 {
     public class Uploader : IUploader
     {
-        public async Task UploadToBlob(int CourseId, string Name, int StudentId)
+        public async Task UploadToBlob(int CourseId, string Name, int StudentId, bool IsPrivate)
         {
             // Get the MainActivity instance
             MainActivity activity = MainActivity.Instance as MainActivity;
@@ -29,13 +29,9 @@ namespace Altaaref.Droid
             activity.CourseId = CourseId;
             activity.Name = Name;
             activity.StudentId = StudentId;
-            try
-            {
-                activity.StartActivityForResult(viewIntent, MainActivity.UPLOAD_CODE);
-            }
-            catch(NullReferenceException e) { }
+            activity.IsPrivate = IsPrivate;
 
-            await Task.Delay(2000);
+            activity.StartActivityForResult(viewIntent, MainActivity.UPLOAD_CODE);
         }
 
     }
