@@ -129,11 +129,22 @@ namespace Altaaref.ViewModels.Hitchhicking
             MyRidesList = new List<Ride>(rides);
 
             if (rides.Count != 0)
+            {
                 IsMyRidesListEmpty = false;
+                FixNumOfSeats(MyRidesList);
+            }
             else
                 IsMyRidesListEmpty = true;
 
             Busy = false;
+        }
+
+        private void FixNumOfSeats(List<Ride> RidesList)
+        {
+            foreach(var item in RidesList)
+            {
+                item.NumOfFreeSeats = byte.Parse((item.NumOfFreeSeats - item.RideAttendants.Count).ToString());
+            }
         }
 
         private async Task GetNearbyList()
@@ -158,7 +169,10 @@ namespace Altaaref.ViewModels.Hitchhicking
             NearbyRidesList = new List<Ride>(rides);
 
             if (rides.Count != 0)
+            {
                 IsNearbyListEmpty = false;
+                FixNumOfSeats(NearbyRidesList);
+            }
             else
                 IsNearbyListEmpty = true;
 
