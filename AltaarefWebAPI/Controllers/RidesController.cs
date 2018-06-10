@@ -105,7 +105,7 @@ namespace AltaarefWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var RidesList = _context.Rides.Where(s => s.Date >= DateTime.Now && 
+            var RidesList = _context.Rides.Where(s => s.Date >= DateTime.Now &&
                         ((s.FromLong >= s.FromLong - 0.15 &&
                         s.FromLong <= s.FromLong + 0.15) ||
                         (s.FromLat >= s.FromLat + 0.15 &&
