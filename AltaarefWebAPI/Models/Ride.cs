@@ -18,7 +18,7 @@ namespace AltaarefWebAPI.Models
         public string ToAddress { get; set; }
         public byte NumOfFreeSeats { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
+        public TimeSpan Time { get; set; }
         public string Message { get; set; }
 
         public int DriverId { get; set; }
