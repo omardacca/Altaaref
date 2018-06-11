@@ -151,7 +151,7 @@ namespace AltaarefWebAPI.Controllers
 
         // GET: api/Rides/5
         [HttpGet("GetWithDateTime/{FromLong:double}/{FromLat:double}/{ToLong:double}/{ToLat:double}/{fromDate:datetime}/{timeDate:timespan}")]
-        public IActionResult GetRidesWithDateAndTime(double FromLong, double FromLat, double ToLong, double ToLat, DateTime fromDate, TimeSpan timeDate)
+        public IActionResult GetRidesWithDateAndTime(double FromLong, double FromLat, double ToLong, double ToLat, DateTime fromDate, DateTime timeDate)
         {
             if (!ModelState.IsValid)
             {
@@ -164,8 +164,8 @@ namespace AltaarefWebAPI.Controllers
                 s.ToLong == ToLong &&
                 s.ToLat == ToLat &&
                 s.Date.ToShortDateString() == fromDate.ToShortDateString() &&
-                (s.Time.Hours <= timeDate.Hours - 3 &&
-                s.Time.Hours >=  timeDate.Hours + 3))
+                (s.Time.Hours <= timeDate.AddHours(-3).Hour &&
+                s.Time.Hours >=  timeDate.AddHours(3).Hour))
                 .Select(ride => new Ride
                 {
                     Id = ride.Id,
