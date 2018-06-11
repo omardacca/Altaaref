@@ -115,10 +115,7 @@
                                VerticalOptions="Center"
                                Grid.Row="0" Grid.Column="1"
                                    Margin="2"/>
-                            <!--<Label Text="{Binding Ride..., StringFormat='{0} Notebooks'}" 
-                               FontSize="16" 
-                               VerticalOptions="Start"
-                               Grid.Row="1" Grid.Column="1"/>-->
+                            
                             <controls:ButtonFrame HeightRequest="17"
                                                   Grid.Row="2" 
                                                   Grid.Column="1">
@@ -187,7 +184,7 @@
                         </Frame>
 
                         <BoxView WidthRequest="2" HeightRequest="50" BackgroundColor="{StaticResource OrangeColor}" 
-                                 IsVisible="{Binding IssendButtonVisible, Converter={StaticResource boolConverter}}"/>
+                                 IsVisible="{Binding IsInvitButtonVisible}"/>
 
                         <Frame HeightRequest="50" WidthRequest="80">
                             <StackLayout>

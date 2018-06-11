@@ -112,8 +112,7 @@ namespace Altaaref.ViewModels.Hitchhicking
 
             _newRide = new Ride
             {
-                Date = DateTime.Now,
-                Time = DateTime.Now
+                Date = DateTime.Now
             };
 
         }

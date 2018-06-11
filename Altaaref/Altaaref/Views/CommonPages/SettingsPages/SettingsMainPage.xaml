@@ -7,8 +7,9 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Notifications" 
-                       Margin="2"
-                       FontSize="24"/>
+                   Margin="2"
+                   FontAttributes="Bold"
+                   FontSize="24"/>
             <StackLayout Margin="4">
                 <Label Text="Study Groups Notifications"
                        FontSize="18"

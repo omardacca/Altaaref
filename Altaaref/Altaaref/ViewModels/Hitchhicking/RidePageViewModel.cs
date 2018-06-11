@@ -147,8 +147,6 @@ namespace Altaaref.ViewModels.Hitchhicking
             var list = JsonConvert.DeserializeObject<List<RideAttendants>>(results.Result);
             Attendants = list;
 
-            Ride.NumOfFreeSeats -= byte.Parse(Attendants.Count.ToString());
-
             if (Attendants.Count > 0)
                 IsAttendantsEmpty = false;
             else
@@ -263,6 +261,9 @@ namespace Altaaref.ViewModels.Hitchhicking
             else
             {
                 IssendButtonVisible  = await DeleteRequest();
+                await DeleteMeFromAttendants();
+
+                Ride.RideAttendants.Remove(Ride.RideAttendants.Find(r => r.AttendantId == Settings.StudentId));
             }
         }
 
@@ -331,6 +332,19 @@ namespace Altaaref.ViewModels.Hitchhicking
                 IssendButtonVisible = true;
             }
 //            Busy = false;
+        }
+
+        private async Task DeleteMeFromAttendants()
+        {
+            var url = "https://altaarefapp.azurewebsites.net/api/RideAttendants/" + Settings.StudentId + "/" + Ride.Id;
+
+            try
+            {
+                var content = await _client.DeleteAsync(url);
+            }
+            catch (HttpRequestException e)
+            {
+            }
         }
 
     }

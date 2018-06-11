@@ -50,10 +50,10 @@ namespace Altaaref.Views.MainMenu
                 {
                     BackgroundImage = "bghomepagemainmenu.png",
                     IconImage = "",
-                    Text = "News Feeds",
+                    Text = "Personal Corner",
                     Column = 0,
                     Row = 2,
-                    NavigateType = typeof(CommonPages.MainPage)
+                    NavigateType = typeof(CommonPages.PersonalCornerPage)
                 },
                 new MenuItem()
                 {

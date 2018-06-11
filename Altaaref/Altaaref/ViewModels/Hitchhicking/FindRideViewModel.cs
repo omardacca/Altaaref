@@ -166,8 +166,7 @@ namespace Altaaref.ViewModels.Hitchhicking
             IsRidesListEmpty = true;
             SearchRide = new Ride
             {
-                Date = DateTime.Now,
-                Time = DateTime.Now
+                Date = DateTime.Now
             };
 
         }
@@ -246,11 +245,11 @@ namespace Altaaref.ViewModels.Hitchhicking
             var place = SearchRide.FromLong.ToString() + "/" + SearchRide.FromLat.ToString() + "/" + SearchRide.ToLong + "/" + SearchRide.ToLat.ToString() + "/";
 
             if (_isDateOn && IsTimeOn)
-                url = url + "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd") + "/" + SearchRide.Time.ToString("HH:mm");
+                url = url + "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd") + "/" + SearchRide.Time;
             else if (_isDateOn)
                 url = url + "GetWithDate/" + place + SearchRide.Date.ToString("yyyy-MM-dd");
             else if (_isTimeOn)
-                url = url + "GetWithTime/" + place + SearchRide.Time.ToString("HH:mm");
+                url = url + "GetWithTime/" + place + SearchRide.Time;
             else
                 url += "GetWithoutDate/" +  place;
 
@@ -262,7 +261,7 @@ namespace Altaaref.ViewModels.Hitchhicking
             foreach(var ride in RidesList)
             {
                 await GetNumberOfAttendants(ride);
-                ride.NumOfFreeSeats -= byte.Parse(AttendantsCount.ToString());
+                ride.NumOfFreeSeats = byte.Parse((ride.NumOfFreeSeats - AttendantsCount).ToString());
             }
         }
 
