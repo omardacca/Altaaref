@@ -164,8 +164,8 @@ namespace AltaarefWebAPI.Controllers
                 s.ToLong == ToLong &&
                 s.ToLat == ToLat &&
                 s.Date.ToShortDateString() == fromDate.ToShortDateString() &&
-                (s.Time >= timeDate &&
-                s.Time <= timeDate))
+                (s.Time.Hour <= timeDate.Hour - timeDate.AddHours(-3).Hour &&
+                s.Time.Hour >= timeDate.Hour - timeDate.AddHours(3).Hour))
                 .Select(ride => new Ride
                 {
                     Id = ride.Id,
