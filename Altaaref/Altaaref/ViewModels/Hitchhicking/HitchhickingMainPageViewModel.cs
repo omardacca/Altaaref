@@ -3,6 +3,7 @@ using Altaaref.Models;
 using Newtonsoft.Json;
 using Plugin.Geolocator;
 using Plugin.Permissions.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;

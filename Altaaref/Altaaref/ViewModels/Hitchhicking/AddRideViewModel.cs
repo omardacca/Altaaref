@@ -102,6 +102,16 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private TimeSpan _time;
+        public TimeSpan TimeEntry
+        {
+            get { return _time; }
+            set
+            {
+                SetValue(ref _time, value);
+            }
+        }
+
         public ICommand AutocompletePlaceTap => new Command<AutoCompletePrediction>(async (Prediction) => await HandlePlacePredictionTap(Prediction));
         public ICommand SubmitCommand => new Command(async () => await HandleSubmition());
 
@@ -167,6 +177,10 @@ namespace Altaaref.ViewModels.Hitchhicking
         {
             Busy = true;
             NewRide.DriverId = Settings.StudentId;
+            NewRide.Time = new DateTime(DateTime.Now.Year, 01, 01);
+            TimeSpan ts = new TimeSpan(1, 0, 0, 0, 0);
+            NewRide.Time = NewRide.Time + ts;
+
 
             var insertedRide = await PostRide();
 
@@ -193,15 +207,11 @@ namespace Altaaref.ViewModels.Hitchhicking
             if (response.Result.IsSuccessStatusCode)
             {
                 // Send Notification
-
+                await FCMPushNotificationSender.Send(
+                "RP" + NewRide.FromCity.Trim() + NewRide.ToCity.Trim(), "New Ride", "New ride to " + NewRide.ToCity.Trim() + " has been added, check it out!");
 
                 var datestring = NewRide.Date.ToString("MMdd");
                 datestring += NewRide.Date.ToString("HHmm");
-
-                await FCMPushNotificationSender.Send(
-                    "HI" + NewRide.FromCity.Trim() + "To" + NewRide.ToCity.Trim() + datestring,
-                    "New Ride",
-                    "New ride to " + NewRide.ToCity + " was added!");
 
                 Busy = false;
 

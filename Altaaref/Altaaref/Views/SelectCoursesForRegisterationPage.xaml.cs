@@ -21,7 +21,7 @@ namespace Altaaref.Views
 
             var syncSecond = new Task(() =>
             {
-                this.Title = "Accordion";
+                this.Title = "Select Courses";
 
                 var toolbarItem = new ToolbarItem();
                 toolbarItem.Text = "Done";

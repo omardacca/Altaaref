@@ -63,6 +63,16 @@ namespace Altaaref.ViewModels.Hitchhicking
             }
         }
 
+        private TimeSpan _time;
+        public TimeSpan TimeEntry
+        {
+            get { return _time; }
+            set
+            {
+                SetValue(ref _time, value);
+            }
+        }
+
         private bool _isRidesListEmpty;
         public bool IsRidesListEmpty
         {
@@ -245,11 +255,11 @@ namespace Altaaref.ViewModels.Hitchhicking
             var place = SearchRide.FromLong.ToString() + "/" + SearchRide.FromLat.ToString() + "/" + SearchRide.ToLong + "/" + SearchRide.ToLat.ToString() + "/";
 
             if (_isDateOn && IsTimeOn)
-                url = url + "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd") + "/" + SearchRide.Time;
+                url = url + "GetWithDateTime/" + place + SearchRide.Date.ToString("yyyy-MM-dd") + "/" + TimeEntry;
             else if (_isDateOn)
                 url = url + "GetWithDate/" + place + SearchRide.Date.ToString("yyyy-MM-dd");
             else if (_isTimeOn)
-                url = url + "GetWithTime/" + place + SearchRide.Time;
+                url = url + "GetWithTime/" + place + TimeEntry;
             else
                 url += "GetWithoutDate/" +  place;
 

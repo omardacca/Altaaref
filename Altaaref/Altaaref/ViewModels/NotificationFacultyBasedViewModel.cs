@@ -137,16 +137,25 @@ namespace Altaaref.Models
         private void InitNotificationList()
         {
             string serializedList = Application.Current.Properties["SerializedUserNotif"] as string;
-            var list = JsonConvert.DeserializeObject<List<UserNotification>>(serializedList);
 
-            NotificationList = list;
+            List<UserNotification> list = null;
 
+            if (serializedList != null)
+            {
+                list = JsonConvert.DeserializeObject<List<UserNotification>>(serializedList);
+
+                NotificationList = list;
+            }
+            else
+            {
+                NotificationList = new List<UserNotification>();
+            }
             switch (_modelType)
             {
                 case NotificationSettingsViewModelType.MutualHelpFaculty:
                     TitleLabel = "Add faculty you would like to get notify when anyone add Help Request related to it";
                     EmptyListLabel = "You still don't have any Mutual Help related notification to any of your faculties.";
-                    NotificationList = list.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("HRF"));
+                    NotificationList = NotificationList.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("HRF"));
                     break;
             }
 

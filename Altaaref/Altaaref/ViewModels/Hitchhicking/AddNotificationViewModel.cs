@@ -172,6 +172,8 @@ namespace Altaaref.ViewModels.Hitchhicking
                     });
 
             }
+
+            await _pageService.PushAsync(new Views.Hitchhicking.HitchhickingMainPage());
         }
     }
 }

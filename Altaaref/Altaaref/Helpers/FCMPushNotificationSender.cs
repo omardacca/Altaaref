@@ -33,7 +33,13 @@ namespace Altaaref.Helpers
         public static async Task<UserNotification> AddNotification(UserNotification userNotification)
         {
             var serializedlist = Application.Current.Properties["SerializedUserNotif"] as string;
-            var list = JsonConvert.DeserializeObject<List<UserNotification>>(serializedlist);
+
+            List<UserNotification> list = null;
+
+            if (serializedlist != null)
+                list = JsonConvert.DeserializeObject<List<UserNotification>>(serializedlist);
+            else
+                list = new List<UserNotification>();
 
             HttpClient _client = new HttpClient();
             var postUrl = "https://altaarefapp.azurewebsites.net/api/UserNotifications";

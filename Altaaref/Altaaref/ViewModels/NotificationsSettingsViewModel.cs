@@ -139,31 +139,38 @@ namespace Altaaref.ViewModels
         private void InitNotificationList()
         {
             string serializedList = Application.Current.Properties["SerializedUserNotif"] as string;
-            var list = JsonConvert.DeserializeObject<List<UserNotification>>(serializedList);
+            List<UserNotification> list = null;
+            if (serializedList != null)
+            {
+                list = JsonConvert.DeserializeObject<List<UserNotification>>(serializedList);
 
-            NotificationList = list;
-
+                NotificationList = list;
+            }
+            else
+            {
+                NotificationList = new List<UserNotification>();
+            }
             switch (_modelType)
             {
                 case NotificationSettingsViewModelType.MutualHelpCourse:
                     TitleLabel = "Add course you would like to get notify when anyone add Help Request related to it";
                     EmptyListLabel = "You still don't have any Mutual Help related notifications.";
-                    NotificationList = list.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("HRC"));
+                    NotificationList = NotificationList.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("HRC"));
                     break;
                 case NotificationSettingsViewModelType.MutualHelpFaculty:
                     TitleLabel = "Add course you would like to get notify when anyone add Help Request related to it";
                     EmptyListLabel = "You still don't have any Mutual Help related notifications.";
-                    NotificationList = list.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("HRF"));
+                    NotificationList = NotificationList.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("HRF"));
                     break;
                 case NotificationSettingsViewModelType.NotebooksStorage:
                     TitleLabel = "Add course you would like to get notify when anyone add Notebook related to it";
                     EmptyListLabel = "You still don't have any Notebooks related notifications.";
-                    NotificationList = list.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("NS"));
+                    NotificationList = NotificationList.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("NS"));
                     break;
                 case NotificationSettingsViewModelType.StudyGroup:
                     TitleLabel = "Add course you would like to get notify when anyone add Study Group related to it";
                     EmptyListLabel = "You still don't have any Mutual Help related notifications.";
-                    NotificationList = list.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("SG"));
+                    NotificationList = NotificationList.FindAll(un => un.StudentId == Settings.StudentId && un.Topic.StartsWith("SG"));
                     break;
             }
 

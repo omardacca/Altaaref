@@ -17,6 +17,7 @@
             <Style x:Key="FirstPanelStyle" 
                    TargetType="Frame">
                 <Setter Property="HeightRequest" Value="200" />
+                <Setter Property="WidthRequest" Value="150" />
                 <Setter Property="Margin" Value="0, 5, 5, 0" />
                 <Setter Property="BackgroundColor" Value="{StaticResource WhiteColor}" />
             </Style>

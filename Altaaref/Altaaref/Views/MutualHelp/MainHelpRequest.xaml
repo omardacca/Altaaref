@@ -39,6 +39,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                         <Label Text="Mutual Help" 
@@ -107,6 +108,18 @@
                         </controls:HorizontalList>
                     </RelativeLayout>
 
+                    <StackLayout Grid.Row="7">
+                        <StackLayout Orientation="Horizontal">
+                            <ic:CircleImage Source="mutualhelpmainpage.png" Aspect="AspectFill"
+                                            Opacity=".6"
+                                            WidthRequest="150" HeightRequest="250"
+                                            VerticalOptions="Center"/>
+                            <Label Text="Post your problem any time and let other students help you. And in your free time, you could check others problems and try give helping hand."
+                                FontSize="16"
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    
                 </Grid>
                     
             </StackLayout>
