@@ -34,9 +34,6 @@ namespace Altaaref.Droid
 			global::Xamarin.Auth._MobileServices.Resource.String.ApplicationName = global::Altaaref.Droid.Resource.String.ApplicationName;
 			global::Xamarin.Auth._MobileServices.Resource.String.Hello = global::Altaaref.Droid.Resource.String.Hello;
 			global::Xamarin.Auth._MobileServices.Resource.String.title_activity_webview = global::Altaaref.Droid.Resource.String.title_activity_webview;
-			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Id.agentWebView = global::Altaaref.Droid.Resource.Id.agentWebView;
-			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Layout.WebAuthenticationBroker = global::Altaaref.Droid.Resource.Layout.WebAuthenticationBroker;
-			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.String.ApplicationName = global::Altaaref.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.ApplicationName = global::Altaaref.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.Hello = global::Altaaref.Droid.Resource.String.Hello;
 			global::PCLStorage.Resource.String.ApplicationName = global::Altaaref.Droid.Resource.String.ApplicationName;
@@ -3519,9 +3516,6 @@ namespace Altaaref.Droid
 			// aapt resource value: 0x7f0b0023
 			public const int adjust_width = 2131427363;
 			
-			// aapt resource value: 0x7f0b00d8
-			public const int agentWebView = 2131427544;
-			
 			// aapt resource value: 0x7f0b007e
 			public const int alertTitle = 2131427454;
 			
@@ -3717,8 +3711,8 @@ namespace Altaaref.Droid
 			// aapt resource value: 0x7f0b001c
 			public const int lottie_layer_name = 2131427356;
 			
-			// aapt resource value: 0x7f0b00da
-			public const int masked = 2131427546;
+			// aapt resource value: 0x7f0b00d9
+			public const int masked = 2131427545;
 			
 			// aapt resource value: 0x7f0b00c8
 			public const int media_actions = 2131427528;
@@ -4068,8 +4062,8 @@ namespace Altaaref.Droid
 			// aapt resource value: 0x7f0b0016
 			public const int view_offset_helper = 2131427350;
 			
-			// aapt resource value: 0x7f0b00d9
-			public const int visible = 2131427545;
+			// aapt resource value: 0x7f0b00d8
+			public const int visible = 2131427544;
 			
 			// aapt resource value: 0x7f0b00ba
 			public const int volume_item_container = 2131427514;
@@ -4385,9 +4379,6 @@ namespace Altaaref.Droid
 			
 			// aapt resource value: 0x7f030045
 			public const int tooltip = 2130903109;
-			
-			// aapt resource value: 0x7f030046
-			public const int WebAuthenticationBroker = 2130903110;
 			
 			static Layout()
 			{
