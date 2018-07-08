@@ -87,6 +87,7 @@ namespace Altaaref.ViewModels
         private void OnSubmitButtonTapped(object obj)
         {
             PostSelectedStudent();
+            _pageService.PushAsync(new Views.StudyGroups.MainPage());
         }
 
         private async void PostSelectedStudent()

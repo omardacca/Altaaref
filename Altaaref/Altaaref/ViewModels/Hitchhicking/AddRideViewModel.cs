@@ -186,6 +186,7 @@ namespace Altaaref.ViewModels.Hitchhicking
 
             if(insertedRide != null)
             {
+
                 await _pageService.PushAsync(new Views.Hitchhicking.RidePage(insertedRide));
                 Busy = false;
             }
