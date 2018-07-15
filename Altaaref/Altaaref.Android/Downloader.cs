@@ -16,7 +16,6 @@ namespace Altaaref.Droid
 {
     public class Downloader : IDownloader
     {
-
         public void StartDownload(string url, string filename)
         {
             // Get the MainActivity instance
@@ -40,22 +39,5 @@ namespace Altaaref.Droid
 
             activity.StartActivityForResult(viewIntent, MainActivity.SAVETO_CODE);
         }
-
-
-        //private async Task<MemoryStream> getStreamAsync()
-        //{
-        //    var stream = new MemoryStream();
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        var downloadStream = await httpClient.GetStreamAsync(new Uri(url));
-        //        if (downloadStream != null)
-        //        {
-        //            await downloadStream.CopyToAsync(stream);
-        //        }
-        //    }
-
-        //    return stream;
-        //}
-
     }
 }

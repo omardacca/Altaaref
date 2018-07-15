@@ -8,6 +8,7 @@
              xmlns:template="clr-namespace:Altaaref.Views.Templates.HelpRequests"
              x:Class="Altaaref.Views.CommonPages.MyHelpRequests"
              x:Name="myhelpreqpage"
+             Title="My Help Requests"
              BackgroundColor="{StaticResource BackgroundColor}">
     
     <ContentPage.Resources>

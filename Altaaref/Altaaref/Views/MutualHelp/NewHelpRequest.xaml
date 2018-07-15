@@ -12,42 +12,45 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout>
-        <ActivityIndicator IsRunning="{Binding Busy}"
+    <ScrollView>
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Busy}"
                     IsVisible="{Binding Busy}"
                     Color="Black"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="CenterAndExpand" />
-        <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-            
-        
-            <Label Text="New Help Request" FontSize="24" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="StartAndExpand"
+            <Grid Padding="15" IsVisible="{Binding Busy, Converter={StaticResource boolConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Label Text="New Help Request" FontSize="24" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="StartAndExpand"
                    Margin="0, 0, 0, 25"/>
 
-            <Label Text="Message" Grid.Row="1" Grid.Column="0"/>
-            <Editor Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HeightRequest="150" 
+                <Label Text="Message" Grid.Row="1" Grid.Column="0"/>
+                <Editor Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HeightRequest="150" 
                     Text="{Binding NewHelpRequest.Message}" />
 
-            <Label Text="Is General" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start"/>
-            <Switch IsToggled="{Binding NewHelpRequest.IsGeneral}" Grid.Row="2" Grid.Column="1" HorizontalOptions="StartAndExpand"/>
+                <Label Text="Is General" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start"/>
+                <Switch IsToggled="{Binding NewHelpRequest.IsGeneral}" Grid.Row="2" Grid.Column="1" HorizontalOptions="StartAndExpand"/>
 
-            <controls:ButtonFrame HeightRequest="17" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 18, 0, 0">
-                <Label Text="Next" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                <controls:ButtonFrame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding HandleSubmit}" />
-                </controls:ButtonFrame.GestureRecognizers>
-            </controls:ButtonFrame>
+                <controls:ButtonFrame HeightRequest="17" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 18, 0, 0">
+                    <Label Text="Next" BackgroundColor="Black" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                    <controls:ButtonFrame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding HandleSubmit}" />
+                    </controls:ButtonFrame.GestureRecognizers>
+                </controls:ButtonFrame>
 
-        </Grid>
-    </StackLayout>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+
 </ContentPage>
